@@ -8,17 +8,31 @@
 
 import UIKit
 
-class deskViewController: UIViewController {
+class deskViewController: UIViewController, UIScrollViewDelegate {
 
+    var workArea: WorkArea = WorkArea()
+    let sdhfui: Int = 3
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.view.backgroundColor = UIColor.cyan
+
+        self.view.addSubview(workArea)
+        workArea.boundInsideBy(superView: self.view, x1: 10, x2: 10, y1: 10, y2: 10)
+        workArea.delegate = self
         
-        
-        
+    
+    }
+    
+    
+    
+    
+    //MARK: - WorkArea Delegate
+    
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        return workArea.background
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,5 +41,7 @@ class deskViewController: UIViewController {
     }
 
 
+
+    
 }
 
