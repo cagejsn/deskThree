@@ -26,7 +26,7 @@ class WorkArea: UIScrollView {
 
     
     
-    
+   
     
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
@@ -34,15 +34,18 @@ class WorkArea: UIScrollView {
         background.contentMode = .scaleAspectFit
         self.sendSubview(toBack: background)
         background.isUserInteractionEnabled = true
-
+        self.panGestureRecognizer.minimumNumberOfTouches = 2
+        self.panGestureRecognizer.cancelsTouchesInView = false
         
-
-    
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+ 
+ 
+    
+   
  
     
 }

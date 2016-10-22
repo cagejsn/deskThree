@@ -8,11 +8,11 @@
 
 import UIKit
 
-class deskViewController: UIViewController, UIScrollViewDelegate {
+class deskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate{
 
     var workArea: WorkArea = WorkArea()
     let sdhfui: Int = 3
-    
+    var singleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(deskViewController.handleSinglePan))
     
     
     override func viewDidLoad() {
@@ -23,17 +23,44 @@ class deskViewController: UIViewController, UIScrollViewDelegate {
         workArea.boundInsideBy(superView: self.view, x1: 10, x2: 10, y1: 10, y2: 10)
         workArea.delegate = self
         
-    
+        workArea.minimumZoomScale = 0.1
+        workArea.maximumZoomScale = 2.0
+        
+        singleTouchPanGestureRecognizer.minimumNumberOfTouches = 1
+        singleTouchPanGestureRecognizer.maximumNumberOfTouches = 1
+        self.view.addGestureRecognizer(singleTouchPanGestureRecognizer)
+        singleTouchPanGestureRecognizer.isEnabled = true
+        singleTouchPanGestureRecognizer.delegate = self
+        
     }
     
     
+    
+    func handleSinglePan(sender: UIPanGestureRecognizer) {
+       // self.view.backgroundColor = UIColor.green
+        self.workArea.isHidden = true
+    
+    }
     
     
     //MARK: - WorkArea Delegate
     
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+
+    }
+    
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return workArea.background
+
+    }
+    
+    
+    /*
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return workArea.background
     }
+    */
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
