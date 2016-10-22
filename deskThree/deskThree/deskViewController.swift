@@ -11,16 +11,20 @@ import UIKit
 class deskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate{
 
     var workArea: WorkArea = WorkArea()
-    let sdhfui: Int = 3
-    var singleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(deskViewController.handleSinglePan))
+    var singleTouchPanGestureRecognizer: UIPanGestureRecognizer!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
+        
+        
+        
+        singleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(deskViewController.handleSinglePan))
+        
         self.view.addSubview(workArea)
-        workArea.boundInsideBy(superView: self.view, x1: 10, x2: 10, y1: 10, y2: 10)
+        workArea.boundInsideBy(superView: self.view, x1: 10, x2: 10, y1: 10, y2: 44)
         workArea.delegate = self
         
         workArea.minimumZoomScale = 0.1
@@ -38,7 +42,7 @@ class deskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func handleSinglePan(sender: UIPanGestureRecognizer) {
        // self.view.backgroundColor = UIColor.green
-        self.workArea.isHidden = true
+      //  self.workArea.isHidden = true
     
     }
     

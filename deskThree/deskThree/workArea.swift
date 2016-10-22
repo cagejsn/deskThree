@@ -35,7 +35,6 @@ class WorkArea: UIScrollView {
         self.sendSubview(toBack: background)
         background.isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
-        self.panGestureRecognizer.cancelsTouchesInView = false
         
     }
     
