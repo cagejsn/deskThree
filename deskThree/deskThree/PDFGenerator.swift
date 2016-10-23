@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class PdfGenerator: NSObject {
+class PDFGenerator: NSObject {
     
    static func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String) -> String
     {
@@ -28,10 +28,8 @@ class PdfGenerator: NSObject {
             pdfData.write(toFile: documentsFileName, atomically: true)
             
             return documentsFileName
-            
-            
+   
         }
-        
         return "no"
     }
 }

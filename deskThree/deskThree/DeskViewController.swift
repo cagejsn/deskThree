@@ -8,7 +8,7 @@
 
 import UIKit
 
-class deskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate{
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate{
 
     var workArea: WorkArea = WorkArea()
     var singleTouchPanGestureRecognizer: UIPanGestureRecognizer!
