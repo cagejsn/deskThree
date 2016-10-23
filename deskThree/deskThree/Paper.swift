@@ -22,7 +22,7 @@ class Paper: UIImageView, ImageBlockDelegate {
     }
 
     //ImageBlock Delegate Functions
-    func fixImageToWorkArea(image: ImageBlock){
+    func fixImageToPage(image: ImageBlock){
         
     }
     

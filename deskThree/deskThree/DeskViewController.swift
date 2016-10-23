@@ -91,9 +91,24 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         present(imagePicker, animated: true, completion: nil)
     }
     
+    
+    
+    
     // MARK: UIImagePickerController Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
+        
+        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage{
+            var imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
+            workArea.currentPage.addSubview(imageBlock)
+            imageBlock.center = self.view.center
+            imageBlock.isUserInteractionEnabled = true
+            imageBlock.contentMode = .scaleAspectFit
+            imageBlock.editAndSetImage(image: pickedImage)
+            //imageBlock.image = pickedImage
+            imageBlock.delegate = self.workArea.currentPage
+        }
+        /*
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             var imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
             workArea.currentPage.addSubview(imageBlock)
@@ -104,6 +119,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             imageBlock.image = pickedImage
             imageBlock.delegate = self.workArea.currentPage
         }
+    */
         dismiss(animated: true, completion: nil)
     }
     
