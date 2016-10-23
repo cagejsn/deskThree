@@ -65,11 +65,11 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
     func handlePinch( sender: UIPinchGestureRecognizer){
         /*
         if(editable){
-            if (sender.state == UIGestureRecognizerState.Changed) {
+            if (sender.state == UIGestureRecognizerState.changed) {
                 if(sender.scale <= 1){
-                    self.transform = CGAffineTransformScale(self.transform, 0.99 , 0.99)
+                    self.transform = self.transform.scaledBy(x: 0.99 , y: 0.99)
                 } else {
-                    self.transform = CGAffineTransformScale(self.transform, 1.01 , 1.01)
+                    self.transform = self.transform.scaledBy(x: 1.01 , y: 1.01)
                 }
             }
         }

@@ -19,18 +19,30 @@ extension UIView{
 
 class WorkArea: UIScrollView {
     
-    var background: UIImageView = UIImageView(image: UIImage(named: "engineeringPaper"))
+    var pages: [Paper] = [Paper]()
+    var currentPage: Paper!
     
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        self.addSubview(background)
-        background.contentMode = .scaleAspectFit
-        self.sendSubview(toBack: background)
-        background.isUserInteractionEnabled = true
+        pages.append(Paper())
+        self.addSubview(pages[0])
+        currentPage = pages[0]
+        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
+        pages[0].contentMode = .scaleAspectFit
+        self.sendSubview(toBack: pages[0])
+        pages[0].isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        pages.append(Paper())
+        self.addSubview(pages[0])
+        currentPage = pages[0]
+        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
+        pages[0].contentMode = .scaleAspectFit
+        self.sendSubview(toBack: pages[0])
+        pages[0].isUserInteractionEnabled = true
+        self.panGestureRecognizer.minimumNumberOfTouches = 2
     }
 }
