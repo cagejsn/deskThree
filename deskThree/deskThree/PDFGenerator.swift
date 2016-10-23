@@ -16,19 +16,14 @@ class PDFGenerator: NSObject {
         let pdfData = NSMutableData()
         UIGraphicsBeginPDFContextToData(pdfData, aView.bounds, nil)
         UIGraphicsBeginPDFPage()
-        
         guard let pdfContext = UIGraphicsGetCurrentContext() else { return "no"}
-        
         aView.layer.render(in: pdfContext)
         UIGraphicsEndPDFContext()
-        
         if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
             let documentsFileName = documentDirectories + "/" + fileName
             print(documentsFileName)
             pdfData.write(toFile: documentsFileName, atomically: true)
-            
             return documentsFileName
-   
         }
         return "no"
     }
