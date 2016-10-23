@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1507E1DBC19CF008364EC /* PDFGenerator.swift */; };
+		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
 		DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */; };
 		DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */; };
 		DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */; };
@@ -30,6 +31,7 @@
 
 /* Begin PBXFileReference section */
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
+		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
 		DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkArea.swift; sourceTree = "<group>"; };
 		DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageBlock.swift; sourceTree = "<group>"; };
 		DAFBE3A01DBBDBC20007D249 /* deskThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +87,7 @@
 			children = (
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
+				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
 				DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */,
 				DAFBE3A71DBBDBC20007D249 /* Main.storyboard */,
@@ -190,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */,
+				25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */,
 				DAFBE3AB1DBBDBC20007D249 /* Assets.xcassets in Resources */,
 				DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */,
 			);

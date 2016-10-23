@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  DeskViewController.swift
 //  deskThree
 //
 //  Created by Cage Johnson on 10/22/16.
@@ -9,6 +9,7 @@ import UIKit
 
 class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate{
 
+    let imagePicker = UIImagePickerController()
     var workArea: WorkArea!
     var singleTouchPanGestureRecognizer: UIPanGestureRecognizer!
     
