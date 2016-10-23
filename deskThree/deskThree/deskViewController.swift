@@ -8,7 +8,7 @@
 
 import UIKit
 
-class deskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate{
+class deskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate{
 
     var workArea: WorkArea = WorkArea()
     var singleTouchPanGestureRecognizer: UIPanGestureRecognizer!
@@ -18,8 +18,6 @@ class deskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        
-        
         
         singleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(deskViewController.handleSinglePan))
         
@@ -38,6 +36,21 @@ class deskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        workArea.frame = workArea.background.frame
+        var pdfFileName = PdfGenerator.createPdfFromView(aView: workArea, saveToDocumentsWithFileName: "secondPDF")
+        var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
+        pdfShareHelper.delegate = self
+        pdfShareHelper.uti = "com.adobe.pdf"
+          pdfShareHelper.presentPreview(animated: false)
+        //pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
+        workArea.boundInsideBy(superView: self.view, x1: 10, x2: 10, y1: 10, y2: 44)
+    }
+    
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
     
     
     func handleSinglePan(sender: UIPanGestureRecognizer) {

@@ -11,21 +11,27 @@ import UIKit
 
 class PdfGenerator: NSObject {
     
-    func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String)
+   static func createPdfFromView(aView: UIView, saveToDocumentsWithFileName fileName: String) -> String
     {
         let pdfData = NSMutableData()
         UIGraphicsBeginPDFContextToData(pdfData, aView.bounds, nil)
         UIGraphicsBeginPDFPage()
         
-        guard let pdfContext = UIGraphicsGetCurrentContext() else { return }
+        guard let pdfContext = UIGraphicsGetCurrentContext() else { return "no"}
         
         aView.layer.render(in: pdfContext)
         UIGraphicsEndPDFContext()
         
         if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
             let documentsFileName = documentDirectories + "/" + fileName
-            debugPrint(documentsFileName)
+            print(documentsFileName)
             pdfData.write(toFile: documentsFileName, atomically: true)
+            
+            return documentsFileName
+            
+            
         }
+        
+        return "no"
     }
 }
