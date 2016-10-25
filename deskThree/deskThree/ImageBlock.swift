@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol ImageBlockDelegate {
-    func fixImageToWorkArea(image: ImageBlock)
+    func fixImageToPage(image: ImageBlock)
     func freeImageForMovement(image: ImageBlock)
 }
 
@@ -26,13 +26,14 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
         if(!editable){
             self.layer.borderWidth = 3
             self.layer.borderColor = UIColor.purple.cgColor
+            zoomGR?.isEnabled = true
             editable = true
             delegate!.freeImageForMovement(image: self)
         } else{
             self.layer.borderColor = UIColor.clear.cgColor
             editable = false
-            delegate!.fixImageToWorkArea(image: self)
-            
+            delegate!.fixImageToPage(image: self)
+            zoomGR?.isEnabled = false
         }
     }
     
@@ -63,19 +64,63 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
     }
     
     func handlePinch( sender: UIPinchGestureRecognizer){
-        /*
+        
         if(editable){
-            if (sender.state == UIGestureRecognizerState.Changed) {
+            if (sender.state == UIGestureRecognizerState.changed) {
                 if(sender.scale <= 1){
-                    self.transform = CGAffineTransformScale(self.transform, 0.99 , 0.99)
+                    self.transform = self.transform.scaledBy(x: 0.99 , y: 0.99)
                 } else {
-                    self.transform = CGAffineTransformScale(self.transform, 1.01 , 1.01)
+                    self.transform = self.transform.scaledBy(x: 1.01 , y: 1.01)
                 }
             }
         }
-    */
     }
     
+    //processes the UIImagePicker's image before setting it to self's .image property
+    //Uses iOS built in filters to map dark colors to black and light to transparent
+    func editAndSetImage(image toEdit: UIImage){
+        var editedImage = image
+        
+        //going to make a custom CIFilter
+        //change the input image to a CIImage
+        var context = CIContext(options: nil)
+        
+        //this is going to make the black areas transparent
+        
+        if var currentFilter = CIFilter(name: "CIExposureAdjust") {
+            
+            let beginImage = CIImage(image: toEdit)
+            let gradientImage = CIImage(image: UIImage(named: "colorMap2")!, options: nil)
+            
+            currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+            currentFilter.setValue(1.3, forKey: "inputEV")
+            
+            if var output = currentFilter.outputImage {
+
+                currentFilter = CIFilter(name: "CIColorMap")!
+                currentFilter.setValue(output, forKey: kCIInputImageKey)
+                currentFilter.setValue(gradientImage, forKey: "inputGradientImage")
+                output = currentFilter.outputImage!
+                
+                currentFilter = CIFilter(name: "CIMaskToAlpha")!
+                currentFilter.setValue(output, forKey: kCIInputImageKey)
+                currentFilter.setDefaults()
+                output = currentFilter.outputImage!
+                
+                currentFilter = CIFilter(name: "CIColorInvert")!
+                currentFilter.setValue(output, forKey: kCIInputImageKey)
+                currentFilter.setDefaults()
+                output = currentFilter.outputImage!
+                
+                let cgimg = context.createCGImage(output, from: output.extent)
+                
+                let editedImage = UIImage(cgImage: cgimg!)
+                // do something interesting with the processed image
+                self.image = editedImage
+            }
+        }
+    }
+
     //MARK: Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
