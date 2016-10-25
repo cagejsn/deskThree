@@ -67,7 +67,8 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
         
         if(editable){
             if (sender.state == UIGestureRecognizerState.changed) {
-                if(sender.scale <= 1){
+                
+                if(sender.velocity < 0){
                     self.transform = self.transform.scaledBy(x: 0.99 , y: 0.99)
                 } else {
                     self.transform = self.transform.scaledBy(x: 1.01 , y: 1.01)
