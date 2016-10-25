@@ -42,18 +42,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     /*
     override func viewDidAppear(_ animated: Bool) {
-        
-        super.viewDidAppear(animated)
-        /*
-        workArea.frame = workArea.background.frame
-        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea, saveToDocumentsWithFileName: "secondPDF")
-        var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
-        pdfShareHelper.delegate = self
-        pdfShareHelper.uti = "com.adobe.pdf"
-         // pdfShareHelper.presentPreview(animated: false)
-        //pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
-        workArea.boundInsideBy(superView: self.view, x1: 10, x2: 10, y1: 10, y2: 44)
- */
+     
     }
  */
     
@@ -73,13 +62,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     //MARK: UIToolbar on click methods
-    
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
         workArea.frame = workArea.currentPage.frame
         var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea, saveToDocumentsWithFileName: "secondPDF")
         var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
         pdfShareHelper.delegate = self
         pdfShareHelper.uti = "com.adobe.pdf"
+        // Currently, Preview itself gives option to share
         pdfShareHelper.presentPreview(animated: false)
         //pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
         workArea.boundInsideBy(superView: self.view, x1: 10, x2: 10, y1: 10, y2: 44)
@@ -108,18 +97,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             //imageBlock.image = pickedImage
             imageBlock.delegate = self.workArea.currentPage
         }
-        /*
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            var imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
-            workArea.currentPage.addSubview(imageBlock)
-            imageBlock.center = self.view.center
-            imageBlock.isUserInteractionEnabled = true
-            imageBlock.contentMode = .scaleAspectFit
-            //imageBlock.image = editImage(pickedImage)
-            imageBlock.image = pickedImage
-            imageBlock.delegate = self.workArea.currentPage
-        }
-    */
         dismiss(animated: true, completion: nil)
     }
     
