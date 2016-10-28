@@ -7,9 +7,10 @@
 //
 import UIKit
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate {
 
-    let imagePicker = UIImagePickerController()
+   // let imagePicker = UIImagePickerController()
+    let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
     var singleTouchPanGestureRecognizer: UIPanGestureRecognizer!
     
@@ -23,7 +24,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workArea.maximumZoomScale = 2.0
         
         
-        imagePicker.delegate = self
+        gkimagePicker.delegate = self
+        gkimagePicker.cropSize = CGSize(width: 320, height: 90)
+        gkimagePicker.resizeableCropArea = true
+        
+
+        
         /*
         workArea = WorkArea()
         self.view.addSubview(workArea)
@@ -74,20 +80,27 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workArea.boundInsideBy(superView: self.view, x1: 10, x2: 10, y1: 10, y2: 44)
     }
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
+        
+        present(gkimagePicker.imagePickerController, animated: true, completion: nil)
+        
+        /*
         imagePicker.allowsEditing = true
         imagePicker.sourceType = .photoLibrary
         imagePicker.modalPresentationStyle = .currentContext
         present(imagePicker, animated: true, completion: nil)
+    */
     }
     
     
     
     
     // MARK: UIImagePickerController Delegate
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    
+
+@objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
         
         
-        if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage{
+        if let pickedImage = pickedImage as? UIImage  {
             var imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
             workArea.currentPage.addSubview(imageBlock)
             imageBlock.center = self.view.center
