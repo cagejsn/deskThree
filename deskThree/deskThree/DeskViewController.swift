@@ -98,6 +98,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             imageBlock.delegate = self.workArea.currentPage
         }
         dismiss(animated: true, completion: nil)
+        
     }
     
     override func didReceiveMemoryWarning() {

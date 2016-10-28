@@ -10,6 +10,12 @@
 		25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1507E1DBC19CF008364EC /* PDFGenerator.swift */; };
 		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
 		DA5464511DBD10A300E644F0 /* Paper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5464501DBD10A300E644F0 /* Paper.swift */; };
+		DAA494D71DC2EBC800C73780 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494CC1DC2EBC800C73780 /* GKCropBorderView.m */; };
+		DAA494D81DC2EBC800C73780 /* GKImageCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494CE1DC2EBC800C73780 /* GKImageCropOverlayView.m */; };
+		DAA494D91DC2EBC800C73780 /* GKImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494D01DC2EBC800C73780 /* GKImageCropView.m */; };
+		DAA494DA1DC2EBC800C73780 /* GKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494D21DC2EBC800C73780 /* GKImageCropViewController.m */; };
+		DAA494DB1DC2EBC800C73780 /* GKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494D41DC2EBC800C73780 /* GKImagePicker.m */; };
+		DAA494DC1DC2EBC800C73780 /* GKResizeableCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494D61DC2EBC800C73780 /* GKResizeableCropOverlayView.m */; };
 		DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */; };
 		DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */; };
 		DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */; };
@@ -34,6 +40,20 @@
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
+		DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "deskThree-Bridging-Header.h"; sourceTree = "<group>"; };
+		DAA494CB1DC2EBC800C73780 /* GKCropBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GKCropBorderView.h; path = ../../GKImagePicker/GKClasses/GKCropBorderView.h; sourceTree = "<group>"; };
+		DAA494CC1DC2EBC800C73780 /* GKCropBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GKCropBorderView.m; path = ../../GKImagePicker/GKClasses/GKCropBorderView.m; sourceTree = "<group>"; };
+		DAA494CD1DC2EBC800C73780 /* GKImageCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GKImageCropOverlayView.h; path = ../../GKImagePicker/GKClasses/GKImageCropOverlayView.h; sourceTree = "<group>"; };
+		DAA494CE1DC2EBC800C73780 /* GKImageCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GKImageCropOverlayView.m; path = ../../GKImagePicker/GKClasses/GKImageCropOverlayView.m; sourceTree = "<group>"; };
+		DAA494CF1DC2EBC800C73780 /* GKImageCropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GKImageCropView.h; path = ../../GKImagePicker/GKClasses/GKImageCropView.h; sourceTree = "<group>"; };
+		DAA494D01DC2EBC800C73780 /* GKImageCropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GKImageCropView.m; path = ../../GKImagePicker/GKClasses/GKImageCropView.m; sourceTree = "<group>"; };
+		DAA494D11DC2EBC800C73780 /* GKImageCropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GKImageCropViewController.h; path = ../../GKImagePicker/GKClasses/GKImageCropViewController.h; sourceTree = "<group>"; };
+		DAA494D21DC2EBC800C73780 /* GKImageCropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GKImageCropViewController.m; path = ../../GKImagePicker/GKClasses/GKImageCropViewController.m; sourceTree = "<group>"; };
+		DAA494D31DC2EBC800C73780 /* GKImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GKImagePicker.h; path = ../../GKImagePicker/GKClasses/GKImagePicker.h; sourceTree = "<group>"; };
+		DAA494D41DC2EBC800C73780 /* GKImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GKImagePicker.m; path = ../../GKImagePicker/GKClasses/GKImagePicker.m; sourceTree = "<group>"; };
+		DAA494D51DC2EBC800C73780 /* GKResizeableCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GKResizeableCropOverlayView.h; path = ../../GKImagePicker/GKClasses/GKResizeableCropOverlayView.h; sourceTree = "<group>"; };
+		DAA494D61DC2EBC800C73780 /* GKResizeableCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GKResizeableCropOverlayView.m; path = ../../GKImagePicker/GKClasses/GKResizeableCropOverlayView.m; sourceTree = "<group>"; };
+		DAA494DF1DC2ED5A00C73780 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkArea.swift; sourceTree = "<group>"; };
 		DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageBlock.swift; sourceTree = "<group>"; };
 		DAFBE3A01DBBDBC20007D249 /* deskThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -66,12 +86,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DAA494DD1DC2ECAD00C73780 /* GKImagePickerFiles */ = {
+			isa = PBXGroup;
+			children = (
+				DAA494CB1DC2EBC800C73780 /* GKCropBorderView.h */,
+				DAA494CC1DC2EBC800C73780 /* GKCropBorderView.m */,
+				DAA494CD1DC2EBC800C73780 /* GKImageCropOverlayView.h */,
+				DAA494CE1DC2EBC800C73780 /* GKImageCropOverlayView.m */,
+				DAA494CF1DC2EBC800C73780 /* GKImageCropView.h */,
+				DAA494D01DC2EBC800C73780 /* GKImageCropView.m */,
+				DAA494D11DC2EBC800C73780 /* GKImageCropViewController.h */,
+				DAA494D21DC2EBC800C73780 /* GKImageCropViewController.m */,
+				DAA494D31DC2EBC800C73780 /* GKImagePicker.h */,
+				DAA494D41DC2EBC800C73780 /* GKImagePicker.m */,
+				DAA494D51DC2EBC800C73780 /* GKResizeableCropOverlayView.h */,
+				DAA494D61DC2EBC800C73780 /* GKResizeableCropOverlayView.m */,
+			);
+			name = GKImagePickerFiles;
+			sourceTree = "<group>";
+		};
+		DAA494DE1DC2ED5A00C73780 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DAA494DF1DC2ED5A00C73780 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				DAA494DD1DC2ECAD00C73780 /* GKImagePickerFiles */,
 				DAFBE3A21DBBDBC20007D249 /* deskThree */,
 				DAFBE3B71DBBDBC20007D249 /* deskThreeUITests */,
 				DAFBE3A11DBBDBC20007D249 /* Products */,
+				DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */,
+				DAA494DE1DC2ED5A00C73780 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -216,12 +266,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAA494DA1DC2EBC800C73780 /* GKImageCropViewController.m in Sources */,
+				DAA494DC1DC2EBC800C73780 /* GKResizeableCropOverlayView.m in Sources */,
 				DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */,
+				DAA494D81DC2EBC800C73780 /* GKImageCropOverlayView.m in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
+				DAA494D91DC2EBC800C73780 /* GKImageCropView.m in Sources */,
+				DAA494D71DC2EBC800C73780 /* GKCropBorderView.m in Sources */,
 				DA5464511DBD10A300E644F0 /* Paper.swift in Sources */,
 				25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
+				DAA494DB1DC2EBC800C73780 /* GKImagePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,11 +413,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = QFB6VECLEF;
 				INFOPLIST_FILE = deskThree/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThree;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -370,11 +430,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = QFB6VECLEF;
 				INFOPLIST_FILE = deskThree/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThree;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
