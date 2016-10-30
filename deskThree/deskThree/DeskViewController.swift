@@ -37,28 +37,30 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         workArea.minimumZoomScale = 0.1
         workArea.maximumZoomScale = 2.0
+        */
         // setting up the GR that will handle drawing w finger & stylus
-        singleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(DeskViewController.handleSinglePan))
+        singleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: workArea.currentPage, action: #selector(Paper.handlePan))
         singleTouchPanGestureRecognizer.minimumNumberOfTouches = 1
         singleTouchPanGestureRecognizer.maximumNumberOfTouches = 1
         singleTouchPanGestureRecognizer.isEnabled = true
         singleTouchPanGestureRecognizer.delegate = self
         self.view.addGestureRecognizer(singleTouchPanGestureRecognizer)
-        */
+ 
     }
-    /*
+    
     override func viewDidAppear(_ animated: Bool) {
-     
+
     }
- */
+ 
     
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
     }
     
-    //function to handle the drawing
+    //function to handle the drawing (is in paper.swift)
     func handleSinglePan(sender: UIPanGestureRecognizer) {
-       // self.view.backgroundColor = UIColor.green
+        // workArea.currentPage.handlePan(sender: sender)
+        // self.view.backgroundColor = UIColor.green
       //  self.workArea.isHidden = true
     }
     
