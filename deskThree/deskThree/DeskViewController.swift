@@ -25,9 +25,22 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         
         gkimagePicker.delegate = self
-        gkimagePicker.cropSize = CGSize(width: 320, height: 90)
+        gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
         
+    
+        var metalDevice = MTLCreateSystemDefaultDevice()
+        let metalCommandQueue = metalDevice?.makeCommandQueue()
+        
+        var storedDrawing: StoredDrawing = StoredDrawing(frame: self.view.frame, device: metalDevice)
+        storedDrawing.commandQueue = metalCommandQueue
+        //storedDrawing.loadUIImage(image: UIImage(named: "apple")!)
+        self.view.addSubview(storedDrawing)
+        
+        var activeDrawing: ActiveDrawing = ActiveDrawing(frame: self.view.frame, device: metalDevice, whereToStore: storedDrawing)
+        activeDrawing.commandQueue = metalCommandQueue
+        activeDrawing.loadUIImage(image: UIImage(named: "wave")!)
+        self.view.addSubview(activeDrawing)
 
         
         /*
