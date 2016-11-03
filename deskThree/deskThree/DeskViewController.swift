@@ -28,20 +28,23 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
         
-    
+        
         var metalDevice = MTLCreateSystemDefaultDevice()
         let metalCommandQueue = metalDevice?.makeCommandQueue()
         
-        var storedDrawing: StoredDrawing = StoredDrawing(frame: self.view.frame, device: metalDevice)
-        storedDrawing.commandQueue = metalCommandQueue
-        //storedDrawing.loadUIImage(image: UIImage(named: "apple")!)
-        self.view.addSubview(storedDrawing)
+        var activeDrawing: ActiveDrawing = ActiveDrawing(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 44), device: metalDevice)
         
-        var activeDrawing: ActiveDrawing = ActiveDrawing(frame: self.view.frame, device: metalDevice, whereToStore: storedDrawing)
         activeDrawing.commandQueue = metalCommandQueue
-        activeDrawing.loadUIImage(image: UIImage(named: "wave")!)
+        //activeDrawing.loadUIImage(image: UIImage(named: "wave")!)
+        
+        var storedDrawing: StoredDrawing = StoredDrawing(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height - 44), device: metalDevice, activeResource: activeDrawing)
+        storedDrawing.commandQueue = metalCommandQueue
+        storedDrawing.loadUIImage(image: UIImage(named: "apple")!)
+        self.view.addSubview(storedDrawing)
         self.view.addSubview(activeDrawing)
 
+        
+        
         
         /*
         workArea = WorkArea()
@@ -55,7 +58,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         singleTouchPanGestureRecognizer = UIPanGestureRecognizer(target: workArea.currentPage, action: #selector(Paper.handlePan))
         singleTouchPanGestureRecognizer.minimumNumberOfTouches = 1
         singleTouchPanGestureRecognizer.maximumNumberOfTouches = 1
-        singleTouchPanGestureRecognizer.isEnabled = true
+        //singleTouchPanGestureRecognizer.isEnabled = true
+        singleTouchPanGestureRecognizer.isEnabled = false
         singleTouchPanGestureRecognizer.delegate = self
         self.view.addGestureRecognizer(singleTouchPanGestureRecognizer)
  
