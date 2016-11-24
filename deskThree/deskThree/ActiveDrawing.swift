@@ -58,6 +58,7 @@ class ActiveDrawing: MTKView  {
             // print("Failed to create pipeline state, error \(pipelineError)")
         }
         
+        
         timer = CADisplayLink(target: self, selector: Selector("gameloop"))
         timer.add(to: RunLoop.main, forMode: RunLoopMode.defaultRunLoopMode)
     }
@@ -98,7 +99,7 @@ class ActiveDrawing: MTKView  {
             vertexData.append(Float((cos(k)/14) + j))
             vertexData.append(Float(0))
             
-            k += 0.1
+            k += 1
             
             vertexData.append(Float((sin(k)/8) + i))
             vertexData.append(Float((cos(k)/14) + j))

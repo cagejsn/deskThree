@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "82D76AD8AFB906CFBCE507F7B9F48A4912D3A9C1",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "2C955C45306C7A3A5375708C7171EBDC6DA686F7" : 9223372036854775807,
+    "82D76AD8AFB906CFBCE507F7B9F48A4912D3A9C1" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "C3C62C59-A444-4AFE-8089-45CDD2CD99C7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "2C955C45306C7A3A5375708C7171EBDC6DA686F7" : "deskThree\/JotUI\/",
+    "82D76AD8AFB906CFBCE507F7B9F48A4912D3A9C1" : "deskThree\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "deskFour",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "deskFour.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/adamwulf\/JotUI.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2C955C45306C7A3A5375708C7171EBDC6DA686F7"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cagejsn\/deskThree.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "82D76AD8AFB906CFBCE507F7B9F48A4912D3A9C1"
+    }
+  ]
+}

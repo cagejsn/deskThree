@@ -16,6 +16,8 @@ vertex float4 basic_vertex(                           // 1
     return float4(vertex_array[vid], 1.0);              // 4
 }
 
+
 fragment half4 basic_fragment() { // 1
-    return half4( 0.0, 104.0/255.0 , 5.0/255.0, 1.0);// 2
+    return half4( 0.0, 104.0/255.0 , 5.0/255.0, 0.5);// 2
 }
+

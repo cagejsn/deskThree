@@ -4,3 +4,7 @@
 
 #import "GKImagePicker.h"
 #import "GKImageCropViewController.h"
+#import <JotUI/JotUI.h>
+#import "Pen.h"
+#import "Marker.h"
+#import "Eraser.h"
