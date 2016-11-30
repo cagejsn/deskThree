@@ -14,7 +14,7 @@ class Paper: UIImageView, ImageBlockDelegate {
     //MARK: Initializers
     init() {
         super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
-        self.image = UIImage(named: "notebookPaper")
+        self.image = UIImage(named: "engineeringPaper")
         self.isOpaque = false
     }
     
