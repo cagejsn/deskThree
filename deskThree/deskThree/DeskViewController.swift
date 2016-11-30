@@ -43,10 +43,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
        
         pen = Pen()
         
-        
-        var jotView = JotView(frame: self.view.frame)
+      
+        var jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1000, height: 1000))
+        //var jotView = JotView(frame: self.view.frame)
+
         jotView.delegate = self
-        self.view.addSubview(jotView)
+        
+        workArea.currentPage.addSubview(jotView)
+        //self.view.addSubview(jotView)
         
         jotView.isUserInteractionEnabled = true 
         
@@ -57,7 +61,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         jotView.loadState(paperState)
         
-        
+
     /*
         
         JotViewStateProxy* paperState = [[JotViewStateProxy alloc] initWithDelegate:self];
@@ -121,7 +125,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
     }
  
     
@@ -273,7 +276,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func didLoadState(_ state: JotViewStateProxy!) {
-        
+
     }
     
     func didUnloadState(_ state: JotViewStateProxy!) {
