@@ -16,7 +16,7 @@ class Paper: UIImageView, ImageBlockDelegate {
     //MARK: Initializers
     init() {
         super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
-        self.image = UIImage(named: "engineeringPaper")
+        self.image = UIImage(named: "engineeringPaper2")
         self.isOpaque = false
         images = [ImageBlock]() //creates an array to save the imageblocks
     }

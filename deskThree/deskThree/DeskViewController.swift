@@ -38,8 +38,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
        
         pen = Pen()
         
-      
-        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1236, height: 1600))
+        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
+        //jotView = JotView(frame: CGRect(x: 0, y: 0, width: 600 , height: 600))
+        
+        //jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1236, height: 1600))
         //var jotView = JotView(frame: self.view.frame)
 
         jotView.delegate = self
@@ -144,21 +146,31 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
-    
-    
-    
-    //MARK: UIToolbar on click methods
-    @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
-
-        
-        //jotView.exportToImage(onComplete: (workArea.currentPage.image) , withScale: workArea.currentPage.image?.scale)
-        //workArea.frame = workArea.currentPage.frame
+    func hello(imageV: UIImage?){
+        var useful: UIImageView = UIImageView(image: imageV)
+        workArea.currentPage.addSubview(useful)
         var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
         var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
         pdfShareHelper.delegate = self
         pdfShareHelper.uti = "com.adobe.pdf"
         // Currently, Preview itself gives option to share
         pdfShareHelper.presentPreview(animated: false)
+        useful.removeFromSuperview()
+    }
+    
+    
+    //MARK: UIToolbar on click methods
+    @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
+
+
+        jotView.exportToImage(onComplete: hello , withScale: (workArea.currentPage.image?.scale)!)
+        //workArea.frame = workArea.currentPage.frame
+//        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
+//        var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
+//        pdfShareHelper.delegate = self
+//        pdfShareHelper.uti = "com.adobe.pdf"
+//        // Currently, Preview itself gives option to share
+//        pdfShareHelper.presentPreview(animated: false)
         //pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
         //workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
     }
