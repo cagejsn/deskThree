@@ -147,7 +147,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func hello(imageV: UIImage?){
-        var useful: UIImageView = UIImageView(image: imageV)
+//        self.view = UIImageView (image: imageV)
+//        var pngRep: Data = UIImagePNGRepresentation (imageV!)!;
+        
+        var useful: UIImageView = UIImageView (image: imageV)
         workArea.currentPage.addSubview(useful)
         var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
         var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
@@ -162,8 +165,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
 
-
-        jotView.exportToImage(onComplete: hello , withScale: (workArea.currentPage.image?.scale)!)
+        print(jotView.scale)
+        jotView.exportToImage(onComplete: hello , withScale: (jotView.scale))
         //workArea.frame = workArea.currentPage.frame
 //        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
 //        var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))

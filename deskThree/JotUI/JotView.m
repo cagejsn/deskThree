@@ -577,14 +577,17 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
                 [secondSubContext glBlendFuncONE];
 
                 CGSize fullSize = viewFramebuffer.initialViewport;
+                /* Export size matches the actual paper size */
                 CGSize exportSize = CGSizeMake(ceilf(fullSize.width * outputScale), ceilf(fullSize.height * outputScale));
+//                CGSize exportSize = CGSizeMake(2550.0, 3300.0)
                 ;
 
                 [secondSubContext glViewportWithX:0 y:0 width:(GLsizei)fullSize.width height:(GLsizei)fullSize.height];
 
                 // create the texture
                 // maxTextureSize
-                CGSize maxTextureSize = [UIScreen mainScreen].portraitBounds.size;
+                //CGSize maxTextureSize = [UIScreen mainScreen].portraitBounds.size;
+                CGSize maxTextureSize = exportSize;
                 maxTextureSize.width *= [UIScreen mainScreen].scale;
                 maxTextureSize.height *= [UIScreen mainScreen].scale;
                 JotGLTexture* canvasTexture = [[JotTextureCache sharedManager] generateTextureForContext:secondSubContext ofSize:maxTextureSize];
