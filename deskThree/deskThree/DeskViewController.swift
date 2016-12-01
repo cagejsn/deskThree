@@ -8,12 +8,6 @@
 import UIKit
 
 class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate {
-
-    /*
-    @property(nonatomic, readonly) NSString* jotViewStateInkPath;
-    
-    @property(nonatomic, readonly) NSString* jotViewStatePlistPath;
-    */
     
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
@@ -143,18 +137,29 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return workArea.currentPage
     }
+    @IBAction func setImagesButtonPushed(_ sender: AnyObject) {
+        for i in 0 ..< workArea.currentPage.images!.count {
+            workArea.currentPage.images![i].toggleEditable()
+        }
+    }
+    
+    
+    
     
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
-        workArea.frame = workArea.currentPage.frame
-        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea, saveToDocumentsWithFileName: "secondPDF")
+
+        
+        //jotView.exportToImage(onComplete: (workArea.currentPage.image) , withScale: workArea.currentPage.image?.scale)
+        //workArea.frame = workArea.currentPage.frame
+        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
         var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
         pdfShareHelper.delegate = self
         pdfShareHelper.uti = "com.adobe.pdf"
         // Currently, Preview itself gives option to share
         pdfShareHelper.presentPreview(animated: false)
         //pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
-        workArea.boundInsideBy(superView: self.view, x1: 10, x2: 10, y1: 10, y2: 44)
+        //workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
     }
     
 @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
@@ -165,6 +170,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
         if let pickedImage = pickedImage as? UIImage  {
             var imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
+            workArea.currentPage.images?.append(imageBlock) //adds to the array, used to toggle editable
             workArea.currentPage.addSubview(imageBlock)
             imageBlock.center = self.view.center
             imageBlock.isUserInteractionEnabled = true

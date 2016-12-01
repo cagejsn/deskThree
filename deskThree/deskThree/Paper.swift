@@ -11,11 +11,14 @@ import UIKit
 
 class Paper: UIImageView, ImageBlockDelegate {
     
+    var images: [ImageBlock]?
+    
     //MARK: Initializers
     init() {
         super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
         self.image = UIImage(named: "notebookPaper")
         self.isOpaque = false
+        images = [ImageBlock]() //creates an array to save the imageblocks
     }
     
     required init?(coder aDecoder: NSCoder) {

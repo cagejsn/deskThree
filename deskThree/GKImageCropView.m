@@ -163,8 +163,7 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
 		default:
 			rectTransform = CGAffineTransformIdentity;
 	};
-	
-	return CGAffineTransformScale(rectTransform, img.scale, img.scale);
+  	return CGAffineTransformScale(rectTransform, img.scale, img.scale);
 }
 
 #pragma mark -

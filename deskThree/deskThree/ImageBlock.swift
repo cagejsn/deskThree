@@ -20,6 +20,7 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
     var zoomGR: UIPinchGestureRecognizer?
     var editable: Bool = false
     var delegate: ImageBlockDelegate! = nil
+    var orientationInt: Int = 0
 
     //MARK: Custom Methods
     func toggleEditable(){
@@ -29,20 +30,25 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
             zoomGR?.isEnabled = true
             editable = true
             delegate!.freeImageForMovement(image: self)
+            isUserInteractionEnabled = true
+            
         } else{
             self.layer.borderColor = UIColor.clear.cgColor
             editable = false
             delegate!.fixImageToPage(image: self)
             zoomGR?.isEnabled = false
+            isUserInteractionEnabled = false
         }
     }
     
     // MARK: touch handlers
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
             superview!.bringSubview(toFront: self)
         }
     }
+    
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
@@ -59,6 +65,7 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
         
     }
     
+ 
     func handleDoubleTap( sender: UITapGestureRecognizer) {
         toggleEditable()
     }
@@ -75,6 +82,30 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
                 }
             }
         }
+    }
+    
+    func rotateImage( sender: UITapGestureRecognizer){
+        //var transformForImage: CGAffineTransform = CGAffineTransform(rotationAngle: 90)
+        //self.transform = self.transform.rotated(by:CGFloat(M_PI))
+        
+        var newOrienation: UIImageOrientation!
+        switch orientationInt {
+        case 1:
+            newOrienation = UIImageOrientation.right
+            orientationInt = 2
+        case 2:
+            newOrienation = UIImageOrientation.down
+            orientationInt = 3
+        case 4:
+            newOrienation = UIImageOrientation.left
+            orientationInt = 5
+        default:
+            newOrienation = UIImageOrientation.up
+            orientationInt = 1
+        }
+        
+        image = UIImage(cgImage: (image?.cgImage)!, scale: (image?.scale)!, orientation: newOrienation)
+        
     }
     
     //processes the UIImagePicker's image before setting it to self's .image property
@@ -125,13 +156,15 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
     //MARK: Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageBlock.handleDoubleTap))
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageBlock.rotateImage))
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        
         zoomGR = UIPinchGestureRecognizer(target: self, action: #selector(ImageBlock.handlePinch))
         zoomGR!.delegate = self
         self.addGestureRecognizer(zoomGR!)
+        
         self.layer.borderWidth = 3
         self.layer.borderColor = UIColor.purple.cgColor
         editable = true

@@ -25,6 +25,17 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SdU-Ta-iQ4"/>
+                        <barButtonItem style="plain" id="icS-qn-MBI">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IKr-xj-c3n">
+                                <rect key="frame" x="239" y="7" width="58" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="set imgs"/>
+                                <connections>
+                                    <action selector="setImagesButtonPushed:" destination="-1" eventType="touchUpInside" id="ZKR-eX-6eG"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem width="16" style="plain" systemItem="fixedSpace" id="yEh-zS-bSz"/>
                         <barButtonItem title="print" id="1zE-9k-eaD">
                             <connections>
                                 <action selector="printButtonPushed:" destination="-1" id="eo9-aE-JN9"/>
