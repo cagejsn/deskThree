@@ -21,6 +21,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var pen: Pen!
     
     var jotView: JotView!
+    var paperState: JotViewStateProxy!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,7 +39,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         pen = Pen()
         
       
-        var jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1236, height: 1600))
+        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1236, height: 1600))
         //var jotView = JotView(frame: self.view.frame)
 
         jotView.delegate = self
@@ -48,7 +49,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         jotView.isUserInteractionEnabled = true 
         
-        var paperState = JotViewStateProxy(delegate: self)
+        paperState = JotViewStateProxy(delegate: self)
         paperState?.delegate = self
         
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
@@ -161,11 +162,20 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
         //workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
     }
+
+    @IBAction func undoButtonPressed(_ sender: AnyObject) {
+        jotView.undo()
+    }
     
-@IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
+    
+    
+    @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
         present(gkimagePicker.imagePickerController, animated: true, completion: nil)
         }
     
+    @IBAction func clearButtonTapped(_ sender: AnyObject) {
+        jotView.clear(true);
+    }
 // MARK: GKImagePickerController Delegate
 @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
         if let pickedImage = pickedImage as? UIImage  {
