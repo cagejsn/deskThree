@@ -30,6 +30,15 @@
 		DABC744E1DEF809B0090D413 /* UImage+ImageOrientationFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC744D1DEF809B0090D413 /* UImage+ImageOrientationFix.swift */; };
 		DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */; };
 		DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */; };
+		DADC7C4D1DEFBFB00086626E /* AllPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C441DEFBFB00086626E /* AllPad.swift */; };
+		DADC7C4E1DEFBFB00086626E /* AllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADC7C451DEFBFB00086626E /* AllPad.xib */; };
+		DADC7C4F1DEFBFB00086626E /* Block.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADC7C461DEFBFB00086626E /* Block.xib */; };
+		DADC7C501DEFBFB00086626E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C471DEFBFB00086626E /* Constants.swift */; };
+		DADC7C511DEFBFB00086626E /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C481DEFBFB00086626E /* Expression.swift */; };
+		DADC7C521DEFBFB00086626E /* InputObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C491DEFBFB00086626E /* InputObject.swift */; };
+		DADC7C531DEFBFB00086626E /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C4A1DEFBFB00086626E /* Block.swift */; };
+		DADC7C541DEFBFB00086626E /* ETree.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C4B1DEFBFB00086626E /* ETree.swift */; };
+		DADC7C551DEFBFB00086626E /* OutputArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C4C1DEFBFB00086626E /* OutputArea.swift */; };
 		DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */; };
 		DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */; };
 		DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3A71DBBDBC20007D249 /* Main.storyboard */; };
@@ -91,6 +100,15 @@
 		DABC744D1DEF809B0090D413 /* UImage+ImageOrientationFix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UImage+ImageOrientationFix.swift"; sourceTree = "<group>"; };
 		DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkArea.swift; sourceTree = "<group>"; };
 		DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageBlock.swift; sourceTree = "<group>"; };
+		DADC7C441DEFBFB00086626E /* AllPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllPad.swift; sourceTree = "<group>"; };
+		DADC7C451DEFBFB00086626E /* AllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllPad.xib; sourceTree = "<group>"; };
+		DADC7C461DEFBFB00086626E /* Block.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Block.xib; sourceTree = "<group>"; };
+		DADC7C471DEFBFB00086626E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		DADC7C481DEFBFB00086626E /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
+		DADC7C491DEFBFB00086626E /* InputObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputObject.swift; sourceTree = "<group>"; };
+		DADC7C4A1DEFBFB00086626E /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		DADC7C4B1DEFBFB00086626E /* ETree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ETree.swift; sourceTree = "<group>"; };
+		DADC7C4C1DEFBFB00086626E /* OutputArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputArea.swift; sourceTree = "<group>"; };
 		DAFBE3A01DBBDBC20007D249 /* deskThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +197,15 @@
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				DADC7C441DEFBFB00086626E /* AllPad.swift */,
+				DADC7C451DEFBFB00086626E /* AllPad.xib */,
+				DADC7C461DEFBFB00086626E /* Block.xib */,
+				DADC7C471DEFBFB00086626E /* Constants.swift */,
+				DADC7C481DEFBFB00086626E /* Expression.swift */,
+				DADC7C491DEFBFB00086626E /* InputObject.swift */,
+				DADC7C4A1DEFBFB00086626E /* Block.swift */,
+				DADC7C4B1DEFBFB00086626E /* ETree.swift */,
+				DADC7C4C1DEFBFB00086626E /* OutputArea.swift */,
 				CEC6DD0B1DEE8D14002A2460 /* JotUI */,
 				CEC6DD0C1DEE8D14002A2460 /* JotUI.h */,
 				CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */,
@@ -332,8 +359,10 @@
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */,
 				DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */,
+				DADC7C4F1DEFBFB00086626E /* Block.xib in Resources */,
 				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
 				DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */,
+				DADC7C4E1DEFBFB00086626E /* AllPad.xib in Resources */,
 				25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */,
 				DAFBE3AB1DBBDBC20007D249 /* Assets.xcassets in Resources */,
 				DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */,
@@ -361,18 +390,25 @@
 				DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */,
 				DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */,
 				DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */,
+				DADC7C511DEFBFB00086626E /* Expression.swift in Sources */,
+				DADC7C541DEFBFB00086626E /* ETree.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
 				DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */,
 				DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */,
 				DA5464511DBD10A300E644F0 /* Paper.swift in Sources */,
 				DABC744E1DEF809B0090D413 /* UImage+ImageOrientationFix.swift in Sources */,
 				25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */,
+				DADC7C521DEFBFB00086626E /* InputObject.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
 				DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */,
+				DADC7C531DEFBFB00086626E /* Block.swift in Sources */,
 				DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */,
+				DADC7C4D1DEFBFB00086626E /* AllPad.swift in Sources */,
+				DADC7C551DEFBFB00086626E /* OutputArea.swift in Sources */,
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,
 				DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */,
+				DADC7C501DEFBFB00086626E /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
