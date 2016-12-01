@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AllPad" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AllPad" customModule="deskThree" customModuleProvider="target">
             <connections>
                 <outlet property="button0" destination="Tkv-MX-kzK" id="Xgc-6a-vsq"/>
                 <outlet property="button1" destination="4W3-tQ-oFP" id="yKl-fk-Gch"/>
@@ -65,10 +66,10 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="deleteTextFromEntryArea:" destination="-1" eventType="touchUpInside" id="CFV-nD-mKI"/>
+                        <action selector="deleteTextFromEntryArea:" destination="-1" eventType="touchUpInside" id="evy-jr-Ueq"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocm-7L-4Ee" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocm-7L-4Ee" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.90696299076080322" green="0.84839250124823729" blue="0.69588386625500398" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                     <state key="normal">
@@ -86,7 +87,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="9Ho-gL-3ad"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="fnE-ck-hVs"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8d-X7-eeD">
@@ -98,7 +99,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="YuT-AJ-14k"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="fMr-gv-oHL"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLy-SI-l37">
@@ -109,7 +110,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="frq-sD-15u"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="RjB-Ly-SeS"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyc-uO-eJM">
@@ -120,7 +121,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="EZD-VQ-Yyp"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="M28-Ee-erP"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4W3-tQ-oFP">
@@ -131,7 +132,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="INu-E9-AVh"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="e2l-T4-0L6"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AI8-gf-p4d">
@@ -142,7 +143,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="cC6-h3-qND"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="VNp-h0-TvC"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FsD-aR-HWd">
@@ -156,7 +157,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="cVR-w5-oKF"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="3Yi-yG-4Oi"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KYB-C4-g6M">
@@ -167,7 +168,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="yRA-MM-ne2"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="ymA-Ua-UEn"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyy-dn-3Bk">
@@ -178,7 +179,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="qxf-K3-bFs"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="72X-im-Gxa"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tkv-MX-kzK">
@@ -188,7 +189,7 @@
                         <color key="titleColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="J2c-hk-CdC"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="dbs-4h-np8"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jaa-Rb-DBa">
@@ -199,7 +200,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="FtN-A4-r47"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="wUS-3g-vyv"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VS8-kL-crN">
@@ -210,7 +211,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="v5k-O3-Ijg"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="yiS-AY-dqY"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1hI-8w-4cd">
@@ -221,10 +222,10 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="P7A-Uj-Id0"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="RrW-wG-xtj"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cV6-P7-woQ" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cV6-P7-woQ" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.87058823529999996" green="0.2533660807970069" blue="0.3037279717145836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration">
                         <accessibilityTraits key="traits" none="YES"/>
@@ -235,10 +236,10 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="Tg3-RC-Fle"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="OF2-xj-8Aj"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpr-Rx-haF" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpr-Rx-haF" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.87058823529999996" green="0.2533660807970069" blue="0.3037279717145836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="33"/>
                     <state key="normal" title="-">
@@ -246,10 +247,10 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="LVD-qw-rQA"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="fGK-Ph-8fB"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBl-ZY-3de" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBl-ZY-3de" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.87058823529999996" green="0.2533660807970069" blue="0.3037279717145836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="PBl-ZY-3de" secondAttribute="height" multiplier="41:39" id="kpn-Xz-MXv"/>
@@ -260,10 +261,10 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="afQ-p6-zyT"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="Xi8-oi-QGa"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PFJ-Ke-qgH" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PFJ-Ke-qgH" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.87058823529999996" green="0.2533660807970069" blue="0.3037279717145836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="33"/>
                     <state key="normal" title="÷">
@@ -271,10 +272,10 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="pnh-xP-2ed"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="sMe-QW-gVF"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Znu-sU-OHh" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Znu-sU-OHh" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.87058823529999996" green="0.2533660807970069" blue="0.3037279717145836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="33"/>
                     <state key="normal" title="^">
@@ -282,10 +283,10 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="ztt-jo-c5a"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="EsC-eU-qQn"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89V-bE-0Hg" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="89V-bE-0Hg" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.87058823529999996" green="0.2533660807970069" blue="0.3037279717145836" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="33"/>
                     <state key="normal" title="√">
@@ -293,151 +294,151 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="IgN-Jc-UwG"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="VZF-7J-6lQ"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfD-ls-JHs" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfD-ls-JHs" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="pi">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="o2R-yO-Ye9"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="3bQ-Vd-zh9"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1c-kr-Sfn" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1c-kr-Sfn" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="sin">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="5vf-4H-uam"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="hT5-yt-Cce"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hvq-56-Nic" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hvq-56-Nic" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="cos">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="fDB-al-zq2"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="PAh-KV-ElD"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8M-YL-dgh" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8M-YL-dgh" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="tan">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="UoK-1x-WNe"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="NRT-qY-8Ug"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etr-tF-JUY" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etr-tF-JUY" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="ln">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="7DW-r6-nzm"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="Tv2-En-Tqc"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GkE-ed-kw4" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GkE-ed-kw4" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="e">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="UU8-ES-fEf"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="1Km-Ij-39z"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="abc-c1-2hj" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="abc-c1-2hj" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="x">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="df6-g0-IKJ"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="Dce-NI-7NH"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ni6-pB-T64" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ni6-pB-T64" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="=">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="fDb-Sz-shv"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="hNd-lN-uTW"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNW-PR-PgM" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNW-PR-PgM" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="( )">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="eva-J4-3Fm"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="NRv-jK-BS7"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pza-93-aJB" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pza-93-aJB" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="z">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="I4k-Np-oGD"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="oWI-EQ-0Oz"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mil-c3-zJM" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mil-c3-zJM" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="log">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="oxp-vt-tZv"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="ja6-fg-bdh"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqo-sB-5KC" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqo-sB-5KC" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="y">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="Pa2-hT-Ecg"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="mAj-Ih-9y5"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hCh-iV-ewq" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hCh-iV-ewq" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="sum">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="PU2-iE-Dcm"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="Kgz-XM-Eoh"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BpW-8c-FrE" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BpW-8c-FrE" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="arccos">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="DMT-te-lm4"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="6ao-dJ-VLK"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yx5-Qc-7H6" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yx5-Qc-7H6" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="arcsin">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="gf8-1R-deY"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="aHc-c9-euk"/>
                     </connections>
                 </button>
-                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKs-tC-Cqf" customClass="OutputArea" customModule="EngineeringDesk_cocos2d" customModuleProvider="target">
+                <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKs-tC-Cqf" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal" title="arctan">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="rBB-Md-pzO"/>
+                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="EVZ-ii-6ib"/>
                     </connections>
                 </button>
             </subviews>

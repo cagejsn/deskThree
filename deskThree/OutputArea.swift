@@ -39,14 +39,14 @@ class OutputArea: UIButton {
     
     
     //MARK: events
-    func scootBlock(recognizer: UIPanGestureRecognizer) {
+    func scootBlock( _ recognizer: UIPanGestureRecognizer) {
         
-        let translationOfTouch = recognizer.translationInView(self)
+        let translationOfTouch = recognizer.translation(in: self)
         //print (recognizer.locationInView(superview!))
         //this code runs when the touch has left the view, and the block hasn't been made yet
-        if((!CGRectContainsPoint(self.frame, recognizer.locationInView(superview!)) && !madeMyBlockYet)){
-            if (self.currentTitle?.characters.count > 0) {
-                let newBlock = delegate!.makeBlockForOutputArea(recognizer.locationInView(superview!), blockType: self.typeOfInputObject!, blockData: self.currentTitle!)
+        if((!self.frame.contains(recognizer.location(in: superview!)) && !madeMyBlockYet)){
+            if ((self.currentTitle?.characters.count)! > 0) {
+                let newBlock = delegate!.makeBlockForOutputArea(blockLocation: recognizer.location(in: superview!), blockType: self.typeOfInputObject!, blockData: self.currentTitle!)
                 lastBlockCreated = newBlock
                 
                 locationOfView = lastBlockCreated!.center
@@ -61,16 +61,16 @@ class OutputArea: UIButton {
             
             amtMoved += abs(translationOfTouch.x + translationOfTouch.y)
             if(amtMoved >= 30.0){
-                self.delegate!.outputAreaDidPassIncrementalMove(lastBlockCreated!)
+                self.delegate!.outputAreaDidPassIncrementalMove(movedView: lastBlockCreated!)
                 amtMoved = 0.0
             }
         }
 
         //when the touch has ended
-        if(recognizer.state == UIGestureRecognizerState.Ended){
+        if(recognizer.state == UIGestureRecognizerState.ended){
             
             if ((lastBlockCreated) != nil) {
-                delegate!.outputAreaDidPassBlock(lastBlockCreated!)
+                delegate!.outputAreaDidPassBlock(lastBlock: lastBlockCreated!)
                 lastBlockCreated = nil
                 madeMyBlockYet = false
             }

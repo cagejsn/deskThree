@@ -14,7 +14,7 @@ class ETree {
     /* returns block which is to the right of input node in the equation */
     static func getSuccessor(node : Block) -> Block{
         if(node.rightChild != nil){
-            return  minValue(node.rightChild!)
+            return  minValue(node: node.rightChild!)
         }
         var parent : Block? = node.parent
         var n : Block = node
@@ -28,7 +28,7 @@ class ETree {
     /* returns block which is to the left of input node in the equation */
     static func getPredecessor(node : Block) -> Block {
         if(node.leftChild != nil){
-            return  maxValue(node.leftChild!)
+            return  maxValue(node: node.leftChild!)
         }
         var parent : Block? = node.parent
         var n : Block = node
@@ -52,11 +52,11 @@ class ETree {
     /* in order traversal of tree, printing each value along the way */
     static func printCurrentTree (root : Block) {
         if(root.leftChild != nil){
-            printCurrentTree(root.leftChild!)
+            printCurrentTree(root: root.leftChild!)
         }
         print(root.getValue(), terminator: "")
         if (root.rightChild != nil){
-            printCurrentTree(root.rightChild!)
+            printCurrentTree(root: root.rightChild!)
         }
     }
     
@@ -98,18 +98,18 @@ class ETree {
         }
         var current : Block? = lastingBlock
         let precedenceOfBlockToAdd = lesserBlock?.precedence
-        if(current?.precedence < precedenceOfBlockToAdd){
-            addLeft(lesserBlock, lesserBlock: lastingBlock)
+        if((current?.precedence)! < precedenceOfBlockToAdd!){
+            addLeft(persistentBlock: lesserBlock, lesserBlock: lastingBlock)
             return
         }
-        while(current!.rightChild != nil && current!.rightChild?.precedence >= precedenceOfBlockToAdd){
+        while(current!.rightChild != nil && (current!.rightChild?.precedence)! >= precedenceOfBlockToAdd!){
             current = lastingBlock!.rightChild
         }
      
         let temp : Block? = current!.rightChild
         current!.rightChild = lesserBlock
         lesserBlock!.parent = current
-        addLeft(lesserBlock, lesserBlock: temp)
+        addLeft(persistentBlock: lesserBlock, lesserBlock: temp)
     }
  
     
@@ -119,17 +119,17 @@ class ETree {
         }
         var current : Block? = persistentBlock
         let precedenceOfBlockToAdd = lesserBlock?.precedence
-        if(current?.precedence < precedenceOfBlockToAdd){
-            addRight(lesserBlock, lesserBlock: persistentBlock)
+        if((current?.precedence)! < precedenceOfBlockToAdd!){
+            addRight(lastingBlock: lesserBlock, lesserBlock: persistentBlock)
             return
         }
-        while(current!.leftChild != nil && current!.leftChild?.precedence >= precedenceOfBlockToAdd){
+        while(current!.leftChild != nil && (current!.leftChild?.precedence)! >= precedenceOfBlockToAdd!){
             current = persistentBlock!.leftChild
         }
         let temp : Block? = current!.leftChild
         current!.leftChild = lesserBlock
         lesserBlock!.parent = current
-        addRight(lesserBlock, lesserBlock: temp)
+        addRight(lastingBlock: lesserBlock, lesserBlock: temp)
     }
     
     static func addInner(persistentBlock : Block?, lesserBlock : Block?){
@@ -142,10 +142,10 @@ class ETree {
     static func setParentGroup(node: Block, parentGroup : Expression) {
         node.parentExpression = parentGroup
         if(node.leftChild != nil){
-            setParentGroup(node.leftChild!, parentGroup: parentGroup);
+            setParentGroup(node: node.leftChild!, parentGroup: parentGroup);
         }
         if(node.rightChild != nil){
-            setParentGroup(node.rightChild!, parentGroup: parentGroup);
+            setParentGroup(node: node.rightChild!, parentGroup: parentGroup);
         }
     }
     
@@ -182,16 +182,16 @@ class ETree {
                 return false
             }
         }
-        let leftCheck = canBeEvaluated(node.leftChild!)
-        let rightCheck = canBeEvaluated(node.rightChild!)
+        let leftCheck = canBeEvaluated(node: node.leftChild!)
+        let rightCheck = canBeEvaluated(node: node.rightChild!)
         return leftCheck && rightCheck;
     }
 
     
     static func evaluate(node : Block) -> Double {
         if(node.leftChild != nil && node.rightChild != nil) {
-            let leftVal = evaluate(node.leftChild!)
-            let rightVal = evaluate(node.rightChild!)
+            let leftVal = evaluate(node: node.leftChild!)
+            let rightVal = evaluate(node: node.rightChild!)
             let val : Double
             //find operation
             switch(node.getValue()){
@@ -215,11 +215,11 @@ class ETree {
     }
 
     static func areNeighbors(block1 : Block, block2 : Block) -> Bool {
-        var b : Block = getPredecessor(block1)
+        var b : Block = getPredecessor(node: block1)
         if(b == block2) {
             return true
         }
-        b = getSuccessor(block1);
+        b = getSuccessor(node: block1);
         if(b == block2) {
             return true
         }

@@ -58,7 +58,78 @@ class AllPad: InputObject {
     @IBOutlet weak var buttonArctan: OutputArea!
     
     
-    
+    init(){
+        super.init(frame:CGRect(x: UIScreen.main.bounds.width - Constants.dimensions.AllPad.width, y:UIScreen.main.bounds.height - Constants.dimensions.AllPad.height - 44 , width: Constants.dimensions.AllPad.width , height: Constants.dimensions.AllPad.height))
+        xibSetup()
+        numEntryArea.delegate = self
+        numEntryArea.typeOfInputObject = 1
+        
+        buttonPlus.delegate = self
+        buttonPlus.typeOfInputObject = 2
+        
+        buttonMinus.delegate = self
+        buttonMinus.typeOfInputObject = 2
+        
+        buttonMultiply.delegate = self
+        buttonMultiply.typeOfInputObject = 2
+        
+        buttonDivide.delegate = self
+        buttonDivide.typeOfInputObject = 2
+        
+        buttonExponent.delegate = self
+        buttonExponent.typeOfInputObject = 2
+        
+        buttonSQRT.delegate = self
+        buttonSQRT.typeOfInputObject = 2
+        
+        buttonPi.delegate = self
+        buttonPi.typeOfInputObject = 3
+        
+        buttonSin.delegate = self
+        buttonSin.typeOfInputObject = 3
+        
+        buttonCos.delegate = self
+        buttonCos.typeOfInputObject = 3
+        
+        buttonTan.delegate = self
+        buttonTan.typeOfInputObject = 3
+        
+        buttonLn.delegate  = self
+        buttonLn.typeOfInputObject = 3
+        
+        buttonExp.delegate = self
+        buttonExp.typeOfInputObject = 3
+        
+        buttonX.delegate = self
+        buttonX.typeOfInputObject = 3
+        
+        buttonEquals.delegate = self
+        buttonEquals.typeOfInputObject = 3
+        
+        buttonParens.delegate = self
+        buttonParens.typeOfInputObject = 3
+        
+        buttonSum.delegate = self
+        buttonSum.typeOfInputObject = 3
+        
+        buttonZ.delegate = self
+        buttonZ.typeOfInputObject = 3
+        
+        buttonArccos.delegate = self
+        buttonArccos.typeOfInputObject = 3
+        
+        buttonLog.delegate = self
+        buttonLog.typeOfInputObject = 3
+        
+        buttonY.delegate = self
+        buttonY.typeOfInputObject = 3
+        
+        buttonArcsin.delegate = self
+        buttonArcsin.typeOfInputObject = 3
+        
+        buttonArctan.delegate = self
+        buttonArctan.typeOfInputObject = 3
+    }
     
     
     //MARK: Initialization
@@ -147,13 +218,13 @@ class AllPad: InputObject {
         view.frame = bounds
         
         // Make the view stretch with containing view
-        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
         numEntryArea.titleLabel!.numberOfLines = 1
         numEntryArea.titleLabel!.adjustsFontSizeToFitWidth = true
-        numEntryArea.titleLabel!.lineBreakMode = NSLineBreakMode.ByClipping
+        numEntryArea.titleLabel!.lineBreakMode = NSLineBreakMode.byClipping
         view.layer.cornerRadius = 15;
         
         for element in view.subviews {
@@ -162,33 +233,30 @@ class AllPad: InputObject {
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass: self.dynamicType)
+        let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName:"AllPad", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         
         return view
     }
     
     
-    
-    
-    
     //MARK: Events
-    @IBAction func deleteTextFromEntryArea(sender: AnyObject) {
+    @IBAction func deleteTextFromEntryArea(_ sender: AnyObject) {
         if (numEntryAreaText.characters.count > 0) {
-            numEntryAreaText.removeAtIndex(numEntryAreaText.endIndex.predecessor())
+            numEntryAreaText.remove(at: numEntryAreaText.index(before: numEntryAreaText.endIndex))
             UIView.setAnimationsEnabled(false)
-            numEntryArea.setTitle(numEntryAreaText, forState: UIControlState.Normal)
+            numEntryArea.setTitle(numEntryAreaText, for: UIControlState.normal)
             numEntryArea.layoutIfNeeded()
             UIView.setAnimationsEnabled(true)
         }
     }
     
     
-    @IBAction func addTextToEntryArea(sender: UIButton) {
+    @IBAction func addTextToEntryArea( _ sender: UIButton) {
         numEntryAreaText += sender.titleLabel!.text!
         UIView.performWithoutAnimation({
-            self.numEntryArea.setTitle(self.numEntryAreaText, forState: UIControlState.Normal);
+            self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
             self.numEntryArea.layoutIfNeeded()
         })
     }

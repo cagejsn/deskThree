@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, InputObjectDelegate, ExpressionDelegate {
     
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
@@ -19,9 +19,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var singleTouchPanGestureRecognizer: UIPanGestureRecognizer!
     
     var pen: Pen!
-    
+    var allPad: InputObject?
+    var isPadActive: Bool = false
     var jotView: JotView!
     var paperState: JotViewStateProxy!
+    
+    var expressions: [Expression] = []
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,6 +149,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         for i in 0 ..< workArea.currentPage.images!.count {
             workArea.currentPage.images![i].toggleEditable()
         }
+    }
+    
+    @IBAction func rightSideScreenEdgePanGestureRecognizer(_ sender: AnyObject) {
+        allPad = AllPad()
+        self.view.addSubview(allPad!)
+        allPad?.delegate = self
     }
     
     func hello(imageV: UIImage?){
@@ -354,6 +365,150 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     */
+    
+    
+    //MARK: - InputObject Delegate
+    
+    //this gets called when moving a blockGroup and when a block from the inputObject is being dragged around
+    func didIncrementMove(_movedView: UIView) {
+        for group in expressions {
+            if(group != _movedView){
+                if(group.isNear(incomingView: _movedView)){
+                    if(group.isDisplayingSpots == false){
+                        
+                        group.findAndShowAvailableSpots(_movedView: _movedView)
+                        //this will send the message to "group" that it needs to show its available spots for movedView
+                    }
+                    continue
+                }
+                group.hideSpots()
+            }
+        }
+    }
+    
+    func didCompleteMove(_movedView: UIView) {
+        //checks if the block's been dropped above any of the dummy views
+        //if the block is not above an existing BlockGroup's dummy view, then we create a new blockgroup including only the new block
+        var workingView = _movedView
+        
+        if let block = _movedView as? Block {
+            var expression = Expression(firstVal: block)
+            //self.view.addSubview(expression)
+            expression.tag = -1
+            workArea.currentPage.addSubview(expression)
+            //block.removeFromSuperview()
+            
+            expression.addSubview(block)
+            self.expressions.append(expression)
+            expression.delegate = self
+            block.frame.origin = CGPoint.zero
+            block.parentExpression = expression
+            workingView = expression
+        }
+        
+        if var expression = workingView as? Expression {
+            for group in expressions {
+                if(group != expression ){
+                    for glow in group.dummyViews{
+                        //see if any of the glow blocks contain the expression's origin
+                        if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).contains(expression.frame.origin)){
+                            
+                            // all of this is to move the actual block
+                            
+                            //reset the position to be on the x,y coords of the "group"
+                            expression.frame = expression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
+                            
+                            //removes from superview, we need to refrain from doing this because of the possibility that the _movedView becomes the superview
+                            expression.removeFromSuperview()
+                            
+                            group.addSubview(expression)
+                            
+                            //animate merging of groups and rearrange the ETree
+                            group.animateMove(movedView: expression, dummy: glow)
+                            
+                            //this sets the frame of the expression equal to the glow
+                            expression.frame = glow.frame
+                            
+                            //sets frame to include both rectangles
+                            //maybe change this to a new function.. make new Expression frame
+                            
+                            group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
+                            
+                            //finally merge the expressions
+                            let parent = glow.parent
+                            if glow == parent?.leftChild{
+                                parent?.isAvailableOnLeft = false
+                                ETree.getRightestNode(root: expression.rootBlock).isAvailableOnRight = false
+                                group.hideSpots()
+                                group.mergeExpressions(incomingExpression: expression , side: "left")
+                                
+                                //set the position of, and reassign ownership of, the blocks that were added
+                                for sub in expression.subviews {
+                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
+                                    sub.removeFromSuperview()
+                                    group.addSubview(sub)
+                                }
+                                
+                                //set the origins of the subviews to deal with the origin of the group having moved
+                                for sub in group.subviews {
+                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.width, dy: 0)
+                                }
+                            }
+                            if glow == parent?.rightChild{
+                                parent?.isAvailableOnRight = false
+                                ETree.getLeftestNode(root: expression.rootBlock).isAvailableOnLeft = false
+                                group.hideSpots()
+                                group.mergeExpressions(incomingExpression: expression , side: "right")
+                                for sub in expression.subviews {
+                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
+                                    sub.removeFromSuperview()
+                                    group.addSubview(sub)
+                                }
+                            }
+                            if glow == parent?.innerChild{
+                                group.hideSpots()
+                                group.mergeExpressions(incomingExpression: expression , side: "inner")
+                                for sub in expression.subviews {
+                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
+                                    sub.removeFromSuperview()
+                                    group.addSubview(sub)
+                                }
+                            }
+                            
+                            //get rid of old expression, may need to make sure that there are no more references
+                            expressions.removeObject(object: expression)
+                            expression.isHidden = true
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+
+    //MARK: Expression Delegate
+    
+    func didEvaluate(result: Float) {
+        var funct = InputObject.makeBlockForOutputArea(allPad!)
+        var newBlock = funct(CGPoint(x: 100, y: 100), TypeOfBlock.Number.rawValue, String(result))
+        
+        newBlock.removeFromSuperview()
+        
+        
+        var express = Expression(firstVal: newBlock)
+        workArea.currentPage.addSubview(express)
+        express.tag = -1
+        expressions.append(express)
+        express.delegate = self
+        newBlock.frame.origin = CGPoint.zero
+        express.addSubview(newBlock)
+        
+        //self.view.addSubview(newBlock)
+        // newBlock.userInteractionEnabled = true
+    }
+    
+
     
     
     

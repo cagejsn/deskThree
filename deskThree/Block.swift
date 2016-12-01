@@ -42,19 +42,19 @@ class Block: UIView  {
         // use bounds not frame or it'll be offset
         convexBlock.frame = bounds
         // Make the view stretch with containing view
-        convexBlock.autoresizingMask = [UIViewAutoresizing.FlexibleHeight, UIViewAutoresizing.FlexibleWidth];
+        convexBlock.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth];
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(convexBlock)
-        convexBlock.backgroundColor = UIColor.greenColor()
+        convexBlock.backgroundColor = UIColor.green
         for element in convexBlock.subviews {
             element.layer.cornerRadius = 10;
         }
     }
     
     func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass: self.dynamicType)
+        let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName:"Block", bundle: bundle)
-        let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
         return view
     }
     
@@ -129,7 +129,7 @@ class Block: UIView  {
         
         if(leftChild != nil){
             if(leftChild!.type == TypeOfBlock.Glow.rawValue){
-                leftChild!.hidden = true
+                leftChild!.isHidden = true
                 leftChild = nil
             }else{
                 leftChild!.removeDummyBlocks()
@@ -138,7 +138,7 @@ class Block: UIView  {
         
         if(rightChild != nil){
             if(rightChild!.type == TypeOfBlock.Glow.rawValue){
-                rightChild!.hidden = true
+                rightChild!.isHidden = true
                 rightChild = nil
             }else{
                 rightChild!.removeDummyBlocks()
@@ -150,18 +150,19 @@ class Block: UIView  {
         
         var glowBlocks: [Block] = []
         if(leftChild != nil) {
-            glowBlocks.appendContentsOf(leftChild!.makeAListOfSpotsBelowMe(aBlockToAccomodate))
+            glowBlocks.append(contentsOf: leftChild!.makeAListOfSpotsBelowMe(aBlockToAccomodate: aBlockToAccomodate))
         }
         else {
             if(isAvailableOnLeft && aBlockToAccomodate.isAvailableOnRight) {
-                if(canLink(aBlockToAccomodate)){
+                if(canLink(aBlockToAccomodate: aBlockToAccomodate)){
                     
                     var newFrameSize: CGRect
                     if(aBlockToAccomodate.parentExpression != nil){
                      newFrameSize = aBlockToAccomodate.parentExpression!.frame
                     } else { newFrameSize = aBlockToAccomodate.frame }
                     
-                   self.leftChild = Block(frame: CGRectMake(-newFrameSize.width, 0, newFrameSize.width, newFrameSize.height))
+                    
+                    self.leftChild = Block(frame: CGRect(x: -newFrameSize.width, y: 0, width: newFrameSize.width, height: newFrameSize.height))
                     //self.addSubview(leftChild!)
                    // leftChild!.frame = CGRectOffset(leftChild!.frame, self.frame.origin.x, 0)
                     leftChild!.type = TypeOfBlock.Glow.rawValue
@@ -172,11 +173,11 @@ class Block: UIView  {
         }
         
         if(rightChild != nil) {
-            glowBlocks.appendContentsOf(rightChild!.makeAListOfSpotsBelowMe(aBlockToAccomodate))
+            glowBlocks.append(contentsOf: rightChild!.makeAListOfSpotsBelowMe(aBlockToAccomodate: aBlockToAccomodate))
         }
         else {
             if(isAvailableOnRight && aBlockToAccomodate.isAvailableOnLeft){
-                if(canLink(aBlockToAccomodate)){
+                if(canLink(aBlockToAccomodate: aBlockToAccomodate)){
                 
                     var newFrameSize: CGRect?
                     if(aBlockToAccomodate.parentExpression != nil){
@@ -184,7 +185,7 @@ class Block: UIView  {
                     } else { newFrameSize = aBlockToAccomodate.frame }
                     
                     
-                    self.rightChild = Block(frame: CGRectMake(superview!.frame.width, 0, newFrameSize!.width, newFrameSize!.height))
+                    self.rightChild = Block(frame: CGRect(x:superview!.frame.width, y:0, width:newFrameSize!.width, height:newFrameSize!.height))
                    // self.rightChild = Block(frame: CGRectMake(self.frame.width, 0, newFrameSize!.width, newFrameSize!.height))
                     
                    // self.addSubview(rightChild!)
@@ -198,11 +199,11 @@ class Block: UIView  {
         
         if(self.type == TypeOfBlock.Special.rawValue){
             if(self.innerChild != nil){
-                glowBlocks.appendContentsOf(self.innerChild!.makeAListOfSpotsBelowMe(aBlockToAccomodate))
+                glowBlocks.append(contentsOf: self.innerChild!.makeAListOfSpotsBelowMe(aBlockToAccomodate: aBlockToAccomodate))
             }
             else {
-                if(self.canLink(aBlockToAccomodate)){
-                    self.innerChild = Block(frame: CGRectInset(self.frame, 10, 10))
+                if(self.canLink(aBlockToAccomodate: aBlockToAccomodate)){
+                    self.innerChild = Block(frame: self.frame.insetBy(dx: 10, dy: 10))
                     self.addSubview(innerChild!)
                     glowBlocks.append(innerChild!)
                 }

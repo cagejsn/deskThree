@@ -24,7 +24,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     var amtMoved: CGFloat = 0
     var rootBlock: Block
     var delegate: ExpressionDelegate?
-    var panGestureRecognizer: UIPanGestureRecognizer?
+    //var panGestureRecognizer: UIPanGestureRecognizer?
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
@@ -33,15 +33,18 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     init(firstVal: Block){
         rootBlock = firstVal
-        super.init(frame: CGRectInset(firstVal.frame,0,0))
-        self.backgroundColor = UIColor.whiteColor()
+        super.init(frame: firstVal.frame.insetBy(dx: 0,dy: 0))
+        self.backgroundColor = UIColor.white
         doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        
+        /*
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
         self.addGestureRecognizer(panGestureRecognizer!)
         self.panGestureRecognizer?.cancelsTouchesInView = false
+        */
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,49 +52,42 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     }
     
     
-    
-    
-    
     //MARK: Touch Events
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        //your code here
-        superview!.bringSubviewToFront(self)
-        }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        superview!.bringSubview(toFront: self)
+    }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch: AnyObject = touches.first as UITouch!
-        let currentTouch = touch.locationInView(self)
-        let previousTouch = touch.previousLocationInView(self)
+        let currentTouch = touch.location(in: self)
+        let previousTouch = touch.previousLocation(in: self)
         let dx = currentTouch.x - previousTouch.x
         let dy = currentTouch.y - previousTouch.y
-        let isInsideBounds = isMoveInsideBound(self.frame.origin.x + dx, y:self.frame.origin.y + dy, width: self.frame.width, height:self.frame.height)
+        let isInsideBounds = isMoveInsideBound(x: self.frame.origin.x + dx, y:self.frame.origin.y + dy, width: self.frame.width, height:self.frame.height)
         if (isInsideBounds) {
             if(amtMoved >= 10){
-                self.delegate!.didIncrementMove(self)
+                self.delegate!.didIncrementMove(_movedView: self)
                 amtMoved = 0
             }
             amtMoved += (abs(dx) + abs(dy))
-            self.frame = CGRectOffset(self.frame, dx, dy)
+            self.frame = self.frame.offsetBy(dx: dx, dy: dy)
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        // will need to run the equivalent to move completed
-        self.delegate!.didCompleteMove(self)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+         self.delegate!.didCompleteMove(_movedView: self)
     }
     
-    
     //MARK: Gesture Recognizer Method
-    
-    
-    func handlePan(sender: UIPanGestureRecognizer){
+    func handlePan(_ sender: UIPanGestureRecognizer){
         
     }
     
     func handleDoubleTap(){
-        self.backgroundColor = UIColor.blueColor()
-        if(ETree.canBeEvaluated(self.rootBlock)){
-           delegate!.didEvaluate(Float(ETree.evaluate(self.rootBlock)))
+        self.backgroundColor = UIColor.blue
+        if(ETree.canBeEvaluated(node: self.rootBlock)){
+           delegate!.didEvaluate(result: Float(ETree.evaluate(node: self.rootBlock)))
         }
     }
     
@@ -106,7 +102,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     }
     
     func isNear(incomingView: UIView) -> Bool{
-        if(CGRectIntersectsRect(self.frame.insetBy(dx: -60, dy: -60), incomingView.frame)){
+        if(self.frame.insetBy(dx: -60, dy: -60).intersects(incomingView.frame)){
             return true
         }
         return false
@@ -116,17 +112,17 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     func findAndShowAvailableSpots(_movedView: UIView){
         //first find out what kind of View it is
         if let block = _movedView as? Block {
-            dummyViews = self.rootBlock.makeAListOfSpotsBelowMe(block)
+            dummyViews = self.rootBlock.makeAListOfSpotsBelowMe(aBlockToAccomodate: block)
         }
         if let expression = _movedView as? Expression {
-            dummyViews = self.rootBlock.makeAListOfSpotsBelowMe(ETree.getLeftestNode(expression.rootBlock))
+            dummyViews = self.rootBlock.makeAListOfSpotsBelowMe(aBlockToAccomodate: ETree.getLeftestNode(root: expression.rootBlock))
             
-            dummyViews.appendContentsOf(self.rootBlock.makeAListOfSpotsBelowMe(ETree.getRightestNode(expression.rootBlock)))
+            dummyViews.append(contentsOf: self.rootBlock.makeAListOfSpotsBelowMe(aBlockToAccomodate: ETree.getRightestNode(root: expression.rootBlock)))
         }
         
         for dummy in dummyViews {
             addSubview(dummy)
-            dummy.hidden = false
+            dummy.isHidden = false
             dummy.layer.borderWidth = 1.0
         }
         isDisplayingSpots = true
@@ -143,20 +139,20 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         CATransaction.begin()
         CATransaction.setAnimationDuration(0.1)
         CATransaction.setCompletionBlock({
-            movedView.userInteractionEnabled = true
+            movedView.isUserInteractionEnabled = true
         })
         let positionAnimation: CABasicAnimation = CABasicAnimation(keyPath: "position")
         let finalPosition: CGPoint = dummy.frame.origin
         
         positionAnimation.duration = 0.5
         positionAnimation.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseOut)
-        positionAnimation.fromValue = NSValue(CGPoint:movedView.center)
-        positionAnimation.toValue = NSValue(CGPoint: dummy.center)
+        positionAnimation.fromValue = NSValue(cgPoint:movedView.center)
+        positionAnimation.toValue = NSValue(cgPoint: dummy.center)
         positionAnimation.beginTime = CACurrentMediaTime()
         positionAnimation.fillMode = kCAFillModeForwards
-        positionAnimation.removedOnCompletion = false
+        positionAnimation.isRemovedOnCompletion = false
         
-        movedView.layer.addAnimation(positionAnimation, forKey: "positionAnimation")
+        movedView.layer.add(positionAnimation, forKey: "positionAnimation")
        // movedView.layer.position = finalPosition
         
         CATransaction.commit()
@@ -171,10 +167,10 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         switch (side) {
             
             case "left":
-                ETree.addLeft(rootBlock, lesserBlock: incomingRootBlock)
+                ETree.addLeft(persistentBlock: rootBlock, lesserBlock: incomingRootBlock)
                 break
             case "right":
-                ETree.addRight(rootBlock, lesserBlock: incomingRootBlock)
+                ETree.addRight(lastingBlock: rootBlock, lesserBlock: incomingRootBlock)
                 break
             case "inner":
                 break
@@ -186,11 +182,11 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         
             //if the incoming expression is of a higher precedence, then make its root the new root.
             //the ETree should have been rearranged properly in the previous functions
-            if(incomingExpression.rootBlock.precedence > rootBlock.precedence){
+            if(incomingExpression.rootBlock.precedence! > rootBlock.precedence!){
                 self.rootBlock = incomingExpression.rootBlock
             }
-            ETree.setParentGroup(self.rootBlock, parentGroup: self)
-            ETree.printCurrentTree(self.rootBlock)
+            ETree.setParentGroup(node: self.rootBlock, parentGroup: self)
+            ETree.printCurrentTree(root: self.rootBlock)
         
             //Expressions aren't ready because they number blocks don't have a
             //Double Value yet

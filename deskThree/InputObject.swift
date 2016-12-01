@@ -34,25 +34,25 @@ class InputObject: UIView, OutputAreaDelegate {
     //MARK: OutputArea Delegate
 
     func outputAreaDidPassIncrementalMove(movedView: UIView) {
-        self.delegate!.didIncrementMove(movedView)
+        self.delegate!.didIncrementMove(_movedView: movedView)
        // self.backgroundColor = UIColor.blackColor()
     }
     
     func outputAreaDidPassBlock(lastBlock: Block) {
-        self.delegate!.didCompleteMove(lastBlock)
+        self.delegate!.didCompleteMove(_movedView: lastBlock)
     }
     
     func makeBlockForOutputArea(blockLocation: CGPoint, blockType: Int, blockData: String) -> Block {
-        let blockWidth: CGFloat = evaluateStringWidth(blockData)
+        let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: blockData)
         
         switch blockType {
             case 1:
-                newBlock = Block(frame: CGRectMake(blockLocation.x - (blockWidth/2), blockLocation.y - 50, blockWidth, Constants.block.height))
-                newBlock?.setColor(Constants.block.colors.green)
+                newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+                newBlock?.setColor(color: Constants.block.colors.green)
                 newBlock?.precedence = Precedence.Number.rawValue
             case 2:
-                newBlock = Block(frame: CGRectMake(blockLocation.x - (blockWidth/2), blockLocation.y - 50, blockWidth, Constants.block.height))
-                newBlock?.setColor(Constants.block.colors.blue)
+                newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height:Constants.block.height))
+                newBlock?.setColor(color: Constants.block.colors.blue)
                 
                 switch blockData {
                     case "+":
@@ -77,8 +77,8 @@ class InputObject: UIView, OutputAreaDelegate {
                         break
                 }
             case 3:
-                newBlock = Block(frame: CGRectMake(blockLocation.x - (blockWidth/2),blockLocation.y - 50, blockWidth, Constants.block.height))
-                newBlock?.setColor(Constants.block.colors.gray)
+                newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2),y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+                newBlock?.setColor(color: Constants.block.colors.gray)
             default:
                 //We shouldn't have a default
                 newBlock = Block()
@@ -86,12 +86,12 @@ class InputObject: UIView, OutputAreaDelegate {
         }
         
         newBlock!.blockLabel.text = blockData
-        newBlock!.blockLabel.font = UIFont.boldSystemFontOfSize(Constants.block.fontSize)
-        newBlock!.blockLabel.textColor = UIColor.whiteColor()
+        newBlock!.blockLabel.font = UIFont.boldSystemFont(ofSize: Constants.block.fontSize)
+        newBlock!.blockLabel.textColor = UIColor.white
         newBlock!.type = blockType
-        newBlock!.frame.offsetInPlace(dx: self.frame.origin.x , dy: self.frame.origin.y)
-        newBlock?.viewForBaselineLayout().clipsToBounds = true
-        newBlock?.viewForBaselineLayout().layer.cornerRadius = Constants.block.cornerRadius
+        newBlock!.frame.offsetBy(dx: self.frame.origin.x, dy: self.frame.origin.y)
+        newBlock?.forBaselineLayout().clipsToBounds = true
+        newBlock?.forBaselineLayout().layer.cornerRadius = Constants.block.cornerRadius
        
         superview!.addSubview(newBlock!)
    
@@ -104,9 +104,9 @@ class InputObject: UIView, OutputAreaDelegate {
     //MARK: Support Methods
 
     func evaluateStringWidth (textToEvaluate: String) -> CGFloat{
-        let font = UIFont.systemFontOfSize(Constants.block.fontSize)
-        let attributes = NSDictionary(object: font, forKey:NSFontAttributeName)
-        let sizeOfText = textToEvaluate.sizeWithAttributes((attributes as! [String : AnyObject]))
+        let font = UIFont.systemFont(ofSize: Constants.block.fontSize)
+        let attributes = NSDictionary(object: font, forKey:NSFontAttributeName as NSCopying)
+        let sizeOfText = textToEvaluate.size(attributes: (attributes as! [String : AnyObject]))
         return sizeOfText.width + Constants.block.fontWidthPadding;
     }
     

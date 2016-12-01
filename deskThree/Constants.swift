@@ -15,10 +15,10 @@ import UIKit
 
 extension Array {
     mutating func removeObject<U: Equatable>(object: U) -> Bool {
-        for (idx, objectToCompare) in self.enumerate() {  //in old swift use enumerate(self)
+        for (idx, objectToCompare) in self.enumerated() {  //in old swift use enumerate(self)
             if let to = objectToCompare as? U {
                 if object == to {
-                    self.removeAtIndex(idx)
+                    self.remove(at: idx)
                     return true
                 }
             }
@@ -53,20 +53,8 @@ enum TypeOfBlock: Int {
 struct Constants {
     struct dimensions {
         struct AllPad {
-            static let width : CGFloat = 150
-            static let height : CGFloat = 431
-        }
-        struct opPad {
-            static let width : CGFloat = 500
-            static let height : CGFloat = 76
-        }
-        struct extraPad {
-            static let width : CGFloat = 200
-            static let height : CGFloat = 400
-        }
-        struct specialPad {
-            static let width : CGFloat = 250
-            static let height : CGFloat = 250
+            static let width : CGFloat = 251
+            static let height : CGFloat = 724
         }
     }
     struct pad {
