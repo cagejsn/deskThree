@@ -32,7 +32,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //workArea is loaded from Nib
         workArea.delegate = self
         self.view.sendSubview(toBack: workArea)
-        workArea.minimumZoomScale = 0.3
+        workArea.minimumZoomScale = 0.6
+        
         workArea.maximumZoomScale = 2.0
         
         gkimagePicker.delegate = self
@@ -237,9 +238,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             var expression = Expression(firstVal: block)
             //self.view.addSubview(expression)
             expression.tag = -1
+            expression.frame.origin = workArea.convert(expression.frame.origin, from: self.view)
+            
             workArea.currentPage.addSubview(expression)
             //block.removeFromSuperview()
-            
             expression.addSubview(block)
             self.expressions.append(expression)
             expression.delegate = self
@@ -332,10 +334,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func didEvaluate(result: Float) {
         var funct = InputObject.makeBlockForOutputArea(allPad!)
         var newBlock = funct(CGPoint(x: 100, y: 100), TypeOfBlock.Number.rawValue, String(result))
-        
         newBlock.removeFromSuperview()
-        
-        
         var express = Expression(firstVal: newBlock)
         workArea.currentPage.addSubview(express)
         express.tag = -1
