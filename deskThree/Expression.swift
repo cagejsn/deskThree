@@ -24,7 +24,6 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     var amtMoved: CGFloat = 0
     var rootBlock: Block
     var delegate: ExpressionDelegate?
-    //var panGestureRecognizer: UIPanGestureRecognizer?
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
@@ -34,17 +33,11 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     init(firstVal: Block){
         rootBlock = firstVal
         super.init(frame: firstVal.frame.insetBy(dx: 0,dy: 0))
-        self.backgroundColor = UIColor.white
+      // self.backgroundColor = UIColor.white
         doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
-        
-        /*
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan:")
-        self.addGestureRecognizer(panGestureRecognizer!)
-        self.panGestureRecognizer?.cancelsTouchesInView = false
-        */
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,13 +72,8 @@ class Expression: UIView, UIGestureRecognizerDelegate {
          self.delegate!.didCompleteMove(_movedView: self)
     }
     
-    //MARK: Gesture Recognizer Method
-    func handlePan(_ sender: UIPanGestureRecognizer){
-        
-    }
-    
+    //MARK: Gesture Recognizer Methods
     func handleDoubleTap(){
-        self.backgroundColor = UIColor.blue
         if(ETree.canBeEvaluated(node: self.rootBlock)){
            delegate!.didEvaluate(result: Float(ETree.evaluate(node: self.rootBlock)))
         }
@@ -101,8 +89,8 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         return false
     }
     
-    func isNear(incomingView: UIView) -> Bool{
-        if(self.frame.insetBy(dx: -60, dy: -60).intersects(incomingView.frame)){
+    func isNear(incomingFrame: CGRect) -> Bool{
+        if(self.frame.insetBy(dx: -60, dy: -60).intersects(incomingFrame)){
             return true
         }
         return false

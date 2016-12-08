@@ -222,7 +222,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func didIncrementMove(_movedView: UIView) {
         for group in expressions {
             if(group != _movedView){
-                if(group.isNear(incomingView: _movedView)){
+                /*
+ expression.frame.origin.x = (expression.frame.origin.x + workArea.contentOffset.x) / workArea.zoomScale
+ expression.frame.origin.y = (expression.frame.origin.y + workArea.contentOffset.y) / workArea.zoomScale
+ */
+                
+                if(group.isNear(incomingFrame: _movedView.frame)){
                     if(group.isDisplayingSpots == false){
                         group.findAndShowAvailableSpots(_movedView: _movedView)
                         //this will send the message to "group" that it needs to show its available spots for movedView
@@ -243,8 +248,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             var expression = Expression(firstVal: block)
             //self.view.addSubview(expression)
             expression.tag = -1
-            expression.frame.origin = workArea.convert(expression.frame.origin, from: self.view)
-            
+
+            expression.frame.origin.x = (expression.frame.origin.x + workArea.contentOffset.x) / workArea.zoomScale
+            expression.frame.origin.y = (expression.frame.origin.y + workArea.contentOffset.y) / workArea.zoomScale
             workArea.currentPage.addSubview(expression)
             //block.removeFromSuperview()
             expression.addSubview(block)
@@ -338,7 +344,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func didEvaluate(result: Float) {
         var funct = InputObject.makeBlockForOutputArea(allPad!)
-        var newBlock = funct(CGPoint(x: 100, y: 100), TypeOfBlock.Number.rawValue, String(result))
+        var newBlock = funct(CGPoint(x: 1250 / 2, y: 1650 / 2), TypeOfBlock.Number.rawValue, String(result))
         newBlock.removeFromSuperview()
         var express = Expression(firstVal: newBlock)
         workArea.currentPage.addSubview(express)

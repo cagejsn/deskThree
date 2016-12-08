@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class ETree {
     
     /********************************* public methods ******************************/
@@ -187,7 +188,6 @@ class ETree {
         return leftCheck && rightCheck;
     }
 
-    
     static func evaluate(node : Block) -> Double {
         if(node.leftChild != nil && node.rightChild != nil) {
             let leftVal = evaluate(node: node.leftChild!)
@@ -203,6 +203,10 @@ class ETree {
                     val = leftVal * rightVal
                 case "÷":
                     val = leftVal / rightVal
+                case "√":
+                    val = pow(rightVal,1/leftVal)
+                case "^":
+                    val = pow(leftVal, rightVal)
                 default:
                     val = 0.0
             }
