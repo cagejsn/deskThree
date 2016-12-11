@@ -11,6 +11,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     let gkimagePicker = GKImagePicker()
     
+    //var workArea: WorkArea!
+    
     @IBOutlet var workArea: WorkArea!
    
     //calculator properties
@@ -29,14 +31,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        //workArea is loaded from Nib
         workArea.delegate = self
         self.view.sendSubview(toBack: workArea)
         workArea.minimumZoomScale = 0.6
-        
         workArea.maximumZoomScale = 2.0
+
         
-        gkimagePicker.delegate = self
+        //workArea is loaded from Nib
+               gkimagePicker.delegate = self
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
        
@@ -44,13 +46,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         pen = Pen()
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
         jotView.delegate = self
-        workArea.currentPage.addSubview(jotView)
         jotView.isUserInteractionEnabled = true
         paperState = JotViewStateProxy(delegate: self)
         paperState?.delegate = self
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
+        workArea.currentPage.addSubview(jotView)
     }
+    
+    
+    
     
     override func viewDidAppear(_ animated: Bool) {
     }
@@ -273,10 +278,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                             //reset the position to be on the x,y coords of the "group"
                             expression.frame = expression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
                             
-                            
-                            //expression.frame = expression.frame.offsetBy(dx: -expression.frame.origin.x, dy: -expression.frame.origin.y)
-                            
-                            
                             //removes from superview, we need to refrain from doing this because of the possibility that the _movedView becomes the superview
                             expression.removeFromSuperview()
                             group.addSubview(expression)
@@ -293,14 +294,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                             expression.frame = glow.frame
                         
                             group.frame = expression.frame.offsetBy(dx: group.frame.origin.x, dy:group.frame.origin.y ) + group.frame
-                            
+                            // ^ IS SAME AS BELOW ?
+                            //group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
                             
                             
                             //sets frame to include both rectangles
                             //maybe change this to a new function.. make new Expression frame
-                            
-                            //group.frame = group.frame.union(expression.frame)
-                           //group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
+                        
+                           
                             
 
                             //finally merge the expressions

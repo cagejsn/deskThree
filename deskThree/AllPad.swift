@@ -15,21 +15,22 @@ class AllPad: InputObject {
     var numEntryAreaText: String = ""
     @IBOutlet var view: UIView!
     @IBOutlet weak var numEntryArea: OutputArea!
-    @IBOutlet weak var button0: UIButton!
-    @IBOutlet weak var button1: UIButton!
-    @IBOutlet weak var button2: UIButton!
-    @IBOutlet weak var button3: UIButton!
-    @IBOutlet weak var button4: UIButton!
-    @IBOutlet weak var button5: UIButton!
-    @IBOutlet weak var button6: UIButton!
-    @IBOutlet weak var button7: UIButton!
-    @IBOutlet weak var button8: UIButton!
-    @IBOutlet weak var button9: UIButton!
+    
+    @IBOutlet weak var button0: OutputArea!
+    @IBOutlet weak var button1: OutputArea!
+    @IBOutlet weak var button2: OutputArea!
+    @IBOutlet weak var button3: OutputArea!
+    @IBOutlet weak var button4: OutputArea!
+    @IBOutlet weak var button5: OutputArea!
+    @IBOutlet weak var button6: OutputArea!
+    @IBOutlet weak var button7: OutputArea!
+    @IBOutlet weak var button8: OutputArea!
+    @IBOutlet weak var button9: OutputArea!
     @IBOutlet weak var buttonDot: UIButton!
     @IBOutlet weak var buttonNeg: UIButton!
     @IBOutlet weak var buttonE: UIButton!
     @IBOutlet weak var buttonDelete: UIButton!
-    
+
     @IBOutlet weak var buttonPlus: OutputArea!
     @IBOutlet weak var buttonMinus: OutputArea!
     @IBOutlet weak var buttonMultiply: OutputArea!
@@ -64,6 +65,40 @@ class AllPad: InputObject {
         numEntryArea.delegate = self
         numEntryArea.typeOfOutputArea = 1
         
+        
+    //number buttons
+        button0.delegate = self
+        button0.typeOfOutputArea = 1
+        
+        button1.delegate = self
+        button1.typeOfOutputArea = 1
+        
+        button2.delegate = self
+        button2.typeOfOutputArea = 1
+        
+        button3.delegate = self
+        button3.typeOfOutputArea = 1
+        
+        button4.delegate = self
+        button4.typeOfOutputArea = 1
+        
+        button5.delegate = self
+        button5.typeOfOutputArea = 1
+        
+        button6.delegate = self
+        button6.typeOfOutputArea = 1
+        
+        button7.delegate = self
+        button7.typeOfOutputArea = 1
+        
+        button8.delegate = self
+        button8.typeOfOutputArea = 1
+        
+        button9.delegate = self
+        button9.typeOfOutputArea = 1
+        
+        
+    //operators
         buttonPlus.delegate = self
         buttonPlus.typeOfOutputArea = 2
         
