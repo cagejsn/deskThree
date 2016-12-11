@@ -32,8 +32,8 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     init(firstVal: Block){
         rootBlock = firstVal
-        super.init(frame: firstVal.frame.insetBy(dx: 0,dy: 0))
-      // self.backgroundColor = UIColor.white
+        var newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)
+        super.init(frame: newFrame)
         doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
@@ -44,9 +44,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     //MARK: Touch Events
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         superview!.bringSubview(toFront: self)
     }
@@ -125,7 +123,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     func animateMove(movedView: UIView, dummy: UIView) {
         
         CATransaction.begin()
-        CATransaction.setAnimationDuration(0.1)
+        CATransaction.setAnimationDuration(0.5)
         CATransaction.setCompletionBlock({
             movedView.isUserInteractionEnabled = true
         })

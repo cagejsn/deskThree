@@ -38,7 +38,6 @@
 		DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C621DF0F4650086626E /* Expression.swift */; };
 		DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C631DF0F4650086626E /* InputObject.swift */; };
 		DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C641DF0F4650086626E /* OutputArea.swift */; };
-		DADC7C6F1DF0F8D30086626E /* Block.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADC7C6E1DF0F8D30086626E /* Block.xib */; };
 		DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */; };
 		DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */; };
 		DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3A71DBBDBC20007D249 /* Main.storyboard */; };
@@ -108,7 +107,6 @@
 		DADC7C621DF0F4650086626E /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		DADC7C631DF0F4650086626E /* InputObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputObject.swift; sourceTree = "<group>"; };
 		DADC7C641DF0F4650086626E /* OutputArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputArea.swift; sourceTree = "<group>"; };
-		DADC7C6E1DF0F8D30086626E /* Block.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Block.xib; sourceTree = "<group>"; };
 		DAFBE3A01DBBDBC20007D249 /* deskThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskViewController.swift; sourceTree = "<group>"; };
@@ -200,7 +198,6 @@
 				DADC7C5D1DF0F4650086626E /* AllPad.swift */,
 				DADC7C5E1DF0F4650086626E /* AllPad.xib */,
 				DADC7C5F1DF0F4650086626E /* Block.swift */,
-				DADC7C6E1DF0F8D30086626E /* Block.xib */,
 				DADC7C601DF0F4650086626E /* Constants.swift */,
 				DADC7C611DF0F4650086626E /* ETree.swift */,
 				DADC7C621DF0F4650086626E /* Expression.swift */,
@@ -359,7 +356,6 @@
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */,
 				DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */,
-				DADC7C6F1DF0F8D30086626E /* Block.xib in Resources */,
 				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
 				DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */,
 				DADC7C661DF0F4650086626E /* AllPad.xib in Resources */,
@@ -548,7 +544,7 @@
 				DEVELOPMENT_TEAM = 6SJHMR9UMT;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = deskThree/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThreeUT;
@@ -567,7 +563,7 @@
 				DEVELOPMENT_TEAM = 6SJHMR9UMT;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = deskThree/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThreeUT;

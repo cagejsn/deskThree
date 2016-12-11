@@ -62,73 +62,73 @@ class AllPad: InputObject {
         super.init(frame:CGRect(x: UIScreen.main.bounds.width - Constants.dimensions.AllPad.width, y:UIScreen.main.bounds.height - Constants.dimensions.AllPad.height - 44 , width: Constants.dimensions.AllPad.width , height: Constants.dimensions.AllPad.height))
         xibSetup()
         numEntryArea.delegate = self
-        numEntryArea.typeOfInputObject = 1
+        numEntryArea.typeOfOutputArea = 1
         
         buttonPlus.delegate = self
-        buttonPlus.typeOfInputObject = 2
+        buttonPlus.typeOfOutputArea = 2
         
         buttonMinus.delegate = self
-        buttonMinus.typeOfInputObject = 2
+        buttonMinus.typeOfOutputArea = 2
         
         buttonMultiply.delegate = self
-        buttonMultiply.typeOfInputObject = 2
+        buttonMultiply.typeOfOutputArea = 2
         
         buttonDivide.delegate = self
-        buttonDivide.typeOfInputObject = 2
+        buttonDivide.typeOfOutputArea = 2
         
         buttonExponent.delegate = self
-        buttonExponent.typeOfInputObject = 2
+        buttonExponent.typeOfOutputArea = 2
         
         buttonSQRT.delegate = self
-        buttonSQRT.typeOfInputObject = 2
+        buttonSQRT.typeOfOutputArea = 2
         
         buttonPi.delegate = self
-        buttonPi.typeOfInputObject = 3
+        buttonPi.typeOfOutputArea = 3
         
         buttonSin.delegate = self
-        buttonSin.typeOfInputObject = 3
+        buttonSin.typeOfOutputArea = 3
         
         buttonCos.delegate = self
-        buttonCos.typeOfInputObject = 3
+        buttonCos.typeOfOutputArea = 3
         
         buttonTan.delegate = self
-        buttonTan.typeOfInputObject = 3
+        buttonTan.typeOfOutputArea = 3
         
         buttonLn.delegate  = self
-        buttonLn.typeOfInputObject = 3
+        buttonLn.typeOfOutputArea = 3
         
         buttonExp.delegate = self
-        buttonExp.typeOfInputObject = 3
+        buttonExp.typeOfOutputArea = 3
         
         buttonX.delegate = self
-        buttonX.typeOfInputObject = 3
+        buttonX.typeOfOutputArea = 3
         
         buttonEquals.delegate = self
-        buttonEquals.typeOfInputObject = 3
+        buttonEquals.typeOfOutputArea = 3
         
         buttonParens.delegate = self
-        buttonParens.typeOfInputObject = 3
+        buttonParens.typeOfOutputArea = 3
         
         buttonSum.delegate = self
-        buttonSum.typeOfInputObject = 3
+        buttonSum.typeOfOutputArea = 3
         
         buttonZ.delegate = self
-        buttonZ.typeOfInputObject = 3
+        buttonZ.typeOfOutputArea = 3
         
         buttonArccos.delegate = self
-        buttonArccos.typeOfInputObject = 3
+        buttonArccos.typeOfOutputArea = 3
         
         buttonLog.delegate = self
-        buttonLog.typeOfInputObject = 3
+        buttonLog.typeOfOutputArea = 3
         
         buttonY.delegate = self
-        buttonY.typeOfInputObject = 3
+        buttonY.typeOfOutputArea = 3
         
         buttonArcsin.delegate = self
-        buttonArcsin.typeOfInputObject = 3
+        buttonArcsin.typeOfOutputArea = 3
         
         buttonArctan.delegate = self
-        buttonArctan.typeOfInputObject = 3
+        buttonArctan.typeOfOutputArea = 3
     }
     
     
@@ -137,73 +137,73 @@ class AllPad: InputObject {
         super.init(frame: frame)
         xibSetup()
         numEntryArea.delegate = self
-        numEntryArea.typeOfInputObject = 1
+        numEntryArea.typeOfOutputArea = 1
         
         buttonPlus.delegate = self
-        buttonPlus.typeOfInputObject = 2
+        buttonPlus.typeOfOutputArea = 2
         
         buttonMinus.delegate = self
-        buttonMinus.typeOfInputObject = 2
+        buttonMinus.typeOfOutputArea = 2
         
         buttonMultiply.delegate = self
-        buttonMultiply.typeOfInputObject = 2
+        buttonMultiply.typeOfOutputArea = 2
         
         buttonDivide.delegate = self
-        buttonDivide.typeOfInputObject = 2
+        buttonDivide.typeOfOutputArea = 2
         
         buttonExponent.delegate = self
-        buttonExponent.typeOfInputObject = 2
+        buttonExponent.typeOfOutputArea = 2
         
         buttonSQRT.delegate = self
-        buttonSQRT.typeOfInputObject = 2
+        buttonSQRT.typeOfOutputArea = 2
         
         buttonPi.delegate = self
-        buttonPi.typeOfInputObject = 3
+        buttonPi.typeOfOutputArea = 3
         
         buttonSin.delegate = self
-        buttonSin.typeOfInputObject = 3
+        buttonSin.typeOfOutputArea = 3
         
         buttonCos.delegate = self
-        buttonCos.typeOfInputObject = 3
+        buttonCos.typeOfOutputArea = 3
         
         buttonTan.delegate = self
-        buttonTan.typeOfInputObject = 3
+        buttonTan.typeOfOutputArea = 3
         
         buttonLn.delegate  = self
-        buttonLn.typeOfInputObject = 3
+        buttonLn.typeOfOutputArea = 3
         
         buttonExp.delegate = self
-        buttonExp.typeOfInputObject = 3
+        buttonExp.typeOfOutputArea = 3
         
         buttonX.delegate = self
-        buttonX.typeOfInputObject = 3
+        buttonX.typeOfOutputArea = 3
         
         buttonEquals.delegate = self
-        buttonEquals.typeOfInputObject = 3
+        buttonEquals.typeOfOutputArea = 3
         
         buttonParens.delegate = self
-        buttonParens.typeOfInputObject = 3
+        buttonParens.typeOfOutputArea = 3
         
         buttonSum.delegate = self
-        buttonSum.typeOfInputObject = 3
+        buttonSum.typeOfOutputArea = 3
         
         buttonZ.delegate = self
-        buttonZ.typeOfInputObject = 3
+        buttonZ.typeOfOutputArea = 3
         
         buttonArccos.delegate = self
-        buttonArccos.typeOfInputObject = 3
+        buttonArccos.typeOfOutputArea = 3
         
         buttonLog.delegate = self
-        buttonLog.typeOfInputObject = 3
+        buttonLog.typeOfOutputArea = 3
         
         buttonY.delegate = self
-        buttonY.typeOfInputObject = 3
+        buttonY.typeOfOutputArea = 3
         
         buttonArcsin.delegate = self
-        buttonArcsin.typeOfInputObject = 3
+        buttonArcsin.typeOfOutputArea = 3
         
         buttonArctan.delegate = self
-        buttonArctan.typeOfInputObject = 3
+        buttonArctan.typeOfOutputArea = 3
         
     }
     
@@ -213,7 +213,7 @@ class AllPad: InputObject {
     
     func xibSetup() {
         view = loadViewFromNib()
-        view.backgroundColor = Constants.pad.colors.gray
+        view.backgroundColor = Constants.pad.colors.grayBlue
         // use bounds not frame or it'll be offset
         view.frame = bounds
         

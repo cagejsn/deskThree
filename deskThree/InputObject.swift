@@ -85,14 +85,18 @@ class InputObject: UIView, OutputAreaDelegate {
             
         }
         
-        newBlock!.blockLabel.text = blockData
-        newBlock!.blockLabel.font = UIFont.boldSystemFont(ofSize: Constants.block.fontSize)
-        newBlock!.blockLabel.textColor = UIColor.white
+        newBlock!.text = blockData
+        newBlock!.font = UIFont.boldSystemFont(ofSize: Constants.block.fontSize)
+        newBlock!.textColor = UIColor.white
         newBlock!.type = blockType
-        newBlock!.frame.offsetBy(dx: self.frame.origin.x, dy: self.frame.origin.y)
+        
+        
+        
+        
         newBlock?.forBaselineLayout().clipsToBounds = true
         newBlock?.forBaselineLayout().layer.cornerRadius = Constants.block.cornerRadius
        
+        //newBlock?.frame = newBlock!.frame.offsetBy(dx: self.frame.origin.x, dy: self.frame.origin.y)
         superview!.addSubview(newBlock!)
    
         
@@ -100,6 +104,71 @@ class InputObject: UIView, OutputAreaDelegate {
         
     }
     
+    
+    
+    
+    func makeBlock(for sender: OutputArea, withLocale blockLocation: CGPoint) -> Block {
+        let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: sender.currentTitle!)
+        let blockType: Int = sender.typeOfOutputArea!
+        let blockData: String = sender.currentTitle!
+        
+        switch blockType {
+        case 1:
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+            newBlock?.setColor(color: Constants.block.colors.green)
+            newBlock?.precedence = Precedence.Number.rawValue
+        case 2:
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height:Constants.block.height))
+            newBlock?.setColor(color: Constants.block.colors.blue)
+            
+            switch blockData {
+            case "+":
+                newBlock?.precedence = Precedence.Plus.rawValue
+                break
+            case "-":
+                newBlock?.precedence = Precedence.Minus.rawValue
+                break
+            case "x":
+                newBlock?.precedence = Precedence.Multiply.rawValue
+                break
+            case "÷":
+                newBlock?.precedence = Precedence.Divide.rawValue
+                break
+            case "√":
+                newBlock?.precedence = Precedence.Multiply.rawValue
+                break
+            case "^":
+                newBlock?.precedence = Precedence.Multiply.rawValue
+                break
+            default:
+                break
+            }
+        case 3:
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2),y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+            newBlock?.setColor(color: Constants.block.colors.gray)
+        default:
+            //We shouldn't have a default
+            newBlock = Block()
+            
+        }
+        
+        newBlock!.text = blockData
+        newBlock!.font = UIFont.boldSystemFont(ofSize: Constants.block.fontSize)
+        newBlock!.textColor = UIColor.white
+        newBlock!.type = blockType
+        
+        newBlock?.frame = newBlock!.frame.offsetBy(dx: sender.frame.origin.x, dy: sender.frame.origin.y)
+        newBlock?.frame = newBlock!.frame.offsetBy(dx: self.frame.origin.x , dy: self.frame.origin.y)
+        
+        
+        newBlock?.forBaselineLayout().clipsToBounds = true
+        newBlock?.forBaselineLayout().layer.cornerRadius = Constants.block.cornerRadius
+        
+        superview!.addSubview(newBlock!)
+        
+        
+        return newBlock!
+    }
     
     //MARK: Support Methods
 

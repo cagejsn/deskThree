@@ -9,15 +9,11 @@
 import Foundation
 import UIKit
 
-class Block: UIView  {
+class Block: UILabel {
     
     //MARK: Variables
-    
-    @IBOutlet var convexBlock: UIView!
-    @IBOutlet weak var blockLabel: UILabel!
-    @IBOutlet var convexView: UIView!
     var type: Int?
-    var parentExpression: Expression?
+    weak var parentExpression: Expression?
     var isAvailableOnRight: Bool = true
     var isAvailableOnLeft: Bool = true
     var precedence: Int?
@@ -28,27 +24,21 @@ class Block: UIView  {
 
     
     //MARK: Initialization
-    
     override init (frame: CGRect) {
         super.init(frame: frame)
-        xibSetup()
+        setup()
     }
     
-    func xibSetup() {
-       convexBlock = loadViewFromNib()
-        
+    func setup() {
         //custom color for the symbol blocks can be adjusted here: current color name "seagreen"
-       convexBlock.backgroundColor = Constants.block.colors.def
+        self.backgroundColor = Constants.block.colors.def
         // use bounds not frame or it'll be offset
-        convexBlock.frame = bounds
+        //self.frame = bounds
         // Make the view stretch with containing view
-        convexBlock.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth];
+        //self.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth];
         // Adding custom subview on top of our view (over any custom drawing > see note below)
-        addSubview(convexBlock)
-        convexBlock.backgroundColor = UIColor.green
-        for element in convexBlock.subviews {
-            element.layer.cornerRadius = 10;
-        }
+        self.backgroundColor = UIColor.green
+        self.textAlignment = .center
     }
     
     func loadViewFromNib() -> UIView {
@@ -60,7 +50,7 @@ class Block: UIView  {
     
     required init ?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        xibSetup()
+        setup()
     }
 
     //MARK: Support Methods
@@ -125,8 +115,6 @@ class Block: UIView  {
     }
     
     func removeDummyBlocks(){
-        
-        
         if(leftChild != nil){
             if(leftChild!.type == TypeOfBlock.Glow.rawValue){
                 leftChild!.isHidden = true
@@ -147,7 +135,6 @@ class Block: UIView  {
     }
     
     func makeAListOfSpotsBelowMe(aBlockToAccomodate: Block) -> [Block]{
-        
         var glowBlocks: [Block] = []
         if(leftChild != nil) {
             glowBlocks.append(contentsOf: leftChild!.makeAListOfSpotsBelowMe(aBlockToAccomodate: aBlockToAccomodate))
@@ -155,13 +142,10 @@ class Block: UIView  {
         else {
             if(isAvailableOnLeft && aBlockToAccomodate.isAvailableOnRight) {
                 if(canLink(aBlockToAccomodate: aBlockToAccomodate)){
-                    
                     var newFrameSize: CGRect
                     if(aBlockToAccomodate.parentExpression != nil){
                      newFrameSize = aBlockToAccomodate.parentExpression!.frame
                     } else { newFrameSize = aBlockToAccomodate.frame }
-                    
-                    
                     self.leftChild = Block(frame: CGRect(x: -newFrameSize.width, y: 0, width: newFrameSize.width, height: newFrameSize.height))
                     //self.addSubview(leftChild!)
                    // leftChild!.frame = CGRectOffset(leftChild!.frame, self.frame.origin.x, 0)
@@ -214,10 +198,10 @@ class Block: UIView  {
     }
     
     func getValue() -> String {
-        return self.blockLabel.text!
+        return text!
     }
     
     func setColor(color : UIColor) {
-        convexBlock.backgroundColor = color
+        self.backgroundColor = color
     }
 }

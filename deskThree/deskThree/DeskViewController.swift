@@ -249,8 +249,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             //self.view.addSubview(expression)
             expression.tag = -1
 
-            expression.frame.origin.x = (expression.frame.origin.x + workArea.contentOffset.x) / workArea.zoomScale
-            expression.frame.origin.y = (expression.frame.origin.y + workArea.contentOffset.y) / workArea.zoomScale
+          //  expression.frame.origin.x = (expression.frame.origin.x + workArea.contentOffset.x) / workArea.zoomScale
+         //   expression.frame.origin.y = (expression.frame.origin.y + workArea.contentOffset.y) / workArea.zoomScale
             workArea.currentPage.addSubview(expression)
             //block.removeFromSuperview()
             expression.addSubview(block)
@@ -273,22 +273,36 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                             //reset the position to be on the x,y coords of the "group"
                             expression.frame = expression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
                             
+                            
+                            //expression.frame = expression.frame.offsetBy(dx: -expression.frame.origin.x, dy: -expression.frame.origin.y)
+                            
+                            
                             //removes from superview, we need to refrain from doing this because of the possibility that the _movedView becomes the superview
                             expression.removeFromSuperview()
-                            
                             group.addSubview(expression)
                             
+                            
                             //animate merging of groups and rearrange the ETree
-                            group.animateMove(movedView: expression, dummy: glow)
+                            //group.animateMove(movedView: expression, dummy: glow)
+                            
+                            
+                            //here take over and fix things
+                            
                             
                             //this sets the frame of the expression equal to the glow
                             expression.frame = glow.frame
+                        
+                            //group.frame = expression.frame.offsetBy(dx: group.frame.origin.x, dy:group.frame.origin.y ) + group.frame
+                            
+                            
                             
                             //sets frame to include both rectangles
                             //maybe change this to a new function.. make new Expression frame
                             
-                            group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
+                            //group.frame = group.frame.union(expression.frame)
+                           group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
                             
+
                             //finally merge the expressions
                             let parent = glow.parent
                             if glow == parent?.leftChild{
@@ -306,7 +320,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                                 
                                 //set the origins of the subviews to deal with the origin of the group having moved
                                 for sub in group.subviews {
-                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.width, dy: 0)
+                                   // sub.frame = sub.frame.offsetBy(dx: glow.frame.width, dy: 0)
                                 }
                             }
                             if glow == parent?.rightChild{
@@ -357,11 +371,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //self.view.addSubview(newBlock)
         // newBlock.userInteractionEnabled = true
     }
-    
-
-    
-    
-    
-    
 }
 
+
+extension CGRect {
+    static func +(left: CGRect , right: CGRect) -> CGRect{
+        var returnRect: CGRect = CGRect(origin: CGPoint.zero, size: CGSize(width: left.width + right.width, height: left.height))
+        
+        if(left.origin.x < right.origin.x){
+            returnRect.origin = left.origin
+        } else {
+            returnRect.origin = right.origin
+        }
+        return returnRect
+    }
+}
