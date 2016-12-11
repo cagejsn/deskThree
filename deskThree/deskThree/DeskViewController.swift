@@ -292,7 +292,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                             //this sets the frame of the expression equal to the glow
                             expression.frame = glow.frame
                         
-                            //group.frame = expression.frame.offsetBy(dx: group.frame.origin.x, dy:group.frame.origin.y ) + group.frame
+                            group.frame = expression.frame.offsetBy(dx: group.frame.origin.x, dy:group.frame.origin.y ) + group.frame
                             
                             
                             
@@ -300,7 +300,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                             //maybe change this to a new function.. make new Expression frame
                             
                             //group.frame = group.frame.union(expression.frame)
-                           group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
+                           //group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
                             
 
                             //finally merge the expressions
@@ -320,7 +320,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                                 
                                 //set the origins of the subviews to deal with the origin of the group having moved
                                 for sub in group.subviews {
-                                   // sub.frame = sub.frame.offsetBy(dx: glow.frame.width, dy: 0)
+                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.width, dy: 0)
                                 }
                             }
                             if glow == parent?.rightChild{
