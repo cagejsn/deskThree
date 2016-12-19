@@ -12,7 +12,7 @@ import UIKit
 protocol ExpressionDelegate {
     func didIncrementMove(_movedView: UIView)
     func didCompleteMove(_movedView: UIView)
-    func didEvaluate(result: Float)
+    func didEvaluate(forExpression sender: Expression, result: Float)
 }
 
 class Expression: UIView, UIGestureRecognizerDelegate {
@@ -73,7 +73,8 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     //MARK: Gesture Recognizer Methods
     func handleDoubleTap(){
         if(ETree.canBeEvaluated(node: self.rootBlock)){
-           delegate!.didEvaluate(result: Float(ETree.evaluate(node: self.rootBlock)))
+            delegate!.didEvaluate(forExpression: self, result: Float(ETree.evaluate(node: self.rootBlock)))
+
         }
     }
     

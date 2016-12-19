@@ -76,9 +76,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func rightSideScreenEdgePanGestureRecognizer(_ sender: AnyObject) {
-        allPad = AllPad()
-        self.view.addSubview(allPad!)
-        allPad?.delegate = self
+        if(allPad == nil){
+            allPad = AllPad()
+            self.view.addSubview(allPad!)
+            allPad?.delegate = self
+        } else {
+            print("hello")
+        }
     }
     
     //need to work on this
@@ -225,14 +229,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     //this gets called when moving a blockGroup and when a block from the inputObject is being dragged around
     func didIncrementMove(_movedView: UIView) {
+        var zoomedView = CGRect() //temp CGRect
+        //if the block is from an InputObject
+        if let movedBlock = _movedView as? Block {
+            zoomedView = movedBlock.frame
+            zoomedView.origin = CGPoint(x: (workArea.contentOffset.x + movedBlock.frame.origin.x ) / workArea.zoomScale, y: (workArea.contentOffset.y + movedBlock.frame.origin.y) / workArea.zoomScale)
+        }
+        //if a preexisting expression is being moved
+        if let movedExpression = _movedView as? Expression {
+            zoomedView = movedExpression.frame
+        }
         for group in expressions {
             if(group != _movedView){
-                /*
- expression.frame.origin.x = (expression.frame.origin.x + workArea.contentOffset.x) / workArea.zoomScale
- expression.frame.origin.y = (expression.frame.origin.y + workArea.contentOffset.y) / workArea.zoomScale
- */
-                
-                if(group.isNear(incomingFrame: _movedView.frame)){
+                if(group.isNear(incomingFrame: zoomedView)){
                     if(group.isDisplayingSpots == false){
                         group.findAndShowAvailableSpots(_movedView: _movedView)
                         //this will send the message to "group" that it needs to show its available spots for movedView
@@ -248,16 +257,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //checks if the block's been dropped above any of the dummy views
         //if the block is not above an existing BlockGroup's dummy view, then we create a new blockgroup including only the new block
         var workingView = _movedView
-        
         if let block = _movedView as? Block {
             var expression = Expression(firstVal: block)
-            //self.view.addSubview(expression)
             expression.tag = -1
-
-          //  expression.frame.origin.x = (expression.frame.origin.x + workArea.contentOffset.x) / workArea.zoomScale
-         //   expression.frame.origin.y = (expression.frame.origin.y + workArea.contentOffset.y) / workArea.zoomScale
+            
+            expression.frame.origin = CGPoint(x: (workArea.contentOffset.x + _movedView.frame.origin.x ) / workArea.zoomScale, y: (workArea.contentOffset.y + _movedView.frame.origin.y) / workArea.zoomScale)
+            
             workArea.currentPage.addSubview(expression)
-            //block.removeFromSuperview()
             expression.addSubview(block)
             self.expressions.append(expression)
             expression.delegate = self
@@ -271,6 +277,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 if(group != expression ){
                     for glow in group.dummyViews{
                         //see if any of the glow blocks contain the expression's origin
+                    
+                        
                         if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).contains(expression.frame.origin)){
                             
                             // all of this is to move the actual block
@@ -347,7 +355,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                             //get rid of old expression, may need to make sure that there are no more references
                             expressions.removeObject(object: expression)
                             expression.isHidden = true
-                        }
+                        } 
                     }
                 }
             }
@@ -357,9 +365,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     //MARK: Expression Delegate
     
-    func didEvaluate(result: Float) {
+    func didEvaluate(forExpression sender: Expression, result: Float) {
         var funct = InputObject.makeBlockForOutputArea(allPad!)
-        var newBlock = funct(CGPoint(x: 1250 / 2, y: 1650 / 2), TypeOfBlock.Number.rawValue, String(result))
+        var newBlock = funct(CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), TypeOfBlock.Number.rawValue, String(result))
         newBlock.removeFromSuperview()
         var express = Expression(firstVal: newBlock)
         workArea.currentPage.addSubview(express)
