@@ -15,6 +15,9 @@
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIButton *useButton;
+@property (nonatomic, strong) UISlider *exposureSlider;
+@property (nonatomic) Float32  lastExpVal;
+@property (nonatomic, strong) NSMutableArray *exposureImgs;
 
 - (void)_actionCancel;
 - (void)_actionUse;
@@ -32,6 +35,9 @@
 @synthesize imageCropView;
 @synthesize toolbar;
 @synthesize cancelButton, useButton, resizeableCropArea;
+@synthesize exposureSlider;
+@synthesize lastExpVal;
+@synthesize exposureImgs;
 
 #pragma mark -
 #pragma Private Methods
@@ -48,6 +54,85 @@
 }
 
 
+- (void)_setupExposureSlider{
+    self.exposureSlider = [[UISlider alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    [self.view addSubview:self.exposureSlider];
+    [self.exposureSlider addTarget:self action:@selector(didSlide) forControlEvents:UIControlEventValueChanged];
+    [self.exposureSlider setMinimumValue:-2.0];
+    [self.exposureSlider setMaximumValue:2.0];
+
+    
+    self.exposureImgs = [[NSMutableArray alloc] init];
+
+    int i;
+    for (i = -2 ; i <= 2 ; i += 1){
+        
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
+    CIFilter *currentFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
+    [currentFilter setValue:beginImage forKey:kCIInputImageKey];
+    [currentFilter setValue:[NSNumber numberWithFloat:i] forKey:@"inputEV"];
+        
+        
+    CIImage *output = [currentFilter outputImage];
+        
+    currentFilter = [CIFilter filterWithName:@"CIColorMap"];
+    CIImage *gradientImage = [CIImage imageWithCGImage: [[UIImage imageNamed:@"colorMap2"] CGImage] options:nil];
+    [currentFilter setValue:gradientImage forKey:@"inputGradientImage"];
+    [currentFilter setValue:output forKey:kCIInputImageKey];
+        
+    output = [currentFilter outputImage];
+        
+      
+        currentFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
+        [currentFilter setValue:output forKey:kCIInputImageKey];
+        [currentFilter setDefaults];
+        output = [currentFilter outputImage];
+        
+        currentFilter = [CIFilter filterWithName:@"CIColorInvert"];
+        [currentFilter setValue:output forKey:kCIInputImageKey];
+        [currentFilter setDefaults];
+        output = [currentFilter outputImage];
+
+        
+    CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
+    [exposureImgs addObject:CFBridgingRelease(cgimg)];
+    }
+}
+
+- (void)didSlide{
+    
+    if ( abs(lastExpVal - exposureSlider.value) < 1 ){
+        return;
+    }
+    float step = roundf(exposureSlider.value / 1.0) + 2;
+    
+    int newStep =  (int) step;
+                    
+    
+    CGImageRef imgForToggling = (__bridge CGImageRef)(exposureImgs[newStep]);
+    
+    
+    
+    
+    lastExpVal = exposureSlider.value;
+ /*
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
+    CIFilter *currentFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
+    [currentFilter setValue:beginImage forKey:kCIInputImageKey];
+    
+    
+    [currentFilter setValue:[NSNumber numberWithFloat:exposureSlider.value] forKey:@"inputEV"];
+  
+    
+    CIImage *output = [currentFilter outputImage];
+    CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
+  */
+    [self.imageCropView setImageToCrop: [UIImage imageWithCGImage:imgForToggling]];
+    
+     }
+     
 - (void)_setupNavigationBar{
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
@@ -68,6 +153,7 @@
     [self.imageCropView setResizableCropArea:self.resizeableCropArea];
     [self.imageCropView setCropSize:cropSize];
     [self.view addSubview:self.imageCropView];
+    [self.imageCropView setBackgroundColor:[UIColor whiteColor]];
 }
 
 - (void)_setupCancelButton{
@@ -207,6 +293,7 @@
     [self _setupNavigationBar];
     [self _setupCropView];
     [self _setupToolbar];
+    [self _setupExposureSlider];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self.navigationController setNavigationBarHidden:YES];

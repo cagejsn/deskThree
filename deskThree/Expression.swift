@@ -18,7 +18,6 @@ protocol ExpressionDelegate {
 class Expression: UIView, UIGestureRecognizerDelegate {
     
     //MARK: Variables
-    
     var isDisplayingSpots: Bool = false
     var dummyViews: [Block] = []
     var amtMoved: CGFloat = 0
@@ -29,7 +28,6 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
     
     //MARK: Initialization
-    
     init(firstVal: Block){
         rootBlock = firstVal
         var newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)

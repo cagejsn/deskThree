@@ -30,7 +30,6 @@ class InputObject: UIView, OutputAreaDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     //MARK: OutputArea Delegate
 
     func outputAreaDidPassIncrementalMove(movedView: UIView) {
@@ -42,6 +41,7 @@ class InputObject: UIView, OutputAreaDelegate {
         self.delegate!.didCompleteMove(_movedView: lastBlock)
     }
     
+    //function below should be rewritten and placed in Expression
     func makeBlockForOutputArea(blockLocation: CGPoint, blockType: Int, blockData: String) -> Block {
         let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: blockData)
         
@@ -84,29 +84,18 @@ class InputObject: UIView, OutputAreaDelegate {
                 newBlock = Block()
             
         }
-        
         newBlock!.text = blockData
         newBlock!.font = UIFont.boldSystemFont(ofSize: Constants.block.fontSize)
         newBlock!.textColor = UIColor.white
         newBlock!.type = blockType
-        
-        
-        
-        
         newBlock?.forBaselineLayout().clipsToBounds = true
         newBlock?.forBaselineLayout().layer.cornerRadius = Constants.block.cornerRadius
-       
         //newBlock?.frame = newBlock!.frame.offsetBy(dx: self.frame.origin.x, dy: self.frame.origin.y)
         superview!.addSubview(newBlock!)
-   
-        
         return newBlock!
-        
     }
     
-    
-    
-    
+    //function below is the one that is actually used by OutputArea
     func makeBlock(for sender: OutputArea, withLocale blockLocation: CGPoint) -> Block {
         let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: sender.currentTitle!)
         let blockType: Int = sender.typeOfOutputArea!

@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-class AllPad: InputObject {
+class AllPad: InputObject, MathEntryAreaDelegate {
     
     //MARK: Variables
     var numEntryAreaText: String = ""
     @IBOutlet var view: UIView!
-    @IBOutlet weak var numEntryArea: OutputArea!
+    @IBOutlet weak var numEntryArea: MathEntryArea!
     
     @IBOutlet weak var button0: OutputArea!
     @IBOutlet weak var button1: OutputArea!
@@ -64,7 +64,6 @@ class AllPad: InputObject {
         xibSetup()
         numEntryArea.delegate = self
         numEntryArea.typeOfOutputArea = 1
-        
         
     //number buttons
         button0.delegate = self
@@ -251,17 +250,14 @@ class AllPad: InputObject {
         view.backgroundColor = Constants.pad.colors.grayBlue
         // use bounds not frame or it'll be offset
         view.frame = bounds
-        
         // Make the view stretch with containing view
         view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
-        
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
         numEntryArea.titleLabel!.numberOfLines = 1
         numEntryArea.titleLabel!.adjustsFontSizeToFitWidth = true
         numEntryArea.titleLabel!.lineBreakMode = NSLineBreakMode.byClipping
         view.layer.cornerRadius = 15;
-        
         for element in view.subviews {
             element.layer.cornerRadius = 10;
         }
@@ -271,12 +267,16 @@ class AllPad: InputObject {
         let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName:"AllPad", bundle: bundle)
         let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        
         return view
     }
     
+    //MARK: MathEntryAreaDelegate
+    func didProduceBlockFromMath(){
+        numEntryAreaText = ""
+    }
     
     //MARK: Events
+    
     @IBAction func deleteTextFromEntryArea(_ sender: AnyObject) {
         if (numEntryAreaText.characters.count > 0) {
             numEntryAreaText.remove(at: numEntryAreaText.index(before: numEntryAreaText.endIndex))
@@ -286,7 +286,6 @@ class AllPad: InputObject {
             UIView.setAnimationsEnabled(true)
         }
     }
-    
     
     @IBAction func addTextToEntryArea( _ sender: UIButton) {
         numEntryAreaText += sender.titleLabel!.text!

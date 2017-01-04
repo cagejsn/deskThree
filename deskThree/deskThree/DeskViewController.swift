@@ -18,6 +18,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //calculator properties
     var allPad: InputObject?
     var isPadActive: Bool = false
+    
+    //should be a part of workArea.currentPage
     var expressions: [Expression] = []
 
     //JotUI Properties
@@ -28,17 +30,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var jotViewStatePlistPath: String!
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+     
         
         workArea.delegate = self
         self.view.sendSubview(toBack: workArea)
         workArea.minimumZoomScale = 0.6
         workArea.maximumZoomScale = 2.0
-
-        
         //workArea is loaded from Nib
-               gkimagePicker.delegate = self
+        
+        gkimagePicker.delegate = self
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
        
@@ -53,9 +57,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         jotView.loadState(paperState)
         workArea.currentPage.addSubview(jotView)
     }
-    
-    
-    
     
     override func viewDidAppear(_ animated: Bool) {
     }
@@ -260,9 +261,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         if let block = _movedView as? Block {
             var expression = Expression(firstVal: block)
             expression.tag = -1
-            
+            //could make this line better with operator overloading for CGPoint
             expression.frame.origin = CGPoint(x: (workArea.contentOffset.x + _movedView.frame.origin.x ) / workArea.zoomScale, y: (workArea.contentOffset.y + _movedView.frame.origin.y) / workArea.zoomScale)
-            
             workArea.currentPage.addSubview(expression)
             expression.addSubview(block)
             self.expressions.append(expression)
@@ -271,47 +271,30 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             block.parentExpression = expression
             workingView = expression
         }
-        
         if var expression = workingView as? Expression {
             for group in expressions {
                 if(group != expression ){
                     for glow in group.dummyViews{
                         //see if any of the glow blocks contain the expression's origin
-                    
-                        
                         if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).contains(expression.frame.origin)){
-                            
-                            // all of this is to move the actual block
-                            
                             //reset the position to be on the x,y coords of the "group"
                             expression.frame = expression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
-                            
                             //removes from superview, we need to refrain from doing this because of the possibility that the _movedView becomes the superview
                             expression.removeFromSuperview()
                             group.addSubview(expression)
                             
-                            
                             //animate merging of groups and rearrange the ETree
                             //group.animateMove(movedView: expression, dummy: glow)
-                            
-                            
-                            //here take over and fix things
-                            
-                            
-                            //this sets the frame of the expression equal to the glow
+
                             expression.frame = glow.frame
                         
                             group.frame = expression.frame.offsetBy(dx: group.frame.origin.x, dy:group.frame.origin.y ) + group.frame
                             // ^ IS SAME AS BELOW ?
                             //group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
                             
-                            
                             //sets frame to include both rectangles
                             //maybe change this to a new function.. make new Expression frame
                         
-                           
-                            
-
                             //finally merge the expressions
                             let parent = glow.parent
                             if glow == parent?.leftChild{
@@ -360,11 +343,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 }
             }
         }
+        hideAllSpots()  
     }
     
+    func hideAllSpots() {
+        for expression in expressions {
+            expression.hideSpots()
+        }
+    }
 
-    //MARK: Expression Delegate
-    
+    //MARK: Expression Delegate    
     func didEvaluate(forExpression sender: Expression, result: Float) {
         var funct = InputObject.makeBlockForOutputArea(allPad!)
         var newBlock = funct(CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), TypeOfBlock.Number.rawValue, String(result))
@@ -377,16 +365,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         newBlock.frame.origin = CGPoint.zero
         express.addSubview(newBlock)
         
+        
         //self.view.addSubview(newBlock)
         // newBlock.userInteractionEnabled = true
     }
 }
 
-
+//custom operator extension for CGRect
 extension CGRect {
     static func +(left: CGRect , right: CGRect) -> CGRect{
         var returnRect: CGRect = CGRect(origin: CGPoint.zero, size: CGSize(width: left.width + right.width, height: left.height))
-        
         if(left.origin.x < right.origin.x){
             returnRect.origin = left.origin
         } else {

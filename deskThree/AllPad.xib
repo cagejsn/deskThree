@@ -73,7 +73,7 @@
                         <action selector="deleteTextFromEntryArea:" destination="-1" eventType="touchUpInside" id="evy-jr-Ueq"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocm-7L-4Ee" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocm-7L-4Ee" customClass="MathEntryArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="6" y="6" width="170" height="74"/>
                     <color key="backgroundColor" red="0.90696299076080322" green="0.84839250124823729" blue="0.69588386625500398" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>

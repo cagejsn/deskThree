@@ -83,11 +83,8 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
             }
         }
     }
-    
+    //would be nice to have a freeform rotation rather than 90 degree increments, but that can wait
     func rotateImage( sender: UITapGestureRecognizer){
-        //var transformForImage: CGAffineTransform = CGAffineTransform(rotationAngle: 90)
-        //self.transform = self.transform.rotated(by:CGFloat(M_PI))
-        
         var newOrienation: UIImageOrientation!
         switch orientationInt {
         case 1:
@@ -96,29 +93,44 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
         case 2:
             newOrienation = UIImageOrientation.down
             orientationInt = 3
-        case 4:
+        case 3:
             newOrienation = UIImageOrientation.left
-            orientationInt = 5
+            orientationInt = 4
         default:
             newOrienation = UIImageOrientation.up
             orientationInt = 1
         }
-        
         image = UIImage(cgImage: (image?.cgImage)!, scale: (image?.scale)!, orientation: newOrienation)
-        
     }
     
     //processes the UIImagePicker's image before setting it to self's .image property
     //Uses iOS built in filters to map dark colors to black and light to transparent
     func editAndSetImage(image toEdit: UIImage){
+        self.image = toEdit
+        /*
         var editedImage = image
-        
+
         //going to make a custom CIFilter
         //change the input image to a CIImage
         var context = CIContext(options: nil)
         
         //this is going to make the black areas transparent
         
+        if var currentFilter = CIFilter(name: "CIColorInvert"){
+        let beginImage = CIImage(image: toEdit)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+            if var output = currentFilter.outputImage {
+                let cgimg = context.createCGImage(output, from: output.extent)
+                
+                let editedImage = UIImage(cgImage: cgimg!)
+                // do something interesting with the processed image
+                
+                self.image = editedImage
+                
+            }
+        }
+        */
+        /*
         if var currentFilter = CIFilter(name: "CIExposureAdjust") {
             
             let beginImage = CIImage(image: toEdit)
@@ -126,6 +138,7 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
             
             currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
             currentFilter.setValue(1.3, forKey: "inputEV")
+           
             
             if var output = currentFilter.outputImage {
 
@@ -148,9 +161,12 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
                 
                 let editedImage = UIImage(cgImage: cgimg!)
                 // do something interesting with the processed image
+ 
                 self.image = editedImage
             }
+
         }
+  */
     }
 
     //MARK: Initializers

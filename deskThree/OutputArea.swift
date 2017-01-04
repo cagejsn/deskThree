@@ -48,7 +48,6 @@ class OutputArea: UIButton {
                 madeMyBlockYet = true
             }
         }
-    
         // This code passes the incremental views to InputObject
         if((lastBlockCreated) != nil){
         lastBlockCreated!.frame.origin = translationOfTouch + locationOfView!
@@ -58,12 +57,8 @@ class OutputArea: UIButton {
                 amtMoved = 0.0
             }
         }
-
         //when the touch has ended
         if(recognizer.state == UIGestureRecognizerState.ended){
-            
-            //lastBlockCreated?.center = recognizer.location(in: self)
-            
             if ((lastBlockCreated) != nil) {
                 delegate!.outputAreaDidPassBlock(lastBlock: lastBlockCreated!)
                 lastBlockCreated = nil
@@ -71,10 +66,6 @@ class OutputArea: UIButton {
             }
         }
     }
-    
-    
-    
-    
 }
 
 extension CGPoint {
