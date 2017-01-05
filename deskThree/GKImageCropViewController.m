@@ -110,29 +110,9 @@
     float step = roundf(exposureSlider.value / 1.0) + 2;
     
     int newStep =  (int) step;
-                    
-    
     CGImageRef imgForToggling = (__bridge CGImageRef)(exposureImgs[newStep]);
-    
-    
     lastExpVal = exposureSlider.value;
- /*
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
-    CIFilter *currentFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
-    [currentFilter setValue:beginImage forKey:kCIInputImageKey];
-    
-    
-    [currentFilter setValue:[NSNumber numberWithFloat:exposureSlider.value] forKey:@"inputEV"];
-  
-    
-    CIImage *output = [currentFilter outputImage];
-    CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
-  */
     [self.imageCropView setImageToCrop: [UIImage imageWithCGImage:imgForToggling]];
-   // [self.imageCropView setOpaque:true];
-    
-    
      }
      
 - (void)_setupNavigationBar{
