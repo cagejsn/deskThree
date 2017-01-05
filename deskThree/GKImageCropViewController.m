@@ -68,6 +68,9 @@
     for (i = -2 ; i <= 2 ; i += 1){
         
     CIContext *context = [CIContext contextWithOptions:nil];
+        
+    //UIGraphicsBeginImageContextWithOptions(sourceImage.size, false, 0);
+        
     CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
     CIFilter *currentFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
     [currentFilter setValue:beginImage forKey:kCIInputImageKey];
@@ -80,7 +83,6 @@
     CIImage *gradientImage = [CIImage imageWithCGImage: [[UIImage imageNamed:@"colorMap2"] CGImage] options:nil];
     [currentFilter setValue:gradientImage forKey:@"inputGradientImage"];
     [currentFilter setValue:output forKey:kCIInputImageKey];
-        
     output = [currentFilter outputImage];
         
       
@@ -113,8 +115,6 @@
     CGImageRef imgForToggling = (__bridge CGImageRef)(exposureImgs[newStep]);
     
     
-    
-    
     lastExpVal = exposureSlider.value;
  /*
     CIContext *context = [CIContext contextWithOptions:nil];
@@ -130,6 +130,8 @@
     CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
   */
     [self.imageCropView setImageToCrop: [UIImage imageWithCGImage:imgForToggling]];
+   // [self.imageCropView setOpaque:true];
+    
     
      }
      
