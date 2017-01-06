@@ -47,45 +47,33 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
 - (void)_actionUse{
     _croppedImage = [self.imageCropView croppedImage];
     [self.delegate imageCropController:self didFinishWithCroppedImage:_croppedImage];
 }
 
-
 - (void)_setupExposureSlider{
     self.exposureSlider = [[UISlider alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
     [self.view addSubview:self.exposureSlider];
     [self.exposureSlider addTarget:self action:@selector(didSlide) forControlEvents:UIControlEventValueChanged];
-    [self.exposureSlider setMinimumValue:-2.0];
-    [self.exposureSlider setMaximumValue:2.0];
-
-    
+    [self.exposureSlider setMinimumValue:-3.0];
+    [self.exposureSlider setMaximumValue:3.0];
     self.exposureImgs = [[NSMutableArray alloc] init];
-
     int i;
-    for (i = -2 ; i <= 2 ; i += 1){
-        
+    for (i = -3 ; i <= 3 ; i += 1){
     CIContext *context = [CIContext contextWithOptions:nil];
-        
-    //UIGraphicsBeginImageContextWithOptions(sourceImage.size, false, 0);
-        
     CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
+    UIImageOrientation originalOrientation = [sourceImage imageOrientation];
     CIFilter *currentFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
     [currentFilter setValue:beginImage forKey:kCIInputImageKey];
     [currentFilter setValue:[NSNumber numberWithFloat:i] forKey:@"inputEV"];
-        
-        
     CIImage *output = [currentFilter outputImage];
-        
     currentFilter = [CIFilter filterWithName:@"CIColorMap"];
     CIImage *gradientImage = [CIImage imageWithCGImage: [[UIImage imageNamed:@"colorMap2"] CGImage] options:nil];
     [currentFilter setValue:gradientImage forKey:@"inputGradientImage"];
     [currentFilter setValue:output forKey:kCIInputImageKey];
     output = [currentFilter outputImage];
         
-      
         currentFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
         [currentFilter setValue:output forKey:kCIInputImageKey];
         [currentFilter setDefaults];
@@ -96,9 +84,9 @@
         [currentFilter setDefaults];
         output = [currentFilter outputImage];
 
-        
     CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
-    [exposureImgs addObject:CFBridgingRelease(cgimg)];
+    [exposureImgs addObject:[UIImage imageWithCGImage:cgimg scale:1.0 orientation:originalOrientation]];
+    //[exposureImgs addObject:CFBridgingRelease(cgimg)];
     }
 }
 
@@ -107,12 +95,14 @@
     if ( abs(lastExpVal - exposureSlider.value) < 1 ){
         return;
     }
-    float step = roundf(exposureSlider.value / 1.0) + 2;
+    lastExpVal = exposureSlider.value;
+
+    float step = roundf(exposureSlider.value / 1.0) + 3;
     
     int newStep =  (int) step;
-    CGImageRef imgForToggling = (__bridge CGImageRef)(exposureImgs[newStep]);
-    lastExpVal = exposureSlider.value;
-    [self.imageCropView setImageToCrop: [UIImage imageWithCGImage:imgForToggling]];
+   // CGImageRef imgForToggling = (__bridge CGImageRef)(exposureImgs[newStep]);
+    
+    [self.imageCropView setImageToCrop: exposureImgs[newStep]];
      }
      
 - (void)_setupNavigationBar{

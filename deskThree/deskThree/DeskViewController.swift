@@ -29,13 +29,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
 
-    override func viewDidLoad() {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+    }
+    
+    override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-     
-        
         workArea.delegate = self
         self.view.sendSubview(toBack: workArea)
         workArea.minimumZoomScale = 0.6

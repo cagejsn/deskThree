@@ -145,7 +145,6 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
     return visibleRect = GKScaleRect(visibleRect, scale);
 }
 
-
 - (CGAffineTransform)_orientationTransformedRectOfImage:(UIImage *)img
 {
 	CGAffineTransform rectTransform;
