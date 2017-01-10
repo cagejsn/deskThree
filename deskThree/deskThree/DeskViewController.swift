@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, InputObjectDelegate, ExpressionDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, InputObjectDelegate, ExpressionDelegate, GLKViewDelegate{
     
     let gkimagePicker = GKImagePicker()
     
@@ -28,13 +28,27 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var paperState: JotViewStateProxy!
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    
+    var graphBlock: GraphBlock!
+    var graphContext: EAGLContext!
+    
+    func glkView(_ view: GLKView, drawIn rect: CGRect) {
+        if graphBlock.touched {
+            glClearColor(0.3, 0.1, 0.9, 1.0)
+        } else {
+        glClearColor(0.1, 0.3, 0.9, 1.0)
+        }
+        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        
+        
         // Do any additional setup after loading the view, typically from a nib.
         workArea.delegate = self
         self.view.sendSubview(toBack: workArea)
@@ -46,6 +60,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
        
+        
+        
         //JotUI setup
         pen = Pen()
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
@@ -56,6 +72,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
         workArea.currentPage.addSubview(jotView)
+ 
+        
+        //very unsure about the Context issue...
+        graphContext = GraphContext(api: .openGLES3)
+        
+        graphBlock = GraphBlock(frame: CGRect(x:100, y:100, width:100, height:100), context: graphContext)
+        graphBlock.delegate = self
+        self.view.addSubview(graphBlock)
+
+        
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

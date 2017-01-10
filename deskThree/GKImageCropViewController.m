@@ -56,57 +56,61 @@
     self.exposureSlider = [[UISlider alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
     [self.view addSubview:self.exposureSlider];
     [self.exposureSlider addTarget:self action:@selector(didSlide) forControlEvents:UIControlEventValueChanged];
-    [self.exposureSlider setMinimumValue:-3.0];
-    [self.exposureSlider setMaximumValue:3.0];
+    [self.exposureSlider setMinimumValue:0];
+    [self.exposureSlider setMaximumValue:7.0];
     self.exposureImgs = [[NSMutableArray alloc] init];
-    int i;
-    for (i = -3 ; i <= 3 ; i += 1){
+    
     CIContext *context = [CIContext contextWithOptions:nil];
     CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
     UIImageOrientation originalOrientation = [sourceImage imageOrientation];
-    CIFilter *currentFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
-    [currentFilter setValue:beginImage forKey:kCIInputImageKey];
-    [currentFilter setValue:[NSNumber numberWithFloat:i] forKey:@"inputEV"];
-    CIImage *output = [currentFilter outputImage];
-    currentFilter = [CIFilter filterWithName:@"CIColorMap"];
+    
+    CIFilter *currentFilter;
+    CIImage *output;
+
     CIImage *gradientImage = [CIImage imageWithCGImage: [[UIImage imageNamed:@"colorMap2"] CGImage] options:nil];
+    
+    CGImageRef cgimg;
+
+    //loop which fills the
+    int i;
+    for (i = 0 ; i <= 7 ; i += 1){
+        
+    currentFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
+    [currentFilter setValue:beginImage forKey:kCIInputImageKey];
+    [currentFilter setValue:[NSNumber numberWithFloat:(i / 4)] forKey:@"inputEV"];
+    output = [currentFilter outputImage];
+        
+    currentFilter = [CIFilter filterWithName:@"CIColorMap"];
     [currentFilter setValue:gradientImage forKey:@"inputGradientImage"];
     [currentFilter setValue:output forKey:kCIInputImageKey];
     output = [currentFilter outputImage];
         
-        currentFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
-        [currentFilter setValue:output forKey:kCIInputImageKey];
-        [currentFilter setDefaults];
-        output = [currentFilter outputImage];
+    currentFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
+    [currentFilter setValue:output forKey:kCIInputImageKey];
+    [currentFilter setDefaults];
+    output = [currentFilter outputImage];
         
-        currentFilter = [CIFilter filterWithName:@"CIColorInvert"];
-        [currentFilter setValue:output forKey:kCIInputImageKey];
-        [currentFilter setDefaults];
-        output = [currentFilter outputImage];
+    currentFilter = [CIFilter filterWithName:@"CIColorInvert"];
+    [currentFilter setValue:output forKey:kCIInputImageKey];
+    [currentFilter setDefaults];
+    output = [currentFilter outputImage];
 
-    CGImageRef cgimg = [context createCGImage:output fromRect:[output extent]];
+    cgimg  = [context createCGImage:output fromRect:[output extent]];
     [exposureImgs addObject:[UIImage imageWithCGImage:cgimg scale:1.0 orientation:originalOrientation]];
-    //[exposureImgs addObject:CFBridgingRelease(cgimg)];
     }
 }
 
 - (void)didSlide{
-    
-    if ( abs(lastExpVal - exposureSlider.value) < 1 ){
+    if ( abs(lastExpVal - exposureSlider.value) < 1){
         return;
     }
     lastExpVal = exposureSlider.value;
-
-    float step = roundf(exposureSlider.value / 1.0) + 3;
-    
+    float step = roundf(exposureSlider.value);
     int newStep =  (int) step;
-   // CGImageRef imgForToggling = (__bridge CGImageRef)(exposureImgs[newStep]);
-    
     [self.imageCropView setImageToCrop: exposureImgs[newStep]];
      }
      
 - (void)_setupNavigationBar{
-    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
                                                                                           target:self 
                                                                                           action:@selector(_actionCancel)];
