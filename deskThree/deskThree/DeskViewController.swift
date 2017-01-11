@@ -7,7 +7,7 @@
 //
 import UIKit
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, InputObjectDelegate, ExpressionDelegate, GLKViewDelegate{
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, InputObjectDelegate, ExpressionDelegate {
     
     let gkimagePicker = GKImagePicker()
     
@@ -30,17 +30,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var jotViewStatePlistPath: String!
     
     var graphBlock: GraphBlock!
-    var graphContext: EAGLContext!
-    
-    func glkView(_ view: GLKView, drawIn rect: CGRect) {
-        if graphBlock.touched {
-            glClearColor(0.3, 0.1, 0.9, 1.0)
-        } else {
-        glClearColor(0.1, 0.3, 0.9, 1.0)
-        }
-        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
-        
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +50,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.resizeableCropArea = true
        
         
-        
+        /*
         //JotUI setup
         pen = Pen()
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
@@ -72,16 +61,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
         workArea.currentPage.addSubview(jotView)
- 
+ */
         
-        //very unsure about the Context issue...
-        graphContext = GraphContext(api: .openGLES3)
-        
-        graphBlock = GraphBlock(frame: CGRect(x:100, y:100, width:100, height:100), context: graphContext)
-        graphBlock.delegate = self
+       
+        graphBlock = GraphBlock(frame: CGRect(x:100,y:100,width:50,height:50), context: EAGLContext(api: EAGLRenderingAPI.openGLES2))
         self.view.addSubview(graphBlock)
-
-        
         
         
     }

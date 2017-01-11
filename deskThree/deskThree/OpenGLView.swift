@@ -1,9 +1,9 @@
 //
-//  graphBlock.swift
-//  deskThree
+//  OpenGLView.swift
+//  iOSSwiftOpenGL
 //
-//  Created by Cage Johnson on 1/10/17.
-//  Copyright © 2017 desk. All rights reserved.
+//  Created by Bradley Griffith on 6/29/14.
+//  Copyright (c) 2014 Bradley Griffith. All rights reserved.
 //
 
 import Foundation
@@ -12,61 +12,14 @@ import QuartzCore
 import OpenGLES
 import GLKit
 
-struct Vertex {
-    var Position: (CFloat, CFloat, CFloat)
-    var Color: (CFloat, CFloat, CFloat, CFloat)
-}
-
-var Vertices = [
-    Vertex(Position: (0.5, 0.5, 0) , Color: (1, 0, 0, 1)),
-    Vertex(Position: (1, 1, 0)  , Color: (0, 1, 0, 1)),
-    Vertex(Position: (-1, 1, 0) , Color: (0, 0, 1, 1)),
-    Vertex(Position: (-1, -1, 0), Color: (0, 0, 0, 1))
-]
-
-var Indices: [GLubyte] = [
-    0, 1, 2,
-    2, 3, 0
-]
 
 
-//helper extensions to pass arguments to GL land
-extension Array {
-    func size () -> Int {
-        return self.count * MemoryLayout.size(ofValue: self[0])
-    }
-}
 
-extension Int32 {
-    func __conversion() -> GLenum {
-        return GLuint(self)
-    }
+
+class OpenGLView: UIView {
     
-    func __conversion() -> GLboolean {
-        return GLboolean(UInt8(self))
-    }
-}
-
-extension Int {
-    func __conversion() -> Int32 {
-        return Int32(self)
-    }
-    
-    func __conversion() -> GLubyte {
-        return GLubyte(self)
-    }
-    
-}
-
-
-
-class GraphBlock: GLKView {
-    
-    var zoomGestureRecognizer: UIPinchGestureRecognizer!
-    var panGestureRecognizer: UIPanGestureRecognizer!
-    var touched: Bool = false
-    
-    
+    var eaglLayer: CAEAGLLayer!
+    var context: EAGLContext!
     var colorRenderBuffer: GLuint = GLuint()
     var positionSlot: GLuint = GLuint()
     var colorSlot: GLuint = GLuint()
@@ -75,66 +28,71 @@ class GraphBlock: GLKView {
     var VAO:GLuint = GLuint()
     
     
-    var eaglLayer: CAEAGLLayer!
+    /* Class Methods
+     ------------------------------------------*/
     
-    override init(frame: CGRect, context: EAGLContext) {
-        super.init(frame: frame, context: context)
-        self.eaglLayer = self.layer as! CAEAGLLayer
-        self.layer.isOpaque = false
-        EAGLContext.setCurrent(self.context)
-        
-        contentScaleFactor = 1.0
-
-        
+    override class var layerClass:AnyClass {
+        // In order for our view to display OpenGL content, we need to set it's
+        //   default layer to be a CAEAGLayer
+        return CAEAGLLayer.self
+    }
+    
+    
+    /* Lifecycle
+     ------------------------------------------*/
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setupLayer()
+        self.setupContext()
         self.setupRenderBuffer()
         self.setupFrameBuffer()
         self.compileShaders()
         self.setupVBOs()
         self.render()
-        
-        zoomGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "handlePinch")
-        self.addGestureRecognizer(zoomGestureRecognizer)
-        zoomGestureRecognizer.isEnabled = true
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan")
-        self.addGestureRecognizer(panGestureRecognizer)
-        panGestureRecognizer.minimumNumberOfTouches = 2
-        panGestureRecognizer.maximumNumberOfTouches = 2
-        panGestureRecognizer.isEnabled = true
-    }
-
-   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touched = true
-        setNeedsDisplay()
-    }
-
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touchLocation = touches.first?.location(in: self)
-        let prevTouchLocation = touches.first?.previousLocation(in: self)
-        let dX =  touchLocation!.x - prevTouchLocation!.x
-        let dY =  touchLocation!.y - prevTouchLocation!.y
-        self.frame.origin.x += dX
-        self.frame.origin.y += dY
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touched = false
-        setNeedsDisplay() 
-    }
-    
-    func handlePinch(){
-        
-        
-    }
-    
-    func handlePan(){
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)!
+        
+        self.setupLayer()
+        self.setupContext()
+        self.setupRenderBuffer()
+        self.setupFrameBuffer()
+        self.compileShaders()
+        self.setupVBOs()
+        self.render()
     }
     
     
-    //OpenGLCodes
+    
+    /* Instance Methods
+     ------------------------------------------*/
+    
+    func setupLayer() {
+        // CALayer's are, by default, non-opaque, which is 'bad for performance with OpenGL',
+        //   so let's set our CAEAGLLayer layer to be opaque.
+        self.eaglLayer	= self.layer as! CAEAGLLayer
+        self.eaglLayer.isOpaque = true
+    }
+    
+    func setupContext() {
+        // Just like with CoreGraphics, in order to do much with OpenGL, we need a context.
+        //   Here we create a new context with the version of the rendering API we want and
+        //   tells OpenGL that when we draw, we want to do so within this context.
+        var api: EAGLRenderingAPI = EAGLRenderingAPI.openGLES2
+        self.context = EAGLContext(api: api)
+        
+        if (self.context == nil) {
+            print("Failed to initialize OpenGLES 2.0 context!")
+            exit(1)
+        }
+        
+        if (!EAGLContext.setCurrent(self.context)) {
+            print("Failed to set current OpenGL context!")
+            exit(1)
+        }
+    }
     
     func setupRenderBuffer() {
         glGenRenderbuffers(1, &self.colorRenderBuffer)
@@ -246,34 +204,11 @@ class GraphBlock: GLKView {
     func render() {
         glBindVertexArrayOES(VAO);
         glViewport(0, 0, GLint(self.frame.size.width), GLint(self.frame.size.height));
-
         
         glDrawElements(GLenum(GL_TRIANGLES), GLsizei(Indices.count), GLenum(GL_UNSIGNED_BYTE), nil)
         
         self.context.presentRenderbuffer(Int(GL_RENDERBUFFER))
-         print(drawableWidth,drawableHeight)
-        glBindVertexArrayOES(0)
-        print(contentScaleFactor)
-       
-            }
-    
-    override func draw(_ rect: CGRect) {
         
-       
+        glBindVertexArrayOES(0)
     }
-    
-    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
