@@ -10,9 +10,6 @@ import UIKit
 class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, InputObjectDelegate, ExpressionDelegate {
     
     let gkimagePicker = GKImagePicker()
-    
-    //var workArea: WorkArea!
-    
     @IBOutlet var workArea: WorkArea!
    
     //calculator properties
@@ -28,16 +25,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var paperState: JotViewStateProxy!
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
-    
-    var graphBlock: GraphBlock!
+    var graphingBlock: GraphingBlock!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-        
-        
         // Do any additional setup after loading the view, typically from a nib.
         workArea.delegate = self
         self.view.sendSubview(toBack: workArea)
@@ -64,8 +55,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
  */
         
        
-        graphBlock = GraphBlock(frame: CGRect(x:100,y:100,width:50,height:50), context: EAGLContext(api: EAGLRenderingAPI.openGLES2))
-        self.view.addSubview(graphBlock)
+     //   graphView = GraphView(frame: CGRect(x:100,y:100,width:100,height:100), context: EAGLContext(api: EAGLRenderingAPI.openGLES2))
+     //   self.view.addSubview(graphView)
+      //  graphingBlock = GraphingBlock(frame: CGRect(x:100,y:100,width:200,height:200))
+        
+        
         
         
     }
@@ -136,6 +130,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
     present(gkimagePicker.imagePickerController, animated: true, completion: nil)
+    }
+    @IBAction func graphButtonPushed(_ sender: Any) {
+        var function = Bundle.loadNibNamed(Bundle.main)
+        var graphingBlock = function("GraphingBlock", self, nil)?.first as? UIView
+        self.view.addSubview(graphingBlock!)
+        
+     //   self.workArea.addSubview(graph)
+        
     }
     
     @IBAction func clearButtonTapped(_ sender: AnyObject) {

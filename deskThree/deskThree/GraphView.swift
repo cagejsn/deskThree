@@ -17,19 +17,6 @@ struct Vertex {
     var Color: (CFloat, CFloat, CFloat, CFloat)
 }
 
-var Vertices = [
-    Vertex(Position: (0.5, 0.5, 0) , Color: (1, 0, 0, 1)),
-    Vertex(Position: (1, 1, 0)  , Color: (0, 1, 0, 1)),
-    Vertex(Position: (-1, 1, 0) , Color: (0, 0, 1, 1)),
-    Vertex(Position: (-1, -1, 0), Color: (0, 0, 0, 1))
-]
-
-var Indices: [GLubyte] = [
-    0, 1, 2,
-    2, 3, 0
-]
-
-
 //helper extensions to pass arguments to GL land
 extension Array {
     func size () -> Int {
@@ -55,17 +42,14 @@ extension Int {
     func __conversion() -> GLubyte {
         return GLubyte(self)
     }
-    
 }
 
 
+let axesHalfWidth: CFloat = 0.01
+let arrowLength: CFloat = 0.08
+let arrowHalfWidth: CFloat = 0.04
 
-class GraphBlock: GLKView {
-    
-    var zoomGestureRecognizer: UIPinchGestureRecognizer!
-    var panGestureRecognizer: UIPanGestureRecognizer!
-    var touched: Bool = false
-    
+class GraphView: GLKView {
     
     var colorRenderBuffer: GLuint = GLuint()
     var positionSlot: GLuint = GLuint()
@@ -73,67 +57,93 @@ class GraphBlock: GLKView {
     var indexBuffer: GLuint = GLuint()
     var vertexBuffer: GLuint = GLuint()
     var VAO:GLuint = GLuint()
-    
-    
     var eaglLayer: CAEAGLLayer!
+    
+    var glYAxisLocation: CFloat = 0
+    var glXAxisLocation: CFloat = 0
+    
+    var Vertices: [Vertex]!
+    
+    var Indices: [GLubyte]!
+    //how to design this function to copy over the indices that you want
+    func setIndices(incomingIndices: UnsafePointer<[GLubyte]> ){
+        
+    }
+    
+    func setupAxesVertices(){
+    
+        Vertices = [
+            /* x axis */
+            Vertex(Position: (-1 + arrowLength, -axesHalfWidth + glXAxisLocation, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (-1 + arrowLength, axesHalfWidth + glXAxisLocation, 0)  , Color: (0, 1, 0, 1)),
+            Vertex(Position: (1-arrowLength, axesHalfWidth + glXAxisLocation, 0) , Color: (0, 0, 1, 1)),
+            Vertex(Position: (1-arrowLength, -axesHalfWidth + glXAxisLocation, 0)  , Color: (0, 1, 0, 1)),
+            
+            /* y axis */
+            Vertex(Position: (-axesHalfWidth + glYAxisLocation, -1+arrowLength, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (axesHalfWidth + glYAxisLocation, -1+arrowLength, 0)  , Color: (0, 1, 0, 1)),
+            Vertex(Position: (-axesHalfWidth + glYAxisLocation, 1-arrowLength, 0) , Color: (0, 0, 1, 1)),
+            Vertex(Position: (axesHalfWidth + glYAxisLocation, 1-arrowLength, 0)  , Color: (0, 1, 0, 1)),
+            
+            /* + x axis arrows  indices 8, 9, 10*/
+            Vertex(Position: (1, glXAxisLocation, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (1-arrowLength, arrowHalfWidth + glXAxisLocation, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (1-arrowLength, -arrowHalfWidth + glXAxisLocation, 0) , Color: (1, 0, 0, 1)),
+            
+            /* - x axis arrows  indices 11, 12, 13*/
+            Vertex(Position: (-1, glXAxisLocation, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (-1+arrowLength, arrowHalfWidth + glXAxisLocation, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (-1+arrowLength, -arrowHalfWidth + glXAxisLocation, 0) , Color: (1, 0, 0, 1)),
+            
+            /* + y axis arrows  indices 14, 15, 16*/
+            Vertex(Position: (glYAxisLocation, 1, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (-arrowHalfWidth + glYAxisLocation, 1-arrowLength, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (arrowHalfWidth + glYAxisLocation, 1-arrowLength, 0) , Color: (1, 0, 0, 1)),
+            
+            /* - y axis arrows  indices 17, 18, 19*/
+            Vertex(Position: (glYAxisLocation, -1, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (-arrowHalfWidth + glYAxisLocation, -1+arrowLength, 0) , Color: (1, 0, 0, 1)),
+            Vertex(Position: (arrowHalfWidth + glYAxisLocation, -1+arrowLength, 0) , Color: (1, 0, 0, 1)),
+            
+            ]
+    }
+    
+    func setupAxesIndices(){
+       Indices = [
+        0, 1, 2,
+        2, 3, 0,
+        4, 5, 6,
+        5, 6, 7,
+        8, 9, 10,
+        11,12,13,
+        14,15,16,
+        17,18,19,
+        
+        ]
+
+    }
+    
     
     override init(frame: CGRect, context: EAGLContext) {
         super.init(frame: frame, context: context)
+        setupAxesVertices()
+        setupAxesIndices()
         self.eaglLayer = self.layer as! CAEAGLLayer
         self.layer.isOpaque = false
         EAGLContext.setCurrent(self.context)
-        
         contentScaleFactor = 1.0
-
-        
         self.setupRenderBuffer()
         self.setupFrameBuffer()
         self.compileShaders()
-        self.setupVBOs()
+       // self.setupVBOs()
         self.render()
         
-        zoomGestureRecognizer = UIPinchGestureRecognizer(target: self, action: "handlePinch")
-        self.addGestureRecognizer(zoomGestureRecognizer)
-        zoomGestureRecognizer.isEnabled = true
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "handlePan")
-        self.addGestureRecognizer(panGestureRecognizer)
-        panGestureRecognizer.minimumNumberOfTouches = 2
-        panGestureRecognizer.maximumNumberOfTouches = 2
-        panGestureRecognizer.isEnabled = true
-    }
-
-   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touched = true
-        setNeedsDisplay()
-    }
-
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touchLocation = touches.first?.location(in: self)
-        let prevTouchLocation = touches.first?.previousLocation(in: self)
-        let dX =  touchLocation!.x - prevTouchLocation!.x
-        let dY =  touchLocation!.y - prevTouchLocation!.y
-        self.frame.origin.x += dX
-        self.frame.origin.y += dY
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        touched = false
-        setNeedsDisplay() 
-    }
-    
-    func handlePinch(){
-        
-        
-    }
-    
-    func handlePan(){
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+            
     //OpenGLCodes
     
     func setupRenderBuffer() {
@@ -188,8 +198,8 @@ class GraphBlock: GLKView {
     func compileShaders() {
         
         // Compile our vertex and fragment shaders.
-        var vertexShader: GLuint = self.compileShader(shaderName: "shader", shaderType: GLenum(GL_VERTEX_SHADER))
-        var fragmentShader: GLuint = self.compileShader(shaderName: "fragShader", shaderType: GLenum(GL_FRAGMENT_SHADER))
+        var vertexShader: GLuint = self.compileShader(shaderName: "vertexShader", shaderType: GLenum(GL_VERTEX_SHADER))
+        var fragmentShader: GLuint = self.compileShader(shaderName: "fragmentShader", shaderType: GLenum(GL_FRAGMENT_SHADER))
         
         // Call glCreateProgram, glAttachShader, and glLinkProgram to link the vertex and fragment shaders into a complete program.
         var programHandle: GLuint = glCreateProgram()
@@ -244,21 +254,46 @@ class GraphBlock: GLKView {
     }
     
     func render() {
+        
+        glColor4f(0.0, 0.0, 0.0, 0.0)
+        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+        
+        glGenVertexArraysOES(1, &VAO);
+        glBindVertexArrayOES(VAO);
+        
+        glGenBuffers(1, &vertexBuffer)
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexBuffer)
+        glBufferData(GLenum(GL_ARRAY_BUFFER), Vertices.size(), Vertices, GLenum(GL_STATIC_DRAW))
+        
+        //        let positionSlotFirstComponent : UnsafePointer<Int>(&0)
+        glEnableVertexAttribArray(positionSlot)
+        glVertexAttribPointer(positionSlot, 3, GLenum(GL_FLOAT), GLboolean(UInt8(GL_FALSE)), GLsizei(MemoryLayout<Vertex>.size), nil)
+        
+        glEnableVertexAttribArray(colorSlot)
+        //        let colorSlotFirstComponent = UnsafePointer<Int>(sizeof(Float) * 3)
+        glVertexAttribPointer(colorSlot, 4, GLenum(GL_FLOAT), GLboolean(UInt8(GL_FALSE)), GLsizei(MemoryLayout<Vertex>.size), nil)
+        
+        glGenBuffers(1, &indexBuffer)
+        glBindBuffer(GLenum(GL_ELEMENT_ARRAY_BUFFER), indexBuffer)
+        glBufferData(GLenum(GL_ELEMENT_ARRAY_BUFFER), Indices.size(), Indices, GLenum(GL_STATIC_DRAW))
+        
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), 0)
+        glBindVertexArrayOES(0)
+        
+        
+        
+        
         glBindVertexArrayOES(VAO);
         glViewport(0, 0, GLint(self.frame.size.width), GLint(self.frame.size.height));
-
-        
         glDrawElements(GLenum(GL_TRIANGLES), GLsizei(Indices.count), GLenum(GL_UNSIGNED_BYTE), nil)
-        
         self.context.presentRenderbuffer(Int(GL_RENDERBUFFER))
-         print(drawableWidth,drawableHeight)
         glBindVertexArrayOES(0)
-        print(contentScaleFactor)
-       
-            }
+
+    }
+    
     
     override func draw(_ rect: CGRect) {
-        
+      
        
     }
     

@@ -21,8 +21,8 @@
 		DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
 		DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */; };
 		DA5464511DBD10A300E644F0 /* Paper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5464501DBD10A300E644F0 /* Paper.swift */; };
-		DA7050E41E25591000079047 /* GraphBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7050E31E25591000079047 /* GraphBlock.swift */; };
-		DA7050F21E25EFD100079047 /* shader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DA7050F11E25EFD100079047 /* shader.glsl */; };
+		DA7050E41E25591000079047 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7050E31E25591000079047 /* GraphView.swift */; };
+		DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DA7050F11E25EFD100079047 /* vertexShader.glsl */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
 		DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E21DC3A0D600C73780 /* GKCropBorderView.m */; };
 		DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E41DC3A0D600C73780 /* GKImageCropOverlayView.m */; };
@@ -33,8 +33,9 @@
 		DABC744E1DEF809B0090D413 /* UImage+ImageOrientationFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABC744D1DEF809B0090D413 /* UImage+ImageOrientationFix.swift */; };
 		DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */; };
 		DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */; };
-		DADC67F61E26A89500C14F5B /* fragShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DADC67F51E26A89500C14F5B /* fragShader.glsl */; };
-		DADC67F81E26B81E00C14F5B /* OpenGLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC67F71E26B81E00C14F5B /* OpenGLView.swift */; };
+		DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DADC67F51E26A89500C14F5B /* fragmentShader.glsl */; };
+		DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */; };
+		DADC67FC1E27E9F800C14F5B /* GraphingBlock.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */; };
 		DADC7C651DF0F4650086626E /* AllPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C5D1DF0F4650086626E /* AllPad.swift */; };
 		DADC7C661DF0F4650086626E /* AllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADC7C5E1DF0F4650086626E /* AllPad.xib */; };
 		DADC7C671DF0F4650086626E /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C5F1DF0F4650086626E /* Block.swift */; };
@@ -87,8 +88,8 @@
 		DA4918AC1DE75AAA00E3AA1D /* quad.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.vsh; sourceTree = "<group>"; };
 		DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = stencil.fsh; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
-		DA7050E31E25591000079047 /* GraphBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphBlock.swift; sourceTree = "<group>"; };
-		DA7050F11E25EFD100079047 /* shader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = shader.glsl; path = ../shader.glsl; sourceTree = "<group>"; };
+		DA7050E31E25591000079047 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		DA7050F11E25EFD100079047 /* vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vertexShader.glsl; path = ../vertexShader.glsl; sourceTree = "<group>"; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
 		DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "deskThree-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAA494DF1DC2ED5A00C73780 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -107,8 +108,9 @@
 		DABC744D1DEF809B0090D413 /* UImage+ImageOrientationFix.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UImage+ImageOrientationFix.swift"; sourceTree = "<group>"; };
 		DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkArea.swift; sourceTree = "<group>"; };
 		DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageBlock.swift; sourceTree = "<group>"; };
-		DADC67F51E26A89500C14F5B /* fragShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragShader.glsl; sourceTree = "<group>"; };
-		DADC67F71E26B81E00C14F5B /* OpenGLView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenGLView.swift; sourceTree = "<group>"; };
+		DADC67F51E26A89500C14F5B /* fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragmentShader.glsl; sourceTree = "<group>"; };
+		DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphingBlock.swift; sourceTree = "<group>"; };
+		DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphingBlock.xib; sourceTree = "<group>"; };
 		DADC7C5D1DF0F4650086626E /* AllPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllPad.swift; sourceTree = "<group>"; };
 		DADC7C5E1DF0F4650086626E /* AllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllPad.xib; sourceTree = "<group>"; };
 		DADC7C5F1DF0F4650086626E /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
@@ -239,14 +241,15 @@
 		DAFBE3A21DBBDBC20007D249 /* deskThree */ = {
 			isa = PBXGroup;
 			children = (
-				DA7050F11E25EFD100079047 /* shader.glsl */,
-				DADC67F51E26A89500C14F5B /* fragShader.glsl */,
+				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
+				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
+				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
+				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
+				DA7050E31E25591000079047 /* GraphView.swift */,
 				DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */,
-				DA7050E31E25591000079047 /* GraphBlock.swift */,
-				DADC67F71E26B81E00C14F5B /* OpenGLView.swift */,
 				DABC744D1DEF809B0090D413 /* UImage+ImageOrientationFix.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */,
 				DAFBE3A71DBBDBC20007D249 /* Main.storyboard */,
@@ -369,7 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
-				DA7050F21E25EFD100079047 /* shader.glsl in Resources */,
+				DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */,
 				DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */,
 				DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */,
 				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
@@ -377,7 +380,8 @@
 				DADC7C661DF0F4650086626E /* AllPad.xib in Resources */,
 				25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */,
 				DAFBE3AB1DBBDBC20007D249 /* Assets.xcassets in Resources */,
-				DADC67F61E26A89500C14F5B /* fragShader.glsl in Resources */,
+				DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */,
+				DADC67FC1E27E9F800C14F5B /* GraphingBlock.xib in Resources */,
 				DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */,
 				DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */,
 				DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */,
@@ -408,7 +412,6 @@
 				DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
 				DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */,
-				DADC67F81E26B81E00C14F5B /* OpenGLView.swift in Sources */,
 				DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */,
 				DA5464511DBD10A300E644F0 /* Paper.swift in Sources */,
 				DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */,
@@ -421,7 +424,8 @@
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
-				DA7050E41E25591000079047 /* GraphBlock.swift in Sources */,
+				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
+				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,
 				DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */,
 				DADC7C691DF0F4650086626E /* ETree.swift in Sources */,

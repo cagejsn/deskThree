@@ -49,6 +49,11 @@
                             </button>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SdU-Ta-iQ4"/>
+                        <barButtonItem title="graph" id="j03-n7-yfQ">
+                            <connections>
+                                <action selector="graphButtonPushed:" destination="-1" id="Oxv-G2-jmU"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" id="icS-qn-MBI">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IKr-xj-c3n">
                                 <rect key="frame" x="239" y="7" width="58" height="30"/>
