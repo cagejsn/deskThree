@@ -99,8 +99,7 @@ class GraphingBlock: UIView {
     
     
     func handlePinch(sender: UIPinchGestureRecognizer){
-        var dXFromZoom: CGFloat = 0
-        var dYFromZoom: CGFloat = 0
+        
         
     
         if (sender.state == .began){
@@ -113,14 +112,11 @@ class GraphingBlock: UIView {
             deltaScale = ((sender.scale * startingGraphScale) - graphScale) / graphScale
             graphScale = sender.scale * startingGraphScale
             
-            dXFromZoom = (CGFloat(xMax) - coordsOfGraphCenter().x) * deltaScale //distance in coords that the xMin and xMax should change by
-            dYFromZoom = (CGFloat(yMax) - coordsOfGraphCenter().y) * deltaScale
             
-            
-            xMin += Float(dXFromZoom  )
-            xMax -= Float(dXFromZoom  )
-            yMin += Float(dYFromZoom  )
-            yMax -= Float(dYFromZoom  )
+            xMax = GLfloat(CGFloat(1 - graphToManage.glYAxisLocation) / graphScale)
+            xMin = GLfloat(CGFloat(-1 - graphToManage.glYAxisLocation) / graphScale)
+            yMax = GLfloat(CGFloat(1 - graphToManage.glXAxisLocation) / graphScale)
+            yMin = GLfloat(CGFloat(-1 - graphToManage.glXAxisLocation) / graphScale)
             updateGraphLabels()
             
             graphToManage.glYAxisLocation += CFloat(deltaScale ) * graphToManage.glYAxisLocation

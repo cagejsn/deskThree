@@ -135,6 +135,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         var function = Bundle.loadNibNamed(Bundle.main)
         var graphingBlock = function("GraphingBlock", self, nil)?.first as? UIView
         self.view.addSubview(graphingBlock!)
+        graphingBlock?.center = self.view.center
         
      //   self.workArea.addSubview(graph)
         
