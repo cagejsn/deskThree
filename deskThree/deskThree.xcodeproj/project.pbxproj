@@ -739,6 +739,7 @@
 				52C9BB2C1E2D68AA005DA9C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DAFBE39B1DBBDBC20007D249 /* Build configuration list for PBXProject "deskThree" */ = {
 			isa = XCConfigurationList;
