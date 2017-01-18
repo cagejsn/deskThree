@@ -42,6 +42,7 @@ class GraphingBlock: UIView {
     var touched: Bool = false
     
     
+    
     @IBOutlet var xMinLabel: UILabel!
     @IBOutlet var xMaxLabel: UILabel!
     @IBOutlet var yMinLabel: UILabel!
@@ -100,18 +101,16 @@ class GraphingBlock: UIView {
     
     func handlePinch(sender: UIPinchGestureRecognizer){
         
-        
-    
         if (sender.state == .began){
-           // deltaScale = sender.scale
-        
-            
+           
         }
         
         if (sender.state == .changed){
             deltaScale = ((sender.scale * startingGraphScale) - graphScale) / graphScale
             graphScale = sender.scale * startingGraphScale
             
+            graphToManage.glYAxisLocation += CFloat(deltaScale ) * graphToManage.glYAxisLocation
+            graphToManage.glXAxisLocation += CFloat(deltaScale ) * graphToManage.glXAxisLocation
             
             xMax = GLfloat(CGFloat(1 - graphToManage.glYAxisLocation) / graphScale)
             xMin = GLfloat(CGFloat(-1 - graphToManage.glYAxisLocation) / graphScale)
@@ -119,20 +118,28 @@ class GraphingBlock: UIView {
             yMin = GLfloat(CGFloat(-1 - graphToManage.glXAxisLocation) / graphScale)
             updateGraphLabels()
             
-            graphToManage.glYAxisLocation += CFloat(deltaScale ) * graphToManage.glYAxisLocation
-            graphToManage.glXAxisLocation += CFloat(deltaScale ) * graphToManage.glXAxisLocation
-            graphToManage.setupAxesVertices()
+            graphToManage.clear()
+            graphToManage.addAxesToBuffer()
+            graphToManage.render()
+            graphToManage.updateMarkerFeatures(graphScale: graphScale)
+            graphToManage.addMarkersToBuffer()
             graphToManage.render()
             
-            print(graphScale)
+            
+            
+            
+           
+            
+            
+            
+            
+            
+            
         }
         
         if (sender.state == .ended){
             startingGraphScale = graphScale
-            deltaScale = 0
         }
-        
-      
     }
     
     func handlePan(sender: UIPanGestureRecognizer){
@@ -151,8 +158,28 @@ class GraphingBlock: UIView {
             updateGraphLabels()
             graphToManage.glYAxisLocation += dX
             graphToManage.glXAxisLocation -= dY
-            graphToManage.setupAxesVertices()
+            graphToManage.clear()
+            
+            //insert all render commands
+            graphToManage.clear()
+            graphToManage.addAxesToBuffer()
+            graphToManage.updateMarkerFeatures(graphScale: graphScale)
+            graphToManage.addMarkersToBuffer()
             graphToManage.render()
+            
+            
+            
+         //   graphToManage.setBuffersForXAxisMarkers()
+        //    graphToManage.render()
+            
+           /*
+            for p in Functions {
+                graphToManage.setupFunctionVertices(p)
+                graphToManage.setupFunctionIndices(p)
+                
+            }
+ */
+           
         }
         
         if (sender.state == .ended){
