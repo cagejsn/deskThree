@@ -41,7 +41,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.resizeableCropArea = true
        
         
-        /*
+        
         //JotUI setup
         pen = Pen()
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
@@ -53,7 +53,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         jotView.loadState(paperState)
         workArea.currentPage.addSubview(jotView)
 
- */
+ 
         
        
      //   graphView = GraphView(frame: CGRect(x:100,y:100,width:100,height:100), context: EAGLContext(api: EAGLRenderingAPI.openGLES2))
@@ -89,13 +89,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     // Opens the calculator
-    @IBAction func rightSideScreenEdgePanGestureRecognizer(_ sender: AnyObject) {
+    @IBAction func rightSideScreenEdgePanGestureRecognizer(_ sender: UIGestureRecognizer) {
         if(!(allPad?.isDescendant(of: self.view))!){
             // TODO: add sliding animation to make it more appealing
             self.view.addSubview(allPad!)
 
-        }
-        else {
         }
     }
     
