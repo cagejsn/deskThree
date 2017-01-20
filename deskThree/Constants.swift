@@ -56,6 +56,10 @@ struct Constants {
             static let width : CGFloat = 251
             static let height : CGFloat = 724
         }
+        struct Paper {
+            static let width : CGFloat = 1275
+            static let height : CGFloat = 1650
+        }
     }
     struct pad {
         struct colors {
