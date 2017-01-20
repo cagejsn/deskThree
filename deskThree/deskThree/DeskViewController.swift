@@ -56,6 +56,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
         workArea.currentPage.addSubview(jotView)
+        
+        // Calculator setup
+        allPad = AllPad()
+        allPad?.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,16 +80,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
+    // Opens the calculator
     @IBAction func rightSideScreenEdgePanGestureRecognizer(_ sender: AnyObject) {
-        if(allPad == nil){
-            allPad = AllPad()
+        if(!(allPad?.isDescendant(of: self.view))!){
+            // TODO: add sliding animation to make it more appealing
             self.view.addSubview(allPad!)
-            allPad?.delegate = self
-        } else {
-            print("hello")
+
+        }
+        else {
         }
     }
-    
     
     func exportPdf(imageV: UIImage?){
 //        self.view = UIImageView (image: imageV)

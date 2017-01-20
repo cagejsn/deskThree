@@ -287,6 +287,11 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         }
     }
     
+    // Closes the calculator
+    @IBAction func rightSwipeGestureRecognizer(_ sender: AnyObject) {
+        self.removeFromSuperview()
+    }
+    
     @IBAction func addTextToEntryArea( _ sender: UIButton) {
         numEntryAreaText += sender.titleLabel!.text!
         UIView.performWithoutAnimation({
