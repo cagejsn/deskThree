@@ -86,8 +86,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
-    //need to work on this
-    func hello(imageV: UIImage?){
+    
+    func exportPdf(imageV: UIImage?){
 //        self.view = UIImageView (image: imageV)
 //        var pngRep: Data = UIImagePNGRepresentation (imageV!)!;
         
@@ -105,7 +105,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
 
-        jotView.exportToImage(onComplete: hello , withScale: (workArea.currentPage.image?.scale)!)
+        jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
 
         //workArea.frame = workArea.currentPage.frame
 //        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
