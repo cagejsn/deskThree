@@ -12,7 +12,6 @@
 #import <OpenGLES/EAGLDrawable.h>
 #import <GLKit/GLKit.h>
 #import <mach/mach_time.h> // for mach_absolute_time() and friends
-#import "ShaderHelper.h"
 #import "JotGLLayerBackedFrameBuffer.h"
 #import "JotGLTextureBackedFrameBuffer+Private.h"
 #import "JotGLTexture+Private.h"
@@ -20,6 +19,7 @@
 #import "JotGLPointProgram.h"
 #import "JotGLColorlessPointProgram.h"
 #import "JotGLColoredPointProgram.h"
+#import "MallocLog.h"
 
 int printOglError(char* file, int line) {
     GLenum glErr;
@@ -881,11 +881,13 @@ forStenciledPath:(UIBezierPath*)clippingPath
 - (void)readPixelsInto:(GLubyte*)data ofSize:(GLSize)size {
     glPixelStorei(GL_PACK_ALIGNMENT, 4);
 
-    // timing start
-    CGFloat duration = BNRTimeBlock2(^{
-        glReadPixels(0, 0, size.width, size.height, GL_RGBA, GL_UNSIGNED_BYTE, data);
-    });
-    DebugLog(@"total2 = %f", duration);
+    @autoreleasepool {
+        // timing start
+        CGFloat duration = BNRTimeBlock2(^{
+            glReadPixels(0, 0, size.width, size.height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        });
+        DebugLog(@"total2 = %f", duration);
+    }
     // timing end
     printOpenGLError();
 }
@@ -1104,7 +1106,7 @@ forStenciledPath:(UIBezierPath*)clippingPath
 
 #pragma mark - Buffers
 
-static NSInteger zeroedCacheNumber = -1;
+static GLsizeiptr zeroedCacheSize = -1;
 static void* zeroedDataCache = nil;
 
 - (GLuint)generateArrayBufferForSize:(GLsizeiptr)mallocSize forCacheNumber:(NSInteger)cacheNumber {
@@ -1112,13 +1114,13 @@ static void* zeroedDataCache = nil;
     // zeroedDataCache is a pointer to zero'd memory that we
     // use to initialze our VBO. This prevents "VBO uses uninitialized data"
     // warning in Instruments, and will only waste a few Kb of memory
-    if (cacheNumber > zeroedCacheNumber) {
+    if (mallocSize > zeroedCacheSize) {
         @synchronized([JotGLContext class]) {
             if (zeroedDataCache) {
-                free(zeroedDataCache);
+                freeLog(zeroedDataCache);
             }
-            zeroedCacheNumber = cacheNumber;
-            zeroedDataCache = calloc(cacheNumber, kJotBufferBucketSize);
+            zeroedCacheSize = mallocSize;
+            zeroedDataCache = callocLog(1, mallocSize);
             if (!zeroedDataCache) {
                 @throw [NSException exceptionWithName:@"Memory Exception" reason:@"can't calloc" userInfo:nil];
             }
@@ -1166,7 +1168,13 @@ static void* zeroedDataCache = nil;
     };
 
     [self runBlock:^{
-        [contextProperties removeAllObjects];
+        @autoreleasepool {
+            [contextProperties removeAllObjects];
+            coloredPointProgram = nil;
+            colorlessPointProgram = nil;
+            quadProgram = nil;
+            stencilProgram = nil;
+        }
     }];
 }
 

@@ -52,7 +52,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
         workArea.currentPage.addSubview(jotView)
-<<<<<<< HEAD
+
  */
         
        

@@ -12,10 +12,9 @@
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
 #import "AbstractBezierPathElement-Protected.h"
-#import "ShaderHelper.h"
 #import "JotGLTexture+Private.h"
 #import "JotGLQuadProgram.h"
-
+#import "MallocLog.h"
 
 static int totalTextureBytes;
 
@@ -92,7 +91,8 @@ static int totalTextureBytes;
                 // then we can load those bytes into OpenGL directly.
                 // after they're loaded, we can free the memory for our cgcontext.
                 CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-                void* imageData = calloc(fullPixelSize.height * fullPixelSize.width, 4);
+                void* imageData = callocLog(fullPixelSize.height * fullPixelSize.width, 4);
+                long totalLength = fullPixelSize.height * fullPixelSize.width * 4;
                 if (!imageData) {
                     @throw [NSException exceptionWithName:@"Memory Exception" reason:@"can't malloc" userInfo:nil];
                 }
@@ -132,15 +132,16 @@ static int totalTextureBytes;
 
                 // cleanup
                 CGContextRelease(cgContext);
-                free(imageData);
+                freeLog(imageData);
             } else {
-                void* zeroedDataCache = calloc(fullPixelSize.height * fullPixelSize.width, 4);
+                void* zeroedDataCache = callocLog(fullPixelSize.height * fullPixelSize.width, 4);
+                long totalLength = fullPixelSize.height * fullPixelSize.width * 4;
                 if (!zeroedDataCache) {
                     @throw [NSException exceptionWithName:@"Memory Exception" reason:@"can't malloc" userInfo:nil];
                 }
                 textureID = [context generateTextureForSize:fullPixelSize withBytes:zeroedDataCache];
 
-                free(zeroedDataCache);
+                freeLog(zeroedDataCache);
             }
         }];
     }
