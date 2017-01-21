@@ -93,6 +93,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         if(!(allPad?.isDescendant(of: self.view))!){
             // TODO: add sliding animation to make it more appealing
             self.view.addSubview(allPad!)
+        
 
         }
     }
@@ -115,9 +116,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
 
+        
         jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
 
-        //workArea.frame = workArea.currentPage.frame
+        workArea.frame = workArea.currentPage.frame
 //        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
 //        var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
 //        pdfShareHelper.delegate = self
@@ -125,7 +127,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 //        // Currently, Preview itself gives option to share
 //        pdfShareHelper.presentPreview(animated: false)
         //pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
-        //workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+        workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
     }
 
     @IBAction func undoButtonPressed(_ sender: AnyObject) {

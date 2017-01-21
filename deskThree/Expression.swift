@@ -86,6 +86,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         return false
     }
     
+    /// tells is one block is close to another
     func isNear(incomingFrame: CGRect) -> Bool{
         if(self.frame.insetBy(dx: -60, dy: -60).intersects(incomingFrame)){
             return true
