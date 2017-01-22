@@ -270,6 +270,11 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         return view
     }
     
+    /// Function to calculate expression within mathEntryArea
+    func evaluate(_ operator: OutputArea){
+        print("operator bro")
+    }
+    
     //MARK: MathEntryAreaDelegate
     func didProduceBlockFromMath(){
         numEntryAreaText = ""
@@ -292,7 +297,18 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         self.removeFromSuperview()
     }
     
-    @IBAction func addTextToEntryArea( _ sender: UIButton) {
+    @IBAction func addTextToEntryArea( _ sender: OutputArea) {
+        // Check whether OutputArea is an operator
+//        if (sender.typeOfOutputArea == 2){
+//            if (!(self.numEntryArea.titleLabel?.text?.isEmpty)!){
+//                self.numEntryArea.lhsValue = Int((self.numEntryArea.titleLabel?.text)!)
+//            }
+        
+       // }
+        if (sender.titleLabel.text == "="){
+            // Call Parser
+            
+        }
         numEntryAreaText += sender.titleLabel!.text!
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
