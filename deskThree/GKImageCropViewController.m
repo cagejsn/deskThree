@@ -17,7 +17,11 @@
 @property (nonatomic, strong) UIButton *useButton;
 @property (nonatomic, strong) UISlider *exposureSlider;
 @property (nonatomic) Float32  lastExpVal;
-@property (nonatomic, strong) NSMutableArray *exposureImgs;
+@property (nonatomic, strong) CIFilter  *exposureFilter;
+@property (nonatomic, strong) CIFilter  *colorMapFilter;
+@property (nonatomic, strong) CIFilter  *maskToAlphaFilter;
+@property (nonatomic, strong) CIFilter  *colorInvertFilter;
+@property UIImageOrientation  sourceImageOrientation;
 
 - (void)_actionCancel;
 - (void)_actionUse;
@@ -35,10 +39,8 @@
 @synthesize imageCropView;
 @synthesize toolbar;
 @synthesize cancelButton, useButton, resizeableCropArea;
-@synthesize exposureSlider;
 @synthesize lastExpVal;
-@synthesize exposureImgs;
-
+    
 #pragma mark -
 #pragma Private Methods
 
@@ -53,61 +55,92 @@
 }
 
 - (void)_setupExposureSlider{
-    self.exposureSlider = [[UISlider alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    
+    self.exposureSlider = [[UISlider alloc] init];
+    NSDictionary *views = _NSDictionaryOfVariableBindings(@"subview", _exposureSlider);
     [self.view addSubview:self.exposureSlider];
+    self.exposureSlider.translatesAutoresizingMaskIntoConstraints = false;
+
+   NSLayoutConstraint *fiftyFromBottom = [NSLayoutConstraint
+                                                        constraintWithItem:self.exposureSlider
+                                                        attribute:NSLayoutAttributeBottom
+                                                        relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.view
+                                                        attribute:NSLayoutAttributeBottom
+                                                        multiplier:1.0
+                                                        constant:-50];
+    
+    [self.view addConstraint:fiftyFromBottom];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-50-[subview]-50-|" options: 0 metrics:nil views:views]];
+    //[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]-100-|" options: 0 metrics:nil views:views]];
+                
+    
+    [self.view layoutSubviews];
+    
+    
     [self.exposureSlider addTarget:self action:@selector(didSlide) forControlEvents:UIControlEventValueChanged];
-    [self.exposureSlider setMinimumValue:0];
+    [self.exposureSlider setMinimumValue:-3.0];
     [self.exposureSlider setMaximumValue:7.0];
-    self.exposureImgs = [[NSMutableArray alloc] init];
     
-    CIContext *context = [CIContext contextWithOptions:nil];
     CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
-    UIImageOrientation originalOrientation = [sourceImage imageOrientation];
+    self.sourceImageOrientation = [sourceImage imageOrientation];
     
-    CIFilter *currentFilter;
-    CIImage *output;
+    
+ 
 
     CIImage *gradientImage = [CIImage imageWithCGImage: [[UIImage imageNamed:@"colorMap2"] CGImage] options:nil];
     
-    CGImageRef cgimg;
 
-    //loop which fills the
-    int i;
-    for (i = 0 ; i <= 7 ; i += 1){
         
-    currentFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
-    [currentFilter setValue:beginImage forKey:kCIInputImageKey];
-    [currentFilter setValue:[NSNumber numberWithFloat:(i / 4)] forKey:@"inputEV"];
-    output = [currentFilter outputImage];
+    self.exposureFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
+    [self.exposureFilter setValue:beginImage forKey:kCIInputImageKey];
+    
         
-    currentFilter = [CIFilter filterWithName:@"CIColorMap"];
-    [currentFilter setValue:gradientImage forKey:@"inputGradientImage"];
-    [currentFilter setValue:output forKey:kCIInputImageKey];
-    output = [currentFilter outputImage];
+    self.colorMapFilter = [CIFilter filterWithName:@"CIColorMap"];
+    [self.colorMapFilter setValue:gradientImage forKey:@"inputGradientImage"];
+    
         
-    currentFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
-    [currentFilter setValue:output forKey:kCIInputImageKey];
-    [currentFilter setDefaults];
-    output = [currentFilter outputImage];
-        
-    currentFilter = [CIFilter filterWithName:@"CIColorInvert"];
-    [currentFilter setValue:output forKey:kCIInputImageKey];
-    [currentFilter setDefaults];
-    output = [currentFilter outputImage];
+    self.maskToAlphaFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
+    [self.maskToAlphaFilter setDefaults];
+    
+    self.colorInvertFilter = [CIFilter filterWithName:@"CIColorInvert"];
+    [self.colorInvertFilter setDefaults];
 
-    cgimg  = [context createCGImage:output fromRect:[output extent]];
-    [exposureImgs addObject:[UIImage imageWithCGImage:cgimg scale:1.0 orientation:originalOrientation]];
-    }
+    
 }
 
 - (void)didSlide{
-    if ( abs(lastExpVal - exposureSlider.value) < 1){
+    if ( abs(lastExpVal - _exposureSlider.value) < 1){
         return;
     }
-    lastExpVal = exposureSlider.value;
-    float step = roundf(exposureSlider.value);
-    int newStep =  (int) step;
-    [self.imageCropView setImageToCrop: exposureImgs[newStep]];
+    
+    
+    CIContext *context = [CIContext contextWithOptions:nil];
+
+    
+      CGImageRef cgimg;
+    
+    CIImage *output;
+    
+    
+    [self.exposureFilter setValue:[NSNumber numberWithFloat:_exposureSlider.value] forKey:@"inputEV"];
+    output = [self.exposureFilter outputImage];
+    
+    [self.colorMapFilter setValue:output forKey:kCIInputImageKey];
+    output = [self.colorMapFilter outputImage];
+    
+    [self.maskToAlphaFilter setValue:output forKey:kCIInputImageKey];
+    output = [self.maskToAlphaFilter outputImage];
+    
+    [self.colorInvertFilter setValue:output forKey:kCIInputImageKey];
+    output = [self.colorInvertFilter outputImage];
+
+    
+    cgimg  = [context createCGImage:output fromRect:[output extent]];
+    [self.imageCropView setImageToCrop: [UIImage imageWithCGImage:cgimg scale:1.0 orientation:self.sourceImageOrientation]];
+
+
      }
      
 - (void)_setupNavigationBar{

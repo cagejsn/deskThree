@@ -74,7 +74,7 @@ struct Constants {
         static let fontSize : CGFloat = 20.0
         static let fontWidthPadding : CGFloat = 15.0
         static let height : CGFloat = 30.0
-        static let cornerRadius : CGFloat = 10.0
+        static let cornerRadius : CGFloat = 7.0
         struct colors {
             static let green : UIColor = UIColor.init(red: 46/255, green: 139/255, blue: 87/255, alpha: 1.0)
             static let gray : UIColor = UIColor.init(red: 80/255, green: 80/255, blue: 80/255, alpha: 1.0)
