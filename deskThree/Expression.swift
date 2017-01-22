@@ -13,6 +13,8 @@ protocol ExpressionDelegate {
     func didIncrementMove(_movedView: UIView)
     func didCompleteMove(_movedView: UIView)
     func didEvaluate(forExpression sender: Expression, result: Float)
+    func hideTrash()
+    func unhideTrash()
 }
 
 class Expression: UIView, UIGestureRecognizerDelegate {
@@ -42,12 +44,15 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: Touch Events
+    /* MARK: Touch Events */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         superview!.bringSubview(toFront: self)
+        
+
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.delegate!.unhideTrash()
         let touch: AnyObject = touches.first as UITouch!
         let currentTouch = touch.location(in: self)
         let previousTouch = touch.previousLocation(in: self)
@@ -62,10 +67,13 @@ class Expression: UIView, UIGestureRecognizerDelegate {
             amtMoved += (abs(dx) + abs(dy))
             self.frame = self.frame.offsetBy(dx: dx, dy: dy)
         }
+        
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-         self.delegate!.didCompleteMove(_movedView: self)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        self.delegate!.didCompleteMove(_movedView: self)
+        self.delegate!.hideTrash()
     }
     
     //MARK: Gesture Recognizer Methods

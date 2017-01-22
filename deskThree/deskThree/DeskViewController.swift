@@ -26,6 +26,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
     var graphingBlock: GraphingBlock!
+    var trashBin: Trash!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,8 +40,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.delegate = self
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
-       
-        
         
         //JotUI setup
         pen = Pen()
@@ -68,6 +67,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // Calculator setup
         allPad = AllPad()
         allPad?.delegate = self
+        
+        //ititialize trash receiver
+        trashBin = Trash()
+        self.view.addSubview(trashBin)
+        trashBin.setupTrash()
+        trashBin.hide()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -75,6 +80,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
  
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
+    }
+    
+    ///expression delegate for trash disappear
+    func hideTrash(){
+        trashBin.hide()
+    }
+    
+    ///expression delegate for trash appear
+    func unhideTrash(){
+        trashBin.unhide()
     }
     
     //MARK: - WorkArea Delegate
@@ -277,6 +292,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //checks if the block's been dropped above any of the dummy views
         //if the block is not above an existing BlockGroup's dummy view, then we create a new blockgroup including only the new block
         var workingView = _movedView
+        
         if let block = _movedView as? Block {
             var expression = Expression(firstVal: block)
             expression.tag = -1
@@ -291,6 +307,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             workingView = expression
         }
         if var expression = workingView as? Expression {
+            /*check if expression overlaps with trash bin*/
+            let justPlacedBlock = expressions[expressions.count-1]//review this line with team
+            let x = ((justPlacedBlock.frame.origin.x*workArea.zoomScale - workArea.contentOffset.x))
+            let y = ((justPlacedBlock.frame.origin.y*workArea.zoomScale - workArea.contentOffset.y))
+
+            if(x < trashBin.frame.width && y > trashBin.frame.origin.y){
+                print("deleting expression")
+                expressions.removeObject(object: justPlacedBlock)
+                justPlacedBlock.isHidden = true
+                return
+            }
+            
+            
             for group in expressions {
                 if(group != expression ){
                     for glow in group.dummyViews{
@@ -388,6 +417,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //self.view.addSubview(newBlock)
         // newBlock.userInteractionEnabled = true
     }
+
 }
 
 //custom operator extension for CGRect
