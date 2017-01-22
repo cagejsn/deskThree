@@ -27,7 +27,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     @IBOutlet weak var button8: OutputArea!
     @IBOutlet weak var button9: OutputArea!
     @IBOutlet weak var buttonDot: UIButton!
-    @IBOutlet weak var buttonNeg: UIButton!
+    @IBOutlet weak var buttonEquals: OutputArea!
     @IBOutlet weak var buttonE: UIButton!
     @IBOutlet weak var buttonDelete: UIButton!
 
@@ -45,8 +45,8 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     @IBOutlet weak var buttonLn: OutputArea!
     @IBOutlet weak var buttonExp: OutputArea!
     @IBOutlet weak var buttonX: OutputArea!
-    @IBOutlet weak var buttonEquals: OutputArea!
-    @IBOutlet weak var buttonParens: OutputArea!
+    @IBOutlet weak var buttonRightParen: OutputArea!
+    @IBOutlet weak var buttonLeftParen: OutputArea!
     @IBOutlet weak var buttonSum: OutputArea!
     @IBOutlet weak var buttonZ: OutputArea!
     
@@ -137,11 +137,11 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         buttonX.delegate = self
         buttonX.typeOfOutputArea = 3
         
-        buttonEquals.delegate = self
-        buttonEquals.typeOfOutputArea = 3
+        buttonRightParen.delegate = self
+        buttonRightParen.typeOfOutputArea = 3
         
-        buttonParens.delegate = self
-        buttonParens.typeOfOutputArea = 3
+        buttonLeftParen.delegate = self
+        buttonLeftParen.typeOfOutputArea = 3
         
         buttonSum.delegate = self
         buttonSum.typeOfOutputArea = 3
@@ -163,6 +163,10 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         
         buttonArctan.delegate = self
         buttonArctan.typeOfOutputArea = 3
+        
+    //compute button
+        buttonEquals.delegate = self
+        buttonEquals.typeOfOutputArea = 4
     }
     
     
@@ -212,11 +216,11 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         buttonX.delegate = self
         buttonX.typeOfOutputArea = 3
         
-        buttonEquals.delegate = self
-        buttonEquals.typeOfOutputArea = 3
+        buttonRightParen.delegate = self
+        buttonRightParen.typeOfOutputArea = 3
         
-        buttonParens.delegate = self
-        buttonParens.typeOfOutputArea = 3
+        buttonLeftParen.delegate = self
+        buttonLeftParen.typeOfOutputArea = 3
         
         buttonSum.delegate = self
         buttonSum.typeOfOutputArea = 3
@@ -270,10 +274,10 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         return view
     }
     
-    /// Function to calculate expression within mathEntryArea
-    func evaluate(_ operator: OutputArea){
-        print("operator bro")
-    }
+//    /// Function to calculate expression within mathEntryArea
+//    func evaluate(_ operator: OutputArea){
+//        print("operator bro")
+//    }
     
     //MARK: MathEntryAreaDelegate
     func didProduceBlockFromMath(){
@@ -298,18 +302,16 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
     
     @IBAction func addTextToEntryArea( _ sender: OutputArea) {
-        // Check whether OutputArea is an operator
-//        if (sender.typeOfOutputArea == 2){
-//            if (!(self.numEntryArea.titleLabel?.text?.isEmpty)!){
-//                self.numEntryArea.lhsValue = Int((self.numEntryArea.titleLabel?.text)!)
-//            }
         
-       // }
-        if (sender.titleLabel.text == "="){
-            // Call Parser
-            
+        if (sender.typeOfOutputArea == 4){
+            let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
+            parser.parserPlot(start: 1, end: 2, totalSteps: 3)
+            let answer: Float64 = parser.getY()[0]
+            numEntryAreaText = String(answer)
         }
-        numEntryAreaText += sender.titleLabel!.text!
+        else{
+            numEntryAreaText += sender.titleLabel!.text!
+        }
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
             self.numEntryArea.layoutIfNeeded()
