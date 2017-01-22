@@ -48,7 +48,7 @@ public class Parser {
     
     /* function[cursor] is currently pointing to string */
     private func isNum() -> Bool{
-        return numChars.contains(String(describing: function[cursor]))
+        return self.cursor < self.function.count && numChars.contains(String(describing: function[cursor]))
     }
     
     /* obtains value of number starting at function[cursor]. Returns array of len domain.count
@@ -57,7 +57,7 @@ public class Parser {
         
         var s: String = ""
         var c: Int = self.cursor
-        while(numChars.contains(String(describing: self.function[c]))){
+        while(c<self.function.count && numChars.contains(String(describing: self.function[c]))){
             s.append(String(describing: self.function[c]))
             c += 1
         }
