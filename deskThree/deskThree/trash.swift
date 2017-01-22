@@ -32,8 +32,11 @@ class Trash: UIImageView {
         superview!.addConstraint(NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: -44))
     }
  
-    func turnGreen() {
+    func open() {
         self.image = UIImage(named: "recycleGreen")
+    }
+    func closed() {
+        self.image = UIImage(named: "recycle")
     }
     
     func unhide() {

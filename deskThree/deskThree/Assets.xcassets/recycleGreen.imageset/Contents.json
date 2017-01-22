@@ -11,11 +11,12 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "3x"
     },
     {
       "idiom" : "universal",
-      "scale" : "3x"
+      "scale" : "2x",
+      "unassigned" : true
     }
   ],
   "info" : {

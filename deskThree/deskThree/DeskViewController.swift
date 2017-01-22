@@ -288,6 +288,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 group.hideSpots()
             }
         }
+        if(intersectsWithTrash(justPlacedBlock: _movedView)){
+            trashBin.open()
+        }
+        else{
+            trashBin.closed()
+        }
     }
     
     func didCompleteMove(_movedView: UIView) {
@@ -311,13 +317,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         if var expression = workingView as? Expression {
             
             /*check if expression overlaps with trash bin*/
-            let justPlacedBlock = _movedView
-            let x = ((justPlacedBlock.frame.origin.x*workArea.zoomScale - workArea.contentOffset.x))
-            let y = ((justPlacedBlock.frame.origin.y*workArea.zoomScale - workArea.contentOffset.y))
-            if(x < trashBin.frame.width && y > trashBin.frame.origin.y){
+            
+            if(intersectsWithTrash(justPlacedBlock: _movedView)){
                 print("deleting expression")
-                expressions.removeObject(object: justPlacedBlock)
-                justPlacedBlock.isHidden = true
+                expressions.removeObject(object: _movedView)
+                _movedView.isHidden = true
                 return
             }
             
@@ -394,6 +398,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             }
         }
         hideAllSpots()  
+    }
+    
+    func intersectsWithTrash(justPlacedBlock: UIView) -> Bool {
+        
+        let x = (justPlacedBlock.frame.origin.x*workArea.zoomScale - workArea.contentOffset.x)
+        let y = ((justPlacedBlock.frame.origin.y*workArea.zoomScale - workArea.contentOffset.y))
+        if(x < trashBin.frame.width && y > trashBin.frame.origin.y){
+            return true
+            
+        }
+        return false
     }
     
     func hideAllSpots() {
