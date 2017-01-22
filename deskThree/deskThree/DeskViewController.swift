@@ -309,11 +309,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             workingView = expression
         }
         if var expression = workingView as? Expression {
+            
             /*check if expression overlaps with trash bin*/
-            let justPlacedBlock = expressions[expressions.count-1]//review this line with team
+            let justPlacedBlock = _movedView
             let x = ((justPlacedBlock.frame.origin.x*workArea.zoomScale - workArea.contentOffset.x))
             let y = ((justPlacedBlock.frame.origin.y*workArea.zoomScale - workArea.contentOffset.y))
-
             if(x < trashBin.frame.width && y > trashBin.frame.origin.y){
                 print("deleting expression")
                 expressions.removeObject(object: justPlacedBlock)

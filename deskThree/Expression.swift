@@ -67,6 +67,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
             amtMoved += (abs(dx) + abs(dy))
             self.frame = self.frame.offsetBy(dx: dx, dy: dy)
         }
+        /* checking if over trashBin */
         
     }
     
