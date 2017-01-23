@@ -27,7 +27,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     @IBOutlet weak var button8: OutputArea!
     @IBOutlet weak var button9: OutputArea!
     @IBOutlet weak var buttonDot: UIButton!
-    @IBOutlet weak var buttonEquals: OutputArea!
+    @IBOutlet weak var buttonEquals: UIButton!
     @IBOutlet weak var buttonE: UIButton!
     @IBOutlet weak var buttonDelete: UIButton!
 
@@ -164,9 +164,6 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         buttonArctan.delegate = self
         buttonArctan.typeOfOutputArea = 3
         
-    //compute button
-        buttonEquals.delegate = self
-        buttonEquals.typeOfOutputArea = 4
     }
     
     
@@ -274,11 +271,6 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         return view
     }
     
-//    /// Function to calculate expression within mathEntryArea
-//    func evaluate(_ operator: OutputArea){
-//        print("operator bro")
-//    }
-    
     //MARK: MathEntryAreaDelegate
     func didProduceBlockFromMath(){
         numEntryAreaText = ""
@@ -300,22 +292,19 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     @IBAction func rightSwipeGestureRecognizer(_ sender: AnyObject) {
         self.removeFromSuperview()
     }
-    
-    @IBAction func addTextToEntryArea( _ sender: OutputArea) {
-        
-        if (sender.typeOfOutputArea == 4){
-            let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
-            parser.parserPlot(start: 1, end: 2, totalSteps: 3)
-            let answer: Float64 = parser.getY()[0]
-            numEntryAreaText = String(answer)
-        }
-        else{
-            numEntryAreaText += sender.titleLabel!.text!
-        }
+
+    @IBAction func addTextToEntryArea( _ sender: UIButton) {
+        numEntryAreaText += sender.titleLabel!.text!
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
             self.numEntryArea.layoutIfNeeded()
         })
+    }
+    @IBAction func equalsButtonPushed( _ sender: UIButton){
+        let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
+        parser.parserPlot(start: 1, end: 2, totalSteps: 3)
+        let answer: Float64 = parser.getY()[0]
+        numEntryAreaText = String(answer)
     }
     
 }
