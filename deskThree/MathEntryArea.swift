@@ -13,6 +13,8 @@ protocol MathEntryAreaDelegate {
 }
 
 class MathEntryArea: OutputArea {
+    
+    var lhsValue: Int?
         
     override func scootBlock( _ recognizer: UIPanGestureRecognizer) {
         let translationOfTouch = recognizer.translation(in: self)
