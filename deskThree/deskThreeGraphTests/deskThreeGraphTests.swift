@@ -28,7 +28,7 @@ class deskThreeGraphTests: XCTestCase {
     func testParserPlotPoint(){
         
         let p: Parser = Parser(functionString: "5+5*3")
-        p.parserPlot(start: 5.0, end: 5.1, totalSteps: 3)
+        p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
         let v: Float64 = p.getY()[0]
         XCTAssert(v == 20.0)
     }

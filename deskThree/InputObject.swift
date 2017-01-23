@@ -12,6 +12,8 @@ import UIKit
 protocol InputObjectDelegate{
     func didCompleteMove(_movedView: UIView)
     func didIncrementMove(_movedView: UIView)
+    func hideTrash()
+    func unhideTrash()
 }
 
 class InputObject: UIView, OutputAreaDelegate {
@@ -38,6 +40,7 @@ class InputObject: UIView, OutputAreaDelegate {
     }
     
     func outputAreaDidPassBlock(lastBlock: Block) {
+        delegate!.hideTrash()
         self.delegate!.didCompleteMove(_movedView: lastBlock)
     }
     
@@ -97,6 +100,7 @@ class InputObject: UIView, OutputAreaDelegate {
     
     //function below is the one that is actually used by OutputArea
     func makeBlock(for sender: OutputArea, withLocale blockLocation: CGPoint) -> Block {
+        delegate!.unhideTrash()
         let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: sender.currentTitle!)
         let blockType: Int = sender.typeOfOutputArea!
         let blockData: String = sender.currentTitle!

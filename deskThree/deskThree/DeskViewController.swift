@@ -301,6 +301,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //if the block is not above an existing BlockGroup's dummy view, then we create a new blockgroup including only the new block
         var workingView = _movedView
         
+        /*check if expression overlaps with trash bin*/
+        if(intersectsWithTrash(justPlacedBlock: _movedView)){
+            print("deleting expression")
+            expressions.removeObject(object: _movedView)
+            _movedView.isHidden = true
+            return
+        }
+        
         if let block = _movedView as? Block {
             var expression = Expression(firstVal: block)
             expression.tag = -1
@@ -316,14 +324,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         if var expression = workingView as? Expression {
             
-            /*check if expression overlaps with trash bin*/
             
-            if(intersectsWithTrash(justPlacedBlock: _movedView)){
-                print("deleting expression")
-                expressions.removeObject(object: _movedView)
-                _movedView.isHidden = true
-                return
-            }
+
             
             
             for group in expressions {

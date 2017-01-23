@@ -37,7 +37,8 @@ enum Precedence: Int {
     case Variable
     case Special
     case Multiply,Divide
-    case Plus,Minus
+    case Plus
+    case Minus
 }
 
 enum TypeOfBlock: Int {
