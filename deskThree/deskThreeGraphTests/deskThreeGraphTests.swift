@@ -25,12 +25,53 @@ class deskThreeGraphTests: XCTestCase {
         XCTAssert(true)
     }
     
-    func testParserPlotPoint(){
+    func testParserPlotDiv(){
         
-        let p: Parser = Parser(functionString: "5+5*3")
+        let p: Parser = Parser(functionString: "6/2")
         p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
         let v: Float64 = p.getY()[0]
-        XCTAssert(v == 20.0)
+        print(v)
+        XCTAssert(v == 3.0)
+    }
+    func testParserPlotPoint(){
+        
+        let p: Parser = Parser(functionString: "6/2-1")
+        p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
+        let v: Float64 = p.getY()[0]
+        print(v)
+        XCTAssert(v == 2.0)
+    }
+    func testParserPlotMultDiv(){
+        
+        let p: Parser = Parser(functionString: "6*2/3")
+        p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
+        let v: Float64 = p.getY()[0]
+        print(v)
+        XCTAssert(v == 4.0)
+    }
+    func testParserPlotPlusSub(){
+        
+        let p: Parser = Parser(functionString: "6+2-3")
+        p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
+        let v: Float64 = p.getY()[0]
+        print(v)
+        XCTAssert(v == 5.0)
+    }
+    func testParserPlotSubPlus(){
+        
+        let p: Parser = Parser(functionString: "6-2+3")
+        p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
+        let v: Float64 = p.getY()[0]
+        print(v)
+        XCTAssert(v == 7.0)
+    }
+    func testParserPlotSubMult(){
+        
+        let p: Parser = Parser(functionString: "6-2*3")
+        p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
+        let v: Float64 = p.getY()[0]
+        print(v)
+        XCTAssert(v == 0.0)
     }
     
     func testParserLinearFirstPoint(){

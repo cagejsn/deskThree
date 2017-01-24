@@ -278,7 +278,6 @@
 				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
 				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
-				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
 				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
@@ -293,6 +292,7 @@
 				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
 				25D1507E1DBC19CF008364EC /* PDFGenerator.swift */,
 				DA5464501DBD10A300E644F0 /* Paper.swift */,
+				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
 				52A662A21E32B1C8008E088A /* trash.swift */,
 			);
 			path = deskThree;

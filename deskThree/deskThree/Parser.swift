@@ -31,7 +31,6 @@ public class Parser {
      true if comparison holds up.*/
     private func getTrig() -> String {
         if(cursor+3 < function.count){
-            print("made it to first bool")
             
             var s: String = ""
             for i in self.cursor...self.cursor+2 {
@@ -89,7 +88,7 @@ public class Parser {
             return
         }
         
-        while(String(describing: function[cursor]) == " "){
+        while(self.cursor < function.count && String(describing: function[cursor]) == " "){
             self.cursor += 1 
         }
     }
@@ -159,13 +158,33 @@ public class Parser {
         
         var highPrioLeft: [Float64] = parserHighPriority()
         
-        while(self.cursor < function.count && String(describing: self.function[self.cursor]) == "*"){
+        if(self.cursor >= function.count){
+            return highPrioLeft
+        }
+        
+        print(self.cursor < function.count)
+        
+        var isMult: Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "*"
+        var isDiv:  Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "/"
+        
+        while(self.cursor < function.count && (isMult || isDiv)){
+            
             parserIncrimentCursor()
             var highPrioRight: [Float64] = parserHighPriority()
-            for i in 0..<self.domain.count{
-                
-                highPrioLeft[i] *= highPrioRight[i]
+            
+            if(isMult){
+                for i in 0..<self.domain.count{
+                    highPrioLeft[i] *= highPrioRight[i]
+                }
             }
+            if(isDiv){
+                for i in 0..<self.domain.count{
+                    highPrioLeft[i] /= highPrioRight[i]
+                }
+            }
+            isMult = self.cursor < function.count && String(describing: self.function[self.cursor]) == "*"
+            isDiv  = self.cursor < function.count && String(describing: self.function[self.cursor]) == "/"
+            
         }
         return highPrioLeft
     }
@@ -175,15 +194,32 @@ public class Parser {
         
         var medPrioLeft: [Float64] = parserMedPriority()
         
-        while(self.cursor < function.count && String(describing: self.function[self.cursor]) == "+"){
-            
-            parserIncrimentCursor()
-            var medPrioRight: [Float64] = parserMedPriority()
-            for i in 0..<self.domain.count{
-                
-                medPrioLeft[i] += medPrioRight[i]
-            }
+        if(self.cursor >= function.count){
+            return medPrioLeft
         }
+        var isPlus:  Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "+"
+        var isMinus: Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "-"
+        
+        while(self.cursor < function.count && (isPlus || isMinus)){
+
+            parserIncrimentCursor()
+            
+            if(isPlus){
+                var medPrioRight: [Float64] = parserMedPriority()
+                for i in 0..<self.domain.count{
+                    medPrioLeft[i] += medPrioRight[i]
+                }
+            }
+            if(isMinus){
+                var medPrioRight: [Float64] = parserMedPriority()
+                for i in 0..<self.domain.count{
+                    medPrioLeft[i] -= medPrioRight[i]
+                }
+            }
+            isPlus  = self.cursor < function.count && String(describing: self.function[self.cursor]) == "+"
+            isMinus = self.cursor < function.count && String(describing: self.function[self.cursor]) == "-"
+        }
+        
         return medPrioLeft
     }
     
