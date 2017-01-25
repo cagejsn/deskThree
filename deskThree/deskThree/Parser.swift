@@ -164,8 +164,8 @@ public class Parser {
         
         print(self.cursor < function.count)
         
-        var isMult: Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "*"
-        var isDiv:  Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "/"
+        var isMult: Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "✕"
+        var isDiv:  Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "÷"
         
         while(self.cursor < function.count && (isMult || isDiv)){
             
@@ -182,8 +182,8 @@ public class Parser {
                     highPrioLeft[i] /= highPrioRight[i]
                 }
             }
-            isMult = self.cursor < function.count && String(describing: self.function[self.cursor]) == "*"
-            isDiv  = self.cursor < function.count && String(describing: self.function[self.cursor]) == "/"
+            isMult = self.cursor < function.count && String(describing: self.function[self.cursor]) == "✕"
+            isDiv  = self.cursor < function.count && String(describing: self.function[self.cursor]) == "÷"
             
         }
         return highPrioLeft

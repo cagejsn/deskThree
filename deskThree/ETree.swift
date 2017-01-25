@@ -199,7 +199,7 @@ class ETree {
                     val = leftVal + rightVal
                 case "-":
                     val = leftVal - rightVal
-                case "x":
+                case "✕":
                     val = leftVal * rightVal
                 case "÷":
                     val = leftVal / rightVal

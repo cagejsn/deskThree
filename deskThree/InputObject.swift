@@ -121,7 +121,7 @@ class InputObject: UIView, OutputAreaDelegate {
             case "-":
                 newBlock?.precedence = Precedence.Minus.rawValue
                 break
-            case "x":
+            case "✕":
                 newBlock?.precedence = Precedence.Multiply.rawValue
                 break
             case "÷":
