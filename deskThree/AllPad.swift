@@ -304,7 +304,13 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
         parser.parserPlot(start: 1, end: 2, totalSteps: 3)
         let answer: Float64 = parser.getY()[0]
+        deleteTextFromEntryArea(self)
         numEntryAreaText = String(answer)
+        UIView.performWithoutAnimation({
+            self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
+            self.numEntryArea.layoutIfNeeded()
+        })
+        print(answer)
     }
     
 }
