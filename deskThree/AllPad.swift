@@ -293,6 +293,16 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         self.removeFromSuperview()
     }
 
+    @IBAction func addTextAndParenthesisToEntryArea( _ sender: UIButton) {
+        
+        numEntryAreaText += sender.titleLabel!.text! + "("
+        UIView.performWithoutAnimation({
+            self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
+            self.numEntryArea.layoutIfNeeded()
+        })
+        
+    }
+    
     @IBAction func addTextToEntryArea( _ sender: UIButton) {
         numEntryAreaText += sender.titleLabel!.text!
         UIView.performWithoutAnimation({

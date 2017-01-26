@@ -334,31 +334,31 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1c-kr-Sfn" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="20" y="562" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="sin(">
+                    <state key="normal" title="sin">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="hT5-yt-Cce"/>
+                        <action selector="addTextAndParenthesisToEntryArea:" destination="-1" eventType="touchUpInside" id="lyb-fI-Hpa"/>
                     </connections>
                 </button>
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hvq-56-Nic" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="20" y="616.5" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="cos(">
+                    <state key="normal" title="cos">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="PAh-KV-ElD"/>
+                        <action selector="addTextAndParenthesisToEntryArea:" destination="-1" eventType="touchUpInside" id="NyO-ku-Chm"/>
                     </connections>
                 </button>
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8M-YL-dgh" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="20" y="671" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="tan(">
+                    <state key="normal" title="tan">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="NRT-qY-8Ug"/>
+                        <action selector="addTextAndParenthesisToEntryArea:" destination="-1" eventType="touchUpInside" id="pR9-Ix-cFs"/>
                     </connections>
                 </button>
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etr-tF-JUY" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
@@ -368,7 +368,7 @@
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="Tv2-En-Tqc"/>
+                        <action selector="addTextAndParenthesisToEntryArea:" destination="-1" eventType="touchUpInside" id="9h6-hq-eWV"/>
                     </connections>
                 </button>
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GkE-ed-kw4" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
@@ -430,7 +430,7 @@
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="ja6-fg-bdh"/>
+                        <action selector="addTextAndParenthesisToEntryArea:" destination="-1" eventType="touchUpInside" id="ob7-AS-iIe"/>
                     </connections>
                 </button>
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bqo-sB-5KC" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
@@ -457,31 +457,31 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BpW-8c-FrE" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="83" y="616.5" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="arccos(">
+                    <state key="normal" title="arccos">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="6ao-dJ-VLK"/>
+                        <action selector="addTextAndParenthesisToEntryArea:" destination="-1" eventType="touchUpInside" id="hTJ-1X-t4y"/>
                     </connections>
                 </button>
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yx5-Qc-7H6" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="83" y="562" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="arcsin(">
+                    <state key="normal" title="arcsin">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="aHc-c9-euk"/>
+                        <action selector="addTextAndParenthesisToEntryArea:" destination="-1" eventType="touchUpInside" id="Eh5-on-Ug6"/>
                     </connections>
                 </button>
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKs-tC-Cqf" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="83" y="671" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="arctan(">
+                    <state key="normal" title="arctan">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="EVZ-ii-6ib"/>
+                        <action selector="addTextAndParenthesisToEntryArea:" destination="-1" eventType="touchUpInside" id="8xh-J3-QMF"/>
                     </connections>
                 </button>
             </subviews>
