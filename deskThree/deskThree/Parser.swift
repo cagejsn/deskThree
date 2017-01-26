@@ -219,7 +219,7 @@ public class Parser {
             isPlus  = self.cursor < function.count && String(describing: self.function[self.cursor]) == "+"
             isMinus = self.cursor < function.count && String(describing: self.function[self.cursor]) == "-"
         }
-        
+         
         return medPrioLeft
     }
     

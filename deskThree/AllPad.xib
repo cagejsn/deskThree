@@ -324,7 +324,7 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfD-ls-JHs" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="20" y="725.5" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="pi">
+                    <state key="normal" title="π">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -334,7 +334,7 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z1c-kr-Sfn" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="20" y="562" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="sin">
+                    <state key="normal" title="sin(">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -344,7 +344,7 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hvq-56-Nic" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="20" y="616.5" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="cos">
+                    <state key="normal" title="cos(">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -354,7 +354,7 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g8M-YL-dgh" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="20" y="671" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="tan">
+                    <state key="normal" title="tan(">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -405,7 +405,7 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cNW-PR-PgM" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="146" y="562" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="( ">
+                    <state key="normal" title="(">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -457,7 +457,7 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BpW-8c-FrE" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="83" y="616.5" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="arccos">
+                    <state key="normal" title="arccos(">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -467,7 +467,7 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yx5-Qc-7H6" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="83" y="562" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="arcsin">
+                    <state key="normal" title="arcsin(">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
@@ -477,7 +477,7 @@
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKs-tC-Cqf" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="83" y="671" width="55" height="46.5"/>
                     <color key="backgroundColor" red="0.18039215689999999" green="0.5450980392" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="arctan">
+                    <state key="normal" title="arctan(">
                         <color key="titleColor" red="0.90696299076080322" green="0.9069359302520752" blue="0.90695130825042725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
