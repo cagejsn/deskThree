@@ -87,8 +87,8 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     //MARK: Support Methods
     func isMoveInsideBound (x:CGFloat, y:CGFloat, width:CGFloat, height:CGFloat) -> Bool {
-        if (x >= superview!.frame.origin.x && y >= superview!.frame.origin.y) {
-            if (x + width <= Constants.dimensions.Paper.width && y + height <= Constants.dimensions.Paper.height - 44) {
+        if (x >= (superview!.frame.origin.x - width) && y >= superview!.frame.origin.y - height) {
+            if (x <= Constants.dimensions.Paper.width && y <= Constants.dimensions.Paper.height - 44) {
                 return true
             }
         }

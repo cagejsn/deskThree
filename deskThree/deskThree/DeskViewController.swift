@@ -332,7 +332,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 if(group != expression ){
                     for glow in group.dummyViews{
                         //see if any of the glow blocks contain the expression's origin
-                        if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).contains(expression.frame.origin)){
+                        if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).intersects(expression.frame)){
                             //reset the position to be on the x,y coords of the "group"
                             expression.frame = expression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
                             //removes from superview, we need to refrain from doing this because of the possibility that the _movedView becomes the superview
