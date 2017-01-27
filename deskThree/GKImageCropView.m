@@ -145,7 +145,6 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
     return visibleRect = GKScaleRect(visibleRect, scale);
 }
 
-
 - (CGAffineTransform)_orientationTransformedRectOfImage:(UIImage *)img
 {
 	CGAffineTransform rectTransform;
@@ -163,8 +162,7 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
 		default:
 			rectTransform = CGAffineTransformIdentity;
 	};
-	
-	return CGAffineTransformScale(rectTransform, img.scale, img.scale);
+  	return CGAffineTransformScale(rectTransform, img.scale, img.scale);
 }
 
 #pragma mark -
@@ -188,7 +186,7 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
         
         self.imageView = [[UIImageView alloc] initWithFrame:self.scrollView.frame];
         self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        self.imageView.backgroundColor = [UIColor blackColor];
+        //self.imageView.backgroundColor = [UIColor blackColor];
         [self.scrollView addSubview:self.imageView];
     
         

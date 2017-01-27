@@ -20,6 +20,7 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
     var zoomGR: UIPinchGestureRecognizer?
     var editable: Bool = false
     var delegate: ImageBlockDelegate! = nil
+    var orientationInt: Int = 0
 
     //MARK: Custom Methods
     func toggleEditable(){
@@ -29,20 +30,25 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
             zoomGR?.isEnabled = true
             editable = true
             delegate!.freeImageForMovement(image: self)
+            isUserInteractionEnabled = true
+            
         } else{
             self.layer.borderColor = UIColor.clear.cgColor
             editable = false
             delegate!.fixImageToPage(image: self)
             zoomGR?.isEnabled = false
+            isUserInteractionEnabled = false
         }
     }
     
     // MARK: touch handlers
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
             superview!.bringSubview(toFront: self)
         }
     }
+    
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
@@ -59,6 +65,7 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
         
     }
     
+ 
     func handleDoubleTap( sender: UITapGestureRecognizer) {
         toggleEditable()
     }
@@ -76,18 +83,54 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
             }
         }
     }
+    //would be nice to have a freeform rotation rather than 90 degree increments, but that can wait
+    func rotateImage( sender: UITapGestureRecognizer){
+        var newOrienation: UIImageOrientation!
+        switch orientationInt {
+        case 1:
+            newOrienation = UIImageOrientation.right
+            orientationInt = 2
+        case 2:
+            newOrienation = UIImageOrientation.down
+            orientationInt = 3
+        case 3:
+            newOrienation = UIImageOrientation.left
+            orientationInt = 4
+        default:
+            newOrienation = UIImageOrientation.up
+            orientationInt = 1
+        }
+        image = UIImage(cgImage: (image?.cgImage)!, scale: (image?.scale)!, orientation: newOrienation)
+    }
     
     //processes the UIImagePicker's image before setting it to self's .image property
     //Uses iOS built in filters to map dark colors to black and light to transparent
     func editAndSetImage(image toEdit: UIImage){
+        self.image = toEdit
+        /*
         var editedImage = image
-        
+
         //going to make a custom CIFilter
         //change the input image to a CIImage
         var context = CIContext(options: nil)
         
         //this is going to make the black areas transparent
         
+        if var currentFilter = CIFilter(name: "CIColorInvert"){
+        let beginImage = CIImage(image: toEdit)
+        currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
+            if var output = currentFilter.outputImage {
+                let cgimg = context.createCGImage(output, from: output.extent)
+                
+                let editedImage = UIImage(cgImage: cgimg!)
+                // do something interesting with the processed image
+                
+                self.image = editedImage
+                
+            }
+        }
+        */
+        /*
         if var currentFilter = CIFilter(name: "CIExposureAdjust") {
             
             let beginImage = CIImage(image: toEdit)
@@ -95,6 +138,7 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
             
             currentFilter.setValue(beginImage, forKey: kCIInputImageKey)
             currentFilter.setValue(1.3, forKey: "inputEV")
+           
             
             if var output = currentFilter.outputImage {
 
@@ -117,21 +161,26 @@ class ImageBlock: UIImageView, UIGestureRecognizerDelegate {
                 
                 let editedImage = UIImage(cgImage: cgimg!)
                 // do something interesting with the processed image
+ 
                 self.image = editedImage
             }
+
         }
+  */
     }
 
     //MARK: Initializers
     override init(frame: CGRect) {
         super.init(frame: frame)
-        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageBlock.handleDoubleTap))
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageBlock.rotateImage))
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        
         zoomGR = UIPinchGestureRecognizer(target: self, action: #selector(ImageBlock.handlePinch))
         zoomGR!.delegate = self
         self.addGestureRecognizer(zoomGR!)
+        
         self.layer.borderWidth = 3
         self.layer.borderColor = UIColor.purple.cgColor
         editable = true

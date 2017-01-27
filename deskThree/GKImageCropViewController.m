@@ -15,6 +15,13 @@
 @property (nonatomic, strong) UIToolbar *toolbar;
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIButton *useButton;
+@property (nonatomic, strong) UISlider *exposureSlider;
+@property (nonatomic) Float32  lastExpVal;
+@property (nonatomic, strong) CIFilter  *exposureFilter;
+@property (nonatomic, strong) CIFilter  *colorMapFilter;
+@property (nonatomic, strong) CIFilter  *maskToAlphaFilter;
+@property (nonatomic, strong) CIFilter  *colorInvertFilter;
+@property UIImageOrientation  sourceImageOrientation;
 
 - (void)_actionCancel;
 - (void)_actionUse;
@@ -32,7 +39,8 @@
 @synthesize imageCropView;
 @synthesize toolbar;
 @synthesize cancelButton, useButton, resizeableCropArea;
-
+@synthesize lastExpVal;
+    
 #pragma mark -
 #pragma Private Methods
 
@@ -41,15 +49,101 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
 - (void)_actionUse{
     _croppedImage = [self.imageCropView croppedImage];
     [self.delegate imageCropController:self didFinishWithCroppedImage:_croppedImage];
 }
 
-
-- (void)_setupNavigationBar{
+- (void)_setupExposureSlider{
     
+    self.exposureSlider = [[UISlider alloc] init];
+    NSDictionary *views = _NSDictionaryOfVariableBindings(@"subview", _exposureSlider);
+    [self.view addSubview:self.exposureSlider];
+    self.exposureSlider.translatesAutoresizingMaskIntoConstraints = false;
+
+   NSLayoutConstraint *fiftyFromBottom = [NSLayoutConstraint
+                                                        constraintWithItem:self.exposureSlider
+                                                        attribute:NSLayoutAttributeBottom
+                                                        relatedBy:NSLayoutRelationEqual
+                                                        toItem:self.view
+                                                        attribute:NSLayoutAttributeBottom
+                                                        multiplier:1.0
+                                                        constant:-50];
+    
+    [self.view addConstraint:fiftyFromBottom];
+    
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-50-[subview]-50-|" options: 0 metrics:nil views:views]];
+    //[self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[subview]-100-|" options: 0 metrics:nil views:views]];
+                
+    
+    [self.view layoutSubviews];
+    
+    
+    [self.exposureSlider addTarget:self action:@selector(didSlide) forControlEvents:UIControlEventValueChanged];
+    [self.exposureSlider setMinimumValue:-3.0];
+    [self.exposureSlider setMaximumValue:7.0];
+    
+    CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
+    self.sourceImageOrientation = [sourceImage imageOrientation];
+    
+    
+ 
+
+    CIImage *gradientImage = [CIImage imageWithCGImage: [[UIImage imageNamed:@"colorMap2"] CGImage] options:nil];
+    
+
+        
+    self.exposureFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
+    [self.exposureFilter setValue:beginImage forKey:kCIInputImageKey];
+    
+        
+    self.colorMapFilter = [CIFilter filterWithName:@"CIColorMap"];
+    [self.colorMapFilter setValue:gradientImage forKey:@"inputGradientImage"];
+    
+        
+    self.maskToAlphaFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
+    [self.maskToAlphaFilter setDefaults];
+    
+    self.colorInvertFilter = [CIFilter filterWithName:@"CIColorInvert"];
+    [self.colorInvertFilter setDefaults];
+
+    
+}
+
+- (void)didSlide{
+    if ( abs(lastExpVal - _exposureSlider.value) < 1){
+        return;
+    }
+    
+    
+    CIContext *context = [CIContext contextWithOptions:nil];
+
+    
+      CGImageRef cgimg;
+    
+    CIImage *output;
+    
+    
+    [self.exposureFilter setValue:[NSNumber numberWithFloat:_exposureSlider.value] forKey:@"inputEV"];
+    output = [self.exposureFilter outputImage];
+    
+    [self.colorMapFilter setValue:output forKey:kCIInputImageKey];
+    output = [self.colorMapFilter outputImage];
+    
+    [self.maskToAlphaFilter setValue:output forKey:kCIInputImageKey];
+    output = [self.maskToAlphaFilter outputImage];
+    
+    [self.colorInvertFilter setValue:output forKey:kCIInputImageKey];
+    output = [self.colorInvertFilter outputImage];
+
+    
+    cgimg  = [context createCGImage:output fromRect:[output extent]];
+    [self.imageCropView setImageToCrop: [UIImage imageWithCGImage:cgimg scale:1.0 orientation:self.sourceImageOrientation]];
+
+
+     }
+     
+- (void)_setupNavigationBar{
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
                                                                                           target:self 
                                                                                           action:@selector(_actionCancel)];
@@ -68,6 +162,7 @@
     [self.imageCropView setResizableCropArea:self.resizeableCropArea];
     [self.imageCropView setCropSize:cropSize];
     [self.view addSubview:self.imageCropView];
+    [self.imageCropView setBackgroundColor:[UIColor whiteColor]];
 }
 
 - (void)_setupCancelButton{
@@ -207,6 +302,7 @@
     [self _setupNavigationBar];
     [self _setupCropView];
     [self _setupToolbar];
+    [self _setupExposureSlider];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self.navigationController setNavigationBarHidden:YES];

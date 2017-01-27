@@ -30,9 +30,11 @@ class StoredDrawing: MTKView  {
     
     var commandQueue: MTLCommandQueue?
     var storedImageTexture: MTLTexture?
+    var activeDrawingFriend: ActiveDrawing?
     
-    override init(frame frameRect: CGRect, device: MTLDevice?) {
+    init(frame frameRect: CGRect, device: MTLDevice?, activeResource: ActiveDrawing) {
         super.init(frame: frameRect, device: device)
+        activeDrawingFriend = activeResource
         self.backgroundColor = UIColor.clear
         self.framebufferOnly = false
     }
@@ -52,10 +54,17 @@ class StoredDrawing: MTKView  {
             let commandBuffer = commandQueue.makeCommandBuffer()
             
             // Copy the image texture to the texture of the current drawable
+            
+        
+            
+            
             let blitEncoder = commandBuffer.makeBlitCommandEncoder()
-            blitEncoder.copy(from: storedImageTexture, sourceSlice: 0, sourceLevel: 0,
+            
+            
+            
+            blitEncoder.copy(from: (activeDrawingFriend?.currentDrawable?.texture)!, sourceSlice: 0, sourceLevel: 0,
                              sourceOrigin: MTLOrigin(x: 0, y: 0, z: 0),
-                             sourceSize: MTLSizeMake(storedImageTexture.width, storedImageTexture.height, storedImageTexture.depth),
+                             sourceSize: MTLSizeMake((activeDrawingFriend?.currentDrawable?.texture.width)!, (activeDrawingFriend?.currentDrawable?.texture.height)!, (activeDrawingFriend?.currentDrawable?.texture.depth)!),
                              to: currentDrawable.texture, destinationSlice: 0, destinationLevel: 0,
                                         destinationOrigin: MTLOrigin(x: 0, y: 0, z: 0))
             blitEncoder.endEncoding()
@@ -65,4 +74,5 @@ class StoredDrawing: MTKView  {
             commandBuffer.commit()
         }
     }
+ 
 }
