@@ -35,12 +35,17 @@ public class Parser {
         
         var s: String = ""
         
-        if(cursor+3 < function.count){
-
-            for i in self.cursor...self.cursor+2 {
-                s.append(String(describing: self.function[i]))
+        if(cursor+2 < function.count){//for keywords of length 2
+            s.append(String(describing: function[0]))
+            s.append(String(describing: function[1]))
+            if("ln" == s){
+                return s
             }
-            if("sin" == s || "cos" == s || "tan" == s){
+        }
+        
+        if(cursor+3 < function.count){
+            s.append(String(describing: self.function[2]))
+            if("sin" == s || "cos" == s || "tan" == s || "log" == s){
                 print("operator type is", s)
                 return s
             }
@@ -96,6 +101,8 @@ public class Parser {
                 self.cursor += 1
             }
             //can be optimized for sure
+        }else if(getWord().characters.count == 2){
+            self.cursor += 3
         }else if(getWord().characters.count == 3){
             self.cursor += 4
         }else if(getWord().characters.count == 4){
@@ -191,13 +198,21 @@ public class Parser {
         }
         if(self.cursor < self.function.count && String(describing: function[cursor]) == "π"){
             parserIncrimentCursor()
-            var returnList: [Float64] = Array()
             let value: Float64 = 3.141592653589793238462643383279502884197169399375105820974944592307816406286
             for _ in 0..<self.domain.count {
-                returnList.append(value)
+                resultList.append(value)
             }
             resultList = parserPower(baseList: resultList)
-            return returnList
+            return resultList
+        }
+        if(self.cursor < self.function.count && String(describing: function[cursor]) == "e"){
+            parserIncrimentCursor()
+            let value: Float64 = 2.7182818284590452353602874713526624977572470936999595749
+            for _ in 0..<self.domain.count {
+                resultList.append(value)
+            }
+            resultList = parserPower(baseList: resultList)
+            return resultList
         }
         let type: String = getWord()
         if(type != ""){
@@ -235,6 +250,14 @@ public class Parser {
             }else if(type == "sqrt"){
                 for i in 0..<resultList.count {
                     resultList[i] = sqrt(resultList[i])
+                }
+            }else if(type == "log"){
+                for i in 0..<resultList.count {
+                    resultList[i] = logOf(base: 10, val: resultList[i])
+                }
+            }else if(type == "ln"){
+                for i in 0..<resultList.count {
+                    resultList[i] = logOf(base: 2.7182818284590452353602874713526624977572470936999595749, val: resultList[i])
                 }
             }
             
