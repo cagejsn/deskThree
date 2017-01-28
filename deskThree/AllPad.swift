@@ -292,17 +292,22 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     @IBAction func rightSwipeGestureRecognizer(_ sender: AnyObject) {
         self.removeFromSuperview()
     }
+    
+    @IBAction func addSqrtToEntryArea( _ sender: UIButton) {
+        numEntryAreaText += "sqrt("
+        UIView.performWithoutAnimation({
+            self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
+            self.numEntryArea.layoutIfNeeded()
+        })
+    }
 
     @IBAction func addTextAndParenthesisToEntryArea( _ sender: UIButton) {
-        
         numEntryAreaText += sender.titleLabel!.text! + "("
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
             self.numEntryArea.layoutIfNeeded()
         })
-        
     }
-    
     @IBAction func addTextToEntryArea( _ sender: UIButton) {
         numEntryAreaText += sender.titleLabel!.text!
         UIView.performWithoutAnimation({

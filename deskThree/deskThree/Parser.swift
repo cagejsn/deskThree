@@ -25,19 +25,38 @@ public class Parser {
         
     }
     
+    private func throwParenthesisError(){
+        print("unmatched parenthesis")
+    }
+    
     //can be optimized later
-    /* takes array of strings targArray, and makes a string combining elements
-     from position start to position stop. Compares to string comparedTo. Returns
-     true if comparison holds up.*/
-    private func getTrig() -> String {
+    /* returns next word in function array if there is a recognized word present */
+    private func getWord() -> String {
+        
+        var s: String = ""
+        
         if(cursor+3 < function.count){
-            
-            var s: String = ""
+
             for i in self.cursor...self.cursor+2 {
                 s.append(String(describing: self.function[i]))
             }
-            print(s)
             if("sin" == s || "cos" == s || "tan" == s){
+                print("operator type is", s)
+                return s
+            }
+        }
+        if(cursor+4 < function.count){
+            s.append(String(describing: self.function[3]))
+            if("sqrt" == s){
+                return s
+            }
+        }
+        if(cursor+6 < function.count){
+            
+            for i in self.cursor+4...self.cursor+5 {
+                s.append(String(describing: self.function[i]))
+            }
+            if("arcsin" == s || "arccos" == s || "arctan" == s){
                 print("operator type is", s)
                 return s
             }
@@ -76,10 +95,13 @@ public class Parser {
             while(isNum()){
                 self.cursor += 1
             }
-            
-        }else if(getTrig() != ""){
+            //can be optimized for sure
+        }else if(getWord().characters.count == 3){
             self.cursor += 4
-            
+        }else if(getWord().characters.count == 4){
+            self.cursor += 5
+        }else if(getWord().characters.count == 6){
+            self.cursor += 7
         }else{
             self.cursor += 1
             
@@ -91,6 +113,43 @@ public class Parser {
         while(self.cursor < function.count && String(describing: function[cursor]) == " "){
             self.cursor += 1 
         }
+    }
+    
+    /* returns log base(val) */
+    func logOf(base: Double, val: Double) -> Double {
+        return log(val)/log(base)
+    }
+    
+    func parserPower(baseList: [Float64]) -> [Float64]{
+        
+        if((self.cursor < self.function.count) && (String(describing: function[cursor]) == "^")){
+            
+            parserIncrimentCursor()
+
+            if(String(describing: function[cursor]) == "("){
+                parserIncrimentCursor()
+                var powArray: [Float64] = parserExpression()
+                for i in 0..<self.domain.count {
+                    powArray[i] = pow(baseList[i], powArray[i])
+                }
+                if(String(describing: function[cursor]) != ")"){
+                    throwParenthesisError()
+                }
+                parserIncrimentCursor()
+                return powArray
+            }else
+            {
+                
+                var powArray: [Float64] = parserExpression()
+                for i in 0..<self.domain.count {
+                    powArray[i] = pow(baseList[i], powArray[i])
+                }
+                return powArray
+                
+            }
+            
+        }
+        return baseList
     }
     
     /* parses and calcualtes numbers, x, parenthesis, trig functions */
@@ -108,6 +167,7 @@ public class Parser {
                 resultList.append(x)
             }
             parserIncrimentCursor()
+            resultList = parserPower(baseList: resultList)
             return resultList
         }
         if(indicator == "("){
@@ -117,17 +177,29 @@ public class Parser {
                 print("ERROR unmatched (")
             }
             parserIncrimentCursor()
+            resultList = parserPower(baseList: resultList)
             return resultList
         }
         if(isNum()){
             
             resultList = parserGetNum()
-
             parserIncrimentCursor()
+            
+            resultList = parserPower(baseList: resultList)
+            
             return resultList
         }
-        let type: String = getTrig()
-        print(type)
+        if(self.cursor < self.function.count && String(describing: function[cursor]) == "π"){
+            parserIncrimentCursor()
+            var returnList: [Float64] = Array()
+            let value: Float64 = 3.141592653589793238462643383279502884197169399375105820974944592307816406286
+            for _ in 0..<self.domain.count {
+                returnList.append(value)
+            }
+            resultList = parserPower(baseList: resultList)
+            return returnList
+        }
+        let type: String = getWord()
         if(type != ""){
             parserIncrimentCursor()
             resultList = parserExpression()
@@ -135,6 +207,7 @@ public class Parser {
                 print("ERROR unmatched (")
             }
             parserIncrimentCursor()
+
             if(type == "sin"){
                 for i in 0..<resultList.count {
                     resultList[i] = sin(resultList[i])
@@ -147,9 +220,26 @@ public class Parser {
                 for i in 0..<resultList.count {
                     resultList[i] = tan(resultList[i])
                 }
+            }else if(type == "arcsin"){
+                for i in 0..<resultList.count {
+                    resultList[i] = asin(resultList[i])
+                }
+            }else if(type == "arccos"){
+                for i in 0..<resultList.count {
+                    resultList[i] = acos(resultList[i])
+                }
+            }else if(type == "arctan"){
+                for i in 0..<resultList.count {
+                    resultList[i] = atan(resultList[i])
+                }
+            }else if(type == "sqrt"){
+                for i in 0..<resultList.count {
+                    resultList[i] = sqrt(resultList[i])
+                }
             }
             
         }
+        resultList = parserPower(baseList: resultList)
         return resultList
     }
     

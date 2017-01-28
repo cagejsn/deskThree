@@ -318,7 +318,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>
-                        <action selector="addTextToEntryArea:" destination="-1" eventType="touchUpInside" id="VZF-7J-6lQ"/>
+                        <action selector="addSqrtToEntryArea:" destination="-1" eventType="touchUpInside" id="9aw-j9-XPl"/>
                     </connections>
                 </button>
                 <button autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfD-ls-JHs" customClass="OutputArea" customModule="deskThree" customModuleProvider="target">
