@@ -41,6 +41,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
         
+        /*
         //JotUI setup
         pen = Pen()
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
@@ -51,7 +52,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
         workArea.currentPage.addSubview(jotView)
-
+*/
  
         
        

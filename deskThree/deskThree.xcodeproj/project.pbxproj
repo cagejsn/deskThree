@@ -25,6 +25,7 @@
 		DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
 		DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */; };
 		DA5464511DBD10A300E644F0 /* Paper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5464501DBD10A300E644F0 /* Paper.swift */; };
+		DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */; };
 		DA7050E41E25591000079047 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7050E31E25591000079047 /* GraphView.swift */; };
 		DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DA7050F11E25EFD100079047 /* vertexShader.glsl */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
@@ -104,6 +105,7 @@
 		DA4918AC1DE75AAA00E3AA1D /* quad.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.vsh; sourceTree = "<group>"; };
 		DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = stencil.fsh; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
+		DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKFilteredImageView.swift; sourceTree = "<group>"; };
 		DA7050E31E25591000079047 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		DA7050F11E25EFD100079047 /* vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vertexShader.glsl; path = ../vertexShader.glsl; sourceTree = "<group>"; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				DAA494E41DC3A0D600C73780 /* GKImageCropOverlayView.m */,
 				DAA494E51DC3A0D600C73780 /* GKImageCropView.h */,
 				DAA494E61DC3A0D600C73780 /* GKImageCropView.m */,
+				DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */,
 				DAA494E71DC3A0D600C73780 /* GKImageCropViewController.h */,
 				DAA494E81DC3A0D600C73780 /* GKImageCropViewController.m */,
 				DAA494E91DC3A0D600C73780 /* GKImagePicker.h */,
@@ -380,7 +383,7 @@
 					};
 					DAFBE39F1DBBDBC20007D249 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 6SJHMR9UMT;
+						DevelopmentTeam = QFB6VECLEF;
 						LastSwiftMigration = 0800;
 					};
 					DAFBE3B31DBBDBC20007D249 = {
@@ -482,6 +485,7 @@
 				CE3E876C1E354D640076DA3A /* Parser.swift in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
 				DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */,
+				DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */,
 				DADC7C681DF0F4650086626E /* Constants.swift in Sources */,
 				DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */,
 				DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */,
@@ -679,7 +683,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = QFB6VECLEF;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -698,7 +703,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = QFB6VECLEF;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
