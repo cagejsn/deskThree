@@ -41,7 +41,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
         
-        /*
+        
         //JotUI setup
         pen = Pen()
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
@@ -52,7 +52,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
         workArea.currentPage.addSubview(jotView)
-*/
+
  
         
        
@@ -132,17 +132,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
 
-        
+         workArea.frame = workArea.currentPage.frame
         jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
 
-        workArea.frame = workArea.currentPage.frame
+       
 //        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
 //        var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
 //        pdfShareHelper.delegate = self
 //        pdfShareHelper.uti = "com.adobe.pdf"
 //        // Currently, Preview itself gives option to share
 //        pdfShareHelper.presentPreview(animated: false)
-        //pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
+//        pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
         workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
     }
 

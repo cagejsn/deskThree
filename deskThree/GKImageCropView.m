@@ -208,8 +208,8 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
         //need a UIImage
         
         //set up filteredImageView
-        
-        EAGLContext *context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        GKContext *context = [[GKContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+       // EAGLContext *context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
         filteredImageView = [[GKFilteredImageView alloc] initWithFrame:self.scrollView.frame context:context];
         
         

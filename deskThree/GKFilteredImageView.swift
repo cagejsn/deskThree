@@ -53,6 +53,7 @@ import Foundation
         colorInvertFilter.setValue(output, forKey: kCIInputImageKey)
         output = colorInvertFilter.outputImage!
     
+        output = output.applyingOrientation(imageOrientationToTiffOrientation(value: sourceImageOrientation))
    
     }
     
@@ -79,16 +80,39 @@ import Foundation
         
     }
     
+    //credit https://github.com/FlexMonkey/CIImage-UIImage-Orientation-Fix
+    func imageOrientationToTiffOrientation(value: UIImageOrientation) -> Int32
+    {
+        switch (value)
+        {
+        case .up:
+            return 1
+        case .down:
+            return 3
+        case .left:
+            return 8
+        case .right:
+            return 6
+        case .upMirrored:
+            return 2
+        case .downMirrored:
+            return 4
+        case .leftMirrored:
+            return 5
+        case .rightMirrored:
+            return 7
+        }
+    }
     
     override func draw(_ rect: CGRect) {
-     //   glClearColor(0.0, 0.0, 0.0, 0.0)
-       // glClear( GLbitfield(GL_COLOR_BUFFER_BIT) | GLbitfield(GL_DEPTH_BUFFER_BIT))
+
         print("before draw: " + String(CACurrentMediaTime()))
         let scale = CGAffineTransform(scaleX: self.contentScaleFactor, y: self.contentScaleFactor)
         var destRect = CGRect(x: 0, y: 0, width: self.bounds.width  , height: self.bounds.height )
         let drawingRect = rect.applying(scale)
         if(output == nil){
-            let firstImg = CIImage(cgImage: beginningImage.cgImage!)
+            let firstImg = CIImage(cgImage: beginningImage.cgImage!).applyingOrientation(imageOrientationToTiffOrientation(value: sourceImageOrientation))
+            
             ciContext.draw(firstImg, in: drawingRect, from: firstImg.extent)
         } else {
             ciContext.draw(output, in: drawingRect, from: output.extent)
