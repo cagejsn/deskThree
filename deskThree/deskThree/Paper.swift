@@ -34,6 +34,12 @@ class Paper: UIImageView, ImageBlockDelegate {
         
     }
     
+    func helpMove(imageBlock: ImageBlock, dx: CGFloat, dy: CGFloat) {
+        imageBlock.frame.origin.x = imageBlock.frame.origin.x + dx
+        imageBlock.frame.origin.y = imageBlock.frame.origin.y + dy
+
+    }
+    
     // This is never called
     private func setupGestureRecognizers() {
         // 1. Set up a pan gesture recognizer to track where user moves finger
