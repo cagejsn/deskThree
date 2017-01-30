@@ -9,6 +9,8 @@
 #import "GKImageCropView.h"
 #import "GKImageCropOverlayView.h"
 #import "GKResizeableCropOverlayView.h"
+#import "deskThree-Swift.h"
+
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -51,7 +53,10 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
 
 @interface GKImageCropView ()<UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIImageView *imageView;
+
+@property (nonatomic, strong) GKFilteredImageView *filteredImageView;
+ 
+
 @property (nonatomic, strong) GKImageCropOverlayView *cropOverlayView;
 @property (nonatomic, assign) CGFloat xOffset;
 @property (nonatomic, assign) CGFloat yOffset;
@@ -66,14 +71,27 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
 #pragma mark -
 #pragma Getter/Setter
 
-@synthesize scrollView, imageView, cropOverlayView, resizableCropArea, xOffset, yOffset;
+@synthesize scrollView, filteredImageView, cropOverlayView, resizableCropArea, xOffset, yOffset;
 
 - (void)setImageToCrop:(UIImage *)imageToCrop{
-    self.imageView.image = imageToCrop;
+    
+    [filteredImageView setBeginningImage:imageToCrop];
+    [filteredImageView setupFilters];
+    //self.imageView.image = imageToCrop;
+}
+
+-(void)filterAndDisplay:(float)sliderValue{
+    printf("before filter and display: %f\n", CACurrentMediaTime());
+    [filteredImageView filterImageFor:sliderValue];
+    printf("after filter: %f\n", CACurrentMediaTime());
+    [filteredImageView display];
+    printf("after display: %f\n", CACurrentMediaTime());
 }
 
 - (UIImage *)imageToCrop{
-    return self.imageView.image;
+ //   filteredImageView transfromContextToUIImage
+    return [filteredImageView generateUIImageFromContext];
+   // return [[UIImage alloc] init];
 }
 
 - (void)setCropSize:(CGSize)cropSize{
@@ -117,11 +135,12 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
     
     //first of all, get the size scale by taking a look at the real image dimensions. Here it doesn't matter if you take
     //the width or the hight of the image, because it will always be scaled in the exact same proportion of the real image
-    CGFloat sizeScale = self.imageView.image.size.width / self.imageView.frame.size.width;
+    CGFloat sizeScale = self.filteredImageView.beginningImage.size.width / self.filteredImageView.frame.size.width;
+    //potential problem #1
     sizeScale *= self.scrollView.zoomScale;
     
     //then get the postion of the cropping rect inside the image
-    CGRect visibleRect = [resizeableView.contentView convertRect:resizeableView.contentView.bounds toView:imageView];
+    CGRect visibleRect = [resizeableView.contentView convertRect:resizeableView.contentView.bounds toView:filteredImageView];
     return visibleRect = GKScaleRect(visibleRect, sizeScale);
 }
 
@@ -141,7 +160,7 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
                  MAX(scaleWidth, scaleHeight));
     }
     //extract visible rect from scrollview and scale it
-    CGRect visibleRect = [scrollView convertRect:scrollView.bounds toView:imageView];
+    CGRect visibleRect = [scrollView convertRect:scrollView.bounds toView:filteredImageView];
     return visibleRect = GKScaleRect(visibleRect, scale);
 }
 
@@ -184,13 +203,20 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
         self.scrollView.backgroundColor = [UIColor clearColor];
         [self addSubview:self.scrollView];
         
-        self.imageView = [[UIImageView alloc] initWithFrame:self.scrollView.frame];
-        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        //self.imageView.backgroundColor = [UIColor blackColor];
-        [self.scrollView addSubview:self.imageView];
+        
+        
+        //need a UIImage
+        
+        //set up filteredImageView
+        GKContext *context = [[GKContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+       // EAGLContext *context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+        filteredImageView = [[GKFilteredImageView alloc] initWithFrame:self.scrollView.frame context:context];
+        
+        
+        [self.scrollView addSubview:filteredImageView];
     
         
-        self.scrollView.minimumZoomScale = CGRectGetWidth(self.scrollView.frame) / CGRectGetWidth(self.imageView.frame);
+        self.scrollView.minimumZoomScale = CGRectGetWidth(self.scrollView.frame) / CGRectGetWidth(self.filteredImageView.frame);
         self.scrollView.maximumZoomScale = 20.0;
         [self.scrollView setZoomScale:1.0];
     }
@@ -254,14 +280,14 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
     self.cropOverlayView.frame = self.bounds;
     self.scrollView.frame = CGRectMake(xOffset, yOffset, size.width, size.height);
     self.scrollView.contentSize = CGSizeMake(size.width, size.height);
-    self.imageView.frame = CGRectMake(0, floor((size.height - faktoredHeight) * 0.5), faktoredWidth, faktoredHeight);
+    self.filteredImageView.frame = CGRectMake(0, floor((size.height - faktoredHeight) * 0.5), faktoredWidth, faktoredHeight);
 }
 
 #pragma mark -
 #pragma UIScrollViewDelegate Methods
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
-    return self.imageView;
+    return self.filteredImageView;
 }
 
 @end

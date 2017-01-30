@@ -17,10 +17,7 @@
 @property (nonatomic, strong) UIButton *useButton;
 @property (nonatomic, strong) UISlider *exposureSlider;
 @property (nonatomic) Float32  lastExpVal;
-@property (nonatomic, strong) CIFilter  *exposureFilter;
-@property (nonatomic, strong) CIFilter  *colorMapFilter;
-@property (nonatomic, strong) CIFilter  *maskToAlphaFilter;
-@property (nonatomic, strong) CIFilter  *colorInvertFilter;
+
 @property UIImageOrientation  sourceImageOrientation;
 
 - (void)_actionCancel;
@@ -77,70 +74,17 @@
                 
     
     [self.view layoutSubviews];
-    
-    
     [self.exposureSlider addTarget:self action:@selector(didSlide) forControlEvents:UIControlEventValueChanged];
     [self.exposureSlider setMinimumValue:-3.0];
     [self.exposureSlider setMaximumValue:7.0];
-    
-    CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
-    self.sourceImageOrientation = [sourceImage imageOrientation];
-    
-    
- 
-
-    CIImage *gradientImage = [CIImage imageWithCGImage: [[UIImage imageNamed:@"colorMap2"] CGImage] options:nil];
-    
-
+   
         
-    self.exposureFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
-    [self.exposureFilter setValue:beginImage forKey:kCIInputImageKey];
-    
-        
-    self.colorMapFilter = [CIFilter filterWithName:@"CIColorMap"];
-    [self.colorMapFilter setValue:gradientImage forKey:@"inputGradientImage"];
-    
-        
-    self.maskToAlphaFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
-    [self.maskToAlphaFilter setDefaults];
-    
-    self.colorInvertFilter = [CIFilter filterWithName:@"CIColorInvert"];
-    [self.colorInvertFilter setDefaults];
-
-    
 }
 
 - (void)didSlide{
-    if ( abs(lastExpVal - _exposureSlider.value) < 1){
-        return;
-    }
-    
-    
-    CIContext *context = [CIContext contextWithOptions:nil];
-
-    
-      CGImageRef cgimg;
-    
-    CIImage *output;
-    
-    
-    [self.exposureFilter setValue:[NSNumber numberWithFloat:_exposureSlider.value] forKey:@"inputEV"];
-    output = [self.exposureFilter outputImage];
-    
-    [self.colorMapFilter setValue:output forKey:kCIInputImageKey];
-    output = [self.colorMapFilter outputImage];
-    
-    [self.maskToAlphaFilter setValue:output forKey:kCIInputImageKey];
-    output = [self.maskToAlphaFilter outputImage];
-    
-    [self.colorInvertFilter setValue:output forKey:kCIInputImageKey];
-    output = [self.colorInvertFilter outputImage];
-
-    
-    cgimg  = [context createCGImage:output fromRect:[output extent]];
-    [self.imageCropView setImageToCrop: [UIImage imageWithCGImage:cgimg scale:1.0 orientation:self.sourceImageOrientation]];
-
-
+    printf("before did slide: %f\n", CACurrentMediaTime());
+    [imageCropView filterAndDisplay:_exposureSlider.value];
+    printf("after did slide: %f\n", CACurrentMediaTime());
      }
      
 - (void)_setupNavigationBar{
@@ -158,7 +102,11 @@
 - (void)_setupCropView{
     
     self.imageCropView = [[GKImageCropView alloc] initWithFrame:self.view.bounds];
+    
+    //
     [self.imageCropView setImageToCrop:sourceImage];
+    //
+    
     [self.imageCropView setResizableCropArea:self.resizeableCropArea];
     [self.imageCropView setCropSize:cropSize];
     [self.view addSubview:self.imageCropView];
