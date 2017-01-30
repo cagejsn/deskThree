@@ -98,11 +98,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return workArea.currentPage
     }
     
-    @IBAction func setImagesButtonPushed(_ sender: AnyObject) {
-        for i in 0 ..< workArea.currentPage.images!.count {
-            workArea.currentPage.images![i].toggleEditable()
-        }
-    }
     
     // Opens the calculator
     @IBAction func rightSideScreenEdgePanGestureRecognizer(_ sender: UIGestureRecognizer) {
@@ -175,7 +170,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             imageBlock.center = self.view.center
             imageBlock.isUserInteractionEnabled = true
             imageBlock.contentMode = .scaleAspectFit
-            imageBlock.editAndSetImage(image: pickedImage)
+            imageBlock.setImage(image: pickedImage)
             imageBlock.delegate = self.workArea.currentPage
         }
         dismiss(animated: true, completion: nil)        
