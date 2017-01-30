@@ -80,6 +80,9 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         var dR = sender.rotation - previousRotation
         previousRotation = sender.rotation
         self.imageHolder.transform = self.imageHolder.transform.rotated(by: dR)
+        if(sender.state == .ended){
+            previousRotation = 0
+        }
     }
 
     func handlePinch( sender: UIPinchGestureRecognizer){
