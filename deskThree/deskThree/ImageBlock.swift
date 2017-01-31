@@ -23,10 +23,9 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     var rotationGestureRecognizer: UIRotationGestureRecognizer!
     var editable: Bool = false
     var delegate: ImageBlockDelegate! = nil
-    var orientationInt: Int = 0
-    
     var previousRotation: CGFloat = 0
 
+    
     //MARK: Custom Methods
     func toggleEditable(){
         if(!editable){
@@ -34,10 +33,10 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
             self.layer.borderColor = UIColor.purple.cgColor
             zoomGR?.isEnabled = true
             rotationGestureRecognizer.isEnabled = true
+            doubleTapGestureRecognizer?.isEnabled = true
             editable = true
             delegate!.freeImageForMovement(image: self)
-          //  isUserInteractionEnabled = true
-            
+            isUserInteractionEnabled = true
             
         } else{
             self.layer.borderColor = UIColor.clear.cgColor
@@ -45,8 +44,13 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
             delegate!.fixImageToPage(image: self)
             zoomGR?.isEnabled = false
             rotationGestureRecognizer.isEnabled = false
-         //   isUserInteractionEnabled = false
+            doubleTapGestureRecognizer?.isEnabled = false
+            isUserInteractionEnabled = false
         }
+    }
+    
+    func isEditable()->Bool{
+        return editable 
     }
     
     // MARK: touch handlers
@@ -75,6 +79,20 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         
     }
     
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        
+        if(self.point(inside: point, with: event)){
+            if (event == nil){
+                return self
+            } else {
+                return super.hitTest(point, with: event)
+            }
+        } else { return super.hitTest(point, with: event)}
+        
+       
+       
+    }
+    
     
     func handleRotate( sender: UIRotationGestureRecognizer){
         var dR = sender.rotation - previousRotation
@@ -100,6 +118,8 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
             }
         }
     }
+    
+    
 
     func setImage(image: UIImage){
         imageHolder.image = image
@@ -109,17 +129,16 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageBlock.toggleEditable))
+        doubleTapGestureRecognizer?.numberOfTapsRequired = 2
+        self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        
         imageHolder = UIImageView(frame: self.frame)
         self.addSubview(imageHolder)
         imageHolder.contentMode = .scaleAspectFit
         
         rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(ImageBlock.handleRotate(sender:)))
         self.addGestureRecognizer(rotationGestureRecognizer)
-        
-        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageBlock.toggleEditable))
-        doubleTapGestureRecognizer!.numberOfTapsRequired = 2
-        doubleTapGestureRecognizer?.delegate = self
-        self.addGestureRecognizer(doubleTapGestureRecognizer!)
         
         zoomGR = UIPinchGestureRecognizer(target: self, action: #selector(ImageBlock.handlePinch))
         zoomGR!.delegate = self

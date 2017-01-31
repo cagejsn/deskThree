@@ -22,6 +22,8 @@ class WorkArea: UIScrollView {
     var pages: [Paper] = [Paper]()
     var currentPage: Paper!
     
+    var longPressGR: UILongPressGestureRecognizer!
+    
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         pages.append(Paper())
@@ -31,7 +33,24 @@ class WorkArea: UIScrollView {
         pages[0].contentMode = .scaleAspectFit
         self.sendSubview(toBack: pages[0])
         pages[0].isUserInteractionEnabled = true
-        self.panGestureRecognizer.minimumNumberOfTouches = 2
+        self.panGestureRecognizer.minimumNumberOfTouches = 1
+        
+        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(WorkArea.handleLongPress))
+        longPressGR.minimumPressDuration = 2
+        self.addGestureRecognizer(longPressGR)
+        
+        
+    }
+    
+    func handleLongPress(sender: UILongPressGestureRecognizer){
+        
+        
+        let view = hitTest(sender.location(in: self), with: nil)
+        if let imageBlock = view as? ImageBlock {
+            if(!imageBlock.isEditable()){
+            imageBlock.toggleEditable()
+            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,5 +63,10 @@ class WorkArea: UIScrollView {
         self.sendSubview(toBack: pages[0])
         pages[0].isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
+        
+        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(WorkArea.handleLongPress))
+        longPressGR.minimumPressDuration = 2
+        self.addGestureRecognizer(longPressGR)
+
     }
 }
