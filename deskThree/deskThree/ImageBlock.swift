@@ -79,8 +79,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {        
         if(self.point(inside: point, with: event)){
             if (event == nil){
                 return self
