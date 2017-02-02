@@ -36,22 +36,22 @@ public class Parser {
         var s: String = ""
         
         if(cursor+2 < function.count){//for keywords of length 2
-            s.append(String(describing: function[0]))
-            s.append(String(describing: function[1]))
+            s.append(String(describing: function[cursor]))
+            s.append(String(describing: function[cursor+1]))
             if("ln" == s){
                 return s
             }
         }
         
         if(cursor+3 < function.count){
-            s.append(String(describing: self.function[2]))
+            s.append(String(describing: self.function[cursor+2]))
             if("sin" == s || "cos" == s || "tan" == s || "log" == s){
                 print("operator type is", s)
                 return s
             }
         }
         if(cursor+4 < function.count){
-            s.append(String(describing: self.function[3]))
+            s.append(String(describing: self.function[cursor+3]))
             if("sqrt" == s){
                 return s
             }
