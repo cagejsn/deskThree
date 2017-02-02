@@ -27,6 +27,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var jotViewStatePlistPath: String!
     var graphingBlock: GraphingBlock!
     var trashBin: Trash!
+    var toolDrawer: ToolDrawer!
+    
+    var customContraints: [NSLayoutConstraint]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +64,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
       //  graphingBlock = GraphingBlock(frame: CGRect(x:100,y:100,width:200,height:200))
         
         
-        
+        setupToolDrawer()
         
 
         
@@ -74,6 +77,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.addSubview(trashBin)
         trashBin.setupTrash()
         trashBin.hide()
+    }
+    
+    func setupToolDrawer(){
+        toolDrawer = ToolDrawer()
+        self.view.addSubview(toolDrawer)
+        toolDrawer.setupConstraints()
+        
+        
+        
+        
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,7 +120,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             // TODO: add sliding animation to make it more appealing
             self.view.addSubview(allPad!)
         
-
+            print(toolDrawer.frame)
         }
     }
     

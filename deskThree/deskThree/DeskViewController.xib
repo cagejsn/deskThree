@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -17,11 +17,11 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="AVO-vL-44u">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sjq-WA-Ug4">
-                    <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                    <rect key="frame" x="0.0" y="980" width="768" height="44"/>
                     <items>
                         <barButtonItem systemItem="camera" id="ogP-yg-xPH">
                             <connections>
@@ -30,7 +30,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" id="lWZ-cd-5K8">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fSA-qE-Qlr">
-                                <rect key="frame" x="51" y="7" width="38" height="30"/>
+                                <rect key="frame" x="55" y="7" width="38" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Undo"/>
                                 <connections>
@@ -40,7 +40,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" id="efu-t2-dc4">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="L4u-Bj-mmW">
-                                <rect key="frame" x="99" y="7" width="36" height="30"/>
+                                <rect key="frame" x="103" y="7" width="36" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Clear"/>
                                 <connections>
@@ -62,7 +62,7 @@
                     </items>
                 </toolbar>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AhN-KA-KpB" customClass="WorkArea" customModule="deskThree" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="980"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
@@ -80,7 +80,7 @@
             <connections>
                 <outletCollection property="gestureRecognizers" destination="3ev-g7-woH" appends="YES" id="fDv-UK-i17"/>
             </connections>
-            <point key="canvasLocation" x="-322.5" y="-514.5"/>
+            <point key="canvasLocation" x="-323" y="-515"/>
         </view>
         <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="3ev-g7-woH">
             <rectEdge key="edges" right="YES"/>

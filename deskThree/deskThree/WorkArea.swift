@@ -33,7 +33,7 @@ class WorkArea: UIScrollView {
         pages[0].contentMode = .scaleAspectFit
         self.sendSubview(toBack: pages[0])
         pages[0].isUserInteractionEnabled = true
-        self.panGestureRecognizer.minimumNumberOfTouches = 1
+        self.panGestureRecognizer.minimumNumberOfTouches = 2
         
         longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(WorkArea.handleLongPress))
         longPressGR.minimumPressDuration = 2
@@ -41,6 +41,8 @@ class WorkArea: UIScrollView {
         
         
     }
+    
+   
     
     func handleLongPress(sender: UILongPressGestureRecognizer){
         
@@ -65,7 +67,8 @@ class WorkArea: UIScrollView {
         self.panGestureRecognizer.minimumNumberOfTouches = 2
         
         longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(WorkArea.handleLongPress))
-        longPressGR.minimumPressDuration = 2
+        longPressGR.minimumPressDuration = 0.7
+        longPressGR.cancelsTouchesInView = true
         self.addGestureRecognizer(longPressGR)
 
     }
