@@ -148,7 +148,21 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         editable = true
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    
+    //MARK: functions for encoding and decoding
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        imageHolder = unarchiver.decodeObject() as! UIImageView!
+        
     }
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(imageHolder)
+    }
+    
+//    required init?(coder aDecoder: NSCoder) {
+//        super.init(coder: aDecoder)
+//        //aDecoder.encode(self)
+//        //fatalError("init(coder:) has not been implemented")
+//    }
 }

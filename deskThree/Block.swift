@@ -147,8 +147,6 @@ class Block: UILabel {
                      newFrameSize = aBlockToAccomodate.parentExpression!.frame
                     } else { newFrameSize = aBlockToAccomodate.frame }
                     self.leftChild = Block(frame: CGRect(x: -newFrameSize.width, y: 0, width: newFrameSize.width, height: newFrameSize.height))
-                    //self.addSubview(leftChild!)
-                   // leftChild!.frame = CGRectOffset(leftChild!.frame, self.frame.origin.x, 0)
                     leftChild!.type = TypeOfBlock.Glow.rawValue
                     leftChild!.parent = self
                     glowBlocks.append(leftChild!)
@@ -170,10 +168,6 @@ class Block: UILabel {
                     
                     
                     self.rightChild = Block(frame: CGRect(x:superview!.frame.width, y:0, width:newFrameSize!.width, height:newFrameSize!.height))
-                   // self.rightChild = Block(frame: CGRectMake(self.frame.width, 0, newFrameSize!.width, newFrameSize!.height))
-                    
-                   // self.addSubview(rightChild!)
-                    //rightChild!.frame = CGRectOffset(rightChild!.frame, 2 * self.frame.origin.x, 0)
                     rightChild!.type = TypeOfBlock.Glow.rawValue
                     rightChild!.parent = self
                     glowBlocks.append(rightChild!)

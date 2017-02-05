@@ -49,6 +49,26 @@
                             </button>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SdU-Ta-iQ4"/>
+                        <barButtonItem style="plain" id="EeV-3o-pKc">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0sr-N7-bEb">
+                                <rect key="frame" x="186" y="7" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="load"/>
+                                <connections>
+                                    <action selector="didPressLoad:" destination="-1" eventType="touchDown" id="TAb-dc-LLK"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem style="plain" id="7gY-WN-Rpz">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="J1d-X8-5hS">
+                                <rect key="frame" x="226" y="7" width="32" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="save"/>
+                                <connections>
+                                    <action selector="didPressSave:" destination="-1" eventType="touchDown" id="Cga-Vy-oWE"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                         <barButtonItem title="graph" id="j03-n7-yfQ">
                             <connections>
                                 <action selector="graphButtonPushed:" destination="-1" id="Oxv-G2-jmU"/>
