@@ -73,11 +73,16 @@ static CGRect GKScaleRect(CGRect rect, CGFloat scale)
 
 @synthesize scrollView, filteredImageView, cropOverlayView, resizableCropArea, xOffset, yOffset;
 
+
+-(void)returnImageToOriginal{
+    filteredImageView.output = nil;
+    [filteredImageView display];
+}
+
 - (void)setImageToCrop:(UIImage *)imageToCrop{
     
     [filteredImageView setBeginningImage:imageToCrop];
     [filteredImageView setupFilters];
-    //self.imageView.image = imageToCrop;
 }
 
 -(void)filterAndDisplay:(float)sliderValue{

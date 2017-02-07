@@ -65,7 +65,7 @@ struct Constants {
     struct pad {
         struct colors {
             static let gray : UIColor =
-            UIColor.init(red: 80/255, green: 80/255, blue: 80/255, alpha: 1.0)
+            UIColor.init(red: 128/255, green: 128/255, blue: 128/255, alpha: 1.0)
             static let grayBlue: UIColor = UIColor.init(red: 52/255, green: 73/255, blue: 94/255, alpha: 1.0)
 
         }

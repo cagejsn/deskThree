@@ -46,6 +46,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
             rotationGestureRecognizer.isEnabled = false
             doubleTapGestureRecognizer?.isEnabled = false
             isUserInteractionEnabled = false
+            //superview?.sendSubview(toBack: self)
         }
     }
     
@@ -57,6 +58,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
+         //
             superview!.bringSubview(toFront: self)
         }
     }
@@ -79,7 +81,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {        
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if(self.point(inside: point, with: event)){
             if (event == nil){
                 return self
@@ -87,9 +89,6 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
                 return super.hitTest(point, with: event)
             }
         } else { return super.hitTest(point, with: event)}
-        
-       
-       
     }
     
     

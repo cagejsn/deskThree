@@ -51,6 +51,116 @@
     [self.delegate imageCropController:self didFinishWithCroppedImage:_croppedImage];
 }
 
+- (void)handleFilterToggle{
+    
+    [imageCropView returnImageToOriginal];
+    
+}
+
+- (void)_setupFilterToggle{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.frame = CGRectMake(0, 0, 100, 60);
+    [button addTarget:self action:@selector(handleFilterToggle) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Un-filter" forState:UIControlStateNormal];
+    
+    [self.view addSubview:button];
+    button.titleLabel.textColor = [UIColor blackColor];
+    button.titleLabel.sizeToFit;
+    button.translatesAutoresizingMaskIntoConstraints = false;
+    button.backgroundColor = [UIColor whiteColor];
+    button.layer.cornerRadius = 15;
+    
+    NSLayoutConstraint *buttonAndSlider = [NSLayoutConstraint
+                                          constraintWithItem:button
+                                          attribute:NSLayoutAttributeBottom
+                                          relatedBy:NSLayoutRelationEqual
+                                          toItem:self.exposureSlider
+                                          attribute:NSLayoutAttributeTop
+                                          multiplier:1.0
+                                          constant:-20];
+    
+    NSLayoutConstraint *buttonAndWall = [NSLayoutConstraint
+                                        constraintWithItem:button
+                                        attribute:NSLayoutAttributeRight
+                                        relatedBy:NSLayoutRelationEqual
+                                        toItem:self.view
+                                        attribute:NSLayoutAttributeRight
+                                        multiplier:1.0
+                                        constant:-40];
+    
+    NSLayoutConstraint *buttonWidth = [NSLayoutConstraint
+                                      constraintWithItem:button
+                                      attribute:NSLayoutAttributeWidth
+                                      relatedBy:NSLayoutRelationEqual
+                                      toItem:nil
+                                      attribute:NSLayoutAttributeNotAnAttribute
+                                      multiplier:1.0
+                                      constant:100];
+    
+    NSLayoutConstraint *buttonHeight = [NSLayoutConstraint
+                                       constraintWithItem:button
+                                       attribute:NSLayoutAttributeHeight
+                                       relatedBy:NSLayoutRelationEqual
+                                       toItem:nil
+                                       attribute:NSLayoutAttributeNotAnAttribute
+                                       multiplier:1.0
+                                       constant:60];
+    
+    NSArray *customConstraints = [[NSArray alloc] initWithObjects:buttonHeight,buttonWidth,buttonAndWall,buttonAndSlider];
+    
+    [self.view addConstraints:customConstraints];
+    [self.view layoutSubviews];
+}
+
+- (void)_setupFilterLabel{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 60)];
+    label.text = @"Exposure";
+    [self.view addSubview:label];
+    label.textColor = [UIColor whiteColor];
+    label.translatesAutoresizingMaskIntoConstraints = false;
+    
+    NSLayoutConstraint *labelAndSlider = [NSLayoutConstraint
+                                           constraintWithItem:label
+                                           attribute:NSLayoutAttributeBottom
+                                           relatedBy:NSLayoutRelationEqual
+                                           toItem:self.exposureSlider
+                                           attribute:NSLayoutAttributeTop
+                                           multiplier:1.0
+                                           constant:-20];
+    
+    NSLayoutConstraint *labelAndWall = [NSLayoutConstraint
+                                          constraintWithItem:label
+                                          attribute:NSLayoutAttributeLeft
+                                          relatedBy:NSLayoutRelationEqual
+                                          toItem:self.view
+                                          attribute:NSLayoutAttributeLeft
+                                          multiplier:1.0
+                                          constant:40];
+    
+    NSLayoutConstraint *labelWidth = [NSLayoutConstraint
+                                        constraintWithItem:label
+                                        attribute:NSLayoutAttributeWidth
+                                        relatedBy:NSLayoutRelationEqual
+                                        toItem:nil
+                                        attribute:NSLayoutAttributeNotAnAttribute
+                                        multiplier:1.0
+                                        constant:100];
+    
+    NSLayoutConstraint *labelHeight = [NSLayoutConstraint
+                                      constraintWithItem:label
+                                      attribute:NSLayoutAttributeHeight
+                                      relatedBy:NSLayoutRelationEqual
+                                      toItem:nil
+                                      attribute:NSLayoutAttributeNotAnAttribute
+                                      multiplier:1.0
+                                      constant:60];
+    
+    NSArray *customConstraints = [[NSArray alloc] initWithObjects:labelHeight,labelWidth,labelAndWall,labelAndSlider];
+    
+    [self.view addConstraints:customConstraints];
+    [self.view layoutSubviews];
+}
+
 - (void)_setupExposureSlider{
     
     self.exposureSlider = [[UISlider alloc] init];
@@ -78,7 +188,7 @@
     [self.exposureSlider setMinimumValue:-3.0];
     [self.exposureSlider setMaximumValue:7.0];
    
-        
+    [imageCropView filterAndDisplay:_exposureSlider.value];
 }
 
 - (void)didSlide{
@@ -251,6 +361,8 @@
     [self _setupCropView];
     [self _setupToolbar];
     [self _setupExposureSlider];
+    [self _setupFilterToggle];
+    [self _setupFilterLabel];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self.navigationController setNavigationBarHidden:YES];
