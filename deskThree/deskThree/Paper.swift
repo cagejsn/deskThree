@@ -21,9 +21,32 @@ class Paper: UIImageView, ImageBlockDelegate {
         images = [ImageBlock]() //creates an array to save the imageblocks
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    //MARK: setup for exporting
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        images = unarchiver.decodeObject() as! [ImageBlock]!
+        
     }
+
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(images)
+    }
+    
+    func savePaper(){
+
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
+        var filePath = documentsPath.appending("/file.desk")
+        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
+    }
+    
+    func loadPaper(state: Paper){
+        
+
+        
+    }
+    
 
     //ImageBlock Delegate Functions
     func fixImageToPage(image: ImageBlock){
@@ -32,6 +55,12 @@ class Paper: UIImageView, ImageBlockDelegate {
     
     func freeImageForMovement(image: ImageBlock){
         
+    }
+    
+    func helpMove(imageBlock: ImageBlock, dx: CGFloat, dy: CGFloat) {
+        imageBlock.frame.origin.x = imageBlock.frame.origin.x + dx
+        imageBlock.frame.origin.y = imageBlock.frame.origin.y + dy
+
     }
     
     // This is never called

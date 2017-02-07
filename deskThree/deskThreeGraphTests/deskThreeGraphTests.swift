@@ -82,6 +82,23 @@ class deskThreeGraphTests: XCTestCase {
         XCTAssert(v == 5.0)
     }
     
+    func testSinOfExpression(){
+        
+        let p: Parser = Parser(functionString: "sin((2+1.1415926)÷2)")
+        p.parserPlot(start: 5.0, end: 10, totalSteps: 1)
+        let v: Float64 = p.getY()[0]
+        XCTAssert(v <= 1.0 && v >= 0.999)
+    }
+    
+    func testParserRoot(){
+        
+        let p: Parser = Parser(functionString: "sqrt(4)")
+        p.parserPlot(start: 5.0, end: 10, totalSteps: 100)
+        let v: Float64 = p.getY()[0]
+        XCTAssert(v == 2.0)
+    }
+    
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

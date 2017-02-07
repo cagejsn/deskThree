@@ -17,10 +17,7 @@
 @property (nonatomic, strong) UIButton *useButton;
 @property (nonatomic, strong) UISlider *exposureSlider;
 @property (nonatomic) Float32  lastExpVal;
-@property (nonatomic, strong) CIFilter  *exposureFilter;
-@property (nonatomic, strong) CIFilter  *colorMapFilter;
-@property (nonatomic, strong) CIFilter  *maskToAlphaFilter;
-@property (nonatomic, strong) CIFilter  *colorInvertFilter;
+
 @property UIImageOrientation  sourceImageOrientation;
 
 - (void)_actionCancel;
@@ -54,6 +51,116 @@
     [self.delegate imageCropController:self didFinishWithCroppedImage:_croppedImage];
 }
 
+- (void)handleFilterToggle{
+    
+    [imageCropView returnImageToOriginal];
+    
+}
+
+- (void)_setupFilterToggle{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.frame = CGRectMake(0, 0, 100, 60);
+    [button addTarget:self action:@selector(handleFilterToggle) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"Un-filter" forState:UIControlStateNormal];
+    
+    [self.view addSubview:button];
+    button.titleLabel.textColor = [UIColor blackColor];
+    button.titleLabel.sizeToFit;
+    button.translatesAutoresizingMaskIntoConstraints = false;
+    button.backgroundColor = [UIColor whiteColor];
+    button.layer.cornerRadius = 15;
+    
+    NSLayoutConstraint *buttonAndSlider = [NSLayoutConstraint
+                                          constraintWithItem:button
+                                          attribute:NSLayoutAttributeBottom
+                                          relatedBy:NSLayoutRelationEqual
+                                          toItem:self.exposureSlider
+                                          attribute:NSLayoutAttributeTop
+                                          multiplier:1.0
+                                          constant:-20];
+    
+    NSLayoutConstraint *buttonAndWall = [NSLayoutConstraint
+                                        constraintWithItem:button
+                                        attribute:NSLayoutAttributeRight
+                                        relatedBy:NSLayoutRelationEqual
+                                        toItem:self.view
+                                        attribute:NSLayoutAttributeRight
+                                        multiplier:1.0
+                                        constant:-40];
+    
+    NSLayoutConstraint *buttonWidth = [NSLayoutConstraint
+                                      constraintWithItem:button
+                                      attribute:NSLayoutAttributeWidth
+                                      relatedBy:NSLayoutRelationEqual
+                                      toItem:nil
+                                      attribute:NSLayoutAttributeNotAnAttribute
+                                      multiplier:1.0
+                                      constant:100];
+    
+    NSLayoutConstraint *buttonHeight = [NSLayoutConstraint
+                                       constraintWithItem:button
+                                       attribute:NSLayoutAttributeHeight
+                                       relatedBy:NSLayoutRelationEqual
+                                       toItem:nil
+                                       attribute:NSLayoutAttributeNotAnAttribute
+                                       multiplier:1.0
+                                       constant:60];
+    
+    NSArray *customConstraints = [[NSArray alloc] initWithObjects:buttonHeight,buttonWidth,buttonAndWall,buttonAndSlider];
+    
+    [self.view addConstraints:customConstraints];
+    [self.view layoutSubviews];
+}
+
+- (void)_setupFilterLabel{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 60)];
+    label.text = @"Exposure";
+    [self.view addSubview:label];
+    label.textColor = [UIColor whiteColor];
+    label.translatesAutoresizingMaskIntoConstraints = false;
+    
+    NSLayoutConstraint *labelAndSlider = [NSLayoutConstraint
+                                           constraintWithItem:label
+                                           attribute:NSLayoutAttributeBottom
+                                           relatedBy:NSLayoutRelationEqual
+                                           toItem:self.exposureSlider
+                                           attribute:NSLayoutAttributeTop
+                                           multiplier:1.0
+                                           constant:-20];
+    
+    NSLayoutConstraint *labelAndWall = [NSLayoutConstraint
+                                          constraintWithItem:label
+                                          attribute:NSLayoutAttributeLeft
+                                          relatedBy:NSLayoutRelationEqual
+                                          toItem:self.view
+                                          attribute:NSLayoutAttributeLeft
+                                          multiplier:1.0
+                                          constant:40];
+    
+    NSLayoutConstraint *labelWidth = [NSLayoutConstraint
+                                        constraintWithItem:label
+                                        attribute:NSLayoutAttributeWidth
+                                        relatedBy:NSLayoutRelationEqual
+                                        toItem:nil
+                                        attribute:NSLayoutAttributeNotAnAttribute
+                                        multiplier:1.0
+                                        constant:100];
+    
+    NSLayoutConstraint *labelHeight = [NSLayoutConstraint
+                                      constraintWithItem:label
+                                      attribute:NSLayoutAttributeHeight
+                                      relatedBy:NSLayoutRelationEqual
+                                      toItem:nil
+                                      attribute:NSLayoutAttributeNotAnAttribute
+                                      multiplier:1.0
+                                      constant:60];
+    
+    NSArray *customConstraints = [[NSArray alloc] initWithObjects:labelHeight,labelWidth,labelAndWall,labelAndSlider];
+    
+    [self.view addConstraints:customConstraints];
+    [self.view layoutSubviews];
+}
+
 - (void)_setupExposureSlider{
     
     self.exposureSlider = [[UISlider alloc] init];
@@ -77,70 +184,17 @@
                 
     
     [self.view layoutSubviews];
-    
-    
     [self.exposureSlider addTarget:self action:@selector(didSlide) forControlEvents:UIControlEventValueChanged];
     [self.exposureSlider setMinimumValue:-3.0];
     [self.exposureSlider setMaximumValue:7.0];
-    
-    CIImage *beginImage = [[CIImage alloc] initWithImage:sourceImage];
-    self.sourceImageOrientation = [sourceImage imageOrientation];
-    
-    
- 
-
-    CIImage *gradientImage = [CIImage imageWithCGImage: [[UIImage imageNamed:@"colorMap2"] CGImage] options:nil];
-    
-
-        
-    self.exposureFilter = [CIFilter filterWithName:@"CIExposureAdjust"];
-    [self.exposureFilter setValue:beginImage forKey:kCIInputImageKey];
-    
-        
-    self.colorMapFilter = [CIFilter filterWithName:@"CIColorMap"];
-    [self.colorMapFilter setValue:gradientImage forKey:@"inputGradientImage"];
-    
-        
-    self.maskToAlphaFilter = [CIFilter filterWithName:@"CIMaskToAlpha"];
-    [self.maskToAlphaFilter setDefaults];
-    
-    self.colorInvertFilter = [CIFilter filterWithName:@"CIColorInvert"];
-    [self.colorInvertFilter setDefaults];
-
-    
+   
+    [imageCropView filterAndDisplay:_exposureSlider.value];
 }
 
 - (void)didSlide{
-    if ( abs(lastExpVal - _exposureSlider.value) < 1){
-        return;
-    }
-    
-    
-    CIContext *context = [CIContext contextWithOptions:nil];
-
-    
-      CGImageRef cgimg;
-    
-    CIImage *output;
-    
-    
-    [self.exposureFilter setValue:[NSNumber numberWithFloat:_exposureSlider.value] forKey:@"inputEV"];
-    output = [self.exposureFilter outputImage];
-    
-    [self.colorMapFilter setValue:output forKey:kCIInputImageKey];
-    output = [self.colorMapFilter outputImage];
-    
-    [self.maskToAlphaFilter setValue:output forKey:kCIInputImageKey];
-    output = [self.maskToAlphaFilter outputImage];
-    
-    [self.colorInvertFilter setValue:output forKey:kCIInputImageKey];
-    output = [self.colorInvertFilter outputImage];
-
-    
-    cgimg  = [context createCGImage:output fromRect:[output extent]];
-    [self.imageCropView setImageToCrop: [UIImage imageWithCGImage:cgimg scale:1.0 orientation:self.sourceImageOrientation]];
-
-
+    printf("before did slide: %f\n", CACurrentMediaTime());
+    [imageCropView filterAndDisplay:_exposureSlider.value];
+    printf("after did slide: %f\n", CACurrentMediaTime());
      }
      
 - (void)_setupNavigationBar{
@@ -158,7 +212,11 @@
 - (void)_setupCropView{
     
     self.imageCropView = [[GKImageCropView alloc] initWithFrame:self.view.bounds];
+    
+    //
     [self.imageCropView setImageToCrop:sourceImage];
+    //
+    
     [self.imageCropView setResizableCropArea:self.resizeableCropArea];
     [self.imageCropView setCropSize:cropSize];
     [self.view addSubview:self.imageCropView];
@@ -303,6 +361,8 @@
     [self _setupCropView];
     [self _setupToolbar];
     [self _setupExposureSlider];
+    [self _setupFilterToggle];
+    [self _setupFilterLabel];
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         [self.navigationController setNavigationBarHidden:YES];

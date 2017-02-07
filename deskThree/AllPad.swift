@@ -174,6 +174,37 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         numEntryArea.delegate = self
         numEntryArea.typeOfOutputArea = 1
         
+        button0.delegate = self
+        button0.typeOfOutputArea = 1
+        
+        button1.delegate = self
+        button1.typeOfOutputArea = 1
+        
+        button2.delegate = self
+        button2.typeOfOutputArea = 1
+        
+        button3.delegate = self
+        button3.typeOfOutputArea = 1
+        
+        button4.delegate = self
+        button4.typeOfOutputArea = 1
+        
+        button5.delegate = self
+        button5.typeOfOutputArea = 1
+        
+        button6.delegate = self
+        button6.typeOfOutputArea = 1
+        
+        button7.delegate = self
+        button7.typeOfOutputArea = 1
+        
+        button8.delegate = self
+        button8.typeOfOutputArea = 1
+        
+        button9.delegate = self
+        button9.typeOfOutputArea = 1
+        
+        
         buttonPlus.delegate = self
         buttonPlus.typeOfOutputArea = 2
         
@@ -242,13 +273,77 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         
     }
     
+    func reassignOutputAreasDelegate(delegate: OutputAreaDelegate){
+        numEntryArea.delegate = delegate
+        
+        
+        button0.delegate = delegate
+        button1.delegate = delegate
+        button2.delegate = delegate
+        button3.delegate = delegate
+        button4.delegate = delegate
+        button5.delegate = delegate
+        button6.delegate = delegate
+        button7.delegate = delegate
+        button8.delegate = delegate
+        button9.delegate = delegate
+
+        
+        
+        buttonPlus.delegate = delegate
+        
+        buttonMinus.delegate = delegate
+        
+        buttonMultiply.delegate = delegate
+        
+        buttonDivide.delegate = delegate
+        
+        buttonExponent.delegate = delegate
+        
+        buttonSQRT.delegate = delegate
+        
+        buttonPi.delegate = delegate
+        
+        buttonSin.delegate = delegate
+        
+        buttonCos.delegate = delegate
+        
+        buttonTan.delegate = delegate
+        
+        buttonLn.delegate  = delegate
+        
+        buttonExp.delegate = delegate
+        
+        buttonX.delegate = delegate
+        
+        buttonRightParen.delegate = delegate
+        
+        buttonLeftParen.delegate = delegate
+        
+        buttonSum.delegate = delegate
+        
+        buttonZ.delegate = delegate
+        
+        buttonArccos.delegate = delegate
+        
+        buttonLog.delegate = delegate
+        
+        buttonY.delegate = delegate
+        
+        buttonArcsin.delegate = delegate
+        
+        buttonArctan.delegate = delegate
+        
+    }
+    
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     func xibSetup() {
         view = loadViewFromNib()
-        view.backgroundColor = Constants.pad.colors.grayBlue
+        view.backgroundColor = Constants.pad.colors.grayBlue    
         // use bounds not frame or it'll be offset
         view.frame = bounds
         // Make the view stretch with containing view
@@ -292,17 +387,22 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     @IBAction func rightSwipeGestureRecognizer(_ sender: AnyObject) {
         self.removeFromSuperview()
     }
+    
+    @IBAction func addSqrtToEntryArea( _ sender: UIButton) {
+        numEntryAreaText += "sqrt("
+        UIView.performWithoutAnimation({
+            self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
+            self.numEntryArea.layoutIfNeeded()
+        })
+    }
 
     @IBAction func addTextAndParenthesisToEntryArea( _ sender: UIButton) {
-        
         numEntryAreaText += sender.titleLabel!.text! + "("
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
             self.numEntryArea.layoutIfNeeded()
         })
-        
     }
-    
     @IBAction func addTextToEntryArea( _ sender: UIButton) {
         numEntryAreaText += sender.titleLabel!.text!
         UIView.performWithoutAnimation({
@@ -312,15 +412,32 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
     @IBAction func equalsButtonPushed( _ sender: UIButton){
         let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
-        parser.parserPlot(start: 1, end: 2, totalSteps: 3)
-        let answer: Float64 = parser.getY()[0]
+        do {
+            try parser.parserPlot(start: 1, end: 2, totalSteps: 3)
+        } catch MathError.missingOperand {
+            print("Missing operand, abort")
+        } catch MathError.unmatchedParenthesis {
+            print("Missing parenthesis, abort")
+        }
+        catch let error {
+            print(error.localizedDescription)
+        }
         deleteTextFromEntryArea(self)
-        numEntryAreaText = String(answer)
-        UIView.performWithoutAnimation({
-            self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
-            self.numEntryArea.layoutIfNeeded()
-        })
-        print(answer)
+        if(parser.getError() == ""){
+            let answer: Float64 = parser.getY()[0]
+            numEntryAreaText = String(answer)
+            UIView.performWithoutAnimation({
+                self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
+                self.numEntryArea.layoutIfNeeded()
+            })
+        }
+        else{
+            numEntryAreaText = parser.getError()
+            UIView.performWithoutAnimation({
+                self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
+                self.numEntryArea.layoutIfNeeded()
+            })
+        }
     }
     
 }

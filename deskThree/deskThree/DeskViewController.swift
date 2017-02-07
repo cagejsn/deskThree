@@ -5,7 +5,10 @@
 //  Created by Cage Johnson on 10/22/16.
 //  Copyright © 2016 desk. All rights reserved.
 //
+
+import Foundation
 import UIKit
+
 
 class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, InputObjectDelegate, ExpressionDelegate {
     
@@ -27,6 +30,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var jotViewStatePlistPath: String!
     var graphingBlock: GraphingBlock!
     var trashBin: Trash!
+    var toolDrawer: ToolDrawer!
+    
+    var customContraints: [NSLayoutConstraint]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +46,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.delegate = self
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
+        
         
         //JotUI setup
         pen = Pen()
@@ -60,7 +67,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
       //  graphingBlock = GraphingBlock(frame: CGRect(x:100,y:100,width:200,height:200))
         
         
-        
+        setupToolDrawer()
         
 
         
@@ -73,6 +80,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.addSubview(trashBin)
         trashBin.setupTrash()
         trashBin.hide()
+    }
+    
+    func setupToolDrawer(){
+        toolDrawer = ToolDrawer()
+        self.view.addSubview(toolDrawer)
+        toolDrawer.setupConstraints()
+        toolDrawer.delegate = self
+        
+        
+        
+        
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -97,19 +117,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return workArea.currentPage
     }
     
-    @IBAction func setImagesButtonPushed(_ sender: AnyObject) {
-        for i in 0 ..< workArea.currentPage.images!.count {
-            workArea.currentPage.images![i].toggleEditable()
-        }
-    }
+
     
     // Opens the calculator
     @IBAction func rightSideScreenEdgePanGestureRecognizer(_ sender: UIGestureRecognizer) {
+
         if(!(allPad?.isDescendant(of: self.view))!){
             // TODO: add sliding animation to make it more appealing
             self.view.addSubview(allPad!)
         
-
+            print(toolDrawer.frame)
         }
     }
     
@@ -131,17 +148,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
 
-        
+         workArea.frame = workArea.currentPage.frame
         jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
 
-        workArea.frame = workArea.currentPage.frame
+       
 //        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
 //        var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
 //        pdfShareHelper.delegate = self
 //        pdfShareHelper.uti = "com.adobe.pdf"
 //        // Currently, Preview itself gives option to share
 //        pdfShareHelper.presentPreview(animated: false)
-        //pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
+//        pdfShareHelper.presentOptionsMenu(from: self.workArea.frame, in: self.workArea, animated: false)
         workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
     }
 
@@ -174,7 +191,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             imageBlock.center = self.view.center
             imageBlock.isUserInteractionEnabled = true
             imageBlock.contentMode = .scaleAspectFit
-            imageBlock.editAndSetImage(image: pickedImage)
+            imageBlock.setImage(image: pickedImage)
             imageBlock.delegate = self.workArea.currentPage
         }
         dismiss(animated: true, completion: nil)        
@@ -332,7 +349,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 if(group != expression ){
                     for glow in group.dummyViews{
                         //see if any of the glow blocks contain the expression's origin
-                        if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).contains(expression.frame.origin)){
+                        if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).intersects(expression.frame)){
                             //reset the position to be on the x,y coords of the "group"
                             expression.frame = expression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
                             //removes from superview, we need to refrain from doing this because of the possibility that the _movedView becomes the superview
@@ -436,18 +453,59 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //self.view.addSubview(newBlock)
         // newBlock.userInteractionEnabled = true
     }
-
-}
-
-//custom operator extension for CGRect
-extension CGRect {
-    static func +(left: CGRect , right: CGRect) -> CGRect{
-        var returnRect: CGRect = CGRect(origin: CGPoint.zero, size: CGSize(width: left.width + right.width, height: left.height))
-        if(left.origin.x < right.origin.x){
-            returnRect.origin = left.origin
-        } else {
-            returnRect.origin = right.origin
-        }
-        return returnRect
+    
+    @IBAction func didPressSave(_ sender: Any) {
+        
+        print("should save")
+        workArea.pages[0].savePaper()
+        
     }
+    
+    
+    ///unpacks and loads in whatever is at /file.desk
+    @IBAction func didPressLoad(_ sender: Any) {
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
+        var filePath = documentsPath.appending("/file.desk")
+        print(filePath)
+        let file = NSKeyedUnarchiver.unarchiveObject(withFile: filePath)
+        if let savedFile = file as? Paper{
+            print(savedFile)
+            for image in savedFile.images! {
+                
+                print(image.frame.origin.x)
+                print(image.imageHolder.image)
+                
+//                var imageToAdd: ImageBlock = ImageBlock(frame: CGRect(x: image.frame.origin.x, y: image.frame.origin.y, width: image.frame.width, height: image.frame.height))
+//                workArea.currentPage.images?.append(imageToAdd) //adds to the array, used to toggle editable
+//                workArea.currentPage.addSubview(imageToAdd)
+//                imageToAdd.center = self.view.center
+//                imageToAdd.isUserInteractionEnabled = true
+//                imageToAdd.contentMode = .scaleAspectFit
+//                imageToAdd.setImage(image: image.imageHolder.image!)
+//                imageToAdd.delegate = self.workArea.currentPage
+
+                
+                //reminder, add wrapper for image initialization.
+                workArea.currentPage.addSubview(image)
+                workArea.currentPage.images?.append(image) //adds to the array, used to toggle editable
+                image.center = self.view.center
+                image.isUserInteractionEnabled = true
+                image.contentMode = .scaleAspectFit
+                image.delegate = self.workArea.currentPage
+
+            }
+            //workArea.currentPage.loadPaper(state: savedFile)
+            //savedFile.delegate = self
+            //self.present(viewController, animated: false, completion: nil)
+        }
+    }
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+    }
+
 }
+
+

@@ -94,7 +94,7 @@ class InputObject: UIView, OutputAreaDelegate {
         newBlock?.forBaselineLayout().clipsToBounds = true
         newBlock?.forBaselineLayout().layer.cornerRadius = Constants.block.cornerRadius
         //newBlock?.frame = newBlock!.frame.offsetBy(dx: self.frame.origin.x, dy: self.frame.origin.y)
-        superview!.addSubview(newBlock!)
+      //  superview!.addSubview(newBlock!)
         return newBlock!
     }
     
