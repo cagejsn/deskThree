@@ -83,6 +83,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         toolDrawer = ToolDrawer()
         self.view.addSubview(toolDrawer)
         toolDrawer.setupConstraints()
+        toolDrawer.delegate = self
         
         
         
@@ -450,15 +451,4 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
 }
 
-//custom operator extension for CGRect
-extension CGRect {
-    static func +(left: CGRect , right: CGRect) -> CGRect{
-        var returnRect: CGRect = CGRect(origin: CGPoint.zero, size: CGSize(width: left.width + right.width, height: left.height))
-        if(left.origin.x < right.origin.x){
-            returnRect.origin = left.origin
-        } else {
-            returnRect.origin = right.origin
-        }
-        return returnRect
-    }
-}
+

@@ -19,5 +19,6 @@
 
 - (UIImage *)croppedImage;
 -(void)filterAndDisplay:(float)sliderValue;
+-(void)returnImageToOriginal;
 
 @end

@@ -485,7 +485,7 @@
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="0.21156063631931632" green="0.23287522666743193" blue="0.39499198717948714" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.50190365309999996" green="0.50199371579999996" blue="0.50189799069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="bqo-sB-5KC" firstAttribute="top" secondItem="abc-c1-2hj" secondAttribute="bottom" constant="8" id="08i-eq-Uye"/>

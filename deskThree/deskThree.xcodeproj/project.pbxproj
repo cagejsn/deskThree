@@ -16,6 +16,8 @@
 		CEC6DD101DEE8D14002A2460 /* JotUI in Resources */ = {isa = PBXBuildFile; fileRef = CEC6DD0B1DEE8D14002A2460 /* JotUI */; };
 		CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC6DD131DEE8D14002A2460 /* JotUI.framework */; };
 		DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688BE1E414613006A9E1A /* ToolDrawer.swift */; };
+		DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688C11E43F98A006A9E1A /* CGPoint+.swift */; };
+		DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688F81E47B970006A9E1A /* CGRect+.swift */; };
 		DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A01DE64EDF00E3AA1D /* Eraser.m */; };
 		DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A21DE64EDF00E3AA1D /* Marker.m */; };
 		DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A41DE64EDF00E3AA1D /* Pen.m */; };
@@ -95,6 +97,8 @@
 		CEC6DD0C1DEE8D14002A2460 /* JotUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotUI.h; sourceTree = "<group>"; };
 		CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = JotUI.xcodeproj; sourceTree = "<group>"; };
 		DA3688BE1E414613006A9E1A /* ToolDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolDrawer.swift; sourceTree = "<group>"; };
+		DA3688C11E43F98A006A9E1A /* CGPoint+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+.swift"; sourceTree = "<group>"; };
+		DA3688F81E47B970006A9E1A /* CGRect+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+.swift"; sourceTree = "<group>"; };
 		DA49189F1DE64EDF00E3AA1D /* Eraser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Eraser.h; sourceTree = "<group>"; };
 		DA4918A01DE64EDF00E3AA1D /* Eraser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Eraser.m; sourceTree = "<group>"; };
 		DA4918A11DE64EDF00E3AA1D /* Marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Marker.h; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
 				52A662A21E32B1C8008E088A /* trash.swift */,
 				DA67005B1E3EDD1C00A6179A /* GKContext.swift */,
+				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
+				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -496,6 +502,7 @@
 				DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */,
 				DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */,
 				DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */,
+				DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */,
 				DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
 				DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */,
@@ -510,6 +517,7 @@
 				DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */,
 				DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */,
 				52A662A31E32B1C8008E088A /* trash.swift in Sources */,
+				DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */,
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
