@@ -25,6 +25,8 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     var amtMoved: CGFloat = 0
     var rootBlock: Block
     var delegate: ExpressionDelegate?
+    var parser: Parser
+    var functionString: String = ""
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
@@ -33,6 +35,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     init(firstVal: Block){
         rootBlock = firstVal
         var newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)
+        parser = Parser(functionString: "")
         super.init(frame: newFrame)
         doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
@@ -48,7 +51,6 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         superview!.bringSubview(toFront: self)
         
-
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -79,10 +81,28 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     //MARK: Gesture Recognizer Methods
     func handleDoubleTap(){
-        if(ETree.canBeEvaluated(node: self.rootBlock)){
-            delegate!.didEvaluate(forExpression: self, result: Float(ETree.evaluate(node: self.rootBlock)))
+        print(getExpressionString())
+        
+        parser.parserSetFunction(functionString: getExpressionString())
+        do {
+            try parser.parserPlot(start: 1, end: 2, totalSteps: 1)
+
+        } catch MathError.missingOperand {
+            print(parser.getError())
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        if parser.getError() == "" {
+            delegate!.didEvaluate(forExpression: self, result: Float(parser.getY()[0]))
 
         }
+        
+        
+//        if(ETree.canBeEvaluated(node: self.rootBlock)){
+//            delegate!.didEvaluate(forExpression: self, result: Float(ETree.evaluate(node: self.rootBlock)))
+//
+//        }
     }
     
     //MARK: Support Methods
@@ -193,6 +213,22 @@ class Expression: UIView, UIGestureRecognizerDelegate {
  
         */
         
+    }
+    func getExpressionString() -> String{
+        functionString = ""
+        getExpressionStringHelper(root: self.rootBlock)
+        return self.functionString
+    }
+    
+    /* in order traversal of tree, printing each value along the way */
+    private func getExpressionStringHelper (root : Block) {
+        if(root.leftChild != nil){
+            getExpressionStringHelper(root: root.leftChild!)
+        }
+        functionString += root.getValue()
+        if (root.rightChild != nil){
+            getExpressionStringHelper(root: root.rightChild!)
+        }
     }
 }
 

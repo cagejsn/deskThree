@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum MathError: Error {
+    case missingOperand
+    case unmatchedParenthesis
+    case unrecognizedCharacters
+}
 
 public class Parser {
     
@@ -16,6 +21,7 @@ public class Parser {
     private var cursor: Int
     private var domain: [Float64]
     private var range:  [Float64]
+    private var errorMSG = ""
     
     init(functionString: String) {
         self.function = Array(functionString.characters)
@@ -127,7 +133,7 @@ public class Parser {
         return log(val)/log(base)
     }
     
-    func parserPower(baseList: [Float64]) -> [Float64]{
+    func parserPower(baseList: [Float64]) throws -> [Float64]{
         
         if((self.cursor < self.function.count) && (String(describing: function[cursor]) == "^")){
             
@@ -135,7 +141,12 @@ public class Parser {
 
             if(String(describing: function[cursor]) == "("){
                 parserIncrimentCursor()
-                var powArray: [Float64] = parserExpression()
+                var powArray: [Float64]
+                do {
+                    try powArray = parserExpression()
+                } catch MathError.missingOperand {
+                    throw MathError.missingOperand
+                }
                 for i in 0..<self.domain.count {
                     powArray[i] = pow(baseList[i], powArray[i])
                 }
@@ -147,7 +158,12 @@ public class Parser {
             }else
             {
                 
-                var powArray: [Float64] = parserExpression()
+                var powArray: [Float64]
+                do {
+                    try powArray = parserExpression()
+                } catch MathError.missingOperand {
+                    throw MathError.missingOperand
+                }
                 for i in 0..<self.domain.count {
                     powArray[i] = pow(baseList[i], powArray[i])
                 }
@@ -160,10 +176,13 @@ public class Parser {
     }
     
     /* parses and calcualtes numbers, x, parenthesis, trig functions */
-    private func parserHighPriority() -> [Float64] {
+    private func parserHighPriority() throws -> [Float64] {
         
         print("entering high priority")
-        
+        if(self.cursor >= self.function.count){
+            print("throw missingOperandError")
+            throw MathError.missingOperand
+        }
         let indicator = String(describing: self.function[self.cursor])
         print(indicator)
         var resultList: [Float64] = Array()
@@ -174,25 +193,45 @@ public class Parser {
                 resultList.append(x)
             }
             parserIncrimentCursor()
-            resultList = parserPower(baseList: resultList)
+            do {
+                try resultList = parserPower(baseList: resultList)
+
+            } catch MathError.missingOperand {
+                throw MathError.missingOperand
+            }
             return resultList
         }
         if(indicator == "("){
             parserIncrimentCursor()
-            resultList = parserExpression()
-            if(String(describing: self.function[self.cursor]) != ")"){
-                print("ERROR unmatched (")
+            do {
+                try resultList = parserExpression()
+
+            } catch MathError.missingOperand {
+                throw MathError.missingOperand
+            }
+            if(self.cursor >= self.function.count || String(describing: self.function[self.cursor]) != ")"){
+                throw MathError.unmatchedParenthesis
             }
             parserIncrimentCursor()
-            resultList = parserPower(baseList: resultList)
+            
+            do {
+                try resultList = parserPower(baseList: resultList)
+                
+            } catch MathError.missingOperand {
+                throw MathError.missingOperand
+            }
             return resultList
         }
         if(isNum()){
             
             resultList = parserGetNum()
             parserIncrimentCursor()
-            
-            resultList = parserPower(baseList: resultList)
+            do {
+                try resultList = parserPower(baseList: resultList)
+                
+            } catch MathError.missingOperand {
+                throw MathError.missingOperand
+            }
             
             return resultList
         }
@@ -202,7 +241,12 @@ public class Parser {
             for _ in 0..<self.domain.count {
                 resultList.append(value)
             }
-            resultList = parserPower(baseList: resultList)
+            do {
+                try resultList = parserPower(baseList: resultList)
+                
+            } catch MathError.missingOperand {
+                throw MathError.missingOperand
+            }
             return resultList
         }
         if(self.cursor < self.function.count && String(describing: function[cursor]) == "e"){
@@ -211,13 +255,23 @@ public class Parser {
             for _ in 0..<self.domain.count {
                 resultList.append(value)
             }
-            resultList = parserPower(baseList: resultList)
+            do {
+                try resultList = parserPower(baseList: resultList)
+                
+            } catch MathError.missingOperand {
+                throw MathError.missingOperand
+            }
             return resultList
         }
         let type: String = getWord()
         if(type != ""){
             parserIncrimentCursor()
-            resultList = parserExpression()
+            do {
+                try resultList = parserExpression()
+                
+            } catch MathError.missingOperand {
+                throw MathError.missingOperand
+            }
             if(String(describing: self.function[self.cursor]) != ")"){
                 print("ERROR unmatched (")
             }
@@ -262,14 +316,24 @@ public class Parser {
             }
             
         }
-        resultList = parserPower(baseList: resultList)
+        do {
+            try resultList = parserPower(baseList: resultList)
+            
+        } catch MathError.missingOperand {
+            throw MathError.missingOperand
+        }
         return resultList
     }
     
     /* parses and calculates with * */
-    private func parserMedPriority() -> [Float64]{
+    private func parserMedPriority() throws -> [Float64]{
         
-        var highPrioLeft: [Float64] = parserHighPriority()
+        var highPrioLeft: [Float64]
+        do {
+            highPrioLeft = try parserHighPriority()
+        } catch MathError.missingOperand {
+            throw MathError.missingOperand
+        }
         
         if(self.cursor >= function.count){
             return highPrioLeft
@@ -283,7 +347,12 @@ public class Parser {
         while(self.cursor < function.count && (isMult || isDiv)){
             
             parserIncrimentCursor()
-            var highPrioRight: [Float64] = parserHighPriority()
+            var highPrioRight: [Float64]
+            do {
+                highPrioRight = try parserHighPriority()
+            } catch MathError.missingOperand {
+                throw MathError.missingOperand
+            }
             
             if(isMult){
                 for i in 0..<self.domain.count{
@@ -303,9 +372,14 @@ public class Parser {
     }
     
     /* parses and calcualtes with + */
-    private func parserLowPriority() -> [Float64]{
+    private func parserLowPriority() throws -> [Float64]{
         
-        var medPrioLeft: [Float64] = parserMedPriority()
+        var medPrioLeft: [Float64]
+        do {
+            medPrioLeft = try parserMedPriority()
+        } catch MathError.missingOperand {
+            throw MathError.missingOperand
+        }
         
         if(self.cursor >= function.count){
             return medPrioLeft
@@ -317,14 +391,19 @@ public class Parser {
 
             parserIncrimentCursor()
             
+            var medPrioRight: [Float64]
+            do {
+                medPrioRight = try parserMedPriority()
+            } catch MathError.missingOperand {
+                throw MathError.missingOperand
+            }
+            
             if(isPlus){
-                var medPrioRight: [Float64] = parserMedPriority()
                 for i in 0..<self.domain.count{
                     medPrioLeft[i] += medPrioRight[i]
                 }
             }
             if(isMinus){
-                var medPrioRight: [Float64] = parserMedPriority()
                 for i in 0..<self.domain.count{
                     medPrioLeft[i] -= medPrioRight[i]
                 }
@@ -337,17 +416,34 @@ public class Parser {
     }
     
     /* simplifies mathematical function. Calls itself recursively to solve sub-expressions */
-    private func parserExpression() -> [Float64]{
-        
-        return parserLowPriority()
+    private func parserExpression() throws -> [Float64]{
+        do {
+            return try parserLowPriority()
+        } catch MathError.missingOperand {
+            throw MathError.missingOperand
+        }
     }
     
     /* takes range via int start and int end. creates totalsteps entries in self.range 
        that corrospond to function output. */
-    public func parserPlot(start: Float64, end: Float64, totalSteps: Int){
+    public func parserPlot(start: Float64, end: Float64, totalSteps: Int) {
 
-        parserGenDomain(start: start, end: end, steps: totalSteps)
-        self.range = parserExpression()
+        self.errorMSG = ""
+        self.cursor = 0
+        
+        self.parserGenDomain(start: start, end: end, steps: totalSteps)
+        do {
+            try self.range = self.parserExpression()
+        } catch MathError.missingOperand {
+            errorMSG = "ERROR: Missing Operand"
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    ///change function
+    public func parserSetFunction(functionString: String){
+        self.function = Array(functionString.characters)
     }
     
     /* generates array of x values for function given start end and number of steps */
@@ -362,6 +458,11 @@ public class Parser {
             current+=stepSize
         }
         self.domain = domainArray
+    }
+    
+    ///returns exception message if there is one
+    public func getError() -> String{
+        return self.errorMSG
     }
     
     /* gives caller all x values */

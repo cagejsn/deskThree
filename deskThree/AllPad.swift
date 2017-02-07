@@ -317,15 +317,32 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
     @IBAction func equalsButtonPushed( _ sender: UIButton){
         let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
-        parser.parserPlot(start: 1, end: 2, totalSteps: 3)
-        let answer: Float64 = parser.getY()[0]
+        do {
+            try parser.parserPlot(start: 1, end: 2, totalSteps: 3)
+        } catch MathError.missingOperand {
+            print("Missing operand, abort")
+        } catch MathError.unmatchedParenthesis {
+            print("Missing parenthesis, abort")
+        }
+        catch let error {
+            print(error.localizedDescription)
+        }
         deleteTextFromEntryArea(self)
-        numEntryAreaText = String(answer)
-        UIView.performWithoutAnimation({
-            self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
-            self.numEntryArea.layoutIfNeeded()
-        })
-        print(answer)
+        if(parser.getError() == ""){
+            let answer: Float64 = parser.getY()[0]
+            numEntryAreaText = String(answer)
+            UIView.performWithoutAnimation({
+                self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
+                self.numEntryArea.layoutIfNeeded()
+            })
+        }
+        else{
+            numEntryAreaText = parser.getError()
+            UIView.performWithoutAnimation({
+                self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
+                self.numEntryArea.layoutIfNeeded()
+            })
+        }
     }
     
 }
