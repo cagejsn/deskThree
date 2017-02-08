@@ -26,6 +26,7 @@ class ToolDrawer: InputObject {
     var isActive: Bool = false
     var previousTranslation: CGFloat = 0
     
+    //view controller for passing errors
     
     var rightConstaint: NSLayoutConstraint!
     var bottomContraint: NSLayoutConstraint!
@@ -63,7 +64,7 @@ class ToolDrawer: InputObject {
                 
                 allPad.reassignOutputAreasDelegate(delegate: self)
                     
-                
+                allPad.viewController = viewController
                 
                 addSubview(allPad)
                 isActive = true

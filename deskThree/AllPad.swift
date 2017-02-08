@@ -13,6 +13,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     
     //MARK: Variables
     var numEntryAreaText: String = ""
+
     @IBOutlet var view: UIView!
     @IBOutlet weak var numEntryArea: MathEntryArea!
     
@@ -59,11 +60,13 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     @IBOutlet weak var buttonArctan: OutputArea!
     
     
-    init(){
+    init(viewController : DeskViewController){
         super.init(frame:CGRect(x: UIScreen.main.bounds.width - Constants.dimensions.AllPad.width, y:UIScreen.main.bounds.height - Constants.dimensions.AllPad.height - 44 , width: Constants.dimensions.AllPad.width , height: Constants.dimensions.AllPad.height))
         xibSetup()
         numEntryArea.delegate = self
         numEntryArea.typeOfOutputArea = 1
+        
+        //storing reference to view controller in case we want to raise an error
         
     //number buttons
         button0.delegate = self
@@ -422,21 +425,16 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         catch let error {
             print(error.localizedDescription)
         }
-        deleteTextFromEntryArea(self)
         if(parser.getError() == ""){
+            deleteTextFromEntryArea(self)
             let answer: Float64 = parser.getY()[0]
             numEntryAreaText = String(answer)
             UIView.performWithoutAnimation({
                 self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
                 self.numEntryArea.layoutIfNeeded()
             })
-        }
-        else{
-            numEntryAreaText = parser.getError()
-            UIView.performWithoutAnimation({
-                self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
-                self.numEntryArea.layoutIfNeeded()
-            })
+        }else{
+            super.viewController?.displayErrorInViewController(title: "Check Your Input", description: parser.getError())
         }
     }
     

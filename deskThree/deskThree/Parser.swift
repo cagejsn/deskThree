@@ -272,8 +272,8 @@ public class Parser {
             } catch MathError.missingOperand {
                 throw MathError.missingOperand
             }
-            if(String(describing: self.function[self.cursor]) != ")"){
-                print("ERROR unmatched (")
+            if(self.cursor >= self.function.count || String(describing: self.function[self.cursor]) != ")"){
+                throw MathError.unmatchedParenthesis
             }
             parserIncrimentCursor()
 
@@ -333,6 +333,8 @@ public class Parser {
             highPrioLeft = try parserHighPriority()
         } catch MathError.missingOperand {
             throw MathError.missingOperand
+        } catch let error {
+            throw error
         }
         
         if(self.cursor >= function.count){
@@ -379,6 +381,8 @@ public class Parser {
             medPrioLeft = try parserMedPriority()
         } catch MathError.missingOperand {
             throw MathError.missingOperand
+        } catch let error {
+            throw error
         }
         
         if(self.cursor >= function.count){
@@ -421,6 +425,8 @@ public class Parser {
             return try parserLowPriority()
         } catch MathError.missingOperand {
             throw MathError.missingOperand
+        } catch let error {
+            throw error
         }
     }
     
@@ -436,6 +442,8 @@ public class Parser {
             try self.range = self.parserExpression()
         } catch MathError.missingOperand {
             errorMSG = "ERROR: Missing Operand"
+        } catch MathError.unmatchedParenthesis {
+            errorMSG = "ERROR: Unmatched Parenthesis"
         } catch let error {
             print(error.localizedDescription)
         }
