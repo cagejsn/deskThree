@@ -495,7 +495,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     public func displayErrorInViewController(title: String, description : String){
         let alertController = UIAlertController(title: title, message:
             description, preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "Thanks :^)", style: UIAlertActionStyle.default,handler: nil))
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
         
         self.present(alertController, animated: true, completion: nil)
     }
