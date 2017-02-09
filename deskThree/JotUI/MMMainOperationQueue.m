@@ -7,7 +7,6 @@
 //
 
 #import "MMMainOperationQueue.h"
-#import "JotUI.h"
 
 
 @implementation MMMainOperationQueue {
@@ -33,7 +32,6 @@ static MMMainOperationQueue* sharedQueue;
 }
 
 - (void)tick {
-    CheckMainThread;
     void (^block)();
     @synchronized([MMMainOperationQueue class]) {
         if ([blockQueue count]) {
