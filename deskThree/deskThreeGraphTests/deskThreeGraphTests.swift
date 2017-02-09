@@ -97,7 +97,12 @@ class deskThreeGraphTests: XCTestCase {
         let v: Float64 = p.getY()[0]
         XCTAssert(v == 2.0)
     }
-    
+    func testParserSquare(){
+        let p: Parser = Parser(functionString: "5^2")
+        p.parserPlot(start: 5.0, end: 10, totalSteps: 100)
+        let v: Float64 = p.getY()[0]
+        XCTAssert(v == 25.0)
+    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
