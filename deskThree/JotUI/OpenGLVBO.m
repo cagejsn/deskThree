@@ -12,6 +12,7 @@
 #import "AbstractBezierPathElement-Protected.h"
 #import "JotBufferManager.h"
 #import "JotGLContext+Buffers.h"
+#import "ShaderHelper.h"
 #import "JotGLColorlessPointProgram.h"
 #import "JotGLColoredPointProgram.h"
 #include <stddef.h>

@@ -8,6 +8,7 @@
 
 #import "JotGLLayerBackedFrameBuffer.h"
 #import "JotView.h"
+#import "ShaderHelper.h"
 #import "JotGLProgram.h"
 #import "JotGLColorlessPointProgram.h"
 #import "JotGLColoredPointProgram.h"
