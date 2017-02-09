@@ -74,7 +74,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // Calculator setup
         allPad = AllPad()
         allPad?.delegate = self
-        allPad?.viewController = nil
         
         //ititialize trash receiver
         trashBin = Trash()
@@ -88,11 +87,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.addSubview(toolDrawer)
         toolDrawer.setupConstraints()
         toolDrawer.delegate = self
-        toolDrawer.viewController = self
-        
-        
-        
-        
         
         
     }

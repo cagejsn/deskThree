@@ -318,7 +318,6 @@ public class Parser {
         } catch MathError.missingOperand {
             throw MathError.missingOperand
         }
-        throw MathError.unrecognizedCharacters
         return resultList
     }
     
@@ -433,6 +432,7 @@ public class Parser {
         self.parserGenDomain(start: start, end: end, steps: totalSteps)
         do {
             try self.range = self.parserExpression()
+            
         } catch MathError.missingOperand {
             errorMSG = "Missing Operand"
         } catch MathError.unmatchedParenthesis {

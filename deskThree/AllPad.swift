@@ -434,7 +434,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
                 self.numEntryArea.layoutIfNeeded()
             })
         }else{
-            super.viewController?.displayErrorInViewController(title: "Check Your Input", description: parser.getError())
+            super.delegate?.displayErrorInViewController(title: "Check Your Input", description: parser.getError())
         }
     }
     

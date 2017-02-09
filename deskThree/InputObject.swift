@@ -14,6 +14,7 @@ protocol InputObjectDelegate{
     func didIncrementMove(_movedView: UIView)
     func hideTrash()
     func unhideTrash()
+    func displayErrorInViewController(title: String, description : String)
 }
 
 class InputObject: UIView, OutputAreaDelegate {
@@ -21,12 +22,9 @@ class InputObject: UIView, OutputAreaDelegate {
     //MARK: Variables
     var delegate: InputObjectDelegate?
     var newBlock: Block?
-    var viewController: DeskViewController?
-    
     //MARK: Initialization
     
     override init(frame: CGRect) {
-        viewController = nil
         super.init(frame: frame)
     }
     
