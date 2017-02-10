@@ -60,6 +60,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     @IBOutlet weak var buttonArctan: OutputArea!
     
     
+    
     init(viewController : DeskViewController){
         super.init(frame:CGRect(x: UIScreen.main.bounds.width - Constants.dimensions.AllPad.width, y:UIScreen.main.bounds.height - Constants.dimensions.AllPad.height - 44 , width: Constants.dimensions.AllPad.width , height: Constants.dimensions.AllPad.height))
         xibSetup()
@@ -434,7 +435,8 @@ class AllPad: InputObject, MathEntryAreaDelegate {
                 self.numEntryArea.layoutIfNeeded()
             })
         }else{
-            super.delegate?.displayErrorInViewController(title: "Check Your Input", description: parser.getError())
+            print(parser.getError())
+            super.viewController?.displayErrorInViewController(title: "Check Your Input", description: parser.getError())
         }
     }
     

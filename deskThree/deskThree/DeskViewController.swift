@@ -87,6 +87,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.addSubview(toolDrawer)
         toolDrawer.setupConstraints()
         toolDrawer.delegate = self
+        toolDrawer.viewController = self
         
         
     }

@@ -21,7 +21,6 @@ class ToolDrawer: InputObject {
     
     var allPad: AllPad!
     var drawerPosition = DrawerPosition.closed
-    
     var panGestureRecognizer: UIPanGestureRecognizer!
     var isActive: Bool = false
     var previousTranslation: CGFloat = 0
@@ -63,7 +62,8 @@ class ToolDrawer: InputObject {
                 allPad = AllPad(frame: CGRect(x: CGFloat(toolDrawerCollapsedWidth), y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
                 
                 allPad.reassignOutputAreasDelegate(delegate: self)
-                                    
+                
+                allPad.viewController = viewController
                 addSubview(allPad)
                 isActive = true
                 break

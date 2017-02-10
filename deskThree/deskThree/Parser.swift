@@ -131,10 +131,15 @@ public class Parser {
     
     func parserPower(baseList: [Float64]) throws -> [Float64]{
         
+        
         if((self.cursor < self.function.count) && (String(describing: function[cursor]) == "^")){
             
             parserIncrimentCursor()
 
+            if(cursor >= function.count){
+                throw MathError.missingOperand
+            }
+            
             if(String(describing: function[cursor]) == "("){
                 parserIncrimentCursor()
                 var powArray: [Float64]
@@ -317,6 +322,9 @@ public class Parser {
             
         } catch MathError.missingOperand {
             throw MathError.missingOperand
+        }
+        if(resultList.count == 0){
+            throw MathError.unrecognizedCharacters
         }
         return resultList
     }
