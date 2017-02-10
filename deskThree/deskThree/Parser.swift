@@ -31,10 +31,6 @@ public class Parser {
         
     }
     
-    private func throwParenthesisError(){
-        print("unmatched parenthesis")
-    }
-    
     //can be optimized later
     /* returns next word in function array if there is a recognized word present */
     private func getWord() -> String {
@@ -135,23 +131,28 @@ public class Parser {
     
     func parserPower(baseList: [Float64]) throws -> [Float64]{
         
+        
         if((self.cursor < self.function.count) && (String(describing: function[cursor]) == "^")){
             
             parserIncrimentCursor()
 
+            if(cursor >= function.count){
+                throw MathError.missingOperand
+            }
+            
             if(String(describing: function[cursor]) == "("){
                 parserIncrimentCursor()
                 var powArray: [Float64]
                 do {
                     try powArray = parserExpression()
-                } catch MathError.missingOperand {
-                    throw MathError.missingOperand
+                } catch let error {
+                    throw error
                 }
                 for i in 0..<self.domain.count {
                     powArray[i] = pow(baseList[i], powArray[i])
                 }
                 if(String(describing: function[cursor]) != ")"){
-                    throwParenthesisError()
+                    throw MathError.unmatchedParenthesis
                 }
                 parserIncrimentCursor()
                 return powArray
@@ -161,8 +162,8 @@ public class Parser {
                 var powArray: [Float64]
                 do {
                     try powArray = parserExpression()
-                } catch MathError.missingOperand {
-                    throw MathError.missingOperand
+                } catch let error {
+                    throw error
                 }
                 for i in 0..<self.domain.count {
                     powArray[i] = pow(baseList[i], powArray[i])
@@ -196,8 +197,8 @@ public class Parser {
             do {
                 try resultList = parserPower(baseList: resultList)
 
-            } catch MathError.missingOperand {
-                throw MathError.missingOperand
+            } catch let error {
+                throw error
             }
             return resultList
         }
@@ -206,8 +207,8 @@ public class Parser {
             do {
                 try resultList = parserExpression()
 
-            } catch MathError.missingOperand {
-                throw MathError.missingOperand
+            } catch let error {
+                throw error
             }
             if(self.cursor >= self.function.count || String(describing: self.function[self.cursor]) != ")"){
                 throw MathError.unmatchedParenthesis
@@ -217,8 +218,8 @@ public class Parser {
             do {
                 try resultList = parserPower(baseList: resultList)
                 
-            } catch MathError.missingOperand {
-                throw MathError.missingOperand
+            } catch let error {
+                throw error
             }
             return resultList
         }
@@ -229,8 +230,8 @@ public class Parser {
             do {
                 try resultList = parserPower(baseList: resultList)
                 
-            } catch MathError.missingOperand {
-                throw MathError.missingOperand
+            } catch let error {
+                throw error
             }
             
             return resultList
@@ -244,8 +245,8 @@ public class Parser {
             do {
                 try resultList = parserPower(baseList: resultList)
                 
-            } catch MathError.missingOperand {
-                throw MathError.missingOperand
+            } catch let error {
+                throw error
             }
             return resultList
         }
@@ -258,8 +259,8 @@ public class Parser {
             do {
                 try resultList = parserPower(baseList: resultList)
                 
-            } catch MathError.missingOperand {
-                throw MathError.missingOperand
+            } catch let error {
+                throw error
             }
             return resultList
         }
@@ -269,11 +270,11 @@ public class Parser {
             do {
                 try resultList = parserExpression()
                 
-            } catch MathError.missingOperand {
-                throw MathError.missingOperand
+            } catch let error {
+                throw error
             }
-            if(String(describing: self.function[self.cursor]) != ")"){
-                print("ERROR unmatched (")
+            if(self.cursor >= self.function.count || String(describing: self.function[self.cursor]) != ")"){
+                throw MathError.unmatchedParenthesis
             }
             parserIncrimentCursor()
 
@@ -322,6 +323,9 @@ public class Parser {
         } catch MathError.missingOperand {
             throw MathError.missingOperand
         }
+        if(resultList.count == 0){
+            throw MathError.unrecognizedCharacters
+        }
         return resultList
     }
     
@@ -331,8 +335,8 @@ public class Parser {
         var highPrioLeft: [Float64]
         do {
             highPrioLeft = try parserHighPriority()
-        } catch MathError.missingOperand {
-            throw MathError.missingOperand
+        } catch let error {
+            throw error
         }
         
         if(self.cursor >= function.count){
@@ -350,8 +354,8 @@ public class Parser {
             var highPrioRight: [Float64]
             do {
                 highPrioRight = try parserHighPriority()
-            } catch MathError.missingOperand {
-                throw MathError.missingOperand
+            } catch let error {
+                throw error
             }
             
             if(isMult){
@@ -377,8 +381,8 @@ public class Parser {
         var medPrioLeft: [Float64]
         do {
             medPrioLeft = try parserMedPriority()
-        } catch MathError.missingOperand {
-            throw MathError.missingOperand
+        } catch let error {
+            throw error
         }
         
         if(self.cursor >= function.count){
@@ -394,8 +398,8 @@ public class Parser {
             var medPrioRight: [Float64]
             do {
                 medPrioRight = try parserMedPriority()
-            } catch MathError.missingOperand {
-                throw MathError.missingOperand
+            } catch let error {
+                throw error
             }
             
             if(isPlus){
@@ -421,6 +425,8 @@ public class Parser {
             return try parserLowPriority()
         } catch MathError.missingOperand {
             throw MathError.missingOperand
+        } catch let error {
+            throw error
         }
     }
     
@@ -434,10 +440,15 @@ public class Parser {
         self.parserGenDomain(start: start, end: end, steps: totalSteps)
         do {
             try self.range = self.parserExpression()
+            
         } catch MathError.missingOperand {
-            errorMSG = "ERROR: Missing Operand"
-        } catch let error {
-            print(error.localizedDescription)
+            errorMSG = "Missing Operand"
+        } catch MathError.unmatchedParenthesis {
+            errorMSG = "Unmatched Parenthesis"
+        } catch MathError.unrecognizedCharacters {
+            errorMSG = "Unrecognized Operator Configuration"
+        }catch let error {
+            errorMSG = error.localizedDescription
         }
     }
     

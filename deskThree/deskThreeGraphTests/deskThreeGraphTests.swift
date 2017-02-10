@@ -27,7 +27,7 @@ class deskThreeGraphTests: XCTestCase {
     
     func testParserPlotDiv(){
         
-        let p: Parser = Parser(functionString: "6/2")
+        let p: Parser = Parser(functionString: "6÷2")
         p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
         let v: Float64 = p.getY()[0]
         print(v)
@@ -35,7 +35,7 @@ class deskThreeGraphTests: XCTestCase {
     }
     func testParserPlotPoint(){
         
-        let p: Parser = Parser(functionString: "6/2-1")
+        let p: Parser = Parser(functionString: "6÷2-1")
         p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
         let v: Float64 = p.getY()[0]
         print(v)
@@ -43,7 +43,7 @@ class deskThreeGraphTests: XCTestCase {
     }
     func testParserPlotMultDiv(){
         
-        let p: Parser = Parser(functionString: "6*2/3")
+        let p: Parser = Parser(functionString: "6✕2÷3")
         p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
         let v: Float64 = p.getY()[0]
         print(v)
@@ -67,7 +67,7 @@ class deskThreeGraphTests: XCTestCase {
     }
     func testParserPlotSubMult(){
         
-        let p: Parser = Parser(functionString: "6-2*3")
+        let p: Parser = Parser(functionString: "6-2✕3")
         p.parserPlot(start: 5.0, end: 5.1, totalSteps: 1)
         let v: Float64 = p.getY()[0]
         print(v)
@@ -97,7 +97,12 @@ class deskThreeGraphTests: XCTestCase {
         let v: Float64 = p.getY()[0]
         XCTAssert(v == 2.0)
     }
-    
+    func testParserSquare(){
+        let p: Parser = Parser(functionString: "5^2")
+        p.parserPlot(start: 5.0, end: 10, totalSteps: 100)
+        let v: Float64 = p.getY()[0]
+        XCTAssert(v == 25.0)
+    }
     
     func testPerformanceExample() {
         // This is an example of a performance test case.

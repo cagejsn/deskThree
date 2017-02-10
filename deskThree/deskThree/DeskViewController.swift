@@ -87,10 +87,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.addSubview(toolDrawer)
         toolDrawer.setupConstraints()
         toolDrawer.delegate = self
-        
-        
-        
-        
+        toolDrawer.viewController = self
         
         
     }
@@ -498,16 +495,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 print(image.frame.origin.x)
                 print(image.imageHolder.image)
                 
-//                var imageToAdd: ImageBlock = ImageBlock(frame: CGRect(x: image.frame.origin.x, y: image.frame.origin.y, width: image.frame.width, height: image.frame.height))
-//                workArea.currentPage.images?.append(imageToAdd) //adds to the array, used to toggle editable
-//                workArea.currentPage.addSubview(imageToAdd)
-//                imageToAdd.center = self.view.center
-//                imageToAdd.isUserInteractionEnabled = true
-//                imageToAdd.contentMode = .scaleAspectFit
-//                imageToAdd.setImage(image: image.imageHolder.image!)
-//                imageToAdd.delegate = self.workArea.currentPage
-
-                
                 //reminder, add wrapper for image initialization.
                 workArea.currentPage.addSubview(image)
                 workArea.currentPage.images?.append(image) //adds to the array, used to toggle editable
@@ -521,6 +508,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             //savedFile.delegate = self
             //self.present(viewController, animated: false, completion: nil)
         }
+    }
+    
+    public func displayErrorInViewController(title: String, description : String){
+        let alertController = UIAlertController(title: title, message:
+            description, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     

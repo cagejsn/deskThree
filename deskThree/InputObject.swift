@@ -21,7 +21,7 @@ class InputObject: UIView, OutputAreaDelegate {
     //MARK: Variables
     var delegate: InputObjectDelegate?
     var newBlock: Block?
-    
+    var viewController: DeskViewController?
     //MARK: Initialization
     
     override init(frame: CGRect) {
