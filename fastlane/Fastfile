@@ -27,7 +27,7 @@ platform :ios do
     # Ensure there are no uncommitted changes
     ensure_git_status_clean
   end
-
+'''
   # Increments the build number
   lane :increment do
     # Change build number
@@ -35,6 +35,7 @@ platform :ios do
       xcodeproj: "./deskThree.xcodeproj"
     )
   end
+'''
 
   desc "Updating provisioning profiles."
   lane :certs do
@@ -74,13 +75,13 @@ platform :ios do
   lane :build_app do
     # Always get latest certificates/provisioning profiles
     match(type: "appstore")
-
+'''
     # Increment build number
     current_build_number = increment_build_number(
       xcodeproj: "./deskThree.xcodeproj"
     )
-
-
+'''
+'''
     # Bump the version (optional)
     current_app_version = get_version_number(xcodeproj: "./deskThree.xcodeproj")
 
@@ -113,12 +114,14 @@ platform :ios do
         force: true
       )
     end
+'''
 
     # Build the app
     gym(
-      scheme: "EWeek",
-      workspace: "./deskThree.xcworkspace"
+      scheme: "deskThree",
+      project: "./Desk.xcodeproj"
     )
+
   end
 
   lane :bumpAndTag do

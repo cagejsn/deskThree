@@ -29,11 +29,6 @@ xcode-select --install
 </table>
 # Available Actions
 ## iOS
-### ios increment
-```
-fastlane ios increment
-```
-
 ### ios certs
 ```
 fastlane ios certs
