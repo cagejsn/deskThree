@@ -89,7 +89,7 @@
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
 		52A662A21E32B1C8008E088A /* trash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = trash.swift; sourceTree = "<group>"; };
-		52C9BB241E2D68AA005DA9C2 /* deskThreeGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = deskThreeGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		52C9BB241E2D68AA005DA9C2 /* DeskGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeskGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52C9BB261E2D68AA005DA9C2 /* deskThreeGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deskThreeGraphTests.swift; sourceTree = "<group>"; };
 		52C9BB281E2D68AA005DA9C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = deskThree/Parser.swift; sourceTree = SOURCE_ROOT; };
@@ -145,14 +145,14 @@
 		DADC7C621DF0F4650086626E /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		DADC7C631DF0F4650086626E /* InputObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputObject.swift; sourceTree = "<group>"; };
 		DADC7C641DF0F4650086626E /* OutputArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputArea.swift; sourceTree = "<group>"; };
-		DAFBE3A01DBBDBC20007D249 /* deskThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAFBE3A01DBBDBC20007D249 /* Desk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Desk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskViewController.swift; sourceTree = "<group>"; };
 		DAFBE3A81DBBDBC20007D249 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DAFBE3AA1DBBDBC20007D249 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DAFBE3AD1DBBDBC20007D249 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DAFBE3AF1DBBDBC20007D249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DAFBE3B41DBBDBC20007D249 /* deskThreeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = deskThreeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAFBE3B41DBBDBC20007D249 /* DeskUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeskUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3B81DBBDBC20007D249 /* deskThreeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deskThreeUITests.swift; sourceTree = "<group>"; };
 		DAFBE3BA1DBBDBC20007D249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -276,9 +276,9 @@
 		DAFBE3A11DBBDBC20007D249 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DAFBE3A01DBBDBC20007D249 /* deskThree.app */,
-				DAFBE3B41DBBDBC20007D249 /* deskThreeUITests.xctest */,
-				52C9BB241E2D68AA005DA9C2 /* deskThreeGraphTests.xctest */,
+				DAFBE3A01DBBDBC20007D249 /* Desk.app */,
+				DAFBE3B41DBBDBC20007D249 /* DeskUITests.xctest */,
+				52C9BB241E2D68AA005DA9C2 /* DeskGraphTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -325,9 +325,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		52C9BB231E2D68AA005DA9C2 /* deskThreeGraphTests */ = {
+		52C9BB231E2D68AA005DA9C2 /* DeskGraphTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 52C9BB2E1E2D68AA005DA9C2 /* Build configuration list for PBXNativeTarget "deskThreeGraphTests" */;
+			buildConfigurationList = 52C9BB2E1E2D68AA005DA9C2 /* Build configuration list for PBXNativeTarget "DeskGraphTests" */;
 			buildPhases = (
 				52C9BB201E2D68AA005DA9C2 /* Sources */,
 				52C9BB211E2D68AA005DA9C2 /* Frameworks */,
@@ -338,14 +338,14 @@
 			dependencies = (
 				52C9BB2A1E2D68AA005DA9C2 /* PBXTargetDependency */,
 			);
-			name = deskThreeGraphTests;
+			name = DeskGraphTests;
 			productName = deskThreeGraphTests;
-			productReference = 52C9BB241E2D68AA005DA9C2 /* deskThreeGraphTests.xctest */;
+			productReference = 52C9BB241E2D68AA005DA9C2 /* DeskGraphTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		DAFBE39F1DBBDBC20007D249 /* deskThree */ = {
+		DAFBE39F1DBBDBC20007D249 /* Desk */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DAFBE3BD1DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "deskThree" */;
+			buildConfigurationList = DAFBE3BD1DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "Desk" */;
 			buildPhases = (
 				DAFBE39C1DBBDBC20007D249 /* Sources */,
 				DAFBE39D1DBBDBC20007D249 /* Frameworks */,
@@ -355,14 +355,14 @@
 			);
 			dependencies = (
 			);
-			name = deskThree;
+			name = Desk;
 			productName = deskThree;
-			productReference = DAFBE3A01DBBDBC20007D249 /* deskThree.app */;
+			productReference = DAFBE3A01DBBDBC20007D249 /* Desk.app */;
 			productType = "com.apple.product-type.application";
 		};
-		DAFBE3B31DBBDBC20007D249 /* deskThreeUITests */ = {
+		DAFBE3B31DBBDBC20007D249 /* DeskUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DAFBE3C01DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "deskThreeUITests" */;
+			buildConfigurationList = DAFBE3C01DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "DeskUITests" */;
 			buildPhases = (
 				DAFBE3B01DBBDBC20007D249 /* Sources */,
 				DAFBE3B11DBBDBC20007D249 /* Frameworks */,
@@ -373,9 +373,9 @@
 			dependencies = (
 				DAFBE3B61DBBDBC20007D249 /* PBXTargetDependency */,
 			);
-			name = deskThreeUITests;
+			name = DeskUITests;
 			productName = deskThreeUITests;
-			productReference = DAFBE3B41DBBDBC20007D249 /* deskThreeUITests.xctest */;
+			productReference = DAFBE3B41DBBDBC20007D249 /* DeskUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -405,7 +405,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DAFBE39B1DBBDBC20007D249 /* Build configuration list for PBXProject "deskThree" */;
+			buildConfigurationList = DAFBE39B1DBBDBC20007D249 /* Build configuration list for PBXProject "Desk" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -424,9 +424,9 @@
 			);
 			projectRoot = "";
 			targets = (
-				DAFBE39F1DBBDBC20007D249 /* deskThree */,
-				DAFBE3B31DBBDBC20007D249 /* deskThreeUITests */,
-				52C9BB231E2D68AA005DA9C2 /* deskThreeGraphTests */,
+				DAFBE39F1DBBDBC20007D249 /* Desk */,
+				DAFBE3B31DBBDBC20007D249 /* DeskUITests */,
+				52C9BB231E2D68AA005DA9C2 /* DeskGraphTests */,
 			);
 		};
 /* End PBXProject section */
@@ -543,12 +543,12 @@
 /* Begin PBXTargetDependency section */
 		52C9BB2A1E2D68AA005DA9C2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DAFBE39F1DBBDBC20007D249 /* deskThree */;
+			target = DAFBE39F1DBBDBC20007D249 /* Desk */;
 			targetProxy = 52C9BB291E2D68AA005DA9C2 /* PBXContainerItemProxy */;
 		};
 		DAFBE3B61DBBDBC20007D249 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DAFBE39F1DBBDBC20007D249 /* deskThree */;
+			target = DAFBE39F1DBBDBC20007D249 /* Desk */;
 			targetProxy = DAFBE3B51DBBDBC20007D249 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -585,7 +585,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/deskThree.app/deskThree";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Desk.app/Desk";
 			};
 			name = Debug;
 		};
@@ -600,7 +600,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ben.deskThreeGraphTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/deskThree.app/deskThree";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Desk.app/Desk";
 			};
 			name = Release;
 		};
@@ -762,7 +762,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		52C9BB2E1E2D68AA005DA9C2 /* Build configuration list for PBXNativeTarget "deskThreeGraphTests" */ = {
+		52C9BB2E1E2D68AA005DA9C2 /* Build configuration list for PBXNativeTarget "DeskGraphTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				52C9BB2B1E2D68AA005DA9C2 /* Debug */,
@@ -771,7 +771,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAFBE39B1DBBDBC20007D249 /* Build configuration list for PBXProject "deskThree" */ = {
+		DAFBE39B1DBBDBC20007D249 /* Build configuration list for PBXProject "Desk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DAFBE3BB1DBBDBC20007D249 /* Debug */,
@@ -780,7 +780,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAFBE3BD1DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "deskThree" */ = {
+		DAFBE3BD1DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "Desk" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DAFBE3BE1DBBDBC20007D249 /* Debug */,
@@ -789,7 +789,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DAFBE3C01DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "deskThreeUITests" */ = {
+		DAFBE3C01DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "DeskUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DAFBE3C11DBBDBC20007D249 /* Debug */,

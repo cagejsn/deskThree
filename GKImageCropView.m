@@ -9,7 +9,7 @@
 #import "GKImageCropView.h"
 #import "GKImageCropOverlayView.h"
 #import "GKResizeableCropOverlayView.h"
-#import "deskThree-Swift.h"
+#import "Desk-Swift.h"
 
 
 #import <QuartzCore/QuartzCore.h>
