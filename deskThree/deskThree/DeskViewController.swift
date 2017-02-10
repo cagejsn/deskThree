@@ -164,8 +164,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
-    
-      
+        if( UIImagePickerController.isSourceTypeAvailable(.camera)){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
             action in
@@ -179,15 +178,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
-        
-        
-        
-        
-        
-        
-        
-        
-  //  present(gkimagePicker.imagePickerController, animated: true, completion: nil)
+        } else {
+            self.present(gkimagePicker.imagePickerController, animated: false, completion: nil)
+        }
     }
     @IBAction func graphButtonPushed(_ sender: Any) {
         var function = Bundle.loadNibNamed(Bundle.main)
