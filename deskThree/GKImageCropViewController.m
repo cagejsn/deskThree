@@ -106,9 +106,16 @@
                                        multiplier:1.0
                                        constant:60];
     
-    NSArray *customConstraints = [[NSArray alloc] initWithObjects:buttonHeight,buttonWidth,buttonAndWall,buttonAndSlider];
+   // NSArray *customConstraints = [[NSArray alloc] initWithObjects:buttonHeight,buttonWidth,buttonAndWall,buttonAndSlider, nil];
     
-    [self.view addConstraints:customConstraints];
+    [self.view addConstraint:buttonAndSlider];
+    [self.view addConstraint:buttonAndWall];
+    [self.view addConstraint:buttonWidth];
+    [self.view addConstraint:buttonHeight];
+    
+    
+    
+   // [self.view addConstraints:customConstraints];
     [self.view layoutSubviews];
 }
 
@@ -155,9 +162,12 @@
                                       multiplier:1.0
                                       constant:60];
     
-    NSArray *customConstraints = [[NSArray alloc] initWithObjects:labelHeight,labelWidth,labelAndWall,labelAndSlider];
-    
-    [self.view addConstraints:customConstraints];
+    //NSArray *customConstraints = [[NSArray alloc] initWithObjects:labelHeight,labelWidth,labelAndWall,labelAndSlider, nil];
+    [self.view addConstraint:labelAndSlider];
+    [self.view addConstraint:labelAndWall];
+    [self.view addConstraint:labelWidth];
+    [self.view addConstraint: labelHeight];
+    //[self.view addConstraints:customConstraints];
     [self.view layoutSubviews];
 }
 

@@ -167,7 +167,30 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
-    present(gkimagePicker.imagePickerController, animated: true, completion: nil)
+    
+      
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
+            action in
+            self.gkimagePicker.imagePickerController.sourceType = .camera
+            self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
+            action in
+            self.gkimagePicker.imagePickerController.sourceType = .photoLibrary
+            self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+        
+        
+        
+        
+        
+        
+        
+        
+  //  present(gkimagePicker.imagePickerController, animated: true, completion: nil)
     }
     @IBAction func graphButtonPushed(_ sender: Any) {
         var function = Bundle.loadNibNamed(Bundle.main)
