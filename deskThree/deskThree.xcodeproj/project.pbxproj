@@ -59,6 +59,7 @@
 		DAFBE3AB1DBBDBC20007D249 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3AA1DBBDBC20007D249 /* Assets.xcassets */; };
 		DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */; };
 		DAFBE3B91DBBDBC20007D249 /* deskThreeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3B81DBBDBC20007D249 /* deskThreeUITests.swift */; };
+		DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +156,7 @@
 		DAFBE3B41DBBDBC20007D249 /* deskThreeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = deskThreeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3B81DBBDBC20007D249 /* deskThreeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deskThreeUITests.swift; sourceTree = "<group>"; };
 		DAFBE3BA1DBBDBC20007D249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +311,7 @@
 				DA67005B1E3EDD1C00A6179A /* GKContext.swift */,
 				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
 				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
+				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -520,6 +523,7 @@
 				DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */,
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,
+				DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */,
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,

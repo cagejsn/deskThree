@@ -38,7 +38,7 @@ class Trash: UIImageView {
     func open() {
         self.image = UIImage(named: "recycleGreen")
     }
-    func closed() {
+    func close() {
         self.image = UIImage(named: "recycle")
     }
     

@@ -45,9 +45,9 @@ class InputObject: UIView, OutputAreaDelegate {
     }
     
     //function below should be rewritten and placed in Expression
-    func makeBlockForOutputArea(blockLocation: CGPoint, blockType: Int, blockData: String) -> Block {
+   static func makeBlockForOutputArea(blockLocation: CGPoint, blockType: Int, blockData: String) -> Block {
         let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: blockData)
-        
+        var newBlock: Block!
         switch blockType {
             case 1:
                 newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
@@ -101,7 +101,7 @@ class InputObject: UIView, OutputAreaDelegate {
     //function below is the one that is actually used by OutputArea
     func makeBlock(for sender: OutputArea, withLocale blockLocation: CGPoint) -> Block {
         delegate!.unhideTrash()
-        let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: sender.currentTitle!)
+        let blockWidth: CGFloat = InputObject.evaluateStringWidth(textToEvaluate: sender.currentTitle!)
         let blockType: Int = sender.typeOfOutputArea!
         let blockData: String = sender.currentTitle!
         
@@ -157,7 +157,7 @@ class InputObject: UIView, OutputAreaDelegate {
         newBlock?.forBaselineLayout().clipsToBounds = true
         newBlock?.forBaselineLayout().layer.cornerRadius = Constants.block.cornerRadius
         
-        superview!.addSubview(newBlock!)
+        superview?.addSubview(newBlock!)
         
         
         return newBlock!
@@ -165,7 +165,7 @@ class InputObject: UIView, OutputAreaDelegate {
     
     //MARK: Support Methods
 
-    func evaluateStringWidth (textToEvaluate: String) -> CGFloat{
+static func evaluateStringWidth (textToEvaluate: String) -> CGFloat{
         let font = UIFont.systemFont(ofSize: Constants.block.fontSize)
         let attributes = NSDictionary(object: font, forKey:NSFontAttributeName as NSCopying)
         let sizeOfText = textToEvaluate.size(attributes: (attributes as! [String : AnyObject]))

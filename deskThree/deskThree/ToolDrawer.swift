@@ -17,16 +17,21 @@ enum DrawerPosition {
     case open
 }
 
-class ToolDrawer: InputObject {
+protocol ToolDrawerDelegate {
     
-    var allPad: AllPad!
+    
+}
+
+class ToolDrawer: UIView {
+    
+    var activePad: InputObject!
     var drawerPosition = DrawerPosition.closed
     var panGestureRecognizer: UIPanGestureRecognizer!
     var isActive: Bool = false
     var previousTranslation: CGFloat = 0
+    var delegate: InputObjectDelegate!
     
     //view controller for passing errors
-    
     var rightConstaint: NSLayoutConstraint!
     var bottomContraint: NSLayoutConstraint!
     var heightContraint: NSLayoutConstraint!
@@ -59,12 +64,9 @@ class ToolDrawer: InputObject {
         if (!isActive){
             switch (selector) {
             case 0:
-                allPad = AllPad(frame: CGRect(x: CGFloat(toolDrawerCollapsedWidth), y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
-                
-                allPad.reassignOutputAreasDelegate(delegate: self)
-                
-                allPad.viewController = viewController
-                addSubview(allPad)
+                activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
+                self.addSubview(activePad)
+                activePad.delegate = delegate
                 isActive = true
                 break
             case 1:
@@ -217,30 +219,5 @@ class ToolDrawer: InputObject {
             imageView.contentMode = .scaleAspectFit
             self.addSubview(imageView)
         }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    }  
 }

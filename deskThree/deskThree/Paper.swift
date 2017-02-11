@@ -12,10 +12,12 @@ import UIKit
 class Paper: UIImageView, ImageBlockDelegate {
     
     var images: [ImageBlock]?
+    var expressions: [Expression]!
     
     //MARK: Initializers
     init() {
         super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+        expressions = [Expression]()
         self.image = UIImage(named: "engineeringPaper2")
         self.isOpaque = false
         images = [ImageBlock]() //creates an array to save the imageblocks
