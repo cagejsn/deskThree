@@ -17,20 +17,20 @@ class DeskView: UIView {
     var zoomGR: UIPinchGestureRecognizer!
     
     
-    func handlePan(sender: UIPanGestureRecognizer, withEvent: UIEvent){
+    func handlePan(sender: UIPanGestureRecognizer){
         
     }
     
-    func handlePinch(sender: UIPinchGestureRecognizer, withEvent: UIEvent){
+    func handlePinch(sender: UIPinchGestureRecognizer){
         
     }
     
     func setup(){
-        pan2GR = UIPanGestureRecognizer(target: self, action: #selector(DeskView.handlePan(sender:,withEvent:)))
+        pan2GR = UIPanGestureRecognizer(target: self, action: #selector(DeskView.handlePan(sender:)))
         pan2GR.minimumNumberOfTouches = 2
         self.addGestureRecognizer(pan2GR)
         
-        zoomGR = UIPinchGestureRecognizer(target: self, action: #selector(DeskView.handlePinch(sender:,withEvent:)))
+        zoomGR = UIPinchGestureRecognizer(target: self, action: #selector(DeskView.handlePinch(sender:)))
         self.addGestureRecognizer(zoomGR)
         
     }
