@@ -36,7 +36,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupJotView()
         setupToolDrawer()
         setupTrash()
+        
+        if let dView = view as? DeskView {
+            dView.workArea = workArea
+            dView.jotView = jotView
+            dView.setup()   
+        }
     }
+    
     
     
     //incoming view does intersect with Trash?
@@ -83,14 +90,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
         pen = Pen()
-        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
+        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1000, height: 1000))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
         paperState = JotViewStateProxy(delegate: self)
         paperState?.delegate = self
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
-        workArea.currentPage.addSubview(jotView)
+        self.view.addSubview(jotView)
+       // workArea.currentPage.addSubview(jotView)
     }
     
     func setupToolDrawer(){
@@ -108,14 +116,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return self
     }
     
-  
-    
     //MARK: - WorkArea Delegate
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return workArea.currentPage
     }
-    
-
     
     func exportPdf(imageV: UIImage?){
         var useful: UIImageView = UIImageView (image: imageV)

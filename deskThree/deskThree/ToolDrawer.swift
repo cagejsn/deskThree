@@ -185,6 +185,8 @@ class ToolDrawer: UIView {
         self.layer.cornerRadius = 10
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ToolDrawer.handlePan))
         self.addGestureRecognizer(panGestureRecognizer)
+        
+        
         var lastHeight = 0
         for height in stride(from: 0, to: Int(self.frame.height), by: toolSelectorHeight) {
             print(height)
