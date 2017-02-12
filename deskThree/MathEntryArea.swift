@@ -21,7 +21,7 @@ class MathEntryArea: OutputArea {
         //this code runs when the touch has left the view, and the block hasn't been made yet
         if((!self.frame.contains(recognizer.location(in: superview!)) && !madeMyBlockYet)){
             if ((self.currentTitle?.characters.count)! > 0) {
-                var newBlock = delegate!.makeBlock(for: self, withLocale: recognizer.location(in: self))
+                var newBlock = makeBlock(withLocale: recognizer.location(in: self))
                 lastBlockCreated = newBlock
                 locationOfView = lastBlockCreated!.center
                 madeMyBlockYet = true

@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 protocol ExpressionDelegate {
+    func elementWantsSendToInputObject(element:Any)
+
+    
     func didIncrementMove(_movedView: UIView)
     func didCompleteMove(_movedView: UIView)
     func didEvaluate(forExpression sender: Expression, result: Float)
@@ -27,11 +30,72 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     var delegate: ExpressionDelegate?
     var parser: Parser
     var functionString: String = ""
+    var longPressGR: UILongPressGestureRecognizer!
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
     
-    //MARK: Initialization
+  
+
+
+    static func makeBlock(blockLocation: CGPoint, blockType: Int, blockData: String) -> Block {
+        let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: blockData)
+        var newBlock: Block!
+        switch blockType {
+        case 1:
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+            newBlock?.setColor(color: Constants.block.colors.green)
+            newBlock?.precedence = Precedence.Number.rawValue
+        case 2:
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height:Constants.block.height))
+            newBlock?.setColor(color: Constants.block.colors.blue)
+            
+            switch blockData {
+            case "+":
+                newBlock?.precedence = Precedence.Plus.rawValue
+                break
+            case "-":
+                newBlock?.precedence = Precedence.Minus.rawValue
+                break
+            case "x":
+                newBlock?.precedence = Precedence.Multiply.rawValue
+                break
+            case "÷":
+                newBlock?.precedence = Precedence.Divide.rawValue
+                break
+            case "√":
+                newBlock?.precedence = Precedence.Multiply.rawValue
+                break
+            case "^":
+                newBlock?.precedence = Precedence.Multiply.rawValue
+                break
+            default:
+                break
+            }
+        case 3:
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2),y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+            newBlock?.setColor(color: Constants.block.colors.gray)
+        default:
+            //We shouldn't have a default
+            newBlock = Block()
+            
+        }
+        newBlock!.text = blockData
+        newBlock!.font = UIFont.boldSystemFont(ofSize: Constants.block.fontSize)
+        newBlock!.textColor = UIColor.white
+        newBlock!.type = blockType
+        newBlock?.forBaselineLayout().clipsToBounds = true
+        newBlock?.forBaselineLayout().layer.cornerRadius = Constants.block.cornerRadius
+        //newBlock?.frame = newBlock!.frame.offsetBy(dx: self.frame.origin.x, dy: self.frame.origin.y)
+        //  superview!.addSubview(newBlock!)
+        return newBlock!
+    }
+
+    
+    
+    
+    
+     //MARK: Initialization
     init(firstVal: Block){
         rootBlock = firstVal
         var newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)
@@ -41,6 +105,10 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        longPressGR = UILongPressGestureRecognizer(target: self, action: "handleLongPress")
+        longPressGR.minimumPressDuration = 0.5
+        self.addGestureRecognizer(longPressGR)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,10 +147,13 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         self.delegate!.hideTrash()
     }
     
+    func handleLongPress(){
+        delegate?.elementWantsSendToInputObject(element: self)
+    }
+    
     //MARK: Gesture Recognizer Methods
     func handleDoubleTap(){
         print(getExpressionString())
-        
         parser.parserSetFunction(functionString: getExpressionString())
         do {
             try parser.parserPlot(start: 1, end: 2, totalSteps: 1)
@@ -229,6 +300,15 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         if (root.rightChild != nil){
             getExpressionStringHelper(root: root.rightChild!)
         }
+    }
+    
+    
+    //MARK: Support Methods
+    static func evaluateStringWidth (textToEvaluate: String) -> CGFloat{
+        let font = UIFont.systemFont(ofSize: Constants.block.fontSize)
+        let attributes = NSDictionary(object: font, forKey:NSFontAttributeName as NSCopying)
+        let sizeOfText = textToEvaluate.size(attributes: (attributes as! [String : AnyObject]))
+        return sizeOfText.width + Constants.block.fontWidthPadding;
     }
 }
 

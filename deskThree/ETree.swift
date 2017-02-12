@@ -51,14 +51,17 @@ class ETree {
     }
     
     /* in order traversal of tree, printing each value along the way */
-    static func printCurrentTree (root : Block) {
+    static func printCurrentTree (root : Block) -> String{
+        var string = String()
         if(root.leftChild != nil){
-            printCurrentTree(root: root.leftChild!)
+            string.append(printCurrentTree(root: root.leftChild!))
         }
-        print(root.getValue(), terminator: "")
+        string.append(root.getValue())
+      //  print(root.getValue(), terminator: "")
         if (root.rightChild != nil){
-            printCurrentTree(root: root.rightChild!)
+            string.append(printCurrentTree(root: root.leftChild!))
         }
+        return string
     }
     
     /* returns false if node has no children, true otherwise */

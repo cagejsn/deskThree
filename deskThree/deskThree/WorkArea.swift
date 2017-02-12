@@ -13,9 +13,10 @@ protocol WorkAreaDelegate {
     func intersectsWithTrash(justMovedBlock: UIView)->Bool
     func unhideTrash()
     func hideTrash()
+    func sendingToInputObject(for element: Any)
 }
 
-class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, ToolDrawerDelegate {
+class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     
     var pages: [Paper] = [Paper]()
     var currentPage: Paper!
@@ -23,7 +24,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, ToolDrawe
     var customDelegate: WorkAreaDelegate!
     
     func didEvaluate(forExpression sender: Expression, result: Float){
-        var newBlock = InputObject.makeBlockForOutputArea(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
+        var newBlock = Expression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
         newBlock.removeFromSuperview()
         var express = Expression(firstVal: newBlock)
         currentPage.addSubview(express)
@@ -32,6 +33,10 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, ToolDrawe
         express.delegate = self
         newBlock.frame.origin = CGPoint.zero
         express.addSubview(newBlock)
+    }
+    
+    func elementWantsSendToInputObject(element:Any){
+        customDelegate!.sendingToInputObject(for: element)
     }
     
     func didCompleteMove(_movedView: UIView){

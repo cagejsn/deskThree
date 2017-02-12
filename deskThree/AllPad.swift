@@ -59,6 +59,12 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     
     @IBOutlet weak var buttonArctan: OutputArea!
     
+    override func receiveElement(_ element: Any) {
+        
+        if let express = element as? Expression {
+            numEntryArea.setTitle(ETree.printCurrentTree(root: express.rootBlock), for: .normal)
+        }
+    }
     
     
     init(viewController : DeskViewController){

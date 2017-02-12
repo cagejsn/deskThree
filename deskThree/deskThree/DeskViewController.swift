@@ -59,7 +59,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         trashBin.unhide()
     }
     
-    
     //MARK: Setup Functions called from viewDidLoad
     func setupTrash(){
         trashBin = Trash()
@@ -99,6 +98,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.addSubview(toolDrawer)
         toolDrawer.setupConstraints()
         toolDrawer.delegate = workArea
+    }
+    
+    func sendingToInputObject(for element: Any){
+        toolDrawer.passElement(element)
     }
  
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {

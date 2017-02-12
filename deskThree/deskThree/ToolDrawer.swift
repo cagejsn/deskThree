@@ -17,11 +17,6 @@ enum DrawerPosition {
     case open
 }
 
-protocol ToolDrawerDelegate {
-    
-    
-}
-
 class ToolDrawer: UIView {
     
     var activePad: InputObject!
@@ -36,6 +31,18 @@ class ToolDrawer: UIView {
     var bottomContraint: NSLayoutConstraint!
     var heightContraint: NSLayoutConstraint!
     var widthContraint: NSLayoutConstraint!
+    
+    func passElement(_ element: Any){
+        if(drawerPosition == .closed){
+            return
+        }
+        if(!isActive){
+            return
+        }
+        if(activePad != nil){
+            activePad.receiveElement(element)
+        }
+    }
     
     func isPanValidForMovement(dx: CGFloat) -> Bool{
         if (self.frame.width - dx > toolDrawerCollapsedWidth && self.frame.width - dx < toolDrawerExpandedWidth){return true}
@@ -80,8 +87,10 @@ class ToolDrawer: UIView {
         }
         
         if(sender.state == .ended){
-            if(drawerPosition == DrawerPosition.closed){
+            
+            if(self.frame.width >= (toolDrawerExpandedWidth/2)){
                 animateToExpandedPosition()
+                
                 drawerPosition = DrawerPosition.open
 
             } else {
@@ -164,14 +173,14 @@ class ToolDrawer: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         rightConstaint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: self.superview, attribute: .trailing, multiplier: 1.0, constant: 0)
         bottomContraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: -44)
-        heightContraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 731)
+        heightContraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: Constants.dimensions.AllPad.height)
         widthContraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40)
         superview!.addConstraints([rightConstaint,bottomContraint,heightContraint,widthContraint])
     }
     
     
     init(){
-        super.init(frame: CGRect(x: 0, y: 0, width: 40, height: 731))
+        super.init(frame: CGRect(x: 0, y: 0, width: 40, height: Constants.dimensions.AllPad.height))
         self.backgroundColor = UIColor.gray
         self.layer.cornerRadius = 10
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ToolDrawer.handlePan))
