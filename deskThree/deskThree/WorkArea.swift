@@ -20,6 +20,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     
     var pages: [Paper] = [Paper]()
     var currentPage: Paper!
+    var currentPageIndex = 0
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
     
@@ -183,9 +184,6 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     }
     
     
-    
- 
- 
     func hideAllSpots() {
         for expression in currentPage.expressions {
             expression.hideSpots()
@@ -199,6 +197,66 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
                 imageBlock.toggleEditable()
             }
         }
+    }
+    
+    /**
+     Move to a page to the right
+     If there is no page, add one and make it the current page
+    */
+    func movePage(direction: String) {
+        print("Current page index: ", currentPageIndex)
+        if direction == "right" {
+            print("Num pages: ", pages.count)
+
+            // Check if this is the last page
+            if currentPageIndex == pages.count - 1 {
+                currentPageIndex += 1
+
+                // Add a new page
+                pages.append(Paper())
+                self.addSubview(pages[currentPageIndex])
+
+                // Push back the old view
+                self.sendSubview(toBack: pages[currentPageIndex - 1])
+
+                // Bring forward the new view
+                self.bringSubview(toFront: pages[currentPageIndex])
+                
+                currentPage = pages[currentPageIndex]
+            } else {
+                currentPageIndex += 1
+
+                // Move forward a page
+                currentPage = pages[currentPageIndex]
+
+                // Push back the old view
+                self.sendSubview(toBack: pages[currentPageIndex - 1])
+                // Bring forward the new view
+                self.bringSubview(toFront: pages[currentPageIndex])
+            }
+
+            initCurPage()
+        } else if direction == "left" {
+            // Check if this is the first page
+            if currentPageIndex != 0 {
+
+                // Push back the old view
+                self.sendSubview(toBack: pages[currentPageIndex])
+
+                currentPageIndex -= 1
+                // Bring forward the new view
+                self.bringSubview(toFront: pages[currentPageIndex])
+                
+                currentPage = pages[currentPageIndex]
+                initCurPage()
+            }
+        }
+        print("New page index: ", currentPageIndex)
+    }
+    
+    func initCurPage() {
+        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
+        pages[currentPageIndex].contentMode = .scaleAspectFit
     }
     
     init(){
@@ -218,12 +276,16 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+
+        // Initialize the first page & set it as the current page
         pages.append(Paper())
         self.addSubview(pages[0])
         currentPage = pages[0]
+
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[0].contentMode = .scaleAspectFit
         self.sendSubview(toBack: pages[0])
+
         pages[0].isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
         longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(WorkArea.handleLongPress))

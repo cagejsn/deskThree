@@ -137,9 +137,26 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
-    jotView.undo()
+    	print("UNDO!")
+        jotView.undo()
     }
     
+    /**
+     Pagination
+     ----------
+     Allows user to move forwards and backwards in pages
+    */
+    
+    @IBAction func pageRightButtonPressed(_ sender: Any) {
+        print("Right!")
+        workArea.movePage(direction: "right")
+    }
+
+    @IBAction func pageLeftButtonPressed(_ sender: Any) {
+        print("Left!")
+        workArea.movePage(direction: "left")
+    }
+
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
         if( UIImagePickerController.isSourceTypeAvailable(.camera)){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -161,7 +178,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
-    jotView.clear(true);
+        jotView.clear(true)
     }
 // MARK: GKImagePickerController Delegate
 @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
