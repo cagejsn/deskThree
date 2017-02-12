@@ -203,7 +203,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
      Move to a page to the right
      If there is no page, add one and make it the current page
     */
-    func movePage(direction: String) {
+    func movePage(direction: String) -> (currentPage: Int, totalNumPages: Int) {
         print("Current page index: ", currentPageIndex)
         if direction == "right" {
             print("Num pages: ", pages.count)
@@ -252,6 +252,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
             }
         }
         print("New page index: ", currentPageIndex)
+        return (currentPageIndex, pages.count)
     }
     
     func initCurPage() {
