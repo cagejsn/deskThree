@@ -40,7 +40,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         if let dView = view as? DeskView {
             dView.workArea = workArea
             dView.jotView = jotView
-            dView.setup()   
+            dView.setup()
+            dView.addGestureRecognizer(workArea.panGestureRecognizer)
+            dView.addGestureRecognizer(workArea.pinchGestureRecognizer!)
         }
     }
     
@@ -90,7 +92,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
         pen = Pen()
-        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1000, height: 1000))
+        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
         paperState = JotViewStateProxy(delegate: self)
