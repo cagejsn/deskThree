@@ -16,7 +16,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var workArea: WorkArea!
    
     //JotUI Properties
-    var pen: Pen!
+    var marker: Marker!
     var jotView: JotView!
     var paperState: JotViewStateProxy!
     var jotViewStateInkPath: String!
@@ -91,8 +91,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupJotView(){
-        pen = Pen()
-        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
+      //  pen = Pen(minSize: 4.0, andMaxSize: 12, andMinAlpha: 0.8, andMaxAlpha: 1)
+        marker = Marker()
+        jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
         paperState = JotViewStateProxy(delegate: self)
@@ -101,6 +102,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         jotView.loadState(paperState)
         self.view.addSubview(jotView)
        // workArea.currentPage.addSubview(jotView)
+        jotView.isUserInteractionEnabled = false
+        
     }
     
     func setupToolDrawer(){
@@ -149,6 +152,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
         if( UIImagePickerController.isSourceTypeAvailable(.camera)){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.popoverPresentationController?.barButtonItem = sender
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
             action in
             self.gkimagePicker.imagePickerController.sourceType = .camera
@@ -190,9 +194,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     //pragma mark - Helpers
-    func activePen() -> Pen {
-        return pen
+    func activePen() -> Marker {
+        return marker
     }
+
+   
 
     //JotUIDelegate
     func textureForStroke() -> JotBrushTexture! {

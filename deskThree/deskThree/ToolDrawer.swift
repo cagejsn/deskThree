@@ -69,19 +69,11 @@ class ToolDrawer: UIView {
         }
         
         if (!isActive){
-            switch (selector) {
-            case 0:
-                activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
-                self.addSubview(activePad)
-                activePad.delegate = delegate
-                isActive = true
-                break
-            case 1:
-                break
-            default:
-                break
-            }
             
+            activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
+            self.addSubview(activePad)
+            activePad.delegate = delegate
+            isActive = true            
         } else {
    
         }

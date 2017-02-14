@@ -8,37 +8,32 @@
 
 import Foundation
 
-class DeskView: UIView {
+class DeskView: UIView, UIGestureRecognizerDelegate{
     
     var workArea: WorkArea!
     var jotView: JotView!
-        
-    func setup(){
+    var panGR: UIPanGestureRecognizer!
 
+
+    
+    func setup(){
+        panGR = UIPanGestureRecognizer(target: self, action: #selector(DeskView.handlePan(sender:)))
+        panGR.maximumNumberOfTouches = 1
+       // self.addGestureRecognizer(panGR)
+        panGR.delegate = self
+        jotView.currentPage = workArea.currentPage
     }
     
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if (!self.isUserInteractionEnabled || self.isHidden || self.alpha <= 0.01) {
-            return nil
-        }
-        var  time = CACurrentMediaTime()
-        for view in workArea.currentPage.subviews {
-            
-        }
-        time -= CACurrentMediaTime()
-        print("lag from iterating = " + String(time))
+    func handlePan(sender: UIPanGestureRecognizer){
         
-        if(self.point(inside: point, with: event)){
-            for subView: UIView in self.subviews {
-                var convertedPoint = self.convert(point, to: subView)
-                var hitTestView = subView.hitTest(convertedPoint, with: event)
-                if((hitTestView) != nil){
-                    return hitTestView
-                }
-            }
-            return self
-        }
-        return nil
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+
+        let f = NSSet(object: touch)
+        
+        jotView.touchesBegan(f as! Set<UITouch>, with: nil   )
+        return true
     }
     
 }
