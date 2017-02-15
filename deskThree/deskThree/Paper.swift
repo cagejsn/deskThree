@@ -13,10 +13,16 @@ class Paper: UIImageView, ImageBlockDelegate {
     
     var images: [ImageBlock]?
     var expressions: [Expression]!
+  //  var longPressGR: UILongPressGestureRecognizer!
     
+    
+        
     //MARK: Initializers
     init() {
         super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+     //   longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Paper.handleLongPress(sender:)))
+   //     longPressGR.minimumPressDuration = 0.8
+   //     self.addGestureRecognizer(longPressGR)
         expressions = [Expression]()
         self.image = UIImage(named: "engineeringPaper2")
         self.isOpaque = false

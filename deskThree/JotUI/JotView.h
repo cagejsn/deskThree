@@ -18,6 +18,7 @@
 #import "JotUI/JotViewState.h"
 #import "JotUI/JotTextureCache.h"
 
+
 #define kJotMaxStrokeByteSize 256 * 1024
 
 @class JotViewImmutableState;

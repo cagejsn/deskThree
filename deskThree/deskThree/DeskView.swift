@@ -12,28 +12,26 @@ class DeskView: UIView, UIGestureRecognizerDelegate{
     
     var workArea: WorkArea!
     var jotView: JotView!
-    var panGR: UIPanGestureRecognizer!
-
+    var longPressGR: UILongPressGestureRecognizer!
 
     
     func setup(){
-        panGR = UIPanGestureRecognizer(target: self, action: #selector(DeskView.handlePan(sender:)))
-        panGR.maximumNumberOfTouches = 1
-       // self.addGestureRecognizer(panGR)
-        panGR.delegate = self
         jotView.currentPage = workArea.currentPage
-    }
-    
-    func handlePan(sender: UIPanGestureRecognizer){
         
+        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(DeskView.handleLongPress(sender:)))
+        self.addGestureRecognizer(longPressGR)
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    func handleLongPress(sender: UILongPressGestureRecognizer){
+        let view = hitTest(sender.location(in: self), with: nil)
+        if let imageBlock = view as? ImageBlock {
+            if(!imageBlock.isEditable()){
+                imageBlock.toggleEditable()
+            }
+        }
+    }
 
-        let f = NSSet(object: touch)
-        
-        jotView.touchesBegan(f as! Set<UITouch>, with: nil   )
-        return true
-    }
+    
+   
     
 }

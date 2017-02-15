@@ -90,8 +90,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
             }
         } else { return super.hitTest(point, with: event)}
     }
-    
-    
+        
     func handleRotate( sender: UIRotationGestureRecognizer){
         var dR = sender.rotation - previousRotation
         previousRotation = sender.rotation

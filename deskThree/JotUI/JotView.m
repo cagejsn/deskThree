@@ -105,6 +105,8 @@ dispatch_queue_t importExportStateQueue;
     if(!t){return nil;}
     CGPoint point2 = [self convertPoint:point toView:currentPage];
     UIView *view = [currentPage hitTest:point2 withEvent:event];
+    
+    
     if (view == currentPage){
         return self;
     } else {

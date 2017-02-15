@@ -93,6 +93,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func setupJotView(){
       //  pen = Pen(minSize: 4.0, andMaxSize: 12, andMinAlpha: 0.8, andMaxAlpha: 1)
         marker = Marker()
+      //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
@@ -156,12 +157,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
             action in
             self.gkimagePicker.imagePickerController.sourceType = .camera
-            self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
+            self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
             action in
             self.gkimagePicker.imagePickerController.sourceType = .photoLibrary
-            self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
+            self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
