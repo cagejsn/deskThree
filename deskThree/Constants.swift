@@ -78,10 +78,10 @@ struct Constants {
         static let cornerRadius : CGFloat = 7.0
         struct colors {
             static let green : UIColor = UIColor.init(red: 46/255, green: 139/255, blue: 87/255, alpha: 1.0)
-            static let gray : UIColor = UIColor.init(red: 80/255, green: 80/255, blue: 80/255, alpha: 1.0)
+            static let lighterGray : UIColor = UIColor.init(red: 228/255, green: 229/255, blue: 229/255, alpha: 1.0)
             static let def : UIColor = UIColor.init(red: 100/255, green: 100/255, blue: 100/255, alpha: 1.0)
             static let blue : UIColor = UIColor.init(red: 80/255, green: 80/255, blue: 80/255, alpha: 1.0)
-            static let lighterGray: UIColor = UIColor.init(red: 205/255, green: 201/255, blue: 201/255, alpha: 1.0)
+            static let gray: UIColor = UIColor.init(red: 160/255, green: 160/255, blue: 160/255, alpha: 1.0)
         }
     }
 }
