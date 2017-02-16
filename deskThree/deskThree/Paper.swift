@@ -27,6 +27,7 @@ class Paper: UIImageView, ImageBlockDelegate {
     required init(coder unarchiver: NSCoder){
         super.init(coder: unarchiver)!
         images = unarchiver.decodeObject() as! [ImageBlock]!
+        expressions = unarchiver.decodeObject() as! [Expression]!
         
     }
 
@@ -34,6 +35,7 @@ class Paper: UIImageView, ImageBlockDelegate {
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(images)
+        aCoder.encode(expressions)
     }
     
     func savePaper(){

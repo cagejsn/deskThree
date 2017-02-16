@@ -290,7 +290,32 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             //workArea.currentPage.loadPaper(state: savedFile)
             //savedFile.delegate = self
             //self.present(viewController, animated: false, completion: nil)
+            for e in savedFile.expressions {
+                
+                var rootBlock: Block = Block(frame: e.rootBlock.frame)
+                
+                var newBlock = Expression.makeBlock(blockLocation: e.rootBlock.frame.origin, blockType: TypeOfBlock.Number.rawValue, blockData: e.rootBlock.text! )
+                newBlock.removeFromSuperview()
+                var newExpression = Expression(firstVal: newBlock)
+                workArea.currentPage.addSubview(newBlock)
+                newExpression.tag = -1
+                
+                workArea.currentPage.expressions.append(newExpression)
+                newExpression.delegate = workArea
+                newBlock.frame.origin = CGPoint.zero
+                newExpression.addSubview(newBlock)
+                
+//                
+//                rootBlock.setup()
+//                var newExpression = Expression(firstVal: rootBlock)
+//                
+//                workArea.currentPage.addSubview(newExpression)
+//                print(e.frame.origin.x)
+//                print(e.frame.origin.y)
+            }
+            
         }
+        
     }
     
     public func displayErrorInViewController(title: String, description : String){
