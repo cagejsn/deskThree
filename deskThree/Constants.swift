@@ -81,7 +81,7 @@ struct Constants {
             static let gray : UIColor = UIColor.init(red: 80/255, green: 80/255, blue: 80/255, alpha: 1.0)
             static let def : UIColor = UIColor.init(red: 100/255, green: 100/255, blue: 100/255, alpha: 1.0)
             static let blue : UIColor = UIColor.init(red: 80/255, green: 80/255, blue: 80/255, alpha: 1.0)
-            
+            static let lighterGray: UIColor = UIColor.init(red: 205/255, green: 201/255, blue: 201/255, alpha: 1.0)
         }
     }
 }
