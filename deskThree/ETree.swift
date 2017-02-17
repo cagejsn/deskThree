@@ -59,7 +59,7 @@ class ETree {
         string.append(root.getValue())
       //  print(root.getValue(), terminator: "")
         if (root.rightChild != nil){
-            string.append(printCurrentTree(root: root.leftChild!))
+            string.append(printCurrentTree(root: root.rightChild!))
         }
         return string
     }
