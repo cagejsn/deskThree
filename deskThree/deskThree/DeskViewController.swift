@@ -91,7 +91,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupJotView(){
-        pen = Pen(minSize: 6.0, andMaxSize: 15, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 7.0, andMaxSize: 10, andMinAlpha: 0.8, andMaxAlpha: 1)
         pen.shouldUseVelocity = true
         
       //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
