@@ -27,7 +27,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var toolDrawer: ToolDrawer!
 
     var customContraints: [NSLayoutConstraint]!
-    
+
+    @IBOutlet weak var currentPageLabel: UILabel!
+    @IBOutlet weak var totalPagesLabel: UILabel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -37,6 +40,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolDrawer()
         setupTrash()
         
+        currentPageLabel.text = "1"
+        totalPagesLabel.text = "1"
         if let dView = view as? DeskView {
             dView.workArea = workArea
             dView.jotView = jotView
@@ -148,9 +153,36 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
-    jotView.undo()
+    	print("UNDO!")
+        jotView.undo()
     }
     
+    /**
+     Pagination
+     ----------
+     Allows user to move forwards and backwards in pages
+    */
+    
+    @IBAction func pageRightButtonPressed(_ sender: Any) {
+        print("Right!")
+        let pagesInfo = workArea.movePage(direction: "right")
+        currentPageLabel.text = String(pagesInfo.currentPage + 1)
+        totalPagesLabel.text = String(pagesInfo.totalNumPages)
+    }
+
+    @IBAction func pageLeftButtonPressed(_ sender: Any) {
+        print("Left!")
+        let pagesInfo = workArea.movePage(direction: "left")
+        currentPageLabel.text = String(pagesInfo.currentPage + 1)
+        totalPagesLabel.text = String(pagesInfo.totalNumPages)
+    }
+
+    
+    /**
+     Load Image
+     ----------
+     Allows user to bring an image into the work area
+     */
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
         if( UIImagePickerController.isSourceTypeAvailable(.camera)){
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -173,7 +205,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
-    jotView.clear(true);
+        jotView.clear(true)
     }
 // MARK: GKImagePickerController Delegate
 @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
