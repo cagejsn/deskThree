@@ -52,7 +52,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workArea.setZoomScale(workArea.minimumZoomScale, animated: false)
     }
     
-    
+    // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         
         if(prevScaleFactor != nil){
@@ -129,7 +129,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         paperState?.delegate = self
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
-        self.view.addSubview(jotView)
+        // inserting jotView right below toolbar
+        self.view.insertSubview(jotView, at: 1)
        // workArea.currentPage.addSubview(jotView)
         jotView.isUserInteractionEnabled = false
         
