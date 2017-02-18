@@ -12,18 +12,51 @@ import UIKit
 class Paper: UIImageView, ImageBlockDelegate {
     
     var images: [ImageBlock]?
+    var expressions: [Expression]!
+  //  var longPressGR: UILongPressGestureRecognizer!
     
+    
+        
     //MARK: Initializers
     init() {
         super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+     //   longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Paper.handleLongPress(sender:)))
+   //     longPressGR.minimumPressDuration = 0.8
+   //     self.addGestureRecognizer(longPressGR)
+        expressions = [Expression]()
         self.image = UIImage(named: "engineeringPaper2")
         self.isOpaque = false
         images = [ImageBlock]() //creates an array to save the imageblocks
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    //MARK: setup for exporting
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        images = unarchiver.decodeObject() as! [ImageBlock]!
+        expressions = unarchiver.decodeObject() as! [Expression]!
+        
     }
+
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(images)
+        aCoder.encode(expressions)
+    }
+    
+    func savePaper(){
+
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
+        var filePath = documentsPath.appending("/file.desk")
+        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
+    }
+    
+    func loadPaper(state: Paper){
+        
+
+        
+    }
+    
 
     //ImageBlock Delegate Functions
     func fixImageToPage(image: ImageBlock){
@@ -32,6 +65,12 @@ class Paper: UIImageView, ImageBlockDelegate {
     
     func freeImageForMovement(image: ImageBlock){
         
+    }
+    
+    func helpMove(imageBlock: ImageBlock, dx: CGFloat, dy: CGFloat) {
+        imageBlock.frame.origin.x = imageBlock.frame.origin.x + dx
+        imageBlock.frame.origin.y = imageBlock.frame.origin.y + dy
+
     }
     
     // This is never called

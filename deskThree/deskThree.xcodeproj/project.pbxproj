@@ -15,6 +15,10 @@
 		CE3E876C1E354D640076DA3A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */; };
 		CEC6DD101DEE8D14002A2460 /* JotUI in Resources */ = {isa = PBXBuildFile; fileRef = CEC6DD0B1DEE8D14002A2460 /* JotUI */; };
 		CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC6DD131DEE8D14002A2460 /* JotUI.framework */; };
+		DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1308DC1E5007F9008EBD14 /* DeskView.swift */; };
+		DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688BE1E414613006A9E1A /* ToolDrawer.swift */; };
+		DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688C11E43F98A006A9E1A /* CGPoint+.swift */; };
+		DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688F81E47B970006A9E1A /* CGRect+.swift */; };
 		DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A01DE64EDF00E3AA1D /* Eraser.m */; };
 		DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A21DE64EDF00E3AA1D /* Marker.m */; };
 		DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A41DE64EDF00E3AA1D /* Pen.m */; };
@@ -25,6 +29,8 @@
 		DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
 		DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */; };
 		DA5464511DBD10A300E644F0 /* Paper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5464501DBD10A300E644F0 /* Paper.swift */; };
+		DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */; };
+		DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA67005B1E3EDD1C00A6179A /* GKContext.swift */; };
 		DA7050E41E25591000079047 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7050E31E25591000079047 /* GraphView.swift */; };
 		DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DA7050F11E25EFD100079047 /* vertexShader.glsl */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
@@ -54,6 +60,7 @@
 		DAFBE3AB1DBBDBC20007D249 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3AA1DBBDBC20007D249 /* Assets.xcassets */; };
 		DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */; };
 		DAFBE3B91DBBDBC20007D249 /* deskThreeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3B81DBBDBC20007D249 /* deskThreeUITests.swift */; };
+		DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +98,10 @@
 		CEC6DD0B1DEE8D14002A2460 /* JotUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = JotUI; sourceTree = "<group>"; };
 		CEC6DD0C1DEE8D14002A2460 /* JotUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotUI.h; sourceTree = "<group>"; };
 		CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = JotUI.xcodeproj; sourceTree = "<group>"; };
+		DA1308DC1E5007F9008EBD14 /* DeskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskView.swift; sourceTree = "<group>"; };
+		DA3688BE1E414613006A9E1A /* ToolDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolDrawer.swift; sourceTree = "<group>"; };
+		DA3688C11E43F98A006A9E1A /* CGPoint+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+.swift"; sourceTree = "<group>"; };
+		DA3688F81E47B970006A9E1A /* CGRect+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+.swift"; sourceTree = "<group>"; };
 		DA49189F1DE64EDF00E3AA1D /* Eraser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Eraser.h; sourceTree = "<group>"; };
 		DA4918A01DE64EDF00E3AA1D /* Eraser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Eraser.m; sourceTree = "<group>"; };
 		DA4918A11DE64EDF00E3AA1D /* Marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Marker.h; sourceTree = "<group>"; };
@@ -104,6 +115,8 @@
 		DA4918AC1DE75AAA00E3AA1D /* quad.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.vsh; sourceTree = "<group>"; };
 		DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = stencil.fsh; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
+		DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKFilteredImageView.swift; sourceTree = "<group>"; };
+		DA67005B1E3EDD1C00A6179A /* GKContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKContext.swift; sourceTree = "<group>"; };
 		DA7050E31E25591000079047 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		DA7050F11E25EFD100079047 /* vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vertexShader.glsl; path = ../vertexShader.glsl; sourceTree = "<group>"; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
@@ -145,6 +158,7 @@
 		DAFBE3B41DBBDBC20007D249 /* deskThreeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = deskThreeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3B81DBBDBC20007D249 /* deskThreeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deskThreeUITests.swift; sourceTree = "<group>"; };
 		DAFBE3BA1DBBDBC20007D249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +240,7 @@
 				DAA494E41DC3A0D600C73780 /* GKImageCropOverlayView.m */,
 				DAA494E51DC3A0D600C73780 /* GKImageCropView.h */,
 				DAA494E61DC3A0D600C73780 /* GKImageCropView.m */,
+				DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */,
 				DAA494E71DC3A0D600C73780 /* GKImageCropViewController.h */,
 				DAA494E81DC3A0D600C73780 /* GKImageCropViewController.m */,
 				DAA494E91DC3A0D600C73780 /* GKImagePicker.h */,
@@ -280,6 +295,7 @@
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
+				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
 				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
 				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
 				DA7050E31E25591000079047 /* GraphView.swift */,
@@ -294,6 +310,11 @@
 				DA5464501DBD10A300E644F0 /* Paper.swift */,
 				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
 				52A662A21E32B1C8008E088A /* trash.swift */,
+				DA67005B1E3EDD1C00A6179A /* GKContext.swift */,
+				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
+				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
+				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
+				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -480,12 +501,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE3E876C1E354D640076DA3A /* Parser.swift in Sources */,
+				DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
 				DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */,
+				DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */,
 				DADC7C681DF0F4650086626E /* Constants.swift in Sources */,
 				DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */,
 				DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */,
 				DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */,
+				DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */,
 				DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
 				DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */,
@@ -495,14 +519,18 @@
 				DABC744E1DEF809B0090D413 /* UImage+ImageOrientationFix.swift in Sources */,
 				25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */,
+				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
 				DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */,
 				DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */,
 				52A662A31E32B1C8008E088A /* trash.swift in Sources */,
+				DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */,
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,
+				DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */,
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
+				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,
 				DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */,
@@ -679,13 +707,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 6SJHMR9UMT;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = deskThree/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThreeUT;
+				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThreeUT5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -698,13 +727,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 6SJHMR9UMT;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = deskThree/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThreeUT;
+				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThreeUT5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

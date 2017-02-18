@@ -21,6 +21,7 @@ class Block: UILabel {
     var leftChild: Block?
     var rightChild: Block?
     var innerChild: Block?
+    var faceText: String?
 
     
     //MARK: Initialization
@@ -48,10 +49,22 @@ class Block: UILabel {
         return view
     }
     
-    required init ?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
+    
+    //MARK: setup for exporting
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        self.faceText = unarchiver.decodeObject() as! String!
+        self.text = self.faceText
     }
+    
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        faceText = self.text
+        aCoder.encode(faceText)
+    }
+
+    
 
     //MARK: Support Methods
     func canLink(aBlockToAccomodate: Block) -> Bool{
@@ -147,8 +160,6 @@ class Block: UILabel {
                      newFrameSize = aBlockToAccomodate.parentExpression!.frame
                     } else { newFrameSize = aBlockToAccomodate.frame }
                     self.leftChild = Block(frame: CGRect(x: -newFrameSize.width, y: 0, width: newFrameSize.width, height: newFrameSize.height))
-                    //self.addSubview(leftChild!)
-                   // leftChild!.frame = CGRectOffset(leftChild!.frame, self.frame.origin.x, 0)
                     leftChild!.type = TypeOfBlock.Glow.rawValue
                     leftChild!.parent = self
                     glowBlocks.append(leftChild!)
@@ -170,10 +181,6 @@ class Block: UILabel {
                     
                     
                     self.rightChild = Block(frame: CGRect(x:superview!.frame.width, y:0, width:newFrameSize!.width, height:newFrameSize!.height))
-                   // self.rightChild = Block(frame: CGRectMake(self.frame.width, 0, newFrameSize!.width, newFrameSize!.height))
-                    
-                   // self.addSubview(rightChild!)
-                    //rightChild!.frame = CGRectOffset(rightChild!.frame, 2 * self.frame.origin.x, 0)
                     rightChild!.type = TypeOfBlock.Glow.rawValue
                     rightChild!.parent = self
                     glowBlocks.append(rightChild!)
@@ -198,7 +205,7 @@ class Block: UILabel {
     }
     
     func getValue() -> String {
-        return text!
+        return self.text!
     }
     
     func setColor(color : UIColor) {

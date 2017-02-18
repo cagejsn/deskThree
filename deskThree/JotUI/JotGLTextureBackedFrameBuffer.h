@@ -26,6 +26,4 @@
 // to zero opacity
 - (void)clear;
 
--(void) clearOnCurrentContext;
-
 @end

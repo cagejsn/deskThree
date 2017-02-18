@@ -6,23 +6,6 @@
 //  Copyright © 2017 desk. All rights reserved.
 //
 
-/*
-extension CALayer {
-    
-    
-    func bringSublayerToFront(layer:CALayer){
-        layer.removeFromSuperlayer()
-        self.insertSublayer(layer, at: UInt32((self.sublayers?.count)!))
-    
-    }
-    
-    func sendSublayerToBack(layer:CALayer){
-        layer.removeFromSuperlayer()
-        self.insertSublayer(layer, at: 0)
-    }
-    
-}
- */
 
 let borderWidth:CGFloat = 7
 
@@ -125,16 +108,6 @@ class GraphingBlock: UIView {
             graphToManage.addMarkersToBuffer()
             graphToManage.render()
             
-            
-            
-            
-           
-            
-            
-            
-            
-            
-            
         }
         
         if (sender.state == .ended){
@@ -167,18 +140,6 @@ class GraphingBlock: UIView {
             graphToManage.addMarkersToBuffer()
             graphToManage.render()
             
-            
-            
-         //   graphToManage.setBuffersForXAxisMarkers()
-        //    graphToManage.render()
-            
-           /*
-            for p in Functions {
-                graphToManage.setupFunctionVertices(p)
-                graphToManage.setupFunctionIndices(p)
-                
-            }
- */
            
         }
         

@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 
 protocol ExpressionDelegate {
+    func elementWantsSendToInputObject(element:Any)
+
+    
     func didIncrementMove(_movedView: UIView)
     func didCompleteMove(_movedView: UIView)
     func didEvaluate(forExpression sender: Expression, result: Float)
@@ -25,30 +28,106 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     var amtMoved: CGFloat = 0
     var rootBlock: Block
     var delegate: ExpressionDelegate?
+    var parser: Parser
+    var functionString: String = ""
+    var longPressGR: UILongPressGestureRecognizer!
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
     
-    //MARK: Initialization
+  
+
+
+    static func makeBlock(blockLocation: CGPoint, blockType: Int, blockData: String) -> Block {
+        let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: blockData)
+        var newBlock: Block!
+        switch blockType {
+        case 1:
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+            newBlock?.setColor(color: Constants.block.colors.green)
+            newBlock?.precedence = Precedence.Number.rawValue
+        case 2:
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height:Constants.block.height))
+            newBlock?.setColor(color: Constants.block.colors.blue)
+            
+            switch blockData {
+            case "+":
+                newBlock?.precedence = Precedence.Plus.rawValue
+                break
+            case "-":
+                newBlock?.precedence = Precedence.Minus.rawValue
+                break
+            case "x":
+                newBlock?.precedence = Precedence.Multiply.rawValue
+                break
+            case "÷":
+                newBlock?.precedence = Precedence.Divide.rawValue
+                break
+            case "√":
+                newBlock?.precedence = Precedence.Multiply.rawValue
+                break
+            case "^":
+                newBlock?.precedence = Precedence.Multiply.rawValue
+                break
+            default:
+                break
+            }
+        case 3:
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2),y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+            newBlock?.setColor(color: Constants.block.colors.gray)
+        default:
+            //We shouldn't have a default
+            newBlock = Block()
+            
+        }
+        newBlock!.text = blockData
+        newBlock!.font = UIFont.boldSystemFont(ofSize: Constants.block.fontSize)
+        newBlock!.textColor = UIColor.white
+        newBlock!.type = blockType
+        newBlock?.forBaselineLayout().clipsToBounds = true
+        newBlock?.forBaselineLayout().layer.cornerRadius = Constants.block.cornerRadius
+        //newBlock?.frame = newBlock!.frame.offsetBy(dx: self.frame.origin.x, dy: self.frame.origin.y)
+        //  superview!.addSubview(newBlock!)
+        return newBlock!
+    }
+
+    
+    
+    
+    
+     //MARK: Initialization
     init(firstVal: Block){
         rootBlock = firstVal
         var newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)
+        parser = Parser(functionString: "")
         super.init(frame: newFrame)
         doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        longPressGR = UILongPressGestureRecognizer(target: self, action: "handleLongPress")
+        longPressGR.minimumPressDuration = 0.5
+        self.addGestureRecognizer(longPressGR)
+        
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder unarchiver: NSCoder) {
+        self.rootBlock = unarchiver.decodeObject() as! Block
+        self.parser = Parser(functionString: "")
+        super.init(coder: unarchiver)
+        //fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(rootBlock)
+        //aCoder.encode(parser)
     }
     
     /* MARK: Touch Events */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         superview!.bringSubview(toFront: self)
         
-
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -77,18 +156,39 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         self.delegate!.hideTrash()
     }
     
+    func handleLongPress(){
+        delegate?.elementWantsSendToInputObject(element: self)
+    }
+    
     //MARK: Gesture Recognizer Methods
     func handleDoubleTap(){
-        if(ETree.canBeEvaluated(node: self.rootBlock)){
-            delegate!.didEvaluate(forExpression: self, result: Float(ETree.evaluate(node: self.rootBlock)))
+        print(getExpressionString())
+        parser.parserSetFunction(functionString: getExpressionString())
+        do {
+            try parser.parserPlot(start: 1, end: 2, totalSteps: 1)
+
+        } catch MathError.missingOperand {
+            print(parser.getError())
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        if parser.getError() == "" {
+            delegate!.didEvaluate(forExpression: self, result: Float(parser.getY()[0]))
 
         }
+        
+        
+//        if(ETree.canBeEvaluated(node: self.rootBlock)){
+//            delegate!.didEvaluate(forExpression: self, result: Float(ETree.evaluate(node: self.rootBlock)))
+//
+//        }
     }
     
     //MARK: Support Methods
     func isMoveInsideBound (x:CGFloat, y:CGFloat, width:CGFloat, height:CGFloat) -> Bool {
-        if (x >= superview!.frame.origin.x && y >= superview!.frame.origin.y) {
-            if (x + width <= Constants.dimensions.Paper.width && y + height <= Constants.dimensions.Paper.height - 44) {
+        if (x >= (superview!.frame.origin.x - width) && y >= superview!.frame.origin.y - height) {
+            if (x <= Constants.dimensions.Paper.width && y <= Constants.dimensions.Paper.height - 44) {
                 return true
             }
         }
@@ -193,6 +293,31 @@ class Expression: UIView, UIGestureRecognizerDelegate {
  
         */
         
+    }
+    func getExpressionString() -> String{
+        functionString = ""
+        getExpressionStringHelper(root: self.rootBlock)
+        return self.functionString
+    }
+    
+    /* in order traversal of tree, printing each value along the way */
+    private func getExpressionStringHelper (root : Block) {
+        if(root.leftChild != nil){
+            getExpressionStringHelper(root: root.leftChild!)
+        }
+        functionString += root.getValue()
+        if (root.rightChild != nil){
+            getExpressionStringHelper(root: root.rightChild!)
+        }
+    }
+    
+    
+    //MARK: Support Methods
+    static func evaluateStringWidth (textToEvaluate: String) -> CGFloat{
+        let font = UIFont.systemFont(ofSize: Constants.block.fontSize)
+        let attributes = NSDictionary(object: font, forKey:NSFontAttributeName as NSCopying)
+        let sizeOfText = textToEvaluate.size(attributes: (attributes as! [String : AnyObject]))
+        return sizeOfText.width + Constants.block.fontWidthPadding;
     }
 }
 
