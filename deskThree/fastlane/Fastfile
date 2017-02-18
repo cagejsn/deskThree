@@ -1,0 +1,290 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.12.0"
+
+default_platform :ios
+
+platform :ios do
+  before_all do
+
+    # Set the Slack webhook URL
+    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+
+    # Set iTunes Connect username
+    @username = "zakkeener@utexas.edu"
+
+    # Ensure there are no uncommitted changes
+    ensure_git_status_clean
+  end
+'''
+  # Increments the build number
+  lane :increment do
+    # Change build number
+    increment_build_number(
+      xcodeproj: "./deskThree.xcodeproj"
+    )
+  end
+'''
+
+  desc "Updating provisioning profiles."
+  lane :certs do
+    match(type: "appstore")
+#    match(type: "development")
+  end
+
+  # PATCH, 0.0.x
+  desc "Increment the app version patch"
+  lane :bump_patch do
+    increment_version_number(
+      xcodeproj: "./deskThree.xcodeproj",
+      bump_type: "patch"
+    )
+  end
+
+  # MINOR, 0.x.0
+  desc "Increment the app version minor"
+  lane :bump_minor do
+    increment_version_number(
+      xcodeproj: "./deskThree.xcodeproj",
+      bump_type: "minor"
+    )
+  end
+
+  # MAJOR, x.0.0
+  desc "Increment the app version major"
+  lane :bump_major do
+    increment_version_number(
+      xcodeproj: "./deskThree.xcodeproj",
+      bump_type: "major"
+    )
+  end
+
+  # Fetches provisioning profiles and build the app
+  desc "Fetching provisioning profiles and building the app"
+  lane :build_app do
+    # Always get latest certificates/provisioning profiles
+    match(type: "appstore")
+'''
+    # Increment build number
+    current_build_number = increment_build_number(
+      xcodeproj: "./deskThree.xcodeproj"
+    )
+'''
+'''
+    # Bump the version (optional)
+    current_app_version = get_version_number(xcodeproj: "./deskThree.xcodeproj")
+
+    puts "Current version of the app: " + current_app_version
+    is_bumping = UI.select("Would you like to increment the app version?", ["Yes", "No"])
+    if is_bumping == "Yes"
+      type_of_bump = UI.select("Type of bump [patch, minor, major]:", ["patch", "minor", "major"])
+      if type_of_bump == "patch"
+        bump_patch
+        elsif type_of_bump == "minor"
+        bump_minor
+        elsif type_of_bump == "major"
+        bump_major
+      end
+
+      current_app_version = get_version_number(xcodeproj: "./deskThree.xcodeproj")
+
+      # Commit the version and build bump to git
+      commit_version_bump(
+        message: "Committing bump to version " + current_app_version + ", build " + current_build_number,
+        xcodeproj: "./deskThree.xcodeproj",
+        force: true
+      )
+
+    else
+      # Just commit the build bump
+      commit_version_bump(
+        message: "Committing bump to version build " + current_build_number,
+        xcodeproj: "./deskThree.xcodeproj",
+        force: true
+      )
+    end
+'''
+
+    # Build the app
+    gym(
+      scheme: "deskThree",
+      project: "./Desk.xcodeproj"
+    )
+
+  end
+
+  lane :bumpAndTag do
+    # Push to beta (optional)
+    is_pushing = UI.select("Would you like to push to master?", ["beta", "master", "none"])
+    if is_pushing != "none"
+      if is_pushing == "beta"
+        sh "git fetch"
+        sh "git co dev"
+        sh "git pull"
+        sh "git co beta"
+        sh "git merge dev"
+        sh "git co dev"
+
+        elsif is_pushing == "master"
+        sh "git fetch"
+        sh "git co dev"
+        sh "git pull"
+        sh "git co beta"
+        sh "git merge dev"
+        sh "git co dev"
+      end
+    end
+
+    # Bump the version (optional)
+    current_app_version = get_version_number
+    puts "Current version of the app: " + current_app_version
+    is_bumping = UI.select("Would you like to increment the app version?", ["Yes", "No"])
+    if is_bumping == "Yes"
+      type_of_bump = UI.select("Type of bump [patch, minor, major]:", ["patch", "minor", "major"])
+      if type_of_bump == "patch"
+        bump_patch
+        elsif type_of_bump == "minor"
+        bump_minor
+        elsif type_of_bump == "major"
+        bump_major
+      end
+    end
+  end
+
+  # -- BETA --
+  desc "Build and upload a new build to Apple TestFlight"
+  lane :beta do
+    # Build the app
+    build_app
+
+    # Add Changelog (optional)
+    answer = UI.select("Would you like to add a Changelog?", ["Yes", "No"])
+    changelog = ask("Type Changelog message:") if answer == "Yes"
+
+    # Upload to iTunes Connect for TestFlight, with changelog (used in What's New) if given
+    if changelog
+      pilot(username: @username)
+    else
+      pilot(username: @username, changelog: changelog)
+    end
+
+    # Print reminder of testers
+    sh "pilot list -u #{@username}"
+
+    # Add an annotated git tag to the current branch
+    build_number = Actions.lane_context[Actions::SharedValues::BUILD_NUMBER]
+    add_git_tag(tag: "testflight-#{build_number}")
+
+    # Push to the default remote git branch
+    push_to_git_remote
+
+    # Notify on Slack
+    #slack(message: "New Beta build has been uploaded to TestFlight!",
+    #      channel: "#mobile"
+    #     )
+  end
+
+
+  # -- APPSTORE --
+  desc "Build and upload the app to the App Store"
+  lane :release do
+    # Build the app
+    build_app
+
+    # Upload to App Store
+    appstore(
+      # skip_screenshot: true,
+      force: true # Skip HTML report file verification
+    )
+
+    # Add an annotated git tag to the current branch
+    build_number = Actions.lane_context[Actions::SharedValues::BUILD_NUMBER]
+    add_git_tag(tag: "testflight-#{build_number}")
+
+    # Push to the default remote git branch
+    push_to_git_remote
+
+    # Notify on Slack
+    #slack(message: "New build has been uploaded for release to the App Store!",
+    #      channel: "#mobile"
+    #     )
+  end
+
+
+  # -- SUCCESS --
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+  end
+
+
+  # -- ERROR --
+  error do |lane, exception|
+    #slack(
+    #  message: exception.message,
+    #  success: false
+    #)
+  end
+end
+
+
+# --------------------------
+# ANDROID - Unused as of 12/16/16
+# --------------------------
+
+platform :android do
+  before_all do
+    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
+  end
+
+  desc "Submit a new Alpha Build to Google Play Store"
+  lane :alpha do
+    # Build the release version of the Android App
+    adle(
+      task: "assemble",
+      build_type: "Release",
+      project_dir: "android/"
+    )
+
+    # Uploads generated apk to oogle Play Store as an Alpha build
+    supply(
+      track: "alpha",
+      apk: "android/app/build/outputs/apk/app-release.apk"
+    )
+
+  end
+
+  # You can define as many lanes as you want
+
+  after_all do |lane|
+    # This block is called, only if the executed lane was successful
+
+    slack(
+      message: "App successfully released",
+      channel: "#myAppChannel"
+    )
+  end
+
+  error do |lane, exception|
+    # slack(
+    #   message: exception.message,
+    #   success: false
+    # )
+  end
+end
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/docs/Platforms.md
+# All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
+
+# fastlane reports which actions are used
+# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer

@@ -1,0 +1,17 @@
+git_url "git@github.com:hbd/desk-certs.git"
+<<<<<<< HEAD
+username "zakkeener@utexas.edu"
+
+type "development" # The default type, can be: appstore, adhoc or development
+
+app_identifier "com.desk.education"
+=======
+
+type "development" # The default type, can be: appstore, adhoc or development
+
+# app_identifier ["tools.fastlane.app", "tools.fastlane.app2"]
+# username "user@fastlane.tools" # Your Apple Developer Portal username
+>>>>>>> a07529d94bac4a5e2119e72f0878ef0caf930971
+
+# For all available options run `fastlane match --help`
+# Remove the # in the beginning of the line to enable the other options
