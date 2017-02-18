@@ -14,7 +14,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
-   
+    
     //JotUI Properties
     var pen: Pen!
     var jotView: JotView!
@@ -26,8 +26,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var prevScaleFactor: CGFloat!
     
     var toolDrawer: ToolDrawer!
-
+    
     var customContraints: [NSLayoutConstraint]!
+    
+    @IBOutlet weak var currentPageLabel: UILabel!
+    @IBOutlet weak var totalPagesLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,13 +41,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolDrawer()
         setupTrash()
         
-        if let dView = view as? DeskView {
-            dView.workArea = workArea
-            dView.jotView = jotView
-            dView.setup()
-            dView.addGestureRecognizer(workArea.panGestureRecognizer)
-            dView.addGestureRecognizer(workArea.pinchGestureRecognizer!)
-        }
+        currentPageLabel.text = "1"
+        totalPagesLabel.text = "1"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -74,7 +72,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     
-    
     //incoming view does intersect with Trash?
     func intersectsWithTrash(justMovedBlock: UIView) -> Bool {
         if( trashBin.frame.contains(self.view.convert(justMovedBlock.frame.origin, from: justMovedBlock.superview!))){
@@ -82,7 +79,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             return true
         }
         trashBin.close()
-       return false
+        return false
     }
     
     ///expression delegate for trash disappear
@@ -118,11 +115,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupJotView(){
-        pen = Pen(minSize: 7.0, andMaxSize: 10, andMinAlpha: 0.8, andMaxAlpha: 1)
-        pen.shouldUseVelocity = true
-        
-      //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
-        jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
+        pen = Pen()
+        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
         paperState = JotViewStateProxy(delegate: self)
@@ -131,9 +125,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         jotView.loadState(paperState)
         // inserting jotView right below toolbar
         self.view.insertSubview(jotView, at: 1)
-       // workArea.currentPage.addSubview(jotView)
         jotView.isUserInteractionEnabled = false
-        
     }
     
     func setupToolDrawer(){
@@ -146,15 +138,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func sendingToInputObject(for element: Any){
         toolDrawer.passElement(element)
     }
- 
+    
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
     }
+    
+    
     
     //MARK: - WorkArea Delegate
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return workArea.currentPage
     }
+    
+    
     
     func exportPdf(imageV: UIImage?){
         var useful: UIImageView = UIImageView (image: imageV)
@@ -174,37 +170,63 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
         workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
     }
-
+    
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
-    jotView.undo()
+        print("UNDO!")
+        jotView.undo()
     }
     
+    /**
+     Pagination
+     ----------
+     Allows user to move forwards and backwards in pages
+     */
+    
+    @IBAction func pageRightButtonPressed(_ sender: Any) {
+        print("Right!")
+        let pagesInfo = workArea.movePage(direction: "right")
+        currentPageLabel.text = String(pagesInfo.currentPage + 1)
+        totalPagesLabel.text = String(pagesInfo.totalNumPages)
+    }
+    
+    @IBAction func pageLeftButtonPressed(_ sender: Any) {
+        print("Left!")
+        let pagesInfo = workArea.movePage(direction: "left")
+        currentPageLabel.text = String(pagesInfo.currentPage + 1)
+        totalPagesLabel.text = String(pagesInfo.totalNumPages)
+    }
+    
+    
+    /**
+     Load Image
+     ----------
+     Allows user to bring an image into the work area
+     */
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
         if( UIImagePickerController.isSourceTypeAvailable(.camera)){
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.popoverPresentationController?.barButtonItem = sender
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
-            action in
-            self.gkimagePicker.imagePickerController.sourceType = .camera
-            self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
-            action in
-            self.gkimagePicker.imagePickerController.sourceType = .photoLibrary
-            self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
+                action in
+                self.gkimagePicker.imagePickerController.sourceType = .camera
+                self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
+                action in
+                self.gkimagePicker.imagePickerController.sourceType = .photoLibrary
+                self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         } else {
             self.present(gkimagePicker.imagePickerController, animated: false, completion: nil)
         }
     }
     
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
-    jotView.clear(true);
+        jotView.clear(true)
     }
-// MARK: GKImagePickerController Delegate
-@objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
+    // MARK: GKImagePickerController Delegate
+    @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
         if let pickedImage = pickedImage as? UIImage  {
             var imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
             workArea.currentPage.images?.append(imageBlock) //adds to the array, used to toggle editable
@@ -215,7 +237,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             imageBlock.setImage(image: pickedImage)
             imageBlock.delegate = self.workArea.currentPage
         }
-        dismiss(animated: true, completion: nil)        
+        dismiss(animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -227,9 +249,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func activePen() -> Pen {
         return pen
     }
-
-   
-
+    
     //JotUIDelegate
     func textureForStroke() -> JotBrushTexture! {
         return activePen().textureForStroke()
@@ -242,7 +262,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func supportsRotation() -> Bool {
         return activePen().supportsRotation()
     }
-  
+    
     func willAddElements(_ elements: [Any]!, to stroke: JotStroke!, fromPreviousElement previousElement: AbstractBezierPathElement!) -> [Any]! {
         return activePen().willAddElements(elements, to: stroke, fromPreviousElement: previousElement)
     }
@@ -284,9 +304,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func smoothness(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
-       return activePen().smoothness(forCoalescedTouch: coalescedTouch, from: touch)
+        return activePen().smoothness(forCoalescedTouch: coalescedTouch, from: touch)
     }
-
+    
     //pragma mark - JotViewStateProxyDelegate
     
     func documentDir() -> String {
@@ -295,7 +315,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func didLoadState(_ state: JotViewStateProxy!) {
-
+        
     }
     
     func didUnloadState(_ state: JotViewStateProxy!) {
@@ -327,7 +347,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
                 image.isUserInteractionEnabled = true
                 image.contentMode = .scaleAspectFit
                 image.delegate = self.workArea.currentPage
-
+                
             }
             //workArea.currentPage.loadPaper(state: savedFile)
             //savedFile.delegate = self

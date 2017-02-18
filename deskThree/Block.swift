@@ -21,6 +21,7 @@ class Block: UILabel {
     var leftChild: Block?
     var rightChild: Block?
     var innerChild: Block?
+    var faceText: String?
 
     
     //MARK: Initialization
@@ -48,10 +49,22 @@ class Block: UILabel {
         return view
     }
     
-    required init ?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setup()
+    
+    //MARK: setup for exporting
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        self.faceText = unarchiver.decodeObject() as! String!
+        self.text = self.faceText
     }
+    
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        faceText = self.text
+        aCoder.encode(faceText)
+    }
+
+    
 
     //MARK: Support Methods
     func canLink(aBlockToAccomodate: Block) -> Bool{
@@ -192,7 +205,7 @@ class Block: UILabel {
     }
     
     func getValue() -> String {
-        return text!
+        return self.text!
     }
     
     func setColor(color : UIColor) {

@@ -324,7 +324,24 @@ public class Parser {
             throw MathError.missingOperand
         }
         if(resultList.count == 0){
-            throw MathError.unrecognizedCharacters
+            //this - symbol is for negation
+            if(indicator == "-"){
+                let arrayToNegate : [Float64]
+                parserIncrimentCursor()
+                do {
+                    arrayToNegate = try parserHighPriority()
+                    
+                } catch let error {
+                    throw error
+                }
+                for number in arrayToNegate{
+                    resultList.append(0 - number)
+                }
+                
+            }
+            else{
+                throw MathError.unrecognizedCharacters
+            }
         }
         return resultList
     }
