@@ -23,6 +23,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var jotViewStatePlistPath: String!
     var graphingBlock: GraphingBlock!
     var trashBin: Trash!
+    var prevScaleFactor: CGFloat!
     
     var toolDrawer: ToolDrawer!
 
@@ -44,6 +45,27 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             dView.addGestureRecognizer(workArea.panGestureRecognizer)
             dView.addGestureRecognizer(workArea.pinchGestureRecognizer!)
         }
+    }
+    
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        
+        if(prevScaleFactor != nil){
+            
+            jotView.transform = jotView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
+            
+        }
+        print(scrollView.zoomScale)
+        print(scrollView.contentScaleFactor)
+        jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+
+        prevScaleFactor = scrollView.zoomScale
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset)
+        
+        jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
     
     
