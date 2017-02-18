@@ -119,7 +119,7 @@ platform :ios do
     # Build the app
     gym(
       scheme: "deskThree",
-      project: "./Desk.xcodeproj"
+      project: "./deskThree.xcodeproj"
     )
 
   end
