@@ -18,6 +18,7 @@
 #import "JotUI/JotViewState.h"
 #import "JotUI/JotTextureCache.h"
 
+
 #define kJotMaxStrokeByteSize 256 * 1024
 
 @class JotViewImmutableState;
@@ -34,6 +35,7 @@
 // the pixel size of a page
 @property(readonly) CGSize pagePtSize;
 @property(readonly) CGFloat scale;
+@property UIView* currentPage;
 
 
 // erase the screen

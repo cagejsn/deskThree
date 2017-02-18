@@ -111,8 +111,17 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder unarchiver: NSCoder) {
+        self.rootBlock = unarchiver.decodeObject() as! Block
+        self.parser = Parser(functionString: "")
+        super.init(coder: unarchiver)
+        //fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(rootBlock)
+        //aCoder.encode(parser)
     }
     
     /* MARK: Touch Events */

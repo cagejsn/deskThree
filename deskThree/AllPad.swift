@@ -353,7 +353,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     
     func xibSetup() {
         view = loadViewFromNib()
-        view.backgroundColor = Constants.pad.colors.grayBlue    
+        view.backgroundColor = UIColor.gray
         // use bounds not frame or it'll be offset
         view.frame = bounds
         // Make the view stretch with containing view
@@ -363,7 +363,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         numEntryArea.titleLabel!.numberOfLines = 1
         numEntryArea.titleLabel!.adjustsFontSizeToFitWidth = true
         numEntryArea.titleLabel!.lineBreakMode = NSLineBreakMode.byClipping
-        view.layer.cornerRadius = 15;
+     //   view.layer.cornerRadius = 15;
         for element in view.subviews {
             element.layer.cornerRadius = 10;
         }

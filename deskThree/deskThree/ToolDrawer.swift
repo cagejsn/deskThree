@@ -11,6 +11,7 @@ import Foundation
 let toolSelectorHeight = 100
 let toolDrawerCollapsedWidth:CGFloat = 40
 let toolDrawerExpandedWidth:CGFloat = 291
+let toolDrawerHeight: CGFloat = 724
 
 enum DrawerPosition {
     case closed
@@ -18,6 +19,10 @@ enum DrawerPosition {
 }
 
 class ToolDrawer: UIView {
+    
+    
+    var toolIcons: [UIImageView]!
+    var calculatorIcon: UIImageView!
     
     var activePad: InputObject!
     var drawerPosition = DrawerPosition.closed
@@ -69,18 +74,14 @@ class ToolDrawer: UIView {
         }
         
         if (!isActive){
-            switch (selector) {
-            case 0:
-                activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
-                self.addSubview(activePad)
-                activePad.delegate = delegate
-                isActive = true
-                break
-            case 1:
-                break
-            default:
-                break
-            }
+            
+            activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
+            self.addSubview(activePad)
+            activePad.delegate = delegate
+            isActive = true
+            calculatorIcon.layer.borderColor = UIColor.black.cgColor
+            calculatorIcon.layer.borderWidth = 1
+            calculatorIcon.backgroundColor = Constants.block.colors.gray
             
         } else {
    
@@ -101,22 +102,32 @@ class ToolDrawer: UIView {
         }
     }
     
+    func deactivateActivePad(){
+        activePad.removeFromSuperview()
+        activePad.delegate = nil
+        activePad = nil
+        isActive = false
+        
+        for icon in toolIcons {
+            icon.backgroundColor = UIColor.clear
+        }
+        
+    }
+    
     func animateToCollapsedPosition(){
         self.isUserInteractionEnabled = false
         //position animation
         CATransaction.begin()
-        CATransaction.setAnimationDuration(1)
+        CATransaction.setAnimationDuration(0.4)
         
         //position animation
         let positionAnimation: CABasicAnimation = CABasicAnimation(keyPath: "position")
+        self.frame = CGRect(x: self.frame.origin.x , y:self.frame.origin.y, width: toolDrawerCollapsedWidth, height: toolDrawerHeight)
         let originPosition: CGPoint = self.center
-        let finalPosition: CGPoint = self.center + CGPoint(x: self.frame.width - toolDrawerCollapsedWidth, y: 0)
-        
+        let finalPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width - toolDrawerCollapsedWidth/2 , y: UIScreen.main.bounds.height - (toolDrawerHeight/2 + 44))
         CATransaction.setCompletionBlock({
             self.isUserInteractionEnabled = true
-            self.center = finalPosition
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: toolDrawerCollapsedWidth, height: 731)
-            self.adjustWidthConstraint()
+           self.deactivateActivePad()
         })
         
         positionAnimation.duration = 1
@@ -128,6 +139,10 @@ class ToolDrawer: UIView {
         positionAnimation.isRemovedOnCompletion = true
         self.layer.add(positionAnimation, forKey: "positionAnimation")
         CATransaction.commit()
+        self.setCollapsedWidthConstraint()
+        self.center = finalPosition
+        self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerCollapsedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight + 44), width: toolDrawerCollapsedWidth, height: toolDrawerHeight)
+        
         
     }
     
@@ -137,18 +152,17 @@ class ToolDrawer: UIView {
         self.isUserInteractionEnabled = false
         
         CATransaction.begin()
-        CATransaction.setAnimationDuration(1)
+        CATransaction.setAnimationDuration(0.4)
         
         //position animation
         let positionAnimation: CABasicAnimation = CABasicAnimation(keyPath: "position")
+        self.frame = CGRect(x: self.frame.origin.x , y:self.frame.origin.y, width: toolDrawerExpandedWidth, height: toolDrawerHeight)
         let originPosition: CGPoint = self.center
-        let finalPosition: CGPoint = self.center - CGPoint(x: toolDrawerExpandedWidth - self.frame.width , y: 0)
+        let finalPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width - toolDrawerExpandedWidth/2 , y: UIScreen.main.bounds.height - (toolDrawerHeight/2 + 44))
         
         CATransaction.setCompletionBlock({
             self.isUserInteractionEnabled = true
-            self.center = finalPosition
-            self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: toolDrawerExpandedWidth, height: 731)
-            self.adjustWidthConstraint()
+           
         })
         
         positionAnimation.duration = 1
@@ -160,12 +174,21 @@ class ToolDrawer: UIView {
         positionAnimation.isRemovedOnCompletion = true
         self.layer.add(positionAnimation, forKey: "positionAnimation")
         CATransaction.commit()
+        self.setExpandedWidthConstraint()
+        self.center = finalPosition
+        self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerExpandedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight + 44), width: toolDrawerExpandedWidth, height: toolDrawerHeight)
        
     }
     
-    func adjustWidthConstraint(){
+    func setCollapsedWidthConstraint(){
         superview?.removeConstraint(widthContraint)
-        widthContraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: self.frame.width)
+        widthContraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: toolDrawerCollapsedWidth)
+        superview!.addConstraint(widthContraint)
+    }
+    
+    func setExpandedWidthConstraint(){
+        superview?.removeConstraint(widthContraint)
+        widthContraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: toolDrawerExpandedWidth)
         superview!.addConstraint(widthContraint)
     }
     
@@ -181,25 +204,33 @@ class ToolDrawer: UIView {
     
     init(){
         super.init(frame: CGRect(x: 0, y: 0, width: 40, height: Constants.dimensions.AllPad.height))
-        self.backgroundColor = UIColor.gray
-        self.layer.cornerRadius = 10
+        self.backgroundColor = Constants.block.colors.lighterGray
+        self.layer.cornerRadius = 15
+        self.layer.borderWidth = 1
+      //  self.clipsToBounds = true
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowRadius = 5
+        
+        self.layer.shadowOpacity = 0.8
+        self.layer.shadowOffset = CGSize(width: -2, height: 0)
+        self.layer.borderColor = UIColor.black.cgColor
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ToolDrawer.handlePan))
         self.addGestureRecognizer(panGestureRecognizer)
-        var lastHeight = 0
-        for height in stride(from: 0, to: Int(self.frame.height), by: toolSelectorHeight) {
-            print(height)
-            var imageView = UIImageView(frame: CGRect(x: 0, y: lastHeight, width: Int(toolDrawerCollapsedWidth), height: height - lastHeight))
-            lastHeight = height
-            imageView.image = UIImage(named:"apple")
-            imageView.contentMode = .scaleAspectFit
-            self.addSubview(imageView)
-        }
+        
+        calculatorIcon = UIImageView(frame:CGRect(x: 0, y: 0, width: Int(toolDrawerCollapsedWidth), height: toolSelectorHeight*2))
+        calculatorIcon.image = UIImage(named: "calculator_med")
+        calculatorIcon.contentMode = .scaleAspectFit
+        self.addSubview(calculatorIcon)
+        toolIcons = [UIImageView]()
+        toolIcons.append(calculatorIcon)
+        
     }
     
    override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.gray
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = 15
+        self.clipsToBounds = true
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ToolDrawer.handlePan))
         self.addGestureRecognizer(panGestureRecognizer)
         var lastHeight = 0
