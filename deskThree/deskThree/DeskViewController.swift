@@ -23,6 +23,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var jotViewStatePlistPath: String!
     var graphingBlock: GraphingBlock!
     var trashBin: Trash!
+    var prevScaleFactor: CGFloat!
     
     var toolDrawer: ToolDrawer!
     
@@ -39,9 +40,36 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupJotView()
         setupToolDrawer()
         setupTrash()
+        setupDeskView()
         
         currentPageLabel.text = "1"
         totalPagesLabel.text = "1"
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(_: animated)
+        workArea.setZoomScale(workArea.minimumZoomScale, animated: false)
+    }
+    
+    // MARK - UIScrollViewDelegate functions
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        
+        if(prevScaleFactor != nil){
+            
+            jotView.transform = jotView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
+            
+        }
+        print(scrollView.zoomScale)
+        print(scrollView.contentScaleFactor)
+        jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+
+        prevScaleFactor = scrollView.zoomScale
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset)
+        
+        jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
     
     
@@ -88,15 +116,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupJotView(){
-        pen = Pen()
-        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
+        pen = Pen(minSize: 7.0, andMaxSize: 10, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen.shouldUseVelocity = true
+        //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
+        jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
         paperState = JotViewStateProxy(delegate: self)
         paperState?.delegate = self
         paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         jotView.loadState(paperState)
-        workArea.currentPage.addSubview(jotView)
+        // inserting jotView right below toolbar
+        self.view.insertSubview(jotView, at: 1)
+        jotView.isUserInteractionEnabled = false
     }
     
     func setupToolDrawer(){
@@ -104,6 +136,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.addSubview(toolDrawer)
         toolDrawer.setupConstraints()
         toolDrawer.delegate = workArea
+    }
+    
+    func setupDeskView(){
+        if let dView = view as? DeskView {
+            dView.workArea = workArea
+            dView.jotView = jotView
+            dView.setup()
+            dView.addGestureRecognizer(workArea.panGestureRecognizer)
+            dView.addGestureRecognizer(workArea.pinchGestureRecognizer!)
+        }
     }
     
     func sendingToInputObject(for element: Any){
@@ -176,18 +218,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
         if( UIImagePickerController.isSourceTypeAvailable(.camera)){
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
+                alert.popoverPresentationController?.barButtonItem = sender
+                alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
                 action in
                 self.gkimagePicker.imagePickerController.sourceType = .camera
-                self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
-                action in
-                self.gkimagePicker.imagePickerController.sourceType = .photoLibrary
-                self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+                self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
+                }))
+                alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
+                action in self.gkimagePicker.imagePickerController.sourceType = .photoLibrary
+                self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
         } else {
             self.present(gkimagePicker.imagePickerController, animated: false, completion: nil)
         }
