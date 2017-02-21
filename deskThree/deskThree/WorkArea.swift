@@ -237,6 +237,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
             }
         }
         print("New page index: ", currentPageIndex)
+        self.setZoomScale(minimumZoomScale, animated: false)
         return (currentPageIndex, pages.count)
     }
     

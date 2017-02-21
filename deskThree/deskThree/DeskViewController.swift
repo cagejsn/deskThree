@@ -18,7 +18,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //JotUI Properties
     var pen: Pen!
     var jotView: JotView!
-    var paperState: JotViewStateProxy!
+    var pageDrawingStates: [JotViewStateProxy] = [JotViewStateProxy]()
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
     var graphingBlock: GraphingBlock!
@@ -116,16 +116,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupJotView(){
-        pen = Pen(minSize: 7.0, andMaxSize: 10, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 3.0, andMaxSize: 6, andMinAlpha: 0.8, andMaxAlpha: 1)
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
-        paperState = JotViewStateProxy(delegate: self)
-        paperState?.delegate = self
-        paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-        jotView.loadState(paperState)
+        pageDrawingStates.append(JotViewStateProxy(delegate: self))
+        pageDrawingStates[0].delegate = self
+        pageDrawingStates[0].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(pageDrawingStates[0])
         // inserting jotView right below toolbar
         self.view.insertSubview(jotView, at: 1)
         jotView.isUserInteractionEnabled = false
@@ -198,13 +198,26 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func pageRightButtonPressed(_ sender: Any) {
         print("Right!")
         let pagesInfo = workArea.movePage(direction: "right")
+        pageDrawingStates[pagesInfo.currentPage-1].isForgetful = false;
+        // If this is a new page, create new state
+        if (pagesInfo.totalNumPages > pageDrawingStates.count){
+        pageDrawingStates.append(JotViewStateProxy(delegate: self))
+        pageDrawingStates[pagesInfo.currentPage].delegate = self
+        pageDrawingStates[pagesInfo.currentPage].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        }
+        pageDrawingStates[pagesInfo.currentPage].isForgetful = true
+        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
         currentPageLabel.text = String(pagesInfo.currentPage + 1)
         totalPagesLabel.text = String(pagesInfo.totalNumPages)
+        
     }
     
     @IBAction func pageLeftButtonPressed(_ sender: Any) {
         print("Left!")
         let pagesInfo = workArea.movePage(direction: "left")
+        pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
+        pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
+        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
         currentPageLabel.text = String(pagesInfo.currentPage + 1)
         totalPagesLabel.text = String(pagesInfo.totalNumPages)
     }
