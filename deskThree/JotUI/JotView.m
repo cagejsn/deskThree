@@ -1411,7 +1411,9 @@ static int undoCounter;
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
-
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1)
+        return;
     for (UITouch* touch in touches) {
         @autoreleasepool {
             if ([self.delegate willBeginStrokeWithCoalescedTouch:touch fromTouch:touch]) {
@@ -1448,7 +1450,10 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 - (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
-
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1)
+        return;
+    
     for (UITouch* touch in touches) {
         NSArray<UITouch*>* coalesced = [event coalescedTouchesForTouch:touch];
         if (![coalesced count]) {
@@ -1523,7 +1528,10 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
-
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1)
+        return;
+    
     for (UITouch* touch in touches) {
         NSArray<UITouch*>* coalesced = [event coalescedTouchesForTouch:touch];
         if (![coalesced count]) {
@@ -1583,7 +1591,11 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     CheckMainThread;
     if (!state)
         return;
-
+    
+    //Ignore pan and pinch
+    if (event.allTouches.count > 1)
+        return;
+    
     for (UITouch* touch in touches) {
         @autoreleasepool {
             // If appropriate, add code necessary to save the state of the application.
