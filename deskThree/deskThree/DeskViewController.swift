@@ -59,15 +59,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             jotView.transform = jotView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
             
         }
-        print(scrollView.zoomScale)
-        print(scrollView.contentScaleFactor)
+//        print(scrollView.zoomScale)
+//        print(scrollView.contentScaleFactor)
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
 
         prevScaleFactor = scrollView.zoomScale
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset)
+//        print(scrollView.contentOffset)
         
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
