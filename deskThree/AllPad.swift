@@ -393,7 +393,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         }
     }
     
-    @IBAction func deleteTextFromEntryAreaLongPressed(_ sender: AnyObject) {
+    func deleteTextFromEntryAreaLongPressed(_ sender: AnyObject) {
         if (numEntryAreaText.characters.count > 0) {
             numEntryAreaText.removeAll()
             numEntryArea.setTitle(numEntryAreaText, for: UIControlState.normal)
@@ -402,8 +402,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         }
     }
     
-    
-    
+
     
     
 
