@@ -59,15 +59,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             jotView.transform = jotView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
             
         }
-        print(scrollView.zoomScale)
-        print(scrollView.contentScaleFactor)
+//        print(scrollView.zoomScale)
+//        print(scrollView.contentScaleFactor)
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
 
         prevScaleFactor = scrollView.zoomScale
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset)
+//        print(scrollView.contentOffset)
         
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
@@ -116,7 +116,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupJotView(){
-        pen = Pen(minSize: 7.0, andMaxSize: 10, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 3.0, andMaxSize: 6, andMinAlpha: 0.8, andMaxAlpha: 1)
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
