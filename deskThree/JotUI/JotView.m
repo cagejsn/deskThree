@@ -600,7 +600,7 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
 
                 CGSize fullSize = viewFramebuffer.initialViewport;
                 /* Export size matches the actual paper size */
-                CGSize exportSize = CGSizeMake(ceilf(fullSize.width * outputScale), ceilf(fullSize.height * outputScale));
+                CGSize exportSize = CGSizeMake(1275, 1650);
 
                 [secondSubContext glViewportWithX:0 y:0 width:(GLsizei)fullSize.width height:(GLsizei)fullSize.height];
 
