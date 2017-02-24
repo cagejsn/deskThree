@@ -483,7 +483,6 @@
                     </state>
                     <connections>
                         <action selector="deleteTextFromEntryArea:" destination="-1" eventType="touchUpInside" id="evy-jr-Ueq"/>
-                        <action selector="deleteTextFromEntryAreaLongPressed:" destination="-1" eventType="touchUpInside" id="Xnv-QP-a0P"/>
                         <outletCollection property="gestureRecognizers" destination="FtG-V1-u8p" appends="YES" id="bm6-6a-zFC"/>
                     </connections>
                 </button>
