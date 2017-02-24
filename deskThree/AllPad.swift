@@ -393,6 +393,19 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         }
     }
     
+    func deleteTextFromEntryAreaLongPressed(_ sender: AnyObject) {
+        if (numEntryAreaText.characters.count > 0) {
+            numEntryAreaText.removeAll()
+            numEntryArea.setTitle(numEntryAreaText, for: UIControlState.normal)
+            numEntryArea.layoutIfNeeded()
+            UIView.setAnimationsEnabled(true)
+        }
+    }
+    
+
+    
+    
+
     // Closes the calculator
     @IBAction func rightSwipeGestureRecognizer(_ sender: AnyObject) {
         self.removeFromSuperview()
