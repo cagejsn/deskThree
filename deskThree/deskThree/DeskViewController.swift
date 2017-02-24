@@ -207,6 +207,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         pageDrawingStates[pagesInfo.currentPage].isForgetful = true
         jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
+        
+        jotView.currentPage = workArea.currentPage
         currentPageLabel.text = String(pagesInfo.currentPage + 1)
         totalPagesLabel.text = String(pagesInfo.totalNumPages)
         
@@ -217,6 +219,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let pagesInfo = workArea.movePage(direction: "left")
         pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
         pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
+        jotView.currentPage = workArea.currentPage;
         jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
         currentPageLabel.text = String(pagesInfo.currentPage + 1)
         totalPagesLabel.text = String(pagesInfo.totalNumPages)
