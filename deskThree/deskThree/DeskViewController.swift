@@ -277,7 +277,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func stepWidthForStroke() -> CGFloat {
        // print(activePen().stepWidthForStroke())
        // return activePen().stepWidthForStroke()
-        return CGFloat(0.3)
+        return CGFloat(0.2)
     }
     
     func supportsRotation() -> Bool {
