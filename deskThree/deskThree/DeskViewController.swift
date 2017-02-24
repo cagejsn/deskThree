@@ -117,7 +117,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
 
-        pen = Pen(minSize: 3.0, andMaxSize: 6, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 2.0, andMaxSize: 4, andMinAlpha: 0.8, andMaxAlpha: 1)
 
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
@@ -131,6 +131,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // inserting jotView right below toolbar
         self.view.insertSubview(jotView, at: 1)
         jotView.isUserInteractionEnabled = false
+        print(jotView.pagePtSize)
+        print(jotView.scale)
+        print(jotView.contentScaleFactor)
+       // jotView.contentScaleFactor = 1.0
     }
     
     func setupToolDrawer(){
@@ -271,7 +275,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func stepWidthForStroke() -> CGFloat {
-        return activePen().stepWidthForStroke()
+       // print(activePen().stepWidthForStroke())
+       // return activePen().stepWidthForStroke()
+        return CGFloat(1)
     }
     
     func supportsRotation() -> Bool {

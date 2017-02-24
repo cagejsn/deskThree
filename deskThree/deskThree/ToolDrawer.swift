@@ -205,7 +205,7 @@ class ToolDrawer: UIView {
     init(){
         super.init(frame: CGRect(x: 0, y: 0, width: 40, height: Constants.dimensions.AllPad.height))
         self.backgroundColor = Constants.block.colors.lighterGray
-        self.layer.cornerRadius = 15
+     //   self.layer.cornerRadius = 15
         self.layer.borderWidth = 1
       //  self.clipsToBounds = true
         self.layer.shadowColor = UIColor.black.cgColor
