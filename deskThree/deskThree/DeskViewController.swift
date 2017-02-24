@@ -117,7 +117,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
 
-        pen = Pen(minSize: 2.0, andMaxSize: 4, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 1.0, andMaxSize: 2, andMinAlpha: 0.8, andMaxAlpha: 1)
 
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
@@ -277,7 +277,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func stepWidthForStroke() -> CGFloat {
        // print(activePen().stepWidthForStroke())
        // return activePen().stepWidthForStroke()
-        return CGFloat(1)
+        return CGFloat(0.3)
     }
     
     func supportsRotation() -> Bool {

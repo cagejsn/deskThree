@@ -27,6 +27,7 @@ class ToolDrawer: UIView {
     var activePad: InputObject!
     var drawerPosition = DrawerPosition.closed
     var panGestureRecognizer: UIPanGestureRecognizer!
+    var singleTapGR: UIGestureRecognizer!
     var isActive: Bool = false
     var previousTranslation: CGFloat = 0
     var delegate: InputObjectDelegate!
@@ -52,6 +53,33 @@ class ToolDrawer: UIView {
     func isPanValidForMovement(dx: CGFloat) -> Bool{
         if (self.frame.width - dx > toolDrawerCollapsedWidth && self.frame.width - dx < toolDrawerExpandedWidth){return true}
         return false
+    }
+    
+    func handleSingleTap(sender: UITapGestureRecognizer){
+        let location = sender.location(in: self)
+        if (toolIcons[0].frame.contains(location)){
+        
+            if (!isActive){
+                
+                activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
+                self.addSubview(activePad)
+                activePad.delegate = delegate
+                isActive = true
+                calculatorIcon.layer.borderColor = UIColor.black.cgColor
+                calculatorIcon.layer.borderWidth = 1
+                calculatorIcon.backgroundColor = Constants.block.colors.gray
+                
+            }
+                if(drawerPosition == DrawerPosition.closed){
+                    animateToExpandedPosition()
+                    drawerPosition = DrawerPosition.open
+                    
+                } else {
+                    animateToCollapsedPosition()
+                    drawerPosition = DrawerPosition.closed
+                }
+
+        }
     }
     
     func handlePan(sender: UIPanGestureRecognizer){
@@ -216,6 +244,10 @@ class ToolDrawer: UIView {
         self.layer.borderColor = UIColor.black.cgColor
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ToolDrawer.handlePan))
         self.addGestureRecognizer(panGestureRecognizer)
+        
+        singleTapGR = UITapGestureRecognizer(target: self, action: #selector(ToolDrawer.handleSingleTap))
+        self.addGestureRecognizer(singleTapGR)
+        
         
         calculatorIcon = UIImageView(frame:CGRect(x: 0, y: 0, width: Int(toolDrawerCollapsedWidth), height: toolSelectorHeight*2))
         calculatorIcon.image = UIImage(named: "calculator_med")
