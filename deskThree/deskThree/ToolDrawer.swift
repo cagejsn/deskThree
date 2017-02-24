@@ -130,7 +130,7 @@ class ToolDrawer: UIView {
            self.deactivateActivePad()
         })
         
-        positionAnimation.duration = 1
+        positionAnimation.duration = 0.1
         positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         positionAnimation.fromValue = NSValue(cgPoint: originPosition)
         positionAnimation.toValue = NSValue(cgPoint: finalPosition)
@@ -165,7 +165,7 @@ class ToolDrawer: UIView {
            
         })
         
-        positionAnimation.duration = 1
+        positionAnimation.duration = 0.1
         positionAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         positionAnimation.fromValue = NSValue(cgPoint: originPosition)
         positionAnimation.toValue = NSValue(cgPoint: finalPosition)
