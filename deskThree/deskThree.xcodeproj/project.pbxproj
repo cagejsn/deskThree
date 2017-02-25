@@ -54,6 +54,13 @@
 		DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C621DF0F4650086626E /* Expression.swift */; };
 		DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C631DF0F4650086626E /* InputObject.swift */; };
 		DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C641DF0F4650086626E /* OutputArea.swift */; };
+		DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5D31D1E623337007DE25F /* SystemConfiguration.framework */; };
+		DAE5D3221E62335A007DE25F /* ATKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5D31F1E62335A007DE25F /* ATKCore.framework */; };
+		DAE5D3231E62335A007DE25F /* ATKMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5D3201E62335A007DE25F /* ATKMath.framework */; };
+		DAE5D3241E62335A007DE25F /* ATKMathWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5D3211E62335A007DE25F /* ATKMathWidget.framework */; };
+		DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */; };
+		DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3271E6233D5007DE25F /* resources.bundle */; };
+		DAE5D32A1E62353D007DE25F /* desk.deskThreeUT.c in Sources */ = {isa = PBXBuildFile; fileRef = DAE5D3291E62353D007DE25F /* desk.deskThreeUT.c */; };
 		DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */; };
 		DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */; };
 		DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3A71DBBDBC20007D249 /* Main.storyboard */; };
@@ -148,6 +155,14 @@
 		DADC7C621DF0F4650086626E /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
 		DADC7C631DF0F4650086626E /* InputObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputObject.swift; sourceTree = "<group>"; };
 		DADC7C641DF0F4650086626E /* OutputArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputArea.swift; sourceTree = "<group>"; };
+		DAE5D31D1E623337007DE25F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		DAE5D31F1E62335A007DE25F /* ATKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKCore.framework; path = "../../MyScript_ATK-ios-2.2/Frameworks/ATKCore.framework"; sourceTree = "<group>"; };
+		DAE5D3201E62335A007DE25F /* ATKMath.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKMath.framework; path = "../../MyScript_ATK-ios-2.2/Frameworks/ATKMath.framework"; sourceTree = "<group>"; };
+		DAE5D3211E62335A007DE25F /* ATKMathWidget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKMathWidget.framework; path = "../../MyScript_ATK-ios-2.2/Frameworks/ATKMathWidget.framework"; sourceTree = "<group>"; };
+		DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ATKMathWidget.bundle; sourceTree = "<group>"; };
+		DAE5D3271E6233D5007DE25F /* resources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = resources.bundle; sourceTree = "<group>"; };
+		DAE5D3291E62353D007DE25F /* desk.deskThreeUT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = desk.deskThreeUT.c; sourceTree = "<group>"; };
+		DAE5D32B1E6235D5007DE25F /* MyCertificate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyCertificate.h; path = deskThree/MyCertificate.h; sourceTree = "<group>"; };
 		DAFBE3A01DBBDBC20007D249 /* deskThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskViewController.swift; sourceTree = "<group>"; };
@@ -173,7 +188,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAE5D3231E62335A007DE25F /* ATKMath.framework in Frameworks */,
+				DAE5D3241E62335A007DE25F /* ATKMathWidget.framework in Frameworks */,
+				DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */,
 				CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */,
+				DAE5D3221E62335A007DE25F /* ATKCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +245,10 @@
 		DAA494DE1DC2ED5A00C73780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DAE5D31F1E62335A007DE25F /* ATKCore.framework */,
+				DAE5D3201E62335A007DE25F /* ATKMath.framework */,
+				DAE5D3211E62335A007DE25F /* ATKMathWidget.framework */,
+				DAE5D31D1E623337007DE25F /* SystemConfiguration.framework */,
 				DAA494DF1DC2ED5A00C73780 /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -254,6 +277,8 @@
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				DAE5D3271E6233D5007DE25F /* resources.bundle */,
+				DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */,
 				DADC7C5D1DF0F4650086626E /* AllPad.swift */,
 				DADC7C5E1DF0F4650086626E /* AllPad.xib */,
 				DADC7C5F1DF0F4650086626E /* Block.swift */,
@@ -273,6 +298,7 @@
 				52C9BB251E2D68AA005DA9C2 /* deskThreeGraphTests */,
 				DAFBE3A11DBBDBC20007D249 /* Products */,
 				DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */,
+				DAE5D32B1E6235D5007DE25F /* MyCertificate.h */,
 				DAA494DE1DC2ED5A00C73780 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -294,6 +320,7 @@
 				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
+				DAE5D3291E62353D007DE25F /* desk.deskThreeUT.c */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
 				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
 				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
@@ -401,7 +428,7 @@
 					};
 					DAFBE39F1DBBDBC20007D249 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 3JXBWRB252;
+						DevelopmentTeam = QFB6VECLEF;
 						LastSwiftMigration = 0800;
 					};
 					DAFBE3B31DBBDBC20007D249 = {
@@ -459,6 +486,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */,
+				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */,
 				DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */,
@@ -520,6 +549,7 @@
 				25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
+				DAE5D32A1E62353D007DE25F /* desk.deskThreeUT.c in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
 				DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */,
 				DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */,
@@ -708,12 +738,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 3JXBWRB252;
+				DEVELOPMENT_TEAM = QFB6VECLEF;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/cagejohnson/Downloads/MyScript_ATK-ios-2.2/Frameworks\n/Users/cagejohnson/Downloads/MyScript_ATK-ios-2.2/Frameworks\n",
+				);
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lstdc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThreeUT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";
@@ -728,12 +764,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 3JXBWRB252;
+				DEVELOPMENT_TEAM = QFB6VECLEF;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"/Users/cagejohnson/Downloads/MyScript_ATK-ios-2.2/Frameworks\n/Users/cagejohnson/Downloads/MyScript_ATK-ios-2.2/Frameworks\n",
+				);
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lstdc++",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = desk.deskThreeUT;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";

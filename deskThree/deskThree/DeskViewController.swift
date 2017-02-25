@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate {
+
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate{
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
@@ -29,6 +30,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     var customContraints: [NSLayoutConstraint]!
     
+    var certificateRegistered: Bool!
+    
     @IBOutlet weak var currentPageLabel: UILabel!
     @IBOutlet weak var totalPagesLabel: UILabel!
     
@@ -41,6 +44,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolDrawer()
         setupTrash()
         setupDeskView()
+        setupMyScript()
         
         currentPageLabel.text = "1"
         totalPagesLabel.text = "1"
@@ -135,6 +139,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         print(jotView.scale)
         print(jotView.contentScaleFactor)
        // jotView.contentScaleFactor = 1.0
+        jotView.speedUpFPS()
     }
     
     func setupToolDrawer(){
@@ -152,6 +157,28 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             dView.addGestureRecognizer(workArea.panGestureRecognizer)
             dView.addGestureRecognizer(workArea.pinchGestureRecognizer!)
         }
+    }
+    
+    func setupMyScript(){
+    
+        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
+        var mathView = MAWMathView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+        
+        certificateRegistered = mathView.registerCertificate(certificate)
+        
+        if(certificateRegistered!){
+            mathView.delegate = self
+            
+            var mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle")
+            bundlePath = bundlePath?.appending("conf")
+            mathView.addSearchDir(bundlePath)
+            mathView.configure(withBundle: "math", andConfig: "standard")
+    
+        }
+        
+        self.view.addSubview(mathView)
+        
     }
     
     func sendingToInputObject(for element: Any){
@@ -277,7 +304,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func stepWidthForStroke() -> CGFloat {
        // print(activePen().stepWidthForStroke())
        // return activePen().stepWidthForStroke()
-        return CGFloat(0.2)
+
+        return CGFloat(0.3)
     }
     
     func supportsRotation() -> Bool {
