@@ -25,6 +25,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var graphingBlock: GraphingBlock!
     var trashBin: Trash!
     var prevScaleFactor: CGFloat!
+    var mathView: MAWMathView!
     
     var toolDrawer: ToolDrawer!
     
@@ -162,7 +163,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func setupMyScript(){
     
         var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
-        var mathView = MAWMathView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+        mathView = MAWMathView(frame: CGRect(x: 100, y: 100, width: 400, height: 400))
         
         certificateRegistered = mathView.registerCertificate(certificate)
         
@@ -170,15 +171,45 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mathView.delegate = self
             
             var mainBundle = Bundle.main
-            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle")
-            bundlePath = bundlePath?.appending("conf")
-            mathView.addSearchDir(bundlePath)
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            mathView.addSearchDir(bundlePath as String)
             mathView.configure(withBundle: "math", andConfig: "standard")
     
         }
-        
+        var singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
+        var doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.clear))
+        doubleTapGR.numberOfTapsRequired = 2
+        singleTapGR.numberOfTapsRequired = 1
+        mathView.addGestureRecognizer(doubleTapGR)
+        mathView.addGestureRecognizer(singleTapGR)
         self.view.addSubview(mathView)
+    }
+    
+    func mathViewDidBeginConfiguration(_ mathView: MAWMathView!) {
         
+    }
+    
+    func mathView(_ mathView: MAWMathView!, didFailConfigurationWithError error: Error!) {
+        NSLog("unable to config", error.localizedDescription)
+        print(error.localizedDescription)
+    }
+    
+    func mathViewDidBeginRecognition(_ mathView: MAWMathView!) {
+    
+    }
+    
+    func clear(){
+      //  mathView.clear(false)
+        mathView.solve()
+    }
+    
+    func printText(){
+        print(mathView.resultAsSymbolList())
+
+        var d: [MAWCaptureInfo] = [MAWCaptureInfo]()
+        mathView.addStroke(d)
+        // print(mathView.resultAsLaTeX())
     }
     
     func sendingToInputObject(for element: Any){
