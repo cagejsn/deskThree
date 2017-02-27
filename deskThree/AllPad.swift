@@ -434,29 +434,50 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         })
     }
     @IBAction func equalsButtonPushed( _ sender: UIButton){
-        let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
-        do {
-            try parser.parserPlot(start: 1, end: 2, totalSteps: 3)
-        } catch MathError.missingOperand {
-            print("Missing operand, abort")
-        } catch MathError.unmatchedParenthesis {
-            print("Missing parenthesis, abort")
-        }
-        catch let error {
-            print(error.localizedDescription)
-        }
-        if(parser.getError() == ""){
-            deleteTextFromEntryArea(self)
-            let answer: Float64 = parser.getY()[0]
-            numEntryAreaText = String(answer)
-            UIView.performWithoutAnimation({
-                self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
-                self.numEntryArea.layoutIfNeeded()
-            })
-        }else{
-            print(parser.getError())
-            super.viewController?.displayErrorInViewController(title: "Check Your Input", description: parser.getError())
+        
+        let emptyString = (checkTextAreaIsEmpty(text: numEntryAreaText))
+        if emptyString{
+
+        
+            let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
+            do {
+                try parser.parserPlot(start: 1, end: 2, totalSteps: 3)
+            } catch MathError.missingOperand {
+                print("Missing operand, abort")
+            } catch MathError.unmatchedParenthesis {
+                print("Missing parenthesis, abort")
+            }
+            catch let error {
+                print(error.localizedDescription)
+            }
+            
+            if(parser.getError() == ""){
+                deleteTextFromEntryArea(self)
+                let answer: Float64 = parser.getY()[0]
+                numEntryAreaText = String(answer)
+                UIView.performWithoutAnimation({
+                    self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
+                    self.numEntryArea.layoutIfNeeded()
+                })
+            }else{
+                print(parser.getError())
+                super.viewController?.displayErrorInViewController(title: "Check Your Input", description: parser.getError())
+            }
         }
     }
+    
+    func checkTextAreaIsEmpty(text: String) -> Bool {
+        var result = true
+        if (text == ""){
+            result = false
+        }else{
+            result = true
+        }
+        return result
+        
+    }
+    
+    
+    
     
 }
