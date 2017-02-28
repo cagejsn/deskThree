@@ -193,6 +193,8 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         if direction == "right" {
             print("Num pages: ", pages.count)
             
+            print("Current page is: ", currentPage)
+            
             // Check if this is the last page
             if currentPageIndex == pages.count - 1 {
                 currentPageIndex += 1
@@ -237,12 +239,16 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
             }
         }
         print("New page index: ", currentPageIndex)
+        print("New current page is: ", currentPage)
+       
         return (currentPageIndex, pages.count)
     }
     
     func initCurPage() {
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex].contentMode = .scaleAspectFit
+        self.setZoomScale(minimumZoomScale, animated: false)
+        currentPage.isUserInteractionEnabled = true
     }
  
  

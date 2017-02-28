@@ -104,12 +104,13 @@ dispatch_queue_t importExportStateQueue;
     Boolean t = [self pointInside:point withEvent:event];
     if(!t){return nil;}
     CGPoint point2 = [self convertPoint:point toView:currentPage];
-    UIView *view = [currentPage hitTest:point2 withEvent:event];
+    UIView* view = [currentPage hitTest:point2 withEvent:event];
     
-    
-    if (view == currentPage){
+    if (view == currentPage ){
+        printf("currentPage is %x", currentPage);
         return self;
     } else {
+        printf("Jot hitTest view %x and currentPage is %x", view, currentPage);
         return view;
     }
 }
