@@ -24,6 +24,8 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
     
+    
+    // MARK: Expression Delegate
     func didEvaluate(forExpression sender: Expression, result: Float){
         var newBlock = Expression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
         newBlock.removeFromSuperview()
@@ -176,6 +178,14 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
 
         
     }
+    
+    func hideAllSpots() {
+        for expression in currentPage.expressions {
+            expression.hideSpots()
+        }
+    }
+    
+    // MARK: trashbin
     func hideTrash(){
         customDelegate.hideTrash()
     }
@@ -244,21 +254,19 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         return (currentPageIndex, pages.count)
     }
     
+    // MARK: init and helpers
     func initCurPage() {
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex].contentMode = .scaleAspectFit
-        self.setZoomScale(minimumZoomScale, animated: false)
         currentPage.isUserInteractionEnabled = true
+        setupForJotView()
     }
- 
- 
-    func hideAllSpots() {
-        for expression in currentPage.expressions {
-            expression.hideSpots()
-        }
+    
+    func setupForJotView() {
+        self.setZoomScale(minimumZoomScale, animated: false)
+        self.setZoomScale((maximumZoomScale + minimumZoomScale)/2, animated: false)
+        self.contentOffset = CGPoint(x: 0.0, y: 0.0)
     }
-
-  
     
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))

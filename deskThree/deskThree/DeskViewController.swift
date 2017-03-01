@@ -48,7 +48,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(_: animated)
-        workArea.setZoomScale(workArea.minimumZoomScale, animated: false)
+        workArea.setupForJotView()
     }
     
     // MARK - UIScrollViewDelegate functions
