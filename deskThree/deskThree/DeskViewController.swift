@@ -186,8 +186,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
         workArea.frame = workArea.currentPage.frame
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
         jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
         workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
     
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
