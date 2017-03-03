@@ -406,7 +406,6 @@ static JotGLContext* backgroundLoadStrokesThreadContext = nil;
     }
 }
 
-
 - (void)clearAllStrokes {
     @synchronized(self) {
         [[JotTrashManager sharedInstance] addObjectsToDealloc:stackOfStrokes];

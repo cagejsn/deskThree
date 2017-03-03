@@ -48,7 +48,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(_: animated)
-        workArea.setZoomScale(workArea.minimumZoomScale, animated: false)
+        workArea.setupForJotView()
     }
     
     // MARK - UIScrollViewDelegate functions
@@ -186,8 +186,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
         workArea.frame = workArea.currentPage.frame
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
         jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
         workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
     
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
@@ -258,7 +260,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
+        // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
+        // We just load up a whole new state to get a cleared backing texture. I know, it is 
+        // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = true
+        pageDrawingStates[workArea.currentPageIndex] = JotViewStateProxy (delegate: self)
+        pageDrawingStates[workArea.currentPageIndex].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(pageDrawingStates[workArea.currentPageIndex])
         jotView.clear(true)
+        
     }
     // MARK: GKImagePickerController Delegate
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
