@@ -1593,10 +1593,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     if (!state)
         return;
     
-    //Ignore pan and pinch
-    if (event.allTouches.count > 1)
-        return;
-    
+    // Doing this before ignoring pan and pinch fixes random lines appearing on screen
     for (UITouch* touch in touches) {
         @autoreleasepool {
             // If appropriate, add code necessary to save the state of the application.
@@ -1606,6 +1603,12 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
             }
         }
     }
+    
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1){
+        return;
+    }
+
     // we need to erase the current stroke from the screen, so
     // clear the canvas and rerender all valid strokes
     [self renderAllStrokesToContext:context inFramebuffer:viewFramebuffer andPresentBuffer:YES inRect:CGRectZero];
