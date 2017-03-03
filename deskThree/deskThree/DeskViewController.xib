@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -18,7 +18,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="AVO-vL-44u">
+        <view contentMode="scaleToFill" id="AVO-vL-44u" customClass="DeskView" customModule="deskThree" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
@@ -53,7 +53,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SdU-Ta-iQ4"/>
                         <barButtonItem style="plain" id="NBD-el-rsL" userLabel="Left Page Button">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gfe-Hs-ahX">
-                                <rect key="frame" x="486" y="7" width="30" height="30"/>
+                                <rect key="frame" x="544" y="7" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="&lt;"/>
                                 <connections>
@@ -63,7 +63,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" id="ctC-nR-Ktp" userLabel="Right Page Button">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fCO-aq-nJG">
-                                <rect key="frame" x="526" y="7" width="30" height="30"/>
+                                <rect key="frame" x="584" y="7" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="&gt;"/>
                                 <connections>
@@ -76,7 +76,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" id="EeV-3o-pKc" userLabel="Load Button">
                             <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0sr-N7-bEb" userLabel="Load">
-                                <rect key="frame" x="566" y="7" width="34" height="30"/>
+                                <rect key="frame" x="624" y="7" width="34" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Load"/>
                                 <connections>
@@ -86,18 +86,13 @@
                         </barButtonItem>
                         <barButtonItem style="plain" id="7gY-WN-Rpz" userLabel="Save Button">
                             <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="J1d-X8-5hS" userLabel="Save">
-                                <rect key="frame" x="610" y="7" width="34" height="30"/>
+                                <rect key="frame" x="668" y="7" width="34" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
                                     <action selector="didPressSave:" destination="-1" eventType="touchDown" id="Cga-Vy-oWE"/>
                                 </connections>
                             </button>
-                        </barButtonItem>
-                        <barButtonItem title="Graph" id="j03-n7-yfQ">
-                            <connections>
-                                <action selector="graphButtonPushed:" destination="-1" id="Oxv-G2-jmU"/>
-                            </connections>
                         </barButtonItem>
                         <barButtonItem title="Print" id="1zE-9k-eaD">
                             <connections>
@@ -153,16 +148,7 @@
                 <constraint firstItem="AhN-KA-KpB" firstAttribute="leading" secondItem="AVO-vL-44u" secondAttribute="leading" id="YeV-dy-FAi"/>
                 <constraint firstAttribute="trailing" secondItem="AhN-KA-KpB" secondAttribute="trailing" id="uBR-Kh-mg4"/>
             </constraints>
-            <connections>
-                <outletCollection property="gestureRecognizers" destination="3ev-g7-woH" appends="YES" id="fDv-UK-i17"/>
-            </connections>
             <point key="canvasLocation" x="-323" y="-515"/>
         </view>
-        <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="3ev-g7-woH">
-            <rectEdge key="edges" right="YES"/>
-            <connections>
-                <action selector="rightSideScreenEdgePanGestureRecognizer:" destination="-1" id="EsN-kv-mDl"/>
-            </connections>
-        </screenEdgePanGestureRecognizer>
     </objects>
 </document>

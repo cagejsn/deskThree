@@ -12,6 +12,7 @@ enum MathError: Error {
     case missingOperand
     case unmatchedParenthesis
     case unrecognizedCharacters
+    case emptyString
 }
 
 public class Parser {
@@ -28,6 +29,7 @@ public class Parser {
         self.cursor = 0
         self.domain = Array()
         self.range = Array()
+        
         
     }
     
@@ -324,7 +326,24 @@ public class Parser {
             throw MathError.missingOperand
         }
         if(resultList.count == 0){
-            throw MathError.unrecognizedCharacters
+            //this - symbol is for negation
+            if(indicator == "-"){
+                let arrayToNegate : [Float64]
+                parserIncrimentCursor()
+                do {
+                    arrayToNegate = try parserHighPriority()
+                    
+                } catch let error {
+                    throw error
+                }
+                for number in arrayToNegate{
+                    resultList.append(0 - number)
+                }
+                
+            }
+            else{
+                throw MathError.unrecognizedCharacters
+            }
         }
         return resultList
     }
@@ -438,18 +457,19 @@ public class Parser {
         self.cursor = 0
         
         self.parserGenDomain(start: start, end: end, steps: totalSteps)
-        do {
-            try self.range = self.parserExpression()
-            
-        } catch MathError.missingOperand {
-            errorMSG = "Missing Operand"
-        } catch MathError.unmatchedParenthesis {
-            errorMSG = "Unmatched Parenthesis"
-        } catch MathError.unrecognizedCharacters {
-            errorMSG = "Unrecognized Operator Configuration"
-        }catch let error {
-            errorMSG = error.localizedDescription
-        }
+        
+            do {
+                try self.range = self.parserExpression()
+                
+            } catch MathError.missingOperand {
+                errorMSG = "Missing Operand"
+            } catch MathError.unmatchedParenthesis {
+                errorMSG = "Unmatched Parenthesis"
+            } catch MathError.unrecognizedCharacters {
+                errorMSG = "Unrecognized Operator Configuration"
+            }catch let error {
+                errorMSG = error.localizedDescription
+            }
     }
     
     ///change function
