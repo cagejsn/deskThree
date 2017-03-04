@@ -30,6 +30,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var toolDrawer: ToolDrawer!
     
     var customContraints: [NSLayoutConstraint]!
+    var myScriptConstraints: [NSLayoutConstraint]!
     
     var certificateRegistered: Bool!
     
@@ -45,7 +46,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolDrawer()
         setupTrash()
         setupDeskView()
-        setupMyScript()
+      //  setupMyScript()
         
         currentPageLabel.text = "1"
         totalPagesLabel.text = "1"
@@ -160,61 +161,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
-    func setupMyScript(){
-    
-        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
-        mathView = MAWMathView(frame: CGRect(x: 100, y: 100, width: 400, height: 400))
-        
-        certificateRegistered = mathView.registerCertificate(certificate)
-        
-        if(certificateRegistered!){
-            mathView.delegate = self
-            
-            var mainBundle = Bundle.main
-            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
-            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
-            mathView.addSearchDir(bundlePath as String)
-            mathView.configure(withBundle: "math", andConfig: "standard")
-    
-        }
-        var singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
-        var doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.clear))
-        doubleTapGR.numberOfTapsRequired = 2
-        singleTapGR.numberOfTapsRequired = 1
-        mathView.addGestureRecognizer(doubleTapGR)
-        mathView.addGestureRecognizer(singleTapGR)
-        self.view.addSubview(mathView)
-    }
-    
-    func mathViewDidBeginConfiguration(_ mathView: MAWMathView!) {
-        
-    }
-    
-    func mathView(_ mathView: MAWMathView!, didFailConfigurationWithError error: Error!) {
-        NSLog("unable to config", error.localizedDescription)
-        print(error.localizedDescription)
-    }
-    
-    func mathViewDidBeginRecognition(_ mathView: MAWMathView!) {
-    
-    }
-    
-    func clear(){
-       
-        var image = ImageBlock(frame: CGRect(x: 200, y: 200, width: 100, height: 100))
-        image.setImage(image: mathView.resultAsImage())
-        self.view.addSubview(image)
-        
-        //mathView.clear(false)
-       // mathView.solve()
-    }
-    
-    func printText(){
-
-     
-         print(mathView.resultAsLaTeX())
-    }
-    
     func sendingToInputObject(for element: Any){
         toolDrawer.passElement(element)
     }
@@ -302,6 +248,107 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
+    ///this function will present a MAWMathView to the User
+    @IBAction func mathFormulaButtonTapped(_ sender: UIBarButtonItem) {
+        if(mathView == nil){
+            setupMyScript()
+        } else {
+            cleanupMyScript()
+        }
+    }
+    
+    func setupMyScript(){
+        
+        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
+        mathView = MAWMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
+        
+        certificateRegistered = mathView.registerCertificate(certificate)
+        
+        if(certificateRegistered!){
+            mathView.delegate = self
+            
+            var mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            mathView.addSearchDir(bundlePath as String)
+            mathView.configure(withBundle: "math", andConfig: "standard")
+            
+        }
+        var singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
+        var doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.clear))
+        doubleTapGR.numberOfTapsRequired = 2
+        singleTapGR.numberOfTapsRequired = 1
+        mathView.addGestureRecognizer(doubleTapGR)
+        mathView.addGestureRecognizer(singleTapGR)
+        mathView.layer.cornerRadius = 10
+        mathView.clipsToBounds = true
+        //mathView.layer.shadowOffset =
+        self.view.addSubview(mathView)
+        setupMathViewConstraints()
+        
+        
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        setupMathViewConstraints()
+    }
+    
+    func setupMathViewConstraints(){
+        mathView.translatesAutoresizingMaskIntoConstraints = false
+        
+        var leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
+        var rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
+       // var topConstraint = NSLayoutConstraint(item: mathView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 100)
+       var bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -100)
+        var heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 400)
+        
+        
+        
+        myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
+        self.view.addConstraints(myScriptConstraints)
+        
+    }
+    
+    func cleanupMyScript(){
+        mathView.removeFromSuperview()
+      //  mathView.removeGestureRecognizer(doubleTapGR)
+      //  mathView.removeGestureRecognizer(singleTapGR)
+        mathView.delegate = nil
+        mathView = nil
+    }
+    
+    func mathViewDidBeginConfiguration(_ mathView: MAWMathView!) {
+        
+    }
+    
+    func mathView(_ mathView: MAWMathView!, didFailConfigurationWithError error: Error!) {
+        NSLog("unable to config", error.localizedDescription)
+        print(error.localizedDescription)
+    }
+    
+    func mathViewDidBeginRecognition(_ mathView: MAWMathView!) {
+        
+    }
+    
+    func clear(){
+        
+        var image = ImageBlock(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        image.setImage(image: mathView.resultAsImage())
+        self.view.addSubview(image)
+       // image.imageHolder.contentMode = .scaleAspectFill
+        
+        //mathView.clear(false)
+        // mathView.solve()
+    }
+    
+    func printText(){
+        
+        print(mathView.resultAsLaTeX())
+    }
+
+    
+
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
         jotView.clear(true)
     }
