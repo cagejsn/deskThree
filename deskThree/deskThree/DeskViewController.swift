@@ -122,7 +122,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
 
-        pen = Pen(minSize: 1.0, andMaxSize: 2, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 0.5, andMaxSize: 1.3, andMinAlpha: 0.8, andMaxAlpha: 1)
 
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
@@ -200,16 +200,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func clear(){
-      //  mathView.clear(false)
-        mathView.solve()
+       
+        var image = ImageBlock(frame: CGRect(x: 200, y: 200, width: 100, height: 100))
+        image.setImage(image: mathView.resultAsImage())
+        self.view.addSubview(image)
+        
+        //mathView.clear(false)
+       // mathView.solve()
     }
     
     func printText(){
-        print(mathView.resultAsSymbolList())
 
-        var d: [MAWCaptureInfo] = [MAWCaptureInfo]()
-        mathView.addStroke(d)
-        // print(mathView.resultAsLaTeX())
+     
+         print(mathView.resultAsLaTeX())
     }
     
     func sendingToInputObject(for element: Any){
