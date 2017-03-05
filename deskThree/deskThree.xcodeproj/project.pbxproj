@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1507E1DBC19CF008364EC /* PDFGenerator.swift */; };
 		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
+		5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A22C1E6C993100BFA775 /* BlockExpression.swift */; };
 		52A662A31E32B1C8008E088A /* trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A662A21E32B1C8008E088A /* trash.swift */; };
 		52C9BB271E2D68AA005DA9C2 /* deskThreeGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB261E2D68AA005DA9C2 /* deskThreeGraphTests.swift */; };
 		52C9BB301E2D6D0F005DA9C2 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */; };
@@ -90,6 +91,7 @@
 /* Begin PBXFileReference section */
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
+		5297A22C1E6C993100BFA775 /* BlockExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockExpression.swift; sourceTree = "<group>"; };
 		52A662A21E32B1C8008E088A /* trash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = trash.swift; sourceTree = "<group>"; };
 		52C9BB241E2D68AA005DA9C2 /* deskThreeGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = deskThreeGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52C9BB261E2D68AA005DA9C2 /* deskThreeGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deskThreeGraphTests.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */,
 				DABC744D1DEF809B0090D413 /* UImage+ImageOrientationFix.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */,
+				5297A22C1E6C993100BFA775 /* BlockExpression.swift */,
 				DAFBE3A71DBBDBC20007D249 /* Main.storyboard */,
 				DAFBE3AA1DBBDBC20007D249 /* Assets.xcassets */,
 				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
@@ -531,6 +534,7 @@
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
+				5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */,
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,
 				DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */,
