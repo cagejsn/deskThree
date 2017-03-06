@@ -742,9 +742,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 6SJHMR9UMT;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"/Users/cagejohnson/Downloads/MyScript_ATK-ios-2.2/Frameworks\n/Users/cagejohnson/Downloads/MyScript_ATK-ios-2.2/Frameworks\n",
-				);
+				FRAMEWORK_SEARCH_PATHS = "./MyScript_ATK-ios-2.2/Frameworks";
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -769,9 +767,7 @@
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 6SJHMR9UMT;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"/Users/cagejohnson/Downloads/MyScript_ATK-ios-2.2/Frameworks\n/Users/cagejohnson/Downloads/MyScript_ATK-ios-2.2/Frameworks\n",
-				);
+				FRAMEWORK_SEARCH_PATHS = "./MyScript_ATK-ios-2.2/Frameworks";
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

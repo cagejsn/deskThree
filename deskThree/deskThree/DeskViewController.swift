@@ -282,6 +282,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         mathView.addGestureRecognizer(singleTapGR)
         mathView.layer.cornerRadius = 10
         mathView.clipsToBounds = true
+        mathView.layer.borderColor = UIColor.gray.cgColor
+        mathView.layer.borderWidth = 2
         //mathView.layer.shadowOffset =
         self.view.addSubview(mathView)
         setupMathViewConstraints()
