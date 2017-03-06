@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate {
+
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate{
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
@@ -24,10 +25,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var graphingBlock: GraphingBlock!
     var trashBin: Trash!
     var prevScaleFactor: CGFloat!
+    var mathView: MAWMathView!
     
     var toolDrawer: ToolDrawer!
     
     var customContraints: [NSLayoutConstraint]!
+    var myScriptConstraints: [NSLayoutConstraint]!
+    
+    var certificateRegistered: Bool!
     
     @IBOutlet weak var currentPageLabel: UILabel!
     @IBOutlet weak var totalPagesLabel: UILabel!
@@ -41,6 +46,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolDrawer()
         setupTrash()
         setupDeskView()
+      //  setupMyScript()
         
         currentPageLabel.text = "1"
         totalPagesLabel.text = "1"
@@ -117,7 +123,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
 
-        pen = Pen(minSize: 1.0, andMaxSize: 2, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 0.5, andMaxSize: 1.3, andMinAlpha: 0.8, andMaxAlpha: 1)
 
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
@@ -135,6 +141,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         print(jotView.scale)
         print(jotView.contentScaleFactor)
        // jotView.contentScaleFactor = 1.0
+        jotView.speedUpFPS()
     }
     
     func setupToolDrawer(){
@@ -259,6 +266,109 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
+    ///this function will present a MAWMathView to the User
+    @IBAction func mathFormulaButtonTapped(_ sender: UIBarButtonItem) {
+        if(mathView == nil){
+            setupMyScript()
+        } else {
+            cleanupMyScript()
+        }
+    }
+    
+    func setupMyScript(){
+        
+        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
+        mathView = MAWMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
+        
+        certificateRegistered = mathView.registerCertificate(certificate)
+        
+        if(certificateRegistered!){
+            mathView.delegate = self
+            
+            var mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            mathView.addSearchDir(bundlePath as String)
+            mathView.configure(withBundle: "math", andConfig: "standard")
+            
+        }
+        var singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
+        var doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.clear))
+        doubleTapGR.numberOfTapsRequired = 2
+        singleTapGR.numberOfTapsRequired = 1
+        mathView.addGestureRecognizer(doubleTapGR)
+        mathView.addGestureRecognizer(singleTapGR)
+        mathView.layer.cornerRadius = 10
+        mathView.clipsToBounds = true
+        mathView.layer.borderColor = UIColor.gray.cgColor
+        mathView.layer.borderWidth = 2
+        //mathView.layer.shadowOffset =
+        self.view.addSubview(mathView)
+        setupMathViewConstraints()
+        
+        
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        setupMathViewConstraints()
+    }
+    
+    func setupMathViewConstraints(){
+        mathView.translatesAutoresizingMaskIntoConstraints = false
+        
+        var leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
+        var rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
+       // var topConstraint = NSLayoutConstraint(item: mathView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 100)
+       var bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -100)
+        var heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 400)
+        
+        
+        
+        myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
+        self.view.addConstraints(myScriptConstraints)
+        
+    }
+    
+    func cleanupMyScript(){
+        mathView.removeFromSuperview()
+      //  mathView.removeGestureRecognizer(doubleTapGR)
+      //  mathView.removeGestureRecognizer(singleTapGR)
+        mathView.delegate = nil
+        mathView = nil
+    }
+    
+    func mathViewDidBeginConfiguration(_ mathView: MAWMathView!) {
+        
+    }
+    
+    func mathView(_ mathView: MAWMathView!, didFailConfigurationWithError error: Error!) {
+        NSLog("unable to config", error.localizedDescription)
+        print(error.localizedDescription)
+    }
+    
+    func mathViewDidBeginRecognition(_ mathView: MAWMathView!) {
+        
+    }
+    
+    func clear(){
+        
+        var image = ImageBlock(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        image.setImage(image: mathView.resultAsImage())
+        self.view.addSubview(image)
+       // image.imageHolder.contentMode = .scaleAspectFill
+        
+        //mathView.clear(false)
+        // mathView.solve()
+    }
+    
+    func printText(){
+        
+        print(mathView.resultAsLaTeX())
+    }
+
+    
+
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
         // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
         // We just load up a whole new state to get a cleared backing texture. I know, it is 
@@ -303,7 +413,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func stepWidthForStroke() -> CGFloat {
        // print(activePen().stepWidthForStroke())
        // return activePen().stepWidthForStroke()
-        return CGFloat(0.2)
+
+        return CGFloat(0.3)
     }
     
     func supportsRotation() -> Bool {

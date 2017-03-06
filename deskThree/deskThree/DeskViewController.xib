@@ -50,6 +50,11 @@
                                 </connections>
                             </button>
                         </barButtonItem>
+                        <barButtonItem image="fOfX" id="VgA-Id-Pqb">
+                            <connections>
+                                <action selector="mathFormulaButtonTapped:" destination="-1" id="PxG-T1-g7e"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SdU-Ta-iQ4"/>
                         <barButtonItem style="plain" id="NBD-el-rsL" userLabel="Left Page Button">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gfe-Hs-ahX">
@@ -151,4 +156,7 @@
             <point key="canvasLocation" x="-323" y="-515"/>
         </view>
     </objects>
+    <resources>
+        <image name="fOfX" width="50" height="25"/>
+    </resources>
 </document>

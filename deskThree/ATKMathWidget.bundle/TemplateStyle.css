@@ -1,0 +1,38 @@
+ink
+{
+    -myscript-pen-brush: FeltPen;
+    -myscript-pen-fill-color: #inkColor;
+    color: #inkColor;
+    -myscript-pen-width: #inkThickness;    
+}
+
+glyph
+{
+    color: #textColor;
+    font-family: #font;
+}
+
+.regularstyle
+{
+    font-style: normal;
+}
+
+.italicstyle
+{
+    font-style: italic;
+}
+
+.transientstyle
+{
+    color: #transientTextColor;
+}
+
+.invisiblestyle
+{
+    color: #00000000;
+}
+
+.temporarystyle
+{
+    color: #44aadfff;
+}
