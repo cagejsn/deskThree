@@ -357,7 +357,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         let mathBlock = MathBlock(image: mathView.resultAsImage(), symbols: mathView.resultAsSymbolList() as NSArray, text: mathView.resultAsText())
         mathBlock.delegate = workArea
+        
+        var loc = self.view.center
+        loc = loc - CGPoint(x: 0, y: 100)
+        mathBlock.center = mathBlock.convert(loc, to: workArea.currentPage)
         self.workArea.currentPage.addSubview(mathBlock)
+        
         
        // image.imageHolder.contentMode = .scaleAspectFill
         
