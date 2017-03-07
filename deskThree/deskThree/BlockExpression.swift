@@ -13,6 +13,8 @@ class BlockExpression: Expression{
     private var isDisplayingSpots: Bool = false
     private var dummyViews: [Block] = []
     private var longPressGR: UILongPressGestureRecognizer!
+    // Make this private soon
+    var rootBlock: Block
 
     func getDummyViews() -> [Block]{
         return dummyViews
@@ -87,7 +89,7 @@ class BlockExpression: Expression{
         if let block = _movedView as? Block {
             dummyViews = self.rootBlock.makeAListOfSpotsBelowMe(aBlockToAccomodate: block)
         }
-        if let expression = _movedView as? Expression {
+        if let expression = _movedView as? BlockExpression {
             dummyViews = self.rootBlock.makeAListOfSpotsBelowMe(aBlockToAccomodate: ETree.getLeftestNode(root: expression.rootBlock))
             
             dummyViews.append(contentsOf: self.rootBlock.makeAListOfSpotsBelowMe(aBlockToAccomodate: ETree.getRightestNode(root: expression.rootBlock)))
@@ -107,7 +109,7 @@ class BlockExpression: Expression{
         isDisplayingSpots = false
     }
     
-    func mergeExpressions(incomingExpression: Expression, side: String) {
+    func mergeExpressions(incomingExpression: BlockExpression, side: String) {
         
         var incomingRootBlock = incomingExpression.rootBlock
         
@@ -169,9 +171,11 @@ class BlockExpression: Expression{
     }
     
     
-    override init(firstVal: Block){
-        super.init(firstVal: firstVal)
-        longPressGR = UILongPressGestureRecognizer(target: self, action: "handleLongPress")
+    init(firstVal: Block){
+        rootBlock = firstVal
+        let newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)
+        super.init(frame: newFrame)
+        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(BlockExpression.handleLongPress))
         longPressGR.minimumPressDuration = 0.5
         self.addGestureRecognizer(longPressGR)
     }

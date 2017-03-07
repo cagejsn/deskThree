@@ -61,7 +61,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     
     override func receiveElement(_ element: Any) {
         
-        if let express = element as? Expression {
+        if let express = element as? BlockExpression {
             numEntryArea.setTitle(ETree.printCurrentTree(root: express.rootBlock), for: .normal)
         }
     }

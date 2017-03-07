@@ -123,7 +123,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
 
-        pen = Pen(minSize: 0.5, andMaxSize: 1.3, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 1.5, andMaxSize: 3.0, andMinAlpha: 0.8, andMaxAlpha: 1)
 
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
@@ -275,6 +275,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
+    // TODO: Should we subclass MAWMathView and push all of this code in there?
     func setupMyScript(){
         
         var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
@@ -292,12 +293,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mathView.configure(withBundle: "math", andConfig: "standard")
             
         }
-        var singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
-        var doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.clear))
+        let  singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
+        let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
         doubleTapGR.numberOfTapsRequired = 2
         singleTapGR.numberOfTapsRequired = 1
         mathView.addGestureRecognizer(doubleTapGR)
-        mathView.addGestureRecognizer(singleTapGR)
+//        mathView.addGestureRecognizer(singleTapGR)
         mathView.layer.cornerRadius = 10
         mathView.clipsToBounds = true
         mathView.layer.borderColor = UIColor.gray.cgColor
@@ -351,11 +352,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
-    func clear(){
+    func createMathBlock(){
         
-        var image = ImageBlock(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        image.setImage(image: mathView.resultAsImage())
-        self.view.addSubview(image)
+        let mathBlock = MathBlock(image: mathView.resultAsImage(), symbols: mathView.resultAsSymbolList() as NSArray, text: mathView.resultAsText())
+        mathBlock.delegate = workArea
+        self.workArea.currentPage.addSubview(mathBlock)
+        
        // image.imageHolder.contentMode = .scaleAspectFill
         
         //mathView.clear(false)
@@ -411,10 +413,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func stepWidthForStroke() -> CGFloat {
-       // print(activePen().stepWidthForStroke())
-       // return activePen().stepWidthForStroke()
+//        print(activePen().stepWidthForStroke())
+//        return activePen().stepWidthForStroke()
 
-        return CGFloat(0.3)
+        return CGFloat(0.3 )
     }
     
     func supportsRotation() -> Bool {

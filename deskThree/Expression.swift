@@ -24,7 +24,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
 //    var isDisplayingSpots: Bool = false
 //    var dummyViews: [Block] = []
     var amtMoved: CGFloat = 0
-    var rootBlock: Block
+//    var rootBlock: Block
     var delegate: ExpressionDelegate?
     var parser: Parser
     var expressionString: String = ""
@@ -93,30 +93,10 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     
     
-     //MARK: Initialization
-    init(firstVal: Block){
-        rootBlock = firstVal
-        var newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)
-        parser = Parser(functionString: "")
-        super.init(frame: newFrame)
-        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
-        doubleTapGestureRecognizer!.numberOfTapsRequired = 2
-        doubleTapGestureRecognizer?.delegate = self
-        self.addGestureRecognizer(doubleTapGestureRecognizer!)
-
-        
-    }
-    
-    required init?(coder unarchiver: NSCoder) {
-        self.rootBlock = unarchiver.decodeObject() as! Block
-        self.parser = Parser(functionString: "")
-        super.init(coder: unarchiver)
-        //fatalError("init(coder:) has not been implemented")
-    }
     
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-        aCoder.encode(rootBlock)
+//        aCoder.encode(rootBlock)
         //aCoder.encode(parser)
     }
     
@@ -290,12 +270,10 @@ class Expression: UIView, UIGestureRecognizerDelegate {
 //        */
 //        
 //    }
-//    func getExpressionString() -> String{
-//        functionString = ""
-//        getExpressionStringHelper(root: self.rootBlock)
-//        return self.functionString
-//    }
-//    
+    func getExpressionString() -> String{
+        return self.expressionString
+    }
+//
 //    /* in order traversal of tree, printing each value along the way */
 //    private func getExpressionStringHelper (root : Block) {
 //        if(root.leftChild != nil){
@@ -314,6 +292,27 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         let attributes = NSDictionary(object: font, forKey:NSFontAttributeName as NSCopying)
         let sizeOfText = textToEvaluate.size(attributes: (attributes as! [String : AnyObject]))
         return sizeOfText.width + Constants.block.fontWidthPadding;
+    }
+    
+    //MARK: Initialization
+    override init(frame: CGRect){
+//        rootBlock = firstVal
+//        var newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)
+        parser = Parser(functionString: "")
+        super.init(frame: frame)
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
+        doubleTapGestureRecognizer!.numberOfTapsRequired = 2
+        doubleTapGestureRecognizer?.delegate = self
+        self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        
+        
+    }
+    
+    required init?(coder unarchiver: NSCoder) {
+//        self.rootBlock = unarchiver.decodeObject() as! Block
+//        self.parser = Parser(functionString: "")
+//        super.init(coder: unarchiver)
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
