@@ -306,6 +306,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //mathView.layer.shadowOffset =
         self.view.addSubview(mathView)
         setupMathViewConstraints()
+        mathView.beautificationOption = MAWBeautifyOption.fontify
         
         
     }
