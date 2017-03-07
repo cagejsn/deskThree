@@ -15,7 +15,7 @@ class MathBlock: Expression{
     init(image: UIImage, symbols: NSArray, text: String){
         super.init(frame: CGRect(x:0, y:0, width: 200, height: 100))
         // Image setup
-        imageHolder = UIImageView(frame: CGRect(x:0, y:0, width: 200, height: 100));
+        imageHolder = UIImageView(frame: CGRect(x:0, y:0, width: 200, height: 40));
         imageHolder.contentMode = .scaleAspectFit
         imageHolder.image = image;
         self.addSubview(imageHolder)
