@@ -16,6 +16,7 @@ class MathBlock: Expression{
     
     // Make DVC a delegate for longpress to work when mathView is not a subview
     func handleLongPress(){
+        parentView.clear(true)
         parentView.addSymbols(mathSymbols, allowUndo: true)
     }
     
@@ -25,7 +26,7 @@ class MathBlock: Expression{
     
     init(image: UIImage, symbols: NSArray, text: String){
         let frame = image.size
-        super.init(frame: CGRect(x:0, y: 0, width: frame.width/2.5, height: frame.height/2.5))
+        super.init(frame: CGRect(x:0, y: 0, width: frame.width/3, height: frame.height/3))
         print(image.size)
         // Image setup
         imageHolder = UIImageView(frame: CGRect(x:0, y:0, width: frame.width/2.5, height: frame.height/2.5));
