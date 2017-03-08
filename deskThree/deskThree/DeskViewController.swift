@@ -46,7 +46,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolDrawer()
         setupTrash()
         setupDeskView()
-      //  setupMyScript()
+        setupMyScript()
         
         currentPageLabel.text = "1"
         totalPagesLabel.text = "1"
@@ -161,6 +161,40 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
+    // TODO: Should we subclass MAWMathView and push all of this code in there?
+    func setupMyScript(){
+        
+        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
+        mathView = MAWMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
+        
+        certificateRegistered = mathView.registerCertificate(certificate)
+        
+        if(certificateRegistered!){
+            mathView.delegate = self
+            
+            var mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            mathView.addSearchDir(bundlePath as String)
+            mathView.configure(withBundle: "math", andConfig: "standard")
+            
+        }
+        let  singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
+        let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
+        doubleTapGR.numberOfTapsRequired = 2
+        singleTapGR.numberOfTapsRequired = 1
+        mathView.addGestureRecognizer(doubleTapGR)
+        //        mathView.addGestureRecognizer(singleTapGR)
+        mathView.layer.cornerRadius = 10
+        mathView.clipsToBounds = true
+        mathView.layer.borderColor = UIColor.gray.cgColor
+        mathView.layer.borderWidth = 2
+        //mathView.layer.shadowOffset =
+        mathView.beautificationOption = MAWBeautifyOption.fontify
+        
+        
+    }
+    
     func sendingToInputObject(for element: Any){
         toolDrawer.passElement(element)
     }
@@ -268,48 +302,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     ///this function will present a MAWMathView to the User
     @IBAction func mathFormulaButtonTapped(_ sender: UIBarButtonItem) {
-        if(mathView == nil){
-            setupMyScript()
+        if(mathView.superview == nil){
+            self.view.addSubview(mathView)
+            setupMathViewConstraints()
         } else {
-            cleanupMyScript()
+            mathView.clear(true)
+            mathView.removeFromSuperview()
         }
     }
     
-    // TODO: Should we subclass MAWMathView and push all of this code in there?
-    func setupMyScript(){
-        
-        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
-        mathView = MAWMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
-        
-        certificateRegistered = mathView.registerCertificate(certificate)
-        
-        if(certificateRegistered!){
-            mathView.delegate = self
-            
-            var mainBundle = Bundle.main
-            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
-            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
-            mathView.addSearchDir(bundlePath as String)
-            mathView.configure(withBundle: "math", andConfig: "standard")
-            
-        }
-        let  singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
-        let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
-        doubleTapGR.numberOfTapsRequired = 2
-        singleTapGR.numberOfTapsRequired = 1
-        mathView.addGestureRecognizer(doubleTapGR)
-//        mathView.addGestureRecognizer(singleTapGR)
-        mathView.layer.cornerRadius = 10
-        mathView.clipsToBounds = true
-        mathView.layer.borderColor = UIColor.gray.cgColor
-        mathView.layer.borderWidth = 2
-        //mathView.layer.shadowOffset =
-        self.view.addSubview(mathView)
-        setupMathViewConstraints()
-        mathView.beautificationOption = MAWBeautifyOption.fontify
-        
-        
-    }
+    
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -332,6 +334,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
+    // NOT USED
     func cleanupMyScript(){
         mathView.removeFromSuperview()
       //  mathView.removeGestureRecognizer(doubleTapGR)
@@ -357,7 +360,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         let mathBlock = MathBlock(image: mathView.resultAsImage(), symbols: mathView.resultAsSymbolList() as NSArray, text: mathView.resultAsText())
         mathBlock.delegate = workArea
-        
+        mathBlock.setParentView(mathView: mathView)
         var loc = self.view.center
         loc = loc - CGPoint(x: 0, y: 100)
         mathBlock.center = mathBlock.convert(loc, to: workArea.currentPage)
