@@ -25,10 +25,10 @@ class MathBlock: Expression{
     
     init(image: UIImage, symbols: NSArray, text: String){
         let frame = image.size
-        super.init(frame: CGRect(x:0, y:0, width: frame.width, height: frame.height))
+        super.init(frame: CGRect(x:0, y: 0, width: frame.width/2.5, height: frame.height/2.5))
         print(image.size)
         // Image setup
-        imageHolder = UIImageView(frame: CGRect(x:0, y:0, width: frame.width, height: frame.height));
+        imageHolder = UIImageView(frame: CGRect(x:0, y:0, width: frame.width/2.5, height: frame.height/2.5));
         imageHolder.contentMode = .scaleAspectFit
         imageHolder.image = image
         self.addSubview(imageHolder)

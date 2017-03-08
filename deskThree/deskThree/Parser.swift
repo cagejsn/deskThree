@@ -474,6 +474,17 @@ public class Parser {
         self.errorMSG = ""
         self.cursor = 0
         
+        //needs to throw error if x is found because var support not yet included.
+        //definitely change this later.
+        for token in function{
+            if String(describing: token) == "x" || String(describing: token) == "x"{
+                errorMSG = "x and y not supported yet"
+                print(errorMSG)
+                return
+            }
+        }
+        
+        
         self.parserGenDomain(start: start, end: end, steps: totalSteps)
         
             do {
