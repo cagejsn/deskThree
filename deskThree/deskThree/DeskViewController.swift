@@ -179,17 +179,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mathView.configure(withBundle: "math", andConfig: "standard")
             
         }
-        let  singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
         let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
         doubleTapGR.numberOfTapsRequired = 2
-        singleTapGR.numberOfTapsRequired = 1
         mathView.addGestureRecognizer(doubleTapGR)
-        //        mathView.addGestureRecognizer(singleTapGR)
         mathView.layer.cornerRadius = 10
         mathView.clipsToBounds = true
         mathView.layer.borderColor = UIColor.gray.cgColor
         mathView.layer.borderWidth = 2
-        //mathView.layer.shadowOffset =
         mathView.beautificationOption = MAWBeautifyOption.fontify
         
         
@@ -321,26 +317,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func setupMathViewConstraints(){
         mathView.translatesAutoresizingMaskIntoConstraints = false
         
-        var leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
-        var rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
+        let leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
+        let rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
        // var topConstraint = NSLayoutConstraint(item: mathView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 100)
-       var bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -100)
-        var heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 400)
+        let bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -100)
+        let heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 400)
         
         
         
         myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
         self.view.addConstraints(myScriptConstraints)
         
-    }
-    
-    // NOT USED
-    func cleanupMyScript(){
-        mathView.removeFromSuperview()
-      //  mathView.removeGestureRecognizer(doubleTapGR)
-      //  mathView.removeGestureRecognizer(singleTapGR)
-        mathView.delegate = nil
-        mathView = nil
     }
     
     func mathViewDidBeginConfiguration(_ mathView: MAWMathView!) {
@@ -358,16 +345,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func createMathBlock(){
         
-        let mathBlock = MathBlock(image: mathView.resultAsImage(), symbols: mathView.resultAsSymbolList() as NSArray, text: mathView.resultAsText())
+        let mathBlock = MathBlock(image: mathView.resultAsImage(), symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
         mathBlock.delegate = workArea
         mathBlock.setParentView(mathView: mathView)
         var loc = self.view.center
         loc = loc - CGPoint(x: 0, y: 100)
         mathBlock.center = mathBlock.convert(loc, to: workArea.currentPage)
         self.workArea.currentPage.addSubview(mathBlock)
-        
-        
-       // image.imageHolder.contentMode = .scaleAspectFill
         
         //mathView.clear(false)
         // mathView.solve()

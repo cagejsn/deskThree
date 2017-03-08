@@ -10,7 +10,7 @@ import Foundation
 
 class MathBlock: Expression{
     private var imageHolder: UIImageView!
-    private var mathSymbols: [MAWSymbol] = []
+    private var mathSymbols: [Any]!
     private var longPressGR: UILongPressGestureRecognizer!
     private var parentView: MAWMathView!
     
@@ -24,7 +24,7 @@ class MathBlock: Expression{
         parentView = mathView
     }
     
-    init(image: UIImage, symbols: NSArray, text: String){
+    init(image: UIImage, symbols: [Any], text: String){
         let frame = image.size
         super.init(frame: CGRect(x:0, y: 0, width: frame.width/3, height: frame.height/3))
         print(image.size)
@@ -34,7 +34,8 @@ class MathBlock: Expression{
         imageHolder.image = image
         self.addSubview(imageHolder)
         
-        mathSymbols = symbols as! [MAWSymbol]
+        mathSymbols = symbols
+        print(mathSymbols.count)
         expressionString = text
         longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(MathBlock.handleLongPress))
         longPressGR.minimumPressDuration = 0.5
