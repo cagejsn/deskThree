@@ -142,37 +142,17 @@ public class Parser {
                 throw MathError.missingOperand
             }
             
-            if(String(describing: function[cursor]) == "("){
-                parserIncrimentCursor()
-                var powArray: [Float64]
-                do {
-                    try powArray = parserExpression()
-                } catch let error {
-                    throw error
-                }
-                for i in 0..<self.domain.count {
-                    powArray[i] = pow(baseList[i], powArray[i])
-                }
-                if(String(describing: function[cursor]) != ")"){
-                    throw MathError.unmatchedParenthesis
-                }
-                parserIncrimentCursor()
-                return powArray
-            }else
-            {
-                
-                var powArray: [Float64]
-                do {
-                    try powArray = parserExpression()
-                } catch let error {
-                    throw error
-                }
-                for i in 0..<self.domain.count {
-                    powArray[i] = pow(baseList[i], powArray[i])
-                }
-                return powArray
-                
+            
+            var powArray: [Float64]
+            do {
+                try powArray = parserHighPriority()
+            } catch let error {
+                throw error
             }
+            for i in 0..<self.domain.count {
+                powArray[i] = pow(baseList[i], powArray[i])
+            }
+            return powArray
             
         }
         return baseList
