@@ -24,13 +24,15 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
     
+    
+    // MARK: Expression Delegate
     func didEvaluate(forExpression sender: Expression, result: Float){
-        var newBlock = Expression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
+        var newBlock = BlockExpression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
         newBlock.removeFromSuperview()
-        var express = Expression(firstVal: newBlock)
+        var express = BlockExpression(firstVal: newBlock)
         currentPage.addSubview(express)
         express.tag = -1
-        currentPage.expressions.append(express)
+        currentPage.expressions.append(express as! BlockExpression)
         express.delegate = self
         newBlock.frame.origin = CGPoint.zero
         express.addSubview(newBlock)
@@ -54,37 +56,37 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         }
         
         if let block = _movedView as? Block {
-            var expression = Expression(firstVal: block)
-            expression.tag = -1
+            var blockExpression = BlockExpression(firstVal: block)
+            blockExpression.tag = -1
             
-            expression.frame.origin = currentPage.convert(_movedView.frame.origin, from: _movedView.superview!)
+            blockExpression.frame.origin = currentPage.convert(_movedView.frame.origin, from: _movedView.superview!)
            
-            currentPage.addSubview(expression)
-            expression.addSubview(block)
-            currentPage.expressions.append(expression)
-            expression.delegate = self
+            currentPage.addSubview(blockExpression)
+            blockExpression.addSubview(block)
+            currentPage.expressions.append(blockExpression)
+            blockExpression.delegate = self
             block.frame.origin = CGPoint.zero
-            block.parentExpression = expression
-            workingView = expression
+            block.parentExpression = blockExpression
+            workingView = blockExpression
         }
-        if var expression = workingView as? Expression {
+        if var blockExpression = workingView as? BlockExpression {
             for group in currentPage.expressions {
-                if(group != expression ){
-                    for glow in group.dummyViews{
+                if(group != blockExpression ){
+                    for glow in group.getDummyViews(){
                         //see if any of the glow blocks contain the expression's origin
-                        if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).intersects(expression.frame)){
+                        if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).intersects(blockExpression.frame)){
                             //reset the position to be on the x,y coords of the "group"
-                            expression.frame = expression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
+                            blockExpression.frame = blockExpression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
                             //removes from superview, we need to refrain from doing this because of the possibility that the _movedView becomes the superview
-                            expression.removeFromSuperview()
-                            group.addSubview(expression)
+                            blockExpression.removeFromSuperview()
+                            group.addSubview(blockExpression)
                             
                             //animate merging of groups and rearrange the ETree
                             //group.animateMove(movedView: expression, dummy: glow)
                             
-                            expression.frame = glow.frame
+                            blockExpression.frame = glow.frame
                             
-                            group.frame = expression.frame.offsetBy(dx: group.frame.origin.x, dy:group.frame.origin.y ) + group.frame
+                            group.frame = blockExpression.frame.offsetBy(dx: group.frame.origin.x, dy:group.frame.origin.y ) + group.frame
                             // ^ IS SAME AS BELOW ?
                             //group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
                             
@@ -95,12 +97,12 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
                             let parent = glow.parent
                             if glow == parent?.leftChild{
                                 parent?.isAvailableOnLeft = false
-                                ETree.getRightestNode(root: expression.rootBlock).isAvailableOnRight = false
+                                ETree.getRightestNode(root: blockExpression.rootBlock).isAvailableOnRight = false
                                 group.hideSpots()
-                                group.mergeExpressions(incomingExpression: expression , side: "left")
+                                group.mergeExpressions(incomingExpression: blockExpression , side: "left")
                                 
                                 //set the position of, and reassign ownership of, the blocks that were added
-                                for sub in expression.subviews {
+                                for sub in blockExpression.subviews {
                                     sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
                                     sub.removeFromSuperview()
                                     group.addSubview(sub)
@@ -113,10 +115,10 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
                             }
                             if glow == parent?.rightChild{
                                 parent?.isAvailableOnRight = false
-                                ETree.getLeftestNode(root: expression.rootBlock).isAvailableOnLeft = false
+                                ETree.getLeftestNode(root: blockExpression.rootBlock).isAvailableOnLeft = false
                                 group.hideSpots()
-                                group.mergeExpressions(incomingExpression: expression , side: "right")
-                                for sub in expression.subviews {
+                                group.mergeExpressions(incomingExpression: blockExpression , side: "right")
+                                for sub in blockExpression.subviews {
                                     sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
                                     sub.removeFromSuperview()
                                     group.addSubview(sub)
@@ -124,16 +126,16 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
                             }
                             if glow == parent?.innerChild{
                                 group.hideSpots()
-                                group.mergeExpressions(incomingExpression: expression , side: "inner")
-                                for sub in expression.subviews {
+                                group.mergeExpressions(incomingExpression: blockExpression , side: "inner")
+                                for sub in blockExpression.subviews {
                                     sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
                                     sub.removeFromSuperview()
                                     group.addSubview(sub)
                                 }
                             }
                             //get rid of old expression, may need to make sure that there are no more references
-                            currentPage.expressions.removeObject(object: expression)
-                            expression.isHidden = true
+                            currentPage.expressions.removeObject(object: blockExpression)
+                            blockExpression.isHidden = true
                         }
                     }
                 }
@@ -158,7 +160,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         for group in currentPage.expressions {
             if(group != _movedView){
                 if(group.isNear(incomingFrame: zoomedView)){
-                    if(group.isDisplayingSpots == false){
+                    if(group.getIsDisplayingSpots() == false){
                         group.findAndShowAvailableSpots(_movedView: _movedView)
                         //this will send the message to "group" that it needs to show its available spots for movedView
                     }
@@ -176,6 +178,14 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
 
         
     }
+    
+    func hideAllSpots() {
+        for expression in currentPage.expressions {
+            expression.hideSpots()
+        }
+    }
+    
+    // MARK: trashbin
     func hideTrash(){
         customDelegate.hideTrash()
     }
@@ -192,6 +202,8 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         print("Current page index: ", currentPageIndex)
         if direction == "right" {
             print("Num pages: ", pages.count)
+            
+            print("Current page is: ", currentPage)
             
             // Check if this is the last page
             if currentPageIndex == pages.count - 1 {
@@ -237,22 +249,24 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
             }
         }
         print("New page index: ", currentPageIndex)
+        print("New current page is: ", currentPage)
+       
         return (currentPageIndex, pages.count)
     }
     
+    // MARK: init and helpers
     func initCurPage() {
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex].contentMode = .scaleAspectFit
+        currentPage.isUserInteractionEnabled = true
+        setupForJotView()
     }
- 
- 
-    func hideAllSpots() {
-        for expression in currentPage.expressions {
-            expression.hideSpots()
-        }
+    
+    func setupForJotView() {
+        self.setZoomScale(minimumZoomScale, animated: false)
+        self.setZoomScale((maximumZoomScale + minimumZoomScale)/2, animated: false)
+        self.contentOffset = CGPoint(x: 0.0, y: 0.0)
     }
-
-  
     
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))

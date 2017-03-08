@@ -12,7 +12,7 @@ import UIKit
 class Paper: UIImageView, ImageBlockDelegate {
     
     var images: [ImageBlock]?
-    var expressions: [Expression]!
+    var expressions: [BlockExpression]!
   //  var longPressGR: UILongPressGestureRecognizer!
     
     
@@ -23,7 +23,7 @@ class Paper: UIImageView, ImageBlockDelegate {
      //   longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Paper.handleLongPress(sender:)))
    //     longPressGR.minimumPressDuration = 0.8
    //     self.addGestureRecognizer(longPressGR)
-        expressions = [Expression]()
+        expressions = [BlockExpression]()
         self.image = UIImage(named: "engineeringPaper2")
         self.isOpaque = false
         images = [ImageBlock]() //creates an array to save the imageblocks
@@ -33,7 +33,7 @@ class Paper: UIImageView, ImageBlockDelegate {
     required init(coder unarchiver: NSCoder){
         super.init(coder: unarchiver)!
         images = unarchiver.decodeObject() as! [ImageBlock]!
-        expressions = unarchiver.decodeObject() as! [Expression]!
+        expressions = unarchiver.decodeObject() as! [BlockExpression]!
         
     }
 

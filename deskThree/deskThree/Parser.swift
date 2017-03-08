@@ -12,6 +12,7 @@ enum MathError: Error {
     case missingOperand
     case unmatchedParenthesis
     case unrecognizedCharacters
+    case emptyString
 }
 
 public class Parser {
@@ -28,6 +29,7 @@ public class Parser {
         self.cursor = 0
         self.domain = Array()
         self.range = Array()
+        
         
     }
     
@@ -202,7 +204,7 @@ public class Parser {
             }
             return resultList
         }
-        if(indicator == "("){
+        if(indicator == "(" || indicator == "["){
             parserIncrimentCursor()
             do {
                 try resultList = parserExpression()
@@ -210,7 +212,8 @@ public class Parser {
             } catch let error {
                 throw error
             }
-            if(self.cursor >= self.function.count || String(describing: self.function[self.cursor]) != ")"){
+            print(String(describing: self.function[self.cursor]))
+            if(self.cursor >= self.function.count || (String(describing: self.function[self.cursor]) != ")" && String(describing: self.function[self.cursor]) != "]")){
                 throw MathError.unmatchedParenthesis
             }
             parserIncrimentCursor()
@@ -235,6 +238,9 @@ public class Parser {
             }
             
             return resultList
+        }
+        if(indicator == "√"){
+            
         }
         if(self.cursor < self.function.count && String(describing: function[cursor]) == "π"){
             parserIncrimentCursor()
@@ -323,6 +329,20 @@ public class Parser {
         } catch MathError.missingOperand {
             throw MathError.missingOperand
         }
+        if(indicator == "√"){
+            let arrayToRoot : [Float64]
+            parserIncrimentCursor()
+            do {
+                arrayToRoot = try parserHighPriority()
+                
+            } catch let error {
+                throw error
+            }
+            for number in arrayToRoot{
+                resultList.append(sqrt(number))
+            }
+
+        }
         if(resultList.count == 0){
             //this - symbol is for negation
             if(indicator == "-"){
@@ -362,8 +382,8 @@ public class Parser {
         
         print(self.cursor < function.count)
         
-        var isMult: Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "✕"
-        var isDiv:  Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "÷"
+        var isMult: Bool = self.cursor < function.count && (String(describing: self.function[self.cursor]) == "✕" || String(describing: self.function[self.cursor]) == "×")
+        var isDiv:  Bool = self.cursor < function.count && (String(describing: self.function[self.cursor]) == "÷" || String(describing: self.function[self.cursor]) == "/")
         
         while(self.cursor < function.count && (isMult || isDiv)){
             
@@ -385,8 +405,8 @@ public class Parser {
                     highPrioLeft[i] /= highPrioRight[i]
                 }
             }
-            isMult = self.cursor < function.count && String(describing: self.function[self.cursor]) == "✕"
-            isDiv  = self.cursor < function.count && String(describing: self.function[self.cursor]) == "÷"
+            isMult = self.cursor < function.count && (String(describing: self.function[self.cursor]) == "✕" || String(describing: self.function[self.cursor]) == "×")
+            isDiv  = self.cursor < function.count && (String(describing: self.function[self.cursor]) == "÷" || String(describing: self.function[self.cursor]) == "/")
             
         }
         return highPrioLeft
@@ -455,22 +475,25 @@ public class Parser {
         self.cursor = 0
         
         self.parserGenDomain(start: start, end: end, steps: totalSteps)
-        do {
-            try self.range = self.parserExpression()
-            
-        } catch MathError.missingOperand {
-            errorMSG = "Missing Operand"
-        } catch MathError.unmatchedParenthesis {
-            errorMSG = "Unmatched Parenthesis"
-        } catch MathError.unrecognizedCharacters {
-            errorMSG = "Unrecognized Operator Configuration"
-        }catch let error {
-            errorMSG = error.localizedDescription
-        }
+        
+            do {
+                try self.range = self.parserExpression()
+                
+            } catch MathError.missingOperand {
+                errorMSG = "Missing Operand"
+            } catch MathError.unmatchedParenthesis {
+                errorMSG = "Unmatched Parenthesis"
+            } catch MathError.unrecognizedCharacters {
+                errorMSG = "Unrecognized Operator Configuration"
+            }catch let error {
+                errorMSG = error.localizedDescription
+            }
+        print(errorMSG)
     }
     
     ///change function
     public func parserSetFunction(functionString: String){
+        print(functionString)
         self.function = Array(functionString.characters)
     }
     

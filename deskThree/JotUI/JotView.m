@@ -104,12 +104,13 @@ dispatch_queue_t importExportStateQueue;
     Boolean t = [self pointInside:point withEvent:event];
     if(!t){return nil;}
     CGPoint point2 = [self convertPoint:point toView:currentPage];
-    UIView *view = [currentPage hitTest:point2 withEvent:event];
+    UIView* view = [currentPage hitTest:point2 withEvent:event];
     
-    
-    if (view == currentPage){
+    if (view == currentPage ){
+        printf("currentPage is %x", currentPage);
         return self;
     } else {
+        printf("Jot hitTest view %x and currentPage is %x", view, currentPage);
         return view;
     }
 }
@@ -1592,10 +1593,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     if (!state)
         return;
     
-    //Ignore pan and pinch
-    if (event.allTouches.count > 1)
-        return;
-    
+    // Doing this before ignoring pan and pinch fixes random lines appearing on screen
     for (UITouch* touch in touches) {
         @autoreleasepool {
             // If appropriate, add code necessary to save the state of the application.
@@ -1605,6 +1603,12 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
             }
         }
     }
+    
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1){
+        return;
+    }
+
     // we need to erase the current stroke from the screen, so
     // clear the canvas and rerender all valid strokes
     [self renderAllStrokesToContext:context inFramebuffer:viewFramebuffer andPresentBuffer:YES inRect:CGRectZero];

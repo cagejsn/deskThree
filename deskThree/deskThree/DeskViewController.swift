@@ -19,7 +19,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //JotUI Properties
     var pen: Pen!
     var jotView: JotView!
-    var paperState: JotViewStateProxy!
+    var pageDrawingStates: [JotViewStateProxy] = [JotViewStateProxy]()
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
     var graphingBlock: GraphingBlock!
@@ -46,7 +46,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolDrawer()
         setupTrash()
         setupDeskView()
-      //  setupMyScript()
+        setupMyScript()
         
         currentPageLabel.text = "1"
         totalPagesLabel.text = "1"
@@ -54,7 +54,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(_: animated)
-        workArea.setZoomScale(workArea.minimumZoomScale, animated: false)
+        workArea.setupForJotView()
     }
     
     // MARK - UIScrollViewDelegate functions
@@ -123,17 +123,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
 
-        pen = Pen(minSize: 0.5, andMaxSize: 1.3, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 1.5, andMaxSize: 3.0, andMinAlpha: 0.8, andMaxAlpha: 1)
 
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
-        paperState = JotViewStateProxy(delegate: self)
-        paperState?.delegate = self
-        paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-        jotView.loadState(paperState)
+        pageDrawingStates.append(JotViewStateProxy(delegate: self))
+        pageDrawingStates[0].delegate = self
+        pageDrawingStates[0].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(pageDrawingStates[0])
         // inserting jotView right below toolbar
         self.view.insertSubview(jotView, at: 1)
         jotView.isUserInteractionEnabled = false
@@ -159,6 +159,40 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             dView.addGestureRecognizer(workArea.panGestureRecognizer)
             dView.addGestureRecognizer(workArea.pinchGestureRecognizer!)
         }
+    }
+    
+    // TODO: Should we subclass MAWMathView and push all of this code in there?
+    func setupMyScript(){
+        
+        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
+        mathView = MAWMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
+        
+        certificateRegistered = mathView.registerCertificate(certificate)
+        
+        if(certificateRegistered!){
+            mathView.delegate = self
+            
+            var mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            mathView.addSearchDir(bundlePath as String)
+            mathView.configure(withBundle: "math", andConfig: "standard")
+            
+        }
+        let  singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
+        let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
+        doubleTapGR.numberOfTapsRequired = 2
+        singleTapGR.numberOfTapsRequired = 1
+        mathView.addGestureRecognizer(doubleTapGR)
+        //        mathView.addGestureRecognizer(singleTapGR)
+        mathView.layer.cornerRadius = 10
+        mathView.clipsToBounds = true
+        mathView.layer.borderColor = UIColor.gray.cgColor
+        mathView.layer.borderWidth = 2
+        //mathView.layer.shadowOffset =
+        mathView.beautificationOption = MAWBeautifyOption.fontify
+        
+        
     }
     
     func sendingToInputObject(for element: Any){
@@ -193,8 +227,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
         workArea.frame = workArea.currentPage.frame
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
         jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
         workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
     
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
@@ -211,13 +247,29 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func pageRightButtonPressed(_ sender: Any) {
         print("Right!")
         let pagesInfo = workArea.movePage(direction: "right")
+        pageDrawingStates[pagesInfo.currentPage-1].isForgetful = false;
+        // If this is a new page, create new state
+        if (pagesInfo.totalNumPages > pageDrawingStates.count){
+        pageDrawingStates.append(JotViewStateProxy(delegate: self))
+        pageDrawingStates[pagesInfo.currentPage].delegate = self
+        pageDrawingStates[pagesInfo.currentPage].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        }
+        pageDrawingStates[pagesInfo.currentPage].isForgetful = true
+        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
+        
+        jotView.currentPage = workArea.currentPage
         currentPageLabel.text = String(pagesInfo.currentPage + 1)
         totalPagesLabel.text = String(pagesInfo.totalNumPages)
+        
     }
     
     @IBAction func pageLeftButtonPressed(_ sender: Any) {
         print("Left!")
         let pagesInfo = workArea.movePage(direction: "left")
+        pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
+        pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
+        jotView.currentPage = workArea.currentPage;
+        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
         currentPageLabel.text = String(pagesInfo.currentPage + 1)
         totalPagesLabel.text = String(pagesInfo.totalNumPages)
     }
@@ -250,46 +302,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     ///this function will present a MAWMathView to the User
     @IBAction func mathFormulaButtonTapped(_ sender: UIBarButtonItem) {
-        if(mathView == nil){
-            setupMyScript()
+        if(mathView.superview == nil){
+            self.view.addSubview(mathView)
+            setupMathViewConstraints()
         } else {
-            cleanupMyScript()
+            mathView.clear(true)
+            mathView.removeFromSuperview()
         }
     }
     
-    func setupMyScript(){
-        
-        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
-        mathView = MAWMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
-        
-        certificateRegistered = mathView.registerCertificate(certificate)
-        
-        if(certificateRegistered!){
-            mathView.delegate = self
-            
-            var mainBundle = Bundle.main
-            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
-            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
-            mathView.addSearchDir(bundlePath as String)
-            mathView.configure(withBundle: "math", andConfig: "standard")
-            
-        }
-        var singleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.printText))
-        var doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.clear))
-        doubleTapGR.numberOfTapsRequired = 2
-        singleTapGR.numberOfTapsRequired = 1
-        mathView.addGestureRecognizer(doubleTapGR)
-        mathView.addGestureRecognizer(singleTapGR)
-        mathView.layer.cornerRadius = 10
-        mathView.clipsToBounds = true
-        mathView.layer.borderColor = UIColor.gray.cgColor
-        mathView.layer.borderWidth = 2
-        //mathView.layer.shadowOffset =
-        self.view.addSubview(mathView)
-        setupMathViewConstraints()
-        
-        
-    }
+    
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -312,6 +334,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
+    // NOT USED
     func cleanupMyScript(){
         mathView.removeFromSuperview()
       //  mathView.removeGestureRecognizer(doubleTapGR)
@@ -333,11 +356,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
-    func clear(){
+    func createMathBlock(){
         
-        var image = ImageBlock(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        image.setImage(image: mathView.resultAsImage())
-        self.view.addSubview(image)
+        let mathBlock = MathBlock(image: mathView.resultAsImage(), symbols: mathView.resultAsSymbolList() as NSArray, text: mathView.resultAsText())
+        mathBlock.delegate = workArea
+        mathBlock.setParentView(mathView: mathView)
+        var loc = self.view.center
+        loc = loc - CGPoint(x: 0, y: 100)
+        mathBlock.center = mathBlock.convert(loc, to: workArea.currentPage)
+        self.workArea.currentPage.addSubview(mathBlock)
+        
+        
        // image.imageHolder.contentMode = .scaleAspectFill
         
         //mathView.clear(false)
@@ -352,7 +381,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
 
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
+        // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
+        // We just load up a whole new state to get a cleared backing texture. I know, it is 
+        // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = true
+        pageDrawingStates[workArea.currentPageIndex] = JotViewStateProxy (delegate: self)
+        pageDrawingStates[workArea.currentPageIndex].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(pageDrawingStates[workArea.currentPageIndex])
         jotView.clear(true)
+        
     }
     // MARK: GKImagePickerController Delegate
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
@@ -385,10 +422,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func stepWidthForStroke() -> CGFloat {
-       // print(activePen().stepWidthForStroke())
-       // return activePen().stepWidthForStroke()
+//        print(activePen().stepWidthForStroke())
+//        return activePen().stepWidthForStroke()
 
-        return CGFloat(0.3)
+        return CGFloat(0.3 )
     }
     
     func supportsRotation() -> Bool {
