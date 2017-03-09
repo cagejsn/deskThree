@@ -81,7 +81,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     //incoming view does intersect with Trash?
     func intersectsWithTrash(justMovedBlock: UIView) -> Bool {
-        if( trashBin.frame.contains(self.view.convert(justMovedBlock.frame.origin, from: justMovedBlock.superview!))){
+        if( trashBin.frame.contains(self.view.convert(justMovedBlock.frame.origin + CGPoint(x: 0, y:justMovedBlock.frame.height), from: justMovedBlock.superview!))){
             trashBin.open()
             return true
         }
@@ -312,7 +312,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        setupMathViewConstraints()
+       // setupMathViewConstraints()
     }
     
     func setupMathViewConstraints(){
@@ -364,7 +364,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     
-
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
         // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
         // We just load up a whole new state to get a cleared backing texture. I know, it is 

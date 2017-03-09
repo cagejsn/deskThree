@@ -50,6 +50,7 @@
                                 </connections>
                             </button>
                         </barButtonItem>
+                        <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="yDI-80-InA"/>
                         <barButtonItem image="fOfX" id="VgA-Id-Pqb">
                             <connections>
                                 <action selector="mathFormulaButtonTapped:" destination="-1" id="PxG-T1-g7e"/>
