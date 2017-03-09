@@ -177,6 +177,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             bundlePath = bundlePath.appendingPathComponent("conf") as NSString
             mathView.addSearchDir(bundlePath as String)
             mathView.configure(withBundle: "math", andConfig: "standard")
+            mathView.paddingRatio = UIEdgeInsetsMake(7, 7, 7, 7)
             
         }
         let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
