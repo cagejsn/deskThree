@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate{
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate   {
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
@@ -25,7 +25,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var graphingBlock: GraphingBlock!
     var trashBin: Trash!
     var prevScaleFactor: CGFloat!
-    var mathView: MAWMathView!
+    var mathView: OCRMathView!
     
     var toolDrawer: ToolDrawer!
     
@@ -123,7 +123,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
 
-        pen = Pen(minSize: 1.5, andMaxSize: 3.0, andMinAlpha: 0.8, andMaxAlpha: 1)
+        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
 
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
@@ -142,6 +142,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         print(jotView.contentScaleFactor)
        // jotView.contentScaleFactor = 1.0
         jotView.speedUpFPS()
+        glEnable(GLenum(GL_MULTISAMPLE))
     }
     
     func setupToolDrawer(){
@@ -165,7 +166,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func setupMyScript(){
         
         var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
-        mathView = MAWMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
+        mathView = OCRMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
         
         certificateRegistered = mathView.registerCertificate(certificate)
         
@@ -182,14 +183,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
         doubleTapGR.numberOfTapsRequired = 2
-        mathView.addGestureRecognizer(doubleTapGR)
+       // mathView.addGestureRecognizer(doubleTapGR)
         mathView.layer.cornerRadius = 10
         mathView.clipsToBounds = true
         mathView.layer.borderColor = UIColor.gray.cgColor
         mathView.layer.borderWidth = 2
         mathView.beautificationOption = MAWBeautifyOption.fontify
         
-        
+        mathView.delegate2 = self   
     }
     
     func sendingToInputObject(for element: Any){
@@ -344,16 +345,22 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
+    func mathViewDidEndRecognition(_ mathView: MAWMathView!) {
+
+    }
+    
     func createMathBlock(){
         
-        let mathBlock = MathBlock(image: mathView.resultAsImage(), symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
-        mathBlock.delegate = workArea
-        mathBlock.setParentView(mathView: mathView)
-        var loc = self.view.center
-        loc = loc - CGPoint(x: 0, y: 100)
-        mathBlock.center = mathBlock.convert(loc, to: workArea.currentPage)
-        self.workArea.currentPage.addSubview(mathBlock)
-        
+        if let image1 =  mathView.resultAsImage(){
+            let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
+            mathBlock.delegate = workArea
+            mathBlock.setParentView(mathView: mathView)
+            var loc = self.view.center
+            loc = loc - CGPoint(x: 0, y: 200)
+            mathBlock.center = mathBlock.convert(loc, to: workArea.currentPage)
+            self.workArea.currentPage.addSubview(mathBlock)
+        }
+       
         //mathView.clear(false)
         // mathView.solve()
     }
@@ -409,7 +416,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 //        print(activePen().stepWidthForStroke())
 //        return activePen().stepWidthForStroke()
 
-        return CGFloat(0.3 )
+        return CGFloat(0.3)
     }
     
     func supportsRotation() -> Bool {
