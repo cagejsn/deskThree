@@ -412,7 +412,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
     
     @IBAction func addSqrtToEntryArea( _ sender: UIButton) {
-        numEntryAreaText += "sqrt("
+        numEntryAreaText += "√("
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
             self.numEntryArea.layoutIfNeeded()
