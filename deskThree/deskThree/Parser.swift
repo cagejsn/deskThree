@@ -106,13 +106,13 @@ public class Parser {
             }
             //can be optimized for sure
         }else if(getWord().characters.count == 2){
-            self.cursor += 3
+            self.cursor += 2
         }else if(getWord().characters.count == 3){
-            self.cursor += 4
+            self.cursor += 3
         }else if(getWord().characters.count == 4){
             self.cursor += 5
         }else if(getWord().characters.count == 6){
-            self.cursor += 7
+            self.cursor += 6
         }else{
             self.cursor += 1
             
@@ -252,17 +252,32 @@ public class Parser {
         }
         let type: String = getWord()
         if(type != ""){
+            
+            //in the instance of an equation with a base, these will not be empty lists
+            var base: [Float64] = Array()
+            //also, in such a case, this will be true
+            var hasCustomBase: Bool = false
             parserIncrimentCursor()
-            do {
-                try resultList = parserExpression()
+            if(String(describing: function[cursor]) == "_"){
+                parserIncrimentCursor()
+                hasCustomBase = true
+                //attain the base
+                do{
+                    base = try(parserHighPriority())
+                    resultList = try(parserHighPriority())
+                } catch let error{
+                    throw error
+                }
                 
-            } catch let error {
-                throw error
             }
-            if(self.cursor >= self.function.count || String(describing: self.function[self.cursor]) != ")"){
-                throw MathError.unmatchedParenthesis
+            else{
+                do {
+                    try resultList = parserHighPriority()
+                    
+                } catch let error {
+                    throw error
+                }
             }
-            parserIncrimentCursor()
 
             if(type == "sin"){
                 for i in 0..<resultList.count {
@@ -288,13 +303,15 @@ public class Parser {
                 for i in 0..<resultList.count {
                     resultList[i] = atan(resultList[i])
                 }
-            }else if(type == "sqrt"){
-                for i in 0..<resultList.count {
-                    resultList[i] = sqrt(resultList[i])
-                }
             }else if(type == "log"){
-                for i in 0..<resultList.count {
-                    resultList[i] = logOf(base: 10, val: resultList[i])
+                if(hasCustomBase){
+                    for i in 0..<resultList.count {
+                        resultList[i] = logOf(base: base[i], val: resultList[i])
+                    }
+                }else{
+                    for i in 0..<resultList.count {
+                        resultList[i] = logOf(base: 10, val: resultList[i])
+                    }
                 }
             }else if(type == "ln"){
                 for i in 0..<resultList.count {
