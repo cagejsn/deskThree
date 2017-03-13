@@ -57,22 +57,6 @@
             <rect key="frame" x="0.0" y="0.0" width="270" height="780"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c8O-p7-Neb">
-                    <rect key="frame" x="182" y="6" width="82" height="73.5"/>
-                    <color key="backgroundColor" red="0.89411764709999997" green="0.8980392157" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="c8O-p7-Neb" secondAttribute="height" multiplier="41:37" id="ed9-Fq-Uau"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
-                    <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" title="&lt;">
-                        <color key="titleColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="deleteTextFromEntryArea:" destination="-1" eventType="touchUpInside" id="evy-jr-Ueq"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocm-7L-4Ee" customClass="MathEntryArea" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="6" y="6" width="170" height="73.5"/>
                     <color key="backgroundColor" red="0.90696299076080322" green="0.84839250124823729" blue="0.69588386625500398" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -484,6 +468,24 @@
                         <action selector="addTextAndParenthesisToEntryArea:" destination="-1" eventType="touchUpInside" id="8xh-J3-QMF"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c8O-p7-Neb">
+                    <rect key="frame" x="182" y="6" width="82" height="73.5"/>
+                    <color key="backgroundColor" red="0.89411764709999997" green="0.8980392157" blue="0.8980392157" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="c8O-p7-Neb" secondAttribute="height" multiplier="41:37" id="ed9-Fq-Uau"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="19"/>
+                    <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" title="&lt;">
+                        <color key="titleColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="deleteTextFromEntryArea:" destination="-1" eventType="touchUpInside" id="evy-jr-Ueq"/>
+                        <outletCollection property="gestureRecognizers" destination="FtG-V1-u8p" appends="YES" id="bm6-6a-zFC"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.50190365309999996" green="0.50199371579999996" blue="0.50189799069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <gestureRecognizers/>
@@ -673,5 +675,11 @@
                 <action selector="rightSwipeGestureRecognizer:" destination="-1" id="a68-KV-Km1"/>
             </connections>
         </swipeGestureRecognizer>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="FtG-V1-u8p">
+            <connections>
+                <action selector="deleteTextFromEntryAreaLongPressed:" destination="-1" id="VW0-G0-Feu"/>
+                <outlet property="delegate" destination="c8O-p7-Neb" id="l9a-9x-pf9"/>
+            </connections>
+        </pongPressGestureRecognizer>
     </objects>
 </document>

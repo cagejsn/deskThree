@@ -5,6 +5,7 @@
 ## Build generated
 build/
 DerivedData/
+MyScript_ATK-ios-2.2/
 
 ## Various settings
 *.pbxuser

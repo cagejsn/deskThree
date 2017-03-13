@@ -10,7 +10,8 @@ import Foundation
 import UIKit
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate {
+
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate   {
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
@@ -18,15 +19,20 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //JotUI Properties
     var pen: Pen!
     var jotView: JotView!
-    var paperState: JotViewStateProxy!
+    var pageDrawingStates: [JotViewStateProxy] = [JotViewStateProxy]()
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
     var graphingBlock: GraphingBlock!
     var trashBin: Trash!
+    var prevScaleFactor: CGFloat!
+    var mathView: OCRMathView!
     
     var toolDrawer: ToolDrawer!
     
     var customContraints: [NSLayoutConstraint]!
+    var myScriptConstraints: [NSLayoutConstraint]!
+    
+    var certificateRegistered: Bool!
     
     @IBOutlet weak var currentPageLabel: UILabel!
     @IBOutlet weak var totalPagesLabel: UILabel!
@@ -39,15 +45,43 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupJotView()
         setupToolDrawer()
         setupTrash()
+        setupDeskView()
+        setupMyScript()
         
         currentPageLabel.text = "1"
         totalPagesLabel.text = "1"
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(_: animated)
+        workArea.setupForJotView()
+    }
+    
+    // MARK - UIScrollViewDelegate functions
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        
+        if(prevScaleFactor != nil){
+            
+            jotView.transform = jotView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
+            
+        }
+//        print(scrollView.zoomScale)
+//        print(scrollView.contentScaleFactor)
+        jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+
+        prevScaleFactor = scrollView.zoomScale
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        print(scrollView.contentOffset)
+        
+        jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+    }
+    
     
     //incoming view does intersect with Trash?
     func intersectsWithTrash(justMovedBlock: UIView) -> Bool {
-        if( trashBin.frame.contains(self.view.convert(justMovedBlock.frame.origin, from: justMovedBlock.superview!))){
+        if( trashBin.frame.contains(self.view.convert(justMovedBlock.frame.origin + CGPoint(x: 0, y:justMovedBlock.frame.height), from: justMovedBlock.superview!))){
             trashBin.open()
             return true
         }
@@ -88,15 +122,27 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupJotView(){
-        pen = Pen()
-        jotView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
+
+        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+
+        pen.shouldUseVelocity = true
+        //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
+        jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
-        paperState = JotViewStateProxy(delegate: self)
-        paperState?.delegate = self
-        paperState?.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: UIScreen.main.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-        jotView.loadState(paperState)
-        workArea.currentPage.addSubview(jotView)
+        pageDrawingStates.append(JotViewStateProxy(delegate: self))
+        pageDrawingStates[0].delegate = self
+        pageDrawingStates[0].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(pageDrawingStates[0])
+        // inserting jotView right below toolbar
+        self.view.insertSubview(jotView, at: 1)
+        jotView.isUserInteractionEnabled = false
+        print(jotView.pagePtSize)
+        print(jotView.scale)
+        print(jotView.contentScaleFactor)
+       // jotView.contentScaleFactor = 1.0
+        jotView.speedUpFPS()
+        glEnable(GLenum(GL_MULTISAMPLE))
     }
     
     func setupToolDrawer(){
@@ -104,6 +150,47 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.addSubview(toolDrawer)
         toolDrawer.setupConstraints()
         toolDrawer.delegate = workArea
+    }
+    
+    func setupDeskView(){
+        if let dView = view as? DeskView {
+            dView.workArea = workArea
+            dView.jotView = jotView
+            dView.setup()
+            dView.addGestureRecognizer(workArea.panGestureRecognizer)
+            dView.addGestureRecognizer(workArea.pinchGestureRecognizer!)
+        }
+    }
+    
+    // TODO: Should we subclass MAWMathView and push all of this code in there?
+    func setupMyScript(){
+        
+        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
+        mathView = OCRMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
+        
+        certificateRegistered = mathView.registerCertificate(certificate)
+        
+        if(certificateRegistered!){
+            mathView.delegate = self
+            
+            var mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            mathView.addSearchDir(bundlePath as String)
+            mathView.configure(withBundle: "math", andConfig: "standard")
+            mathView.paddingRatio = UIEdgeInsetsMake(7, 7, 7, 7)
+            
+        }
+        let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
+        doubleTapGR.numberOfTapsRequired = 2
+       // mathView.addGestureRecognizer(doubleTapGR)
+        mathView.layer.cornerRadius = 10
+        mathView.clipsToBounds = true
+        mathView.layer.borderColor = UIColor.gray.cgColor
+        mathView.layer.borderWidth = 2
+        mathView.beautificationOption = MAWBeautifyOption.fontify
+        
+        mathView.delegate2 = self   
     }
     
     func sendingToInputObject(for element: Any){
@@ -138,8 +225,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
         workArea.frame = workArea.currentPage.frame
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
         jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
         workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
     
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
@@ -156,13 +245,29 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func pageRightButtonPressed(_ sender: Any) {
         print("Right!")
         let pagesInfo = workArea.movePage(direction: "right")
+        pageDrawingStates[pagesInfo.currentPage-1].isForgetful = false;
+        // If this is a new page, create new state
+        if (pagesInfo.totalNumPages > pageDrawingStates.count){
+        pageDrawingStates.append(JotViewStateProxy(delegate: self))
+        pageDrawingStates[pagesInfo.currentPage].delegate = self
+        pageDrawingStates[pagesInfo.currentPage].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        }
+        pageDrawingStates[pagesInfo.currentPage].isForgetful = true
+        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
+        
+        jotView.currentPage = workArea.currentPage
         currentPageLabel.text = String(pagesInfo.currentPage + 1)
         totalPagesLabel.text = String(pagesInfo.totalNumPages)
+        
     }
     
     @IBAction func pageLeftButtonPressed(_ sender: Any) {
         print("Left!")
         let pagesInfo = workArea.movePage(direction: "left")
+        pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
+        pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
+        jotView.currentPage = workArea.currentPage;
+        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
         currentPageLabel.text = String(pagesInfo.currentPage + 1)
         totalPagesLabel.text = String(pagesInfo.totalNumPages)
     }
@@ -176,25 +281,106 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
         if( UIImagePickerController.isSourceTypeAvailable(.camera)){
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
+                alert.popoverPresentationController?.barButtonItem = sender
+                alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
                 action in
                 self.gkimagePicker.imagePickerController.sourceType = .camera
-                self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
-                action in
-                self.gkimagePicker.imagePickerController.sourceType = .photoLibrary
-                self.present(self.gkimagePicker.imagePickerController, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+                self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
+                }))
+                alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
+                action in self.gkimagePicker.imagePickerController.sourceType = .photoLibrary
+                self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
+                }))
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
         } else {
             self.present(gkimagePicker.imagePickerController, animated: false, completion: nil)
         }
     }
     
+    ///this function will present a MAWMathView to the User
+    @IBAction func mathFormulaButtonTapped(_ sender: UIBarButtonItem) {
+        if(mathView.superview == nil){
+            self.view.addSubview(mathView)
+            setupMathViewConstraints()
+        } else {
+            mathView.clear(true)
+            mathView.removeFromSuperview()
+        }
+    }
+    
+    
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+       // setupMathViewConstraints()
+    }
+    
+    func setupMathViewConstraints(){
+        mathView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
+        let rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
+       // var topConstraint = NSLayoutConstraint(item: mathView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 100)
+        let bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -100)
+        let heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 400)
+        
+        
+        
+        myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
+        self.view.addConstraints(myScriptConstraints)
+        
+    }
+    
+    func mathViewDidBeginConfiguration(_ mathView: MAWMathView!) {
+        
+    }
+    
+    func mathView(_ mathView: MAWMathView!, didFailConfigurationWithError error: Error!) {
+        NSLog("unable to config", error.localizedDescription)
+        print(error.localizedDescription)
+    }
+    
+    func mathViewDidBeginRecognition(_ mathView: MAWMathView!) {
+        
+    }
+    
+    func mathViewDidEndRecognition(_ mathView: MAWMathView!) {
+
+    }
+    
+    func createMathBlock(){
+        
+        if let image1 =  mathView.resultAsImage(){
+            let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
+            mathBlock.delegate = workArea
+            mathBlock.setParentView(mathView: mathView)
+            var loc = self.view.center
+            loc = loc - CGPoint(x: 0, y: 200)
+            mathBlock.center = mathBlock.convert(loc, to: workArea.currentPage)
+            self.workArea.currentPage.addSubview(mathBlock)
+        }
+       
+        //mathView.clear(false)
+        // mathView.solve()
+    }
+    
+    func printText(){
+        
+        print(mathView.resultAsLaTeX())
+    }
+
+    
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
+        // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
+        // We just load up a whole new state to get a cleared backing texture. I know, it is 
+        // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself
+        pageDrawingStates[workArea.currentPageIndex].isForgetful = true
+        pageDrawingStates[workArea.currentPageIndex] = JotViewStateProxy (delegate: self)
+        pageDrawingStates[workArea.currentPageIndex].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(pageDrawingStates[workArea.currentPageIndex])
         jotView.clear(true)
+        
     }
     // MARK: GKImagePickerController Delegate
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
@@ -227,7 +413,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func stepWidthForStroke() -> CGFloat {
-        return activePen().stepWidthForStroke()
+//        print(activePen().stepWidthForStroke())
+//        return activePen().stepWidthForStroke()
+
+        return CGFloat(0.3)
     }
     
     func supportsRotation() -> Bool {

@@ -104,12 +104,13 @@ dispatch_queue_t importExportStateQueue;
     Boolean t = [self pointInside:point withEvent:event];
     if(!t){return nil;}
     CGPoint point2 = [self convertPoint:point toView:currentPage];
-    UIView *view = [currentPage hitTest:point2 withEvent:event];
+    UIView* view = [currentPage hitTest:point2 withEvent:event];
     
-    
-    if (view == currentPage){
+    if (view == currentPage ){
+        printf("currentPage is %x", currentPage);
         return self;
     } else {
+        printf("Jot hitTest view %x and currentPage is %x", view, currentPage);
         return view;
     }
 }
@@ -600,7 +601,7 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
 
                 CGSize fullSize = viewFramebuffer.initialViewport;
                 /* Export size matches the actual paper size */
-                CGSize exportSize = CGSizeMake(ceilf(fullSize.width * outputScale), ceilf(fullSize.height * outputScale));
+                CGSize exportSize = CGSizeMake(1275, 1650);
 
                 [secondSubContext glViewportWithX:0 y:0 width:(GLsizei)fullSize.width height:(GLsizei)fullSize.height];
 
@@ -1411,7 +1412,9 @@ static int undoCounter;
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
-
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1)
+        return;
     for (UITouch* touch in touches) {
         @autoreleasepool {
             if ([self.delegate willBeginStrokeWithCoalescedTouch:touch fromTouch:touch]) {
@@ -1448,7 +1451,10 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 - (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
-
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1)
+        return;
+    
     for (UITouch* touch in touches) {
         NSArray<UITouch*>* coalesced = [event coalescedTouchesForTouch:touch];
         if (![coalesced count]) {
@@ -1523,7 +1529,10 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
 - (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event {
     if (!state)
         return;
-
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1)
+        return;
+    
     for (UITouch* touch in touches) {
         NSArray<UITouch*>* coalesced = [event coalescedTouchesForTouch:touch];
         if (![coalesced count]) {
@@ -1583,7 +1592,8 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     CheckMainThread;
     if (!state)
         return;
-
+    
+    // Doing this before ignoring pan and pinch fixes random lines appearing on screen
     for (UITouch* touch in touches) {
         @autoreleasepool {
             // If appropriate, add code necessary to save the state of the application.
@@ -1593,6 +1603,12 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
             }
         }
     }
+    
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1){
+        return;
+    }
+
     // we need to erase the current stroke from the screen, so
     // clear the canvas and rerender all valid strokes
     [self renderAllStrokesToContext:context inFramebuffer:viewFramebuffer andPresentBuffer:YES inRect:CGRectZero];
