@@ -16,6 +16,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
     
+    @IBOutlet var fileExplorerButton: UIButton!
+    @IBOutlet var saveButton: UIButton!
+   
+    
     //JotUI Properties
     var pen: Pen!
     var jotView: JotView!
@@ -34,6 +38,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     var certificateRegistered: Bool!
     
+    
     @IBOutlet weak var currentPageLabel: UILabel!
     @IBOutlet weak var totalPagesLabel: UILabel!
     
@@ -50,12 +55,20 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         currentPageLabel.text = "1"
         totalPagesLabel.text = "1"
+        
+        fileExplorerButton.setImage(UIImage(named:"fileButtonDesk"), for: .normal)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(_: animated)
         workArea.setupForJotView()
     }
+    
+    @IBAction func fileExplorerButtonTapped(_ sender: Any) {
+        var fileExplorer = FileExplorerViewController()
+        self.present(fileExplorer, animated: false, completion: nil)
+}
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
@@ -226,7 +239,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
         workArea.frame = workArea.currentPage.frame
         pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
-        jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
+        jotView.exportToImage(onComplete: exportPdf , withScale: 1.0)
         workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
         pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
