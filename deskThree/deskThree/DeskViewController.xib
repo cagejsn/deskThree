@@ -38,7 +38,7 @@
                                 <action selector="fileExplorerButtonTapped:" destination="-1" eventType="touchUpInside" id="Orj-en-WAI"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O0i-u7-mbl">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O0i-u7-mbl">
                             <rect key="frame" x="0.0" y="44" width="44" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="2jn-hH-3Wg"/>

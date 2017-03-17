@@ -57,7 +57,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         totalPagesLabel.text = "1"
         
         fileExplorerButton.setImage(UIImage(named:"fileButtonDesk"), for: .normal)
-        
+        saveButton.setImage(UIImage(named:"saveButtonDesk"), for: .normal)
     }
     
     override func viewDidAppear(_ animated: Bool) {
