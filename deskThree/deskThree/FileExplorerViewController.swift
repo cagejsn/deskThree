@@ -18,7 +18,6 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         tableView.dataSource = self
     }
     
-   
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60))
         cell.backgroundColor = UIColor.purple
@@ -28,4 +27,9 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+   
 }

@@ -24,6 +24,16 @@
                     <rect key="frame" x="0.0" y="49" width="375" height="618"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Select a project..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTe-P7-hau">
+                    <rect key="frame" x="64" y="0.0" width="253" height="41"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="253" id="ZCn-YO-lMT"/>
+                        <constraint firstAttribute="height" constant="41" id="em7-Jm-cfP"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="24"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.65739924630000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -31,8 +41,10 @@
                 <constraint firstItem="Af2-EA-YxK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="SZk-9Q-Tho"/>
                 <constraint firstItem="Af2-EA-YxK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TGO-HP-qr3"/>
                 <constraint firstAttribute="bottom" secondItem="Af2-EA-YxK" secondAttribute="bottom" id="ndg-nI-xvc"/>
+                <constraint firstItem="wTe-P7-hau" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="64" id="s0e-gY-5oS"/>
+                <constraint firstItem="wTe-P7-hau" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="xdR-I2-QCF"/>
             </constraints>
-            <point key="canvasLocation" x="37.5" y="67.5"/>
+            <point key="canvasLocation" x="44.5" y="65.5"/>
         </view>
     </objects>
 </document>
