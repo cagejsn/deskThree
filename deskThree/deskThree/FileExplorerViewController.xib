@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FileExplorerViewController" customModule="deskThree" customModuleProvider="target">
             <connections>
+                <outlet property="tableView" destination="Af2-EA-YxK" id="ZOD-Zg-cGr"/>
                 <outlet property="view" destination="iN0-l3-epB" id="QYb-ng-KFW"/>
             </connections>
         </placeholder>
