@@ -65,8 +65,10 @@
 		DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5D31D1E623337007DE25F /* SystemConfiguration.framework */; };
 		DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */; };
 		DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3271E6233D5007DE25F /* resources.bundle */; };
+		DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE7CE821E7D70480050A543 /* SaveAsView.swift */; };
 		DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */; };
 		DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */; };
+		DAF9E20C1E7C6D8600EBF436 /* SaveAsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */; };
 		DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */; };
 		DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */; };
 		DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3A71DBBDBC20007D249 /* Main.storyboard */; };
@@ -175,8 +177,10 @@
 		DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ATKMathWidget.bundle; sourceTree = "<group>"; };
 		DAE5D3271E6233D5007DE25F /* resources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = resources.bundle; sourceTree = "<group>"; };
 		DAE5D32B1E6235D5007DE25F /* MyCertificate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyCertificate.h; path = deskThree/MyCertificate.h; sourceTree = "<group>"; };
+		DAE7CE821E7D70480050A543 /* SaveAsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveAsView.swift; sourceTree = "<group>"; };
 		DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerViewController.swift; sourceTree = "<group>"; };
 		DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileExplorerViewController.xib; sourceTree = "<group>"; };
+		DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaveAsView.xib; sourceTree = "<group>"; };
 		DAFBE3A01DBBDBC20007D249 /* deskThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskViewController.swift; sourceTree = "<group>"; };
@@ -363,6 +367,8 @@
 				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
 				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
 				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
+				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
+				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -508,6 +514,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAF9E20C1E7C6D8600EBF436 /* SaveAsView.xib in Resources */,
 				DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */,
 				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
@@ -553,6 +560,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE3E876C1E354D640076DA3A /* Parser.swift in Sources */,
+				DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */,
 				DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
 				DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */,

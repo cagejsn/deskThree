@@ -64,6 +64,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         super.viewDidAppear(_: animated)
         workArea.setupForJotView()
     }
+
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        var view = Bundle.main.loadNibNamed("SaveAsView", owner: self, options: nil)?.first as? UIView
+        self.view.addSubview(view!)
+        view?.center = self.view.center
+    }
     
     @IBAction func fileExplorerButtonTapped(_ sender: Any) {
         var fileExplorer = FileExplorerViewController()
