@@ -38,8 +38,8 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-//        aCoder.encode(rootBlock)
-        //aCoder.encode(parser)
+        aCoder.encode(amtMoved)
+        aCoder.encode(doubleTapGestureRecognizer)
     }
     
     /* MARK: Touch Events */

@@ -268,6 +268,17 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         self.contentOffset = CGPoint(x: 0.0, y: 0.0)
     }
     
+    func saveWorkArea(filename: String){
+        
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let filePath = documentsPath.appending("/"+filename+".desk")
+        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
+    }
+    
+    override func encode(with aCoder: NSCoder){
+        aCoder.encode(pages)
+    }
+    
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         pages.append(Paper())
@@ -284,16 +295,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         super.init(coder: aDecoder)
         
         // Initialize the first page & set it as the current page
-        pages.append(Paper())
-        self.addSubview(pages[0])
-        currentPage = pages[0]
-        
-        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
-        pages[0].contentMode = .scaleAspectFit
-        self.sendSubview(toBack: pages[0])
-
-        pages[0].isUserInteractionEnabled = true
-        self.panGestureRecognizer.minimumNumberOfTouches = 2
-
+        let loadedPaper = aDecoder.decodeObject() as! [Paper]
+        pages = loadedPaper
     }
 }
