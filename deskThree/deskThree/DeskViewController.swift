@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate   {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate  {
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
@@ -66,15 +66,28 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     @IBAction func saveButtonTapped(_ sender: Any) {
-        var view = Bundle.main.loadNibNamed("SaveAsView", owner: self, options: nil)?.first as? UIView
+        var view = Bundle.main.loadNibNamed("SaveAsView", owner: self, options: nil)?.first as? SaveAsView
         self.view.addSubview(view!)
+        if(workArea != nil){
+        view?.workAreaRef = workArea
+        }
         view?.center = self.view.center
     }
     
+    
     @IBAction func fileExplorerButtonTapped(_ sender: Any) {
         var fileExplorer = FileExplorerViewController()
+        fileExplorer.delegate = self
         self.present(fileExplorer, animated: false, completion: nil)
 }
+    
+    func didSelectProject(workArea:WorkArea){
+        dismissFileExplorer()
+    }
+
+    func dismissFileExplorer(){
+        self.dismiss(animated: false, completion: nil)
+    }
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {

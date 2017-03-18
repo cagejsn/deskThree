@@ -11,6 +11,8 @@ import Foundation
 
 class SaveAsView: UIView {
     
+    var workAreaRef: WorkArea!
+    
     @IBAction func closeButtonTapped(_ sender: Any) {
         self.removeFromSuperview()  
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -34,13 +34,28 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ExS-Jm-Y5T">
+                    <rect key="frame" x="10" y="11" width="46" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="46" id="HzM-0X-dxE"/>
+                        <constraint firstAttribute="height" constant="30" id="T1P-FD-BTY"/>
+                    </constraints>
+                    <state key="normal" title="cancel">
+                        <color key="titleColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="cancelButtonTapped:" destination="-1" eventType="touchUpInside" id="hMV-T9-5Jj"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.65739924630000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="ExS-Jm-Y5T" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="74d-4l-KAU"/>
                 <constraint firstAttribute="trailing" secondItem="Af2-EA-YxK" secondAttribute="trailing" id="Jg6-Iy-OLx"/>
                 <constraint firstItem="Af2-EA-YxK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="SZk-9Q-Tho"/>
                 <constraint firstItem="Af2-EA-YxK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TGO-HP-qr3"/>
                 <constraint firstAttribute="bottom" secondItem="Af2-EA-YxK" secondAttribute="bottom" id="ndg-nI-xvc"/>
+                <constraint firstItem="ExS-Jm-Y5T" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="rw4-ME-J8H"/>
                 <constraint firstItem="wTe-P7-hau" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="64" id="s0e-gY-5oS"/>
                 <constraint firstItem="wTe-P7-hau" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="xdR-I2-QCF"/>
             </constraints>

@@ -8,14 +8,26 @@
 
 import Foundation
 
+protocol FileExplorerViewControllerDelegate {
+    func didSelectProject(workArea:WorkArea)
+    func dismissFileExplorer()
+}
+
 
 class FileExplorerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var tableView: UITableView!
-
+    var delegate: FileExplorerViewControllerDelegate!
+    var metaDataFromDisk: [NSObject]!
+    
+    
     override func viewDidLoad() {
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        delegate.dismissFileExplorer()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -29,7 +41,8 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        var workArea = WorkArea()
+        delegate.didSelectProject(workArea: workArea)
     }
    
 }
