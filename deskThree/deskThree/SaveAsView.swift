@@ -12,6 +12,7 @@ import Foundation
 class SaveAsView: UIView {
     
     var workAreaRef: WorkArea!
+    var metaDataArray: [DeskProject]?
     
     @IBAction func closeButtonTapped(_ sender: Any) {
         self.removeFromSuperview()  

@@ -517,11 +517,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
-    @IBAction func didPressSave(_ sender: Any) {
-        print("should save")
-        workArea.pages[0].savePaper()
-    }
-    
     ///unpacks and loads in whatever is at /file.desk
     @IBAction func didPressLoad(_ sender: Any) {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
