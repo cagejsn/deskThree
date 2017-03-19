@@ -14,26 +14,43 @@ class SaveAsView: UIView {
     var workAreaRef: WorkArea!
     
     
-    ///saves metadata of project to meta file. overwrite same name if present
-    func saveProject(name: String){
-        let project = workAreaRef.project
-        project?.modify()
-        project?.rename(name: name)
-        
-        let filePath = PathLocator.getMetaFolder()+"/projects.meta"
-        
-        var projects = PathLocator.loadMetaData()
-        for i in 0..<projects.count{
-            if projects[i].name == name{
-                //raise dialog asking user confirmation to overwrite
-                projects[i] = project!
-                NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
-            }
-        }
-        projects.append(project!)
-        NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
 
+    
+    ///saves project and metadata to files. Returs true if success
+    func saveProject(name: String) -> Bool{
+        
+        ///saves metadata of project to meta file. overwrite same name if present
+        func saveMetaData(name: String){
+            let project = workAreaRef.project
+            project?.modify()
+            project?.rename(name: name)
+            
+            let filePath = PathLocator.getMetaFolder()+"/projects.meta"
+            
+            var projects = PathLocator.loadMetaData()
+            for i in 0..<projects.count{
+                if projects[i].name == name{
+                    //raise dialog asking user confirmation to overwrite
+                    projects[i] = project!
+                    NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
+                    return
+                }
+            }
+            projects.append(project!)
+            NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
+        }
+        
+        saveMetaData(name: name)
+        
+        //saves to documents/DeskThree/Projects/name.DESK
+        let filePath = PathLocator.getProjectFolder()+"/"+name+".DESK"
+        
+        NSKeyedArchiver.archiveRootObject(workAreaRef.pages, toFile: filePath)
+        
+        return true
+        
     }
+    
     
     
     

@@ -23,18 +23,18 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     var currentPageIndex = 0
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
-    var project: DeskProject?
+
+    //stores metadata of this workspace. Initialized to untitled. can be
+    //replaced with setDeskProject
+    var project: DeskProject!
     
-    ///sets WorkArea's DeskProject instance var to store metadata.
+    ///sets workarea's meta data object
     func setDeskProject(project: DeskProject){
         self.project = project
     }
     
+    ///returns meta data for this workarea
     func getDeskProject() -> DeskProject {
-        if((project) != nil){
-            return project!
-        }
-        project = DeskProject(name: "")
         return project!
     }
     
@@ -302,6 +302,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         self.sendSubview(toBack: pages[0])
         pages[0].isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
+        self.project = DeskProject(name: "Untitled")
     }
     
     required init?(coder aDecoder: NSCoder) {
