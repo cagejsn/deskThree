@@ -27,6 +27,16 @@ class DeskProject{
         aCoder.encode(self.modified)
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        
+        // Initialize the first page & set it as the current page
+        let loadedName = aDecoder.decodeObject() as! String
+        let loadedModified = aDecoder.decodeObject() as! Date
+        self.name = loadedName
+        self.modified = loadedModified
+    }
+
+    
     init(name: String){
         self.name = name
         self.modified = Date()
