@@ -23,7 +23,20 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     var currentPageIndex = 0
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
+    var project: DeskProject?
     
+    ///sets WorkArea's DeskProject instance var to store metadata.
+    func setDeskProject(project: DeskProject){
+        self.project = project
+    }
+    
+    func getDeskProject() -> DeskProject {
+        if((project) != nil){
+            return project!
+        }
+        project = DeskProject(name: "")
+        return project!
+    }
     
     // MARK: Expression Delegate
     func didEvaluate(forExpression sender: Expression, result: Float){
@@ -270,8 +283,8 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     
     func saveWorkArea(filename: String){
         
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let filePath = documentsPath.appending("/"+filename+".desk")
+        let projectsPath = PathLocator.getProjectFolder()
+        let filePath = projectsPath.appending("/"+filename+".desk")
         NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
     }
     

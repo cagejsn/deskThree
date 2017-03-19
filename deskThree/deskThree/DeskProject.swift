@@ -13,13 +13,23 @@ class DeskProject{
     var name: String!
     var modified: Date!
     
-    init(name: String){
+
+    func rename(name: String){
         self.name = name
-        self.modified = Date()
     }
     
     func modify(){
         modified = Date()
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.name)
+        aCoder.encode(self.modified)
+    }
+    
+    init(name: String){
+        self.name = name
+        self.modified = Date()
     }
     
 }
