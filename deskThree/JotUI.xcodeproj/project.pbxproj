@@ -170,7 +170,7 @@
 		669B39D91692B50500F12F42 /* AbstractBezierPathElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractBezierPathElement.h; sourceTree = "<group>"; };
 		669B39DA1692B50500F12F42 /* AbstractBezierPathElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AbstractBezierPathElement.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		669B39DB1692B50500F12F42 /* CurveToPathElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveToPathElement.h; sourceTree = "<group>"; };
-		669B39DC1692B50500F12F42 /* CurveToPathElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CurveToPathElement.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		669B39DC1692B50500F12F42 /* CurveToPathElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CurveToPathElement.m; sourceTree = "<group>"; };
 		669B39E11692B50500F12F42 /* SegmentSmoother.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentSmoother.h; sourceTree = "<group>"; };
 		669B39E21692B50500F12F42 /* SegmentSmoother.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentSmoother.m; sourceTree = "<group>"; };
 		669B39F21692B52800F12F42 /* JotUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotUI.h; sourceTree = "<group>"; };
