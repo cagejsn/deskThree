@@ -70,6 +70,9 @@ class PathLocator {
     ///returns metadata array if present. Otherwise, return empty array
     static func loadMetaData() -> [DeskProject]{
         let filePath = PathLocator.getMetaFolder() + "/Projects.meta"
+        
+        print(FileManager.default.fileExists(atPath: filePath))
+        
         let file = NSKeyedUnarchiver.unarchiveObject(withFile: filePath)
         if let metaData = file as? [DeskProject] {
             return metaData

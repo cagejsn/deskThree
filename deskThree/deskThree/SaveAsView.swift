@@ -12,9 +12,19 @@ import Foundation
 class SaveAsView: UIView {
     var workAreaRef: WorkArea!
     
+    @IBOutlet var projectNameTextField: UITextField!
     
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        
+        let projectName = projectNameTextField.text
+        if(projectName != ""){
+        if(saveProject(name: projectName!)){print("yes")} else { print("no1")}
+        }
+        
+        print("no2")
+}
 
-    
+
     ///saves project and metadata to files. Returs true if success
     func saveProject(name: String) -> Bool{
         
@@ -24,7 +34,7 @@ class SaveAsView: UIView {
             project?.modify()
             project?.rename(name: name)
             
-            let filePath = PathLocator.getMetaFolder()+"/projects.meta"
+            let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
             
             var projects = PathLocator.loadMetaData()
             for i in 0..<projects.count{
@@ -43,6 +53,7 @@ class SaveAsView: UIView {
         
         //saves to documents/DeskThree/Projects/name.DESK
         let filePath = PathLocator.getProjectFolder()+"/"+name+".DESK"
+        
         
         NSKeyedArchiver.archiveRootObject(workAreaRef.pages, toFile: filePath)
         
