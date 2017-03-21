@@ -72,6 +72,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         view?.workAreaRef = workArea
         }
         view?.center = self.view.center
+        view?.layer.shadowOffset = CGSize(width: -3, height: 3)
+        view?.layer.shadowRadius = 3
+        view?.layer.shadowOpacity = 0.5
+        view?.layer.cornerRadius = 5
+        
     }
     
     
@@ -97,8 +102,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             jotView.transform = jotView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
             
         }
-//        print(scrollView.zoomScale)
-//        print(scrollView.contentScaleFactor)
+      //  print(scrollView.zoomScale)
+       // print(scrollView.contentScaleFactor)
+       // print(jotView.scale)
+       // print(jotView.pagePtSize)
+        
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
 
         prevScaleFactor = scrollView.zoomScale
@@ -246,7 +254,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     func exportPdf(imageV: UIImage?){
+        print(imageV?.size)
         var useful: UIImageView = UIImageView (image: imageV)
+
+        
         workArea.currentPage.addSubview(useful)
         var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
         var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
@@ -255,14 +266,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // Currently, Preview itself gives option to share
         pdfShareHelper.presentPreview(animated: false)
         useful.removeFromSuperview()
+       // workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+
     }
     
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
-        workArea.frame = workArea.currentPage.frame
+        //workArea.frame = workArea.currentPage.frame
         pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
         jotView.exportToImage(onComplete: exportPdf , withScale: 1.0)
-        workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
         pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
     

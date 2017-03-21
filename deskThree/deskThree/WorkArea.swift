@@ -60,6 +60,9 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         //if the block is not above an existing BlockGroup's dummy view, then we create a new blockgroup including only the new block
         var workingView = _movedView
         
+        
+       
+        
         /*check if expression overlaps with trash bin*/
         if(customDelegate.intersectsWithTrash(justMovedBlock: _movedView)){
             print("deleting expression")

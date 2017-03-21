@@ -10,7 +10,6 @@ import Foundation
 
 
 class SaveAsView: UIView {
-    
     var workAreaRef: WorkArea!
     
     
