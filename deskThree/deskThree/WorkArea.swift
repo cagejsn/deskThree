@@ -284,13 +284,6 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         self.contentOffset = CGPoint(x: 0.0, y: 0.0)
     }
     
-    func saveWorkArea(filename: String){
-        
-        let projectsPath = PathLocator.getProjectFolder()
-        let filePath = projectsPath.appending("/"+filename+".desk")
-        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
-    }
-    
     override func encode(with aCoder: NSCoder){
         aCoder.encode(pages)
     }

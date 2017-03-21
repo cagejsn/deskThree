@@ -15,6 +15,14 @@ class BlockExpression: Expression{
     private var longPressGR: UILongPressGestureRecognizer!
     // Make this private soon
     var rootBlock: Block
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(isDisplayingSpots)
+        aCoder.encode(dummyViews)
+        aCoder.encode(longPressGR)
+        aCoder.encode(rootBlock)
+    }
 
     func getDummyViews() -> [Block]{
         return dummyViews
@@ -181,7 +189,13 @@ class BlockExpression: Expression{
     }
     
     required init?(coder unarchiver: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+
+        self.isDisplayingSpots = unarchiver.decodeObject() as! Bool
+        self.longPressGR = unarchiver.decodeObject() as! UILongPressGestureRecognizer!
+        self.dummyViews = unarchiver.decodeObject() as! [Block]!
+        self.rootBlock = unarchiver.decodeObject() as! Block!
+        super.init(coder: unarchiver)
+        //        fatalError("init(coder:) has not been implemented")
     }
     
 }

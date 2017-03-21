@@ -49,11 +49,11 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         
         
         let path = PathLocator.getProjectFolder() + "/" + metaDataFromDisk[indexPath.row].name + ".DESK"
-        let file = NSKeyedUnarchiver.unarchiveObject(withFile: path)
+        let file = NSKeyedUnarchiver.unarchiveObject(withFile: path) as! [Paper]
         print(file)
         
         
-        delegate.didSelectProject(workArea: workArea)
+        //delegate.didSelectProject(workArea: file)
     }
 
     

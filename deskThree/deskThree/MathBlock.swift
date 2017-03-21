@@ -14,6 +14,13 @@ class MathBlock: Expression{
     private var longPressGR: UILongPressGestureRecognizer!
     private var parentView: MAWMathView!
     
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(imageHolder)
+        aCoder.encode(mathSymbols)
+        aCoder.encode(longPressGR)
+        aCoder.encode(parentView)
+    }
+    
     // Make DVC a delegate for longpress to work when mathView is not a subview
     func handleLongPress(){
         parentView.clear(true)
