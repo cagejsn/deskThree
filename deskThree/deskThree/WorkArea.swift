@@ -23,7 +23,20 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     var currentPageIndex = 0
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
+
+    //stores metadata of this workspace. Initialized to untitled. can be
+    //replaced with setDeskProject
+    var project: DeskProject!
     
+    ///sets workarea's meta data object
+    func setDeskProject(project: DeskProject){
+        self.project = project
+    }
+    
+    ///returns meta data for this workarea
+    func getDeskProject() -> DeskProject {
+        return project!
+    }
     
     // MARK: Expression Delegate
     func didEvaluate(forExpression sender: Expression, result: Float){
@@ -46,6 +59,9 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         //checks if the block's been dropped above any of the dummy views
         //if the block is not above an existing BlockGroup's dummy view, then we create a new blockgroup including only the new block
         var workingView = _movedView
+        
+        
+       
         
         /*check if expression overlaps with trash bin*/
         if(customDelegate.intersectsWithTrash(justMovedBlock: _movedView)){
@@ -268,6 +284,17 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         self.contentOffset = CGPoint(x: 0.0, y: 0.0)
     }
     
+    func saveWorkArea(filename: String){
+        
+        let projectsPath = PathLocator.getProjectFolder()
+        let filePath = projectsPath.appending("/"+filename+".desk")
+        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
+    }
+    
+    override func encode(with aCoder: NSCoder){
+        aCoder.encode(pages)
+    }
+    
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         pages.append(Paper())
@@ -278,22 +305,14 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         self.sendSubview(toBack: pages[0])
         pages[0].isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
+        self.project = DeskProject(name: "Untitled")
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         // Initialize the first page & set it as the current page
-        pages.append(Paper())
-        self.addSubview(pages[0])
-        currentPage = pages[0]
-        
-        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
-        pages[0].contentMode = .scaleAspectFit
-        self.sendSubview(toBack: pages[0])
-
-        pages[0].isUserInteractionEnabled = true
-        self.panGestureRecognizer.minimumNumberOfTouches = 2
-
+        let loadedPaper = aDecoder.decodeObject() as! [Paper]
+        pages = loadedPaper
     }
 }

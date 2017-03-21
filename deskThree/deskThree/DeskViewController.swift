@@ -11,10 +11,14 @@ import UIKit
 
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate   {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate  {
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
+    
+    @IBOutlet var fileExplorerButton: UIButton!
+    @IBOutlet var saveButton: UIButton!
+   
     
     //JotUI Properties
     var pen: Pen!
@@ -34,6 +38,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     var certificateRegistered: Bool!
     
+    
     @IBOutlet weak var currentPageLabel: UILabel!
     @IBOutlet weak var totalPagesLabel: UILabel!
     
@@ -50,11 +55,43 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         currentPageLabel.text = "1"
         totalPagesLabel.text = "1"
+        
+        fileExplorerButton.setImage(UIImage(named:"fileButtonDesk"), for: .normal)
+        saveButton.setImage(UIImage(named:"saveButtonDesk"), for: .normal)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(_: animated)
         workArea.setupForJotView()
+    }
+
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        var view = Bundle.main.loadNibNamed("SaveAsView", owner: self, options: nil)?.first as? SaveAsView
+        self.view.addSubview(view!)
+        if(workArea != nil){
+        view?.workAreaRef = workArea
+        }
+        view?.center = self.view.center
+        view?.layer.shadowOffset = CGSize(width: -3, height: 3)
+        view?.layer.shadowRadius = 3
+        view?.layer.shadowOpacity = 0.5
+        view?.layer.cornerRadius = 5
+        
+    }
+    
+    
+    @IBAction func fileExplorerButtonTapped(_ sender: Any) {
+        var fileExplorer = FileExplorerViewController()
+        fileExplorer.delegate = self
+        self.present(fileExplorer, animated: false, completion: nil)
+}
+    
+    func didSelectProject(workArea:WorkArea){
+        dismissFileExplorer()
+    }
+
+    func dismissFileExplorer(){
+        self.dismiss(animated: false, completion: nil)
     }
     
     // MARK - UIScrollViewDelegate functions
@@ -65,8 +102,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             jotView.transform = jotView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
             
         }
-//        print(scrollView.zoomScale)
-//        print(scrollView.contentScaleFactor)
+      //  print(scrollView.zoomScale)
+       // print(scrollView.contentScaleFactor)
+       // print(jotView.scale)
+       // print(jotView.pagePtSize)
+        
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
 
         prevScaleFactor = scrollView.zoomScale
@@ -108,11 +148,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupWorkArea(){
+        workArea = WorkArea()
         workArea.delegate = self
         workArea.customDelegate = self
         self.view.sendSubview(toBack: workArea)
         workArea.minimumZoomScale = 0.6
         workArea.maximumZoomScale = 2.0
+        self.view.insertSubview(workArea, at: 0)
+        workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
     }
     
     func setupGKPicker(){
@@ -124,6 +167,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func setupJotView(){
 
         pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+
 
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
@@ -142,7 +186,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         print(jotView.contentScaleFactor)
        // jotView.contentScaleFactor = 1.0
         jotView.speedUpFPS()
-        glEnable(GLenum(GL_MULTISAMPLE))
+
     }
     
     func setupToolDrawer(){
@@ -211,7 +255,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     func exportPdf(imageV: UIImage?){
+        print(imageV?.size)
         var useful: UIImageView = UIImageView (image: imageV)
+
+        
         workArea.currentPage.addSubview(useful)
         var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
         var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
@@ -220,14 +267,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // Currently, Preview itself gives option to share
         pdfShareHelper.presentPreview(animated: false)
         useful.removeFromSuperview()
+       // workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+
     }
     
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
-        workArea.frame = workArea.currentPage.frame
+        //workArea.frame = workArea.currentPage.frame
         pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
-        jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
-        workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+        jotView.exportToImage(onComplete: exportPdf , withScale: 1.0)
         pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
     
@@ -413,10 +461,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func stepWidthForStroke() -> CGFloat {
+
 //        print(activePen().stepWidthForStroke())
 //        return activePen().stepWidthForStroke()
 
         return CGFloat(0.3)
+
     }
     
     func supportsRotation() -> Bool {
@@ -480,11 +530,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func didUnloadState(_ state: JotViewStateProxy!) {
         
-    }
-    
-    @IBAction func didPressSave(_ sender: Any) {
-        print("should save")
-        workArea.pages[0].savePaper()
     }
     
     ///unpacks and loads in whatever is at /file.desk

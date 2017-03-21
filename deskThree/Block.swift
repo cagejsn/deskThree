@@ -62,6 +62,15 @@ class Block: UILabel {
         super.encode(with: aCoder)
         faceText = self.text
         aCoder.encode(faceText)
+        aCoder.encode(self.type)
+        aCoder.encode(self.precedence)
+        aCoder.encode(self.parentExpression)
+        aCoder.encode(isAvailableOnRight)
+        aCoder.encode(isAvailableOnLeft)
+        aCoder.encode(parent)
+        aCoder.encode(leftChild)
+        aCoder.encode(rightChild)
+        aCoder.encode(innerChild)
     }
 
     
