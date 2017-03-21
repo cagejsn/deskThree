@@ -55,10 +55,8 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         
         delegate.didSelectProject(workArea: workArea)
     }
-    
 
     
-   
 }
 
 
