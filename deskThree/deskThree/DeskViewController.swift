@@ -168,6 +168,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
         pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
 
+
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
@@ -185,7 +186,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         print(jotView.contentScaleFactor)
        // jotView.contentScaleFactor = 1.0
         jotView.speedUpFPS()
-        glEnable(GLenum(GL_MULTISAMPLE))
+
     }
     
     func setupToolDrawer(){
@@ -460,10 +461,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func stepWidthForStroke() -> CGFloat {
+
 //        print(activePen().stepWidthForStroke())
 //        return activePen().stepWidthForStroke()
 
         return CGFloat(0.3)
+
     }
     
     func supportsRotation() -> Bool {
