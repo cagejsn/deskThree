@@ -238,6 +238,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func sendingToInputObject(for element: Any){
+        if let mathElement = element as? MathBlock {
+            
+            mathView.clear(true)
+            mathView.addSymbols(mathElement.mathSymbols, allowUndo: true)
+        }
         toolDrawer.passElement(element)
     }
     
@@ -402,7 +407,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         if let image1 =  mathView.resultAsImage(){
             let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
             mathBlock.delegate = workArea
-            mathBlock.setParentView(mathView: mathView)
+            workArea.currentPage.addMathBlockToPage(block: mathBlock)
             var loc = self.view.center
             loc = loc - CGPoint(x: 0, y: 200)
             mathBlock.center = mathBlock.convert(loc, to: workArea.currentPage)

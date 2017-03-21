@@ -16,7 +16,7 @@ protocol WorkAreaDelegate {
     func sendingToInputObject(for element: Any)
 }
 
-class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
+class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDelegate {
     
     var pages: [Paper] = [Paper]()
     var currentPage: Paper!
@@ -24,6 +24,10 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
 
+    func passHeldBlock(sender: MathBlock) {
+        customDelegate.sendingToInputObject(for: sender)
+    }
+    
     //stores metadata of this workspace. Initialized to untitled. can be
     //replaced with setDeskProject
     var project: DeskProject!
@@ -226,7 +230,9 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
                 currentPageIndex += 1
                 
                 // Add a new page
-                pages.append(Paper())
+                var pape = Paper()
+                pape.delegate = self
+                pages.append(pape)
                 self.addSubview(pages[currentPageIndex])
                 
                 // Push back the old view
@@ -290,7 +296,9 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        pages.append(Paper())
+        var pape = Paper()
+        pape.delegate = self
+        pages.append(pape)
         self.addSubview(pages[0])
         currentPage = pages[0]
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)

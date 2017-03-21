@@ -9,13 +9,26 @@
 import Foundation
 import UIKit
 
-class Paper: UIImageView, ImageBlockDelegate {
+protocol PaperDelegate {
+    func passHeldBlock(sender:MathBlock)
+}
+
+
+class Paper: UIImageView, ImageBlockDelegate, MathBlockDelegate {
     
+    var delegate: PaperDelegate!
     var images: [ImageBlock]?
     var expressions: [BlockExpression]!
   //  var longPressGR: UILongPressGestureRecognizer!
     
+    func addMathBlockToPage(block: MathBlock){
+        block.delegate2 = self
+        //expressions.append(block)
+    }
     
+    func didHoldBlock(sender: MathBlock) {
+        delegate.passHeldBlock(sender:sender)
+    }
         
     //MARK: Initializers
     init() {
