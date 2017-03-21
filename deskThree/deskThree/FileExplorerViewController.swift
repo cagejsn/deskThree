@@ -44,10 +44,8 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         var workArea = WorkArea()
         delegate.didSelectProject(workArea: workArea)
     }
-    
 
     
-   
 }
 
 

@@ -13,11 +13,12 @@ class DeskProject{
     var name: String!
     var modified: Date!
     
-
+    ///change name of project
     func rename(name: String){
         self.name = name
     }
     
+    ///update modified date to today
     func modify(){
         modified = Date()
     }
