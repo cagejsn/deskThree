@@ -19,9 +19,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var fileExplorerButton: UIButton!
     @IBOutlet var saveButton: UIButton!
    
+    @IBOutlet weak var penButton: UIButton!
+
     
     //JotUI Properties
     var pen: Pen!
+    var eraser: Eraser!
+    var curPen = Constants.pens.pen
     var jotView: JotView!
     var pageDrawingStates: [JotViewStateProxy] = [JotViewStateProxy]()
     var jotViewStateInkPath: String!
@@ -58,6 +62,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         fileExplorerButton.setImage(UIImage(named:"fileButtonDesk"), for: .normal)
         saveButton.setImage(UIImage(named:"saveButtonDesk"), for: .normal)
+        curPen = .pen // Points to pen
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,6 +97,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     func dismissFileExplorer(){
         self.dismiss(animated: false, completion: nil)
+    }
+    
+    
+    @IBAction func toggleEraser(_ sender: Any) {
+        curPen.next()
     }
     
     // MARK - UIScrollViewDelegate functions
@@ -167,8 +177,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func setupJotView(){
 
         pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
-
-
+        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
@@ -181,9 +190,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // inserting jotView right below toolbar
         self.view.insertSubview(jotView, at: 1)
         jotView.isUserInteractionEnabled = false
-        print(jotView.pagePtSize)
-        print(jotView.scale)
-        print(jotView.contentScaleFactor)
        // jotView.contentScaleFactor = 1.0
         jotView.speedUpFPS()
 
@@ -260,12 +266,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     func exportPdf(imageV: UIImage?){
-        print(imageV?.size)
         var useful: UIImageView = UIImageView (image: imageV)
-
         
         workArea.currentPage.addSubview(useful)
-        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
+        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "Preview")
         var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
         pdfShareHelper.delegate = self
         pdfShareHelper.uti = "com.adobe.pdf"
@@ -280,7 +284,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
         //workArea.frame = workArea.currentPage.frame
         pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
-        jotView.exportToImage(onComplete: exportPdf , withScale: 1.0)
+        jotView.exportToImage(onComplete: exportPdf , withScale: 1.66667)
         pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
     
@@ -457,6 +461,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     //pragma mark - Helpers
     func activePen() -> Pen {
+        switch curPen {
+        case .pen:
+            return pen
+        case .eraser:
+            return eraser
+        }
         return pen
     }
     
