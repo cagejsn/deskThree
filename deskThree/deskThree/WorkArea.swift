@@ -274,7 +274,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
                 self.sendSubview(toBack: pages[currentPageIndex])
                 pages[currentPageIndex].isHidden = true
                 
-                currentPageIndex -= 1 // Current page is no
+                currentPageIndex -= 1
                 // Bring forward the new view
                 self.bringSubview(toFront: pages[currentPageIndex])
                 pages[currentPageIndex].isHidden = false
