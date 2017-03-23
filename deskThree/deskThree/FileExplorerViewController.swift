@@ -45,15 +45,17 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var workArea = WorkArea()
         
         
         let path = PathLocator.getProjectFolder() + "/" + metaDataFromDisk[indexPath.row].name + ".DESK"
-        let file = NSKeyedUnarchiver.unarchiveObject(withFile: path) as! [Paper]
+
+        let file = NSKeyedUnarchiver.unarchiveObject(withFile: path) 
         print(file)
         
-        
-        //delegate.didSelectProject(workArea: file)
+        if let workArea = file as? WorkArea {
+        delegate.didSelectProject(workArea: workArea)
+        }
+
     }
 
     
