@@ -261,12 +261,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     func exportPdf(imageV: UIImage?){
-        print(imageV?.size)
         var useful: UIImageView = UIImageView (image: imageV)
-
         
         workArea.currentPage.addSubview(useful)
-        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
+        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "Preview")
         var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
         pdfShareHelper.delegate = self
         pdfShareHelper.uti = "com.adobe.pdf"
@@ -281,7 +279,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
         //workArea.frame = workArea.currentPage.frame
         pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
-        jotView.exportToImage(onComplete: exportPdf , withScale: 1.0)
+        jotView.exportToImage(onComplete: exportPdf , withScale: 1.66667)
         pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
     
