@@ -25,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="H8k-g9-IGb">
-                    <rect key="frame" x="15" y="60" width="44" height="88"/>
+                    <rect key="frame" x="15" y="60" width="44" height="132"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M95-T4-R3s">
                             <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
@@ -49,11 +49,18 @@
                                 <action selector="saveButtonTapped:" destination="-1" eventType="touchUpInside" id="gpc-Eq-jMS"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9O-2n-0TF">
+                            <rect key="frame" x="0.0" y="88" width="44" height="44"/>
+                            <state key="normal" title="Button"/>
+                            <connections>
+                                <action selector="toggleEraser:" destination="-1" eventType="touchUpInside" id="uEJ-NQ-5DD"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="M95-T4-R3s" firstAttribute="top" secondItem="H8k-g9-IGb" secondAttribute="top" id="2yA-oy-Lyd"/>
                         <constraint firstItem="M95-T4-R3s" firstAttribute="leading" secondItem="H8k-g9-IGb" secondAttribute="leading" id="D6Y-zl-HS0"/>
-                        <constraint firstAttribute="height" constant="88" id="DLz-VW-3AV"/>
+                        <constraint firstAttribute="height" constant="132" id="DLz-VW-3AV"/>
                         <constraint firstItem="O0i-u7-mbl" firstAttribute="top" secondItem="M95-T4-R3s" secondAttribute="bottom" id="L6E-iP-ESf"/>
                         <constraint firstAttribute="width" constant="44" id="NgV-wa-1xy"/>
                         <constraint firstItem="O0i-u7-mbl" firstAttribute="leading" secondItem="H8k-g9-IGb" secondAttribute="leading" id="byk-vg-7oj"/>
@@ -175,14 +182,6 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9O-2n-0TF">
-                    <rect key="frame" x="13" y="231" width="46" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <connections>
-                        <action selector="toggleEraser:" destination="-1" eventType="touchUpInside" id="uEJ-NQ-5DD"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <gestureRecognizers/>

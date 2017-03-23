@@ -63,6 +63,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         fileExplorerButton.setImage(UIImage(named:"fileButtonDesk"), for: .normal)
         saveButton.setImage(UIImage(named:"saveButtonDesk"), for: .normal)
         curPen = .pen // Points to pen
+        penButton.setImage(UIImage(named:"pencilButtonDesk"), for: .normal)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -102,6 +103,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     @IBAction func toggleEraser(_ sender: Any) {
         curPen.next()
+        switch curPen{
+        case .eraser:
+            penButton.setImage(UIImage(named:"eraserButtonDesk"), for: .normal)
+        case .pen:
+            penButton.setImage(UIImage(named:"pencilButtonDesk"), for: .normal)
+        }
     }
     
     // MARK - UIScrollViewDelegate functions
