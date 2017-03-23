@@ -21,14 +21,11 @@ protocol ExpressionDelegate {
 class Expression: UIView, UIGestureRecognizerDelegate {
     
     //MARK: Variables
-//    var isDisplayingSpots: Bool = false
-//    var dummyViews: [Block] = []
+
     var amtMoved: CGFloat = 0
-//    var rootBlock: Block
     var delegate: ExpressionDelegate?
     var parser: Parser
     var expressionString: String = ""
-//    var longPressGR: UILongPressGestureRecognizer!
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
@@ -135,10 +132,9 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     }
     
     required init?(coder unarchiver: NSCoder) {
-//        self.rootBlock = unarchiver.decodeObject() as! Block
-//        self.parser = Parser(functionString: "")
-//        super.init(coder: unarchiver)
-        fatalError("init(coder:) has not been implemented")
+        self.parser = Parser(functionString: "")
+        super.init(coder: unarchiver)
+        //fatalError("init(coder:) has not been implemented")
     }
 }
 

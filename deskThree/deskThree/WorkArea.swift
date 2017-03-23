@@ -16,7 +16,7 @@ protocol WorkAreaDelegate {
     func sendingToInputObject(for element: Any)
 }
 
-class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
+class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDelegate {
     
     var pages: [Paper] = [Paper]()
     var currentPage: Paper!
@@ -24,6 +24,10 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
 
+    func passHeldBlock(sender: MathBlock) {
+        customDelegate.sendingToInputObject(for: sender)
+    }
+    
     //stores metadata of this workspace. Initialized to untitled. can be
     //replaced with setDeskProject
     var project: DeskProject!
@@ -87,71 +91,73 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         }
         if var blockExpression = workingView as? BlockExpression {
             for group in currentPage.expressions {
-                if(group != blockExpression ){
-                    for glow in group.getDummyViews(){
-                        //see if any of the glow blocks contain the expression's origin
-                        if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).intersects(blockExpression.frame)){
-                            //reset the position to be on the x,y coords of the "group"
-                            blockExpression.frame = blockExpression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
-                            //removes from superview, we need to refrain from doing this because of the possibility that the _movedView becomes the superview
-                            blockExpression.removeFromSuperview()
-                            group.addSubview(blockExpression)
-                            
-                            //animate merging of groups and rearrange the ETree
-                            //group.animateMove(movedView: expression, dummy: glow)
-                            
-                            blockExpression.frame = glow.frame
-                            
-                            group.frame = blockExpression.frame.offsetBy(dx: group.frame.origin.x, dy:group.frame.origin.y ) + group.frame
-                            // ^ IS SAME AS BELOW ?
-                            //group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
-                            
-                            //sets frame to include both rectangles
-                            //maybe change this to a new function.. make new Expression frame
-                            
-                            //finally merge the expressions
-                            let parent = glow.parent
-                            if glow == parent?.leftChild{
-                                parent?.isAvailableOnLeft = false
-                                ETree.getRightestNode(root: blockExpression.rootBlock).isAvailableOnRight = false
-                                group.hideSpots()
-                                group.mergeExpressions(incomingExpression: blockExpression , side: "left")
+                if let group = group as? BlockExpression {
+                    if(group != blockExpression ){
+                        for glow in group.getDummyViews(){
+                            //see if any of the glow blocks contain the expression's origin
+                            if(glow.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y).intersects(blockExpression.frame)){
+                                //reset the position to be on the x,y coords of the "group"
+                                blockExpression.frame = blockExpression.frame.offsetBy(dx: -group.frame.origin.x, dy: -group.frame.origin.y)
+                                //removes from superview, we need to refrain from doing this because of the possibility that the _movedView becomes the superview
+                                blockExpression.removeFromSuperview()
+                                group.addSubview(blockExpression)
                                 
-                                //set the position of, and reassign ownership of, the blocks that were added
-                                for sub in blockExpression.subviews {
-                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
-                                    sub.removeFromSuperview()
-                                    group.addSubview(sub)
-                                }
+                                //animate merging of groups and rearrange the ETree
+                                //group.animateMove(movedView: expression, dummy: glow)
                                 
-                                //set the origins of the subviews to deal with the origin of the group having moved
-                                for sub in group.subviews {
-                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.width, dy: 0)
+                                blockExpression.frame = glow.frame
+                                
+                                group.frame = blockExpression.frame.offsetBy(dx: group.frame.origin.x, dy:group.frame.origin.y ) + group.frame
+                                // ^ IS SAME AS BELOW ?
+                                //group.frame = group.frame.union(expression.frame.offsetBy(dx: group.frame.origin.x, dy: group.frame.origin.y))
+                                
+                                //sets frame to include both rectangles
+                                //maybe change this to a new function.. make new Expression frame
+                                
+                                //finally merge the expressions
+                                let parent = glow.parent
+                                if glow == parent?.leftChild{
+                                    parent?.isAvailableOnLeft = false
+                                    ETree.getRightestNode(root: blockExpression.rootBlock).isAvailableOnRight = false
+                                    group.hideSpots()
+                                    group.mergeExpressions(incomingExpression: blockExpression , side: "left")
+                                    
+                                    //set the position of, and reassign ownership of, the blocks that were added
+                                    for sub in blockExpression.subviews {
+                                        sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
+                                        sub.removeFromSuperview()
+                                        group.addSubview(sub)
+                                    }
+                                    
+                                    //set the origins of the subviews to deal with the origin of the group having moved
+                                    for sub in group.subviews {
+                                        sub.frame = sub.frame.offsetBy(dx: glow.frame.width, dy: 0)
+                                    }
                                 }
-                            }
-                            if glow == parent?.rightChild{
-                                parent?.isAvailableOnRight = false
-                                ETree.getLeftestNode(root: blockExpression.rootBlock).isAvailableOnLeft = false
-                                group.hideSpots()
-                                group.mergeExpressions(incomingExpression: blockExpression , side: "right")
-                                for sub in blockExpression.subviews {
-                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
-                                    sub.removeFromSuperview()
-                                    group.addSubview(sub)
+                                if glow == parent?.rightChild{
+                                    parent?.isAvailableOnRight = false
+                                    ETree.getLeftestNode(root: blockExpression.rootBlock).isAvailableOnLeft = false
+                                    group.hideSpots()
+                                    group.mergeExpressions(incomingExpression: blockExpression , side: "right")
+                                    for sub in blockExpression.subviews {
+                                        sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
+                                        sub.removeFromSuperview()
+                                        group.addSubview(sub)
+                                    }
                                 }
-                            }
-                            if glow == parent?.innerChild{
-                                group.hideSpots()
-                                group.mergeExpressions(incomingExpression: blockExpression , side: "inner")
-                                for sub in blockExpression.subviews {
-                                    sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
-                                    sub.removeFromSuperview()
-                                    group.addSubview(sub)
+                                if glow == parent?.innerChild{
+                                    group.hideSpots()
+                                    group.mergeExpressions(incomingExpression: blockExpression , side: "inner")
+                                    for sub in blockExpression.subviews {
+                                        sub.frame = sub.frame.offsetBy(dx: glow.frame.origin.x , dy: glow.frame.origin.y)
+                                        sub.removeFromSuperview()
+                                        group.addSubview(sub)
+                                    }
                                 }
+                                //get rid of old expression, may need to make sure that there are no more references
+                                currentPage.expressions.removeObject(object: blockExpression)
+                                blockExpression.isHidden = true
                             }
-                            //get rid of old expression, may need to make sure that there are no more references
-                            currentPage.expressions.removeObject(object: blockExpression)
-                            blockExpression.isHidden = true
                         }
                     }
                 }
@@ -174,15 +180,18 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
             zoomedView = movedExpression.frame
         }
         for group in currentPage.expressions {
-            if(group != _movedView){
-                if(group.isNear(incomingFrame: zoomedView)){
-                    if(group.getIsDisplayingSpots() == false){
-                        group.findAndShowAvailableSpots(_movedView: _movedView)
-                        //this will send the message to "group" that it needs to show its available spots for movedView
+            if let group = group as? BlockExpression {
+                if(group != _movedView){
+                    if(group.isNear(incomingFrame: zoomedView)){
+                        if(group.getIsDisplayingSpots() == false){
+                            group.findAndShowAvailableSpots(_movedView: _movedView)
+                            //this will send the message to "group" that it needs to show its available spots for movedView
+                        }
+                        continue
                     }
-                    continue
+                    group.hideSpots()
                 }
-                group.hideSpots()
+                //did I mess up
             }
         }
         if(customDelegate.intersectsWithTrash(justMovedBlock: _movedView)){
@@ -197,7 +206,9 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
     
     func hideAllSpots() {
         for expression in currentPage.expressions {
+            if let expression = expression as? BlockExpression {
             expression.hideSpots()
+            }
         }
     }
     
@@ -226,7 +237,9 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
                 currentPageIndex += 1
                 
                 // Add a new page
-                pages.append(Paper())
+                var pape = Paper()
+                pape.delegate = self
+                pages.append(pape)
                 self.addSubview(pages[currentPageIndex])
                 
                 // Push back the old view
@@ -284,20 +297,15 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate {
         self.contentOffset = CGPoint(x: 0.0, y: 0.0)
     }
     
-    func saveWorkArea(filename: String){
-        
-        let projectsPath = PathLocator.getProjectFolder()
-        let filePath = projectsPath.appending("/"+filename+".desk")
-        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
-    }
-    
     override func encode(with aCoder: NSCoder){
         aCoder.encode(pages)
     }
     
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        pages.append(Paper())
+        var pape = Paper()
+        pape.delegate = self
+        pages.append(pape)
         self.addSubview(pages[0])
         currentPage = pages[0]
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
