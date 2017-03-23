@@ -237,16 +237,16 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
                 currentPageIndex += 1
                 
                 // Add a new page
-                var pape = Paper()
-                pape.delegate = self
-                pages.append(pape)
+                pages.append(Paper())
                 self.addSubview(pages[currentPageIndex])
                 
                 // Push back the old view
                 self.sendSubview(toBack: pages[currentPageIndex - 1])
+                pages[currentPageIndex - 1].isHidden = true
                 
                 // Bring forward the new view
                 self.bringSubview(toFront: pages[currentPageIndex])
+                pages[currentPageIndex].isHidden = false
                 
                 currentPage = pages[currentPageIndex]
             } else {
@@ -257,21 +257,27 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
                 
                 // Push back the old view
                 self.sendSubview(toBack: pages[currentPageIndex - 1])
+                pages[currentPageIndex - 1].isHidden = true
+                
                 // Bring forward the new view
                 self.bringSubview(toFront: pages[currentPageIndex])
+                pages[currentPageIndex].isHidden = false
             }
             
             initCurPage()
+            
         } else if direction == "left" {
             // Check if this is the first page
             if currentPageIndex != 0 {
                 
                 // Push back the old view
                 self.sendSubview(toBack: pages[currentPageIndex])
+                pages[currentPageIndex].isHidden = true
                 
-                currentPageIndex -= 1
+                currentPageIndex -= 1 // Current page is no
                 // Bring forward the new view
                 self.bringSubview(toFront: pages[currentPageIndex])
+                pages[currentPageIndex].isHidden = false
                 
                 currentPage = pages[currentPageIndex]
                 initCurPage()
@@ -279,7 +285,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
         }
         print("New page index: ", currentPageIndex)
         print("New current page is: ", currentPage)
-       
+        
         return (currentPageIndex, pages.count)
     }
     
