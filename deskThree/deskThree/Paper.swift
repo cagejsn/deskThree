@@ -18,12 +18,12 @@ class Paper: UIImageView, ImageBlockDelegate, MathBlockDelegate {
     
     var delegate: PaperDelegate!
     var images: [ImageBlock]?
-    var expressions: [BlockExpression]!
+    var expressions: [Expression]!
   //  var longPressGR: UILongPressGestureRecognizer!
     
     func addMathBlockToPage(block: MathBlock){
         block.delegate2 = self
-        //expressions.append(block)
+        expressions.append(block)
     }
     
     func didHoldBlock(sender: MathBlock) {
