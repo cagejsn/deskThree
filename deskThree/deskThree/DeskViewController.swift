@@ -42,9 +42,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     var certificateRegistered: Bool!
     
+    // Page number notifications
+    var currentPage: Int!
+    var totalPages: Int!
+    var cornerPageLabel: UILabel!
     
-    @IBOutlet weak var currentPageLabel: UILabel!
-    @IBOutlet weak var totalPagesLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,11 +59,33 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupDeskView()
         setupMyScript()
         
-        currentPageLabel.text = "1"
-        totalPagesLabel.text = "1"
-        
+        // Setup page number notification
+        self.currentPage = 1
+        self.totalPages = 1
+        cornerPageLabel = UILabel()
+        cornerPageLabel.textAlignment = .center
+        cornerPageLabel.text = "Page \(String(self.currentPage)) of \(String(self.totalPages))"
+        cornerPageLabel.numberOfLines = 1
+        cornerPageLabel.textColor = UIColor.white
+        cornerPageLabel.font = UIFont.systemFont(ofSize: 16.0)
+        cornerPageLabel.backgroundColor = UIColor.lightGray
+        cornerPageLabel.layer.cornerRadius = 5
+        cornerPageLabel.layer.masksToBounds = true
+        self.view.addSubview(cornerPageLabel)
+        // Get margins for constrains
+        let margins = view.layoutMarginsGuide
+        // Set constraints for the page nuber notification
+        cornerPageLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        cornerPageLabel.widthAnchor.constraint(equalToConstant: 105).isActive = true
+        cornerPageLabel.translatesAutoresizingMaskIntoConstraints = false
+        cornerPageLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -60).isActive = true
+        cornerPageLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+
+        // Setup file explorer buttons
         fileExplorerButton.setImage(UIImage(named:"fileButtonDesk"), for: .normal)
         saveButton.setImage(UIImage(named:"saveButtonDesk"), for: .normal)
+        
+        // Setup pen
         curPen = .pen // Points to pen
         penButton.setImage(UIImage(named:"pencilButtonDesk"), for: .normal)
     }
@@ -69,6 +93,25 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(_: animated)
         workArea.setupForJotView()
+        pageNotificationFadeOut()
+    }
+    
+    func updatePageNotification() {
+        cornerPageLabel.text = "Page \(String(self.currentPage)) of \(String(self.totalPages))"
+        pageNotificationFadeIn()
+        pageNotificationFadeOut()
+    }
+    
+    func pageNotificationFadeOut() {
+        UIView.animate(withDuration: 2.5, delay: 0.5, animations: {
+            self.cornerPageLabel.alpha = 0.0
+        })
+    }
+    
+    func pageNotificationFadeIn() {
+        UIView.animate(withDuration: 2.5) {
+            self.cornerPageLabel.alpha = 1.0
+        }
     }
 
     @IBAction func saveButtonTapped(_ sender: Any) {
@@ -119,10 +162,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             jotView.transform = jotView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
             
         }
-      //  print(scrollView.zoomScale)
-       // print(scrollView.contentScaleFactor)
-       // print(jotView.scale)
-       // print(jotView.pagePtSize)
         
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
 
@@ -130,7 +169,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        print(scrollView.contentOffset)
         
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
@@ -197,9 +235,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // inserting jotView right below toolbar
         self.view.insertSubview(jotView, at: 1)
         jotView.isUserInteractionEnabled = false
-       // jotView.contentScaleFactor = 1.0
         jotView.speedUpFPS()
-
     }
     
     func setupToolDrawer(){
@@ -240,7 +276,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
         doubleTapGR.numberOfTapsRequired = 2
-       // mathView.addGestureRecognizer(doubleTapGR)
         mathView.layer.cornerRadius = 10
         mathView.clipsToBounds = true
         mathView.layer.borderColor = UIColor.gray.cgColor
@@ -309,31 +344,38 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func pageRightButtonPressed(_ sender: Any) {
         print("Right!")
         let pagesInfo = workArea.movePage(direction: "right")
+        
+        self.currentPage = pagesInfo.currentPage + 1
+        self.totalPages = pagesInfo.totalNumPages
+
         pageDrawingStates[pagesInfo.currentPage-1].isForgetful = false;
         // If this is a new page, create new state
         if (pagesInfo.totalNumPages > pageDrawingStates.count){
-        pageDrawingStates.append(JotViewStateProxy(delegate: self))
-        pageDrawingStates[pagesInfo.currentPage].delegate = self
-        pageDrawingStates[pagesInfo.currentPage].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+            pageDrawingStates.append(JotViewStateProxy(delegate: self))
+            pageDrawingStates[pagesInfo.currentPage].delegate = self
+            pageDrawingStates[pagesInfo.currentPage].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         }
         pageDrawingStates[pagesInfo.currentPage].isForgetful = true
         jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
         
         jotView.currentPage = workArea.currentPage
-        currentPageLabel.text = String(pagesInfo.currentPage + 1)
-        totalPagesLabel.text = String(pagesInfo.totalNumPages)
         
+        updatePageNotification()
     }
     
     @IBAction func pageLeftButtonPressed(_ sender: Any) {
         print("Left!")
         let pagesInfo = workArea.movePage(direction: "left")
-        pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
+        self.currentPage = pagesInfo.currentPage + 1
+        self.totalPages = pagesInfo.totalNumPages
+        if (pagesInfo.currentPage != 0) {
+            pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
+        }
         pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
         jotView.currentPage = workArea.currentPage;
         jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
-        currentPageLabel.text = String(pagesInfo.currentPage + 1)
-        totalPagesLabel.text = String(pagesInfo.totalNumPages)
+        
+        updatePageNotification()
     }
     
     
