@@ -53,7 +53,7 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         print(file)
         
         if let workArea = file as? WorkArea {
-        delegate.didSelectProject(workArea: workArea)
+            delegate.didSelectProject(workArea: workArea)
         }
 
     }

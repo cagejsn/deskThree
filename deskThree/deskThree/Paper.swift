@@ -29,46 +29,7 @@ class Paper: UIImageView, ImageBlockDelegate, MathBlockDelegate {
     func didHoldBlock(sender: MathBlock) {
         delegate.passHeldBlock(sender:sender)
     }
-        
-    //MARK: Initializers
-    init() {
-        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
-     //   longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Paper.handleLongPress(sender:)))
-   //     longPressGR.minimumPressDuration = 0.8
-   //     self.addGestureRecognizer(longPressGR)
-        expressions = [BlockExpression]()
-        self.image = UIImage(named: "engineeringPaper2")
-        self.isOpaque = false
-        images = [ImageBlock]() //creates an array to save the imageblocks
-    }
     
-    //MARK: setup for exporting
-    required init(coder unarchiver: NSCoder){
-        super.init(coder: unarchiver)!
-        images = unarchiver.decodeObject() as! [ImageBlock]!
-        expressions = unarchiver.decodeObject() as! [BlockExpression]!
-        
-    }
-
-    
-    override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        aCoder.encode(images)
-        aCoder.encode(expressions)
-    }
-    
-    func savePaper(){
-
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
-        var filePath = documentsPath.appending("/file.desk")
-        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
-    }
-    
-    func loadPaper(state: Paper){
-        
-
-        
-    }
     
 
     //ImageBlock Delegate Functions
@@ -169,5 +130,33 @@ class Paper: UIImageView, ImageBlockDelegate, MathBlockDelegate {
     private var path: UIBezierPath = UIBezierPath()
     private var lastPoint: CGPoint = CGPoint.zero
     private var buffer: UIImage = UIImage(named: "engineeringPaper")!
+    
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(images)
+        aCoder.encode(expressions)
+    }
+    
+    //MARK: Initializers
+    init() {
+        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+        //   longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Paper.handleLongPress(sender:)))
+        //     longPressGR.minimumPressDuration = 0.8
+        //     self.addGestureRecognizer(longPressGR)
+        expressions = [BlockExpression]()
+        self.image = UIImage(named: "engineeringPaper2")
+        self.isOpaque = false
+        images = [ImageBlock]() //creates an array to save the imageblocks
+    }
+    
+    //MARK: setup for loading
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        images = unarchiver.decodeObject() as! [ImageBlock]!
+        expressions = unarchiver.decodeObject() as! [BlockExpression]!
+        
+    }
+
 
 }

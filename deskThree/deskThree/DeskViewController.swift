@@ -94,6 +94,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func didSelectProject(workArea:WorkArea){
         dismissFileExplorer()
+        self.workArea.removeFromSuperview()
+        self.workArea = workArea
+        workArea.delegate = self
+        workArea.customDelegate = self
+        self.view.sendSubview(toBack: workArea)
+        workArea.minimumZoomScale = 0.6
+        workArea.maximumZoomScale = 2.0
+        self.view.insertSubview(workArea, at: 0)
+        workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
     }
 
     func dismissFileExplorer(){

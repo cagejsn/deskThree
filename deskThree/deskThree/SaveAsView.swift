@@ -55,7 +55,7 @@ class SaveAsView: UIView {
         let filePath = PathLocator.getProjectFolder()+"/"+name+".DESK"
         
         
-        NSKeyedArchiver.archiveRootObject(workAreaRef.pages, toFile: filePath)
+        NSKeyedArchiver.archiveRootObject(workAreaRef, toFile: filePath)
         
         return true
         
