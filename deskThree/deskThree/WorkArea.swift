@@ -304,6 +304,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
     }
     
     override func encode(with aCoder: NSCoder){
+        super.encode(with: aCoder)
         aCoder.encode(pages)
     }
     
@@ -328,14 +329,15 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
         // Initialize the first page & set it as the current page
         let loadedPaper = aDecoder.decodeObject() as! [Paper]
         pages = loadedPaper
-        self.currentPage = pages[pages.count-1]
+        self.currentPage = pages.first
         self.addSubview(currentPage)
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         currentPage.contentMode = .scaleAspectFit
-        self.sendSubview(toBack: currentPage)
+       // self.sendSubview(toBack: currentPage)
         currentPage.isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
 
 
+        
     }
 }

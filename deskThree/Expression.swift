@@ -33,11 +33,8 @@ class Expression: UIView, UIGestureRecognizerDelegate {
 
     
     
-    override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        aCoder.encode(amtMoved)
-        aCoder.encode(doubleTapGestureRecognizer)
-    }
+
+ 
     
     /* MARK: Touch Events */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -117,6 +114,12 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         return sizeOfText.width + Constants.block.fontWidthPadding;
     }
     
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(amtMoved)
+        aCoder.encode(doubleTapGestureRecognizer)
+    }
+    
     //MARK: Initialization
     override init(frame: CGRect){
 //        rootBlock = firstVal
@@ -134,6 +137,9 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     required init?(coder unarchiver: NSCoder) {
         self.parser = Parser(functionString: "")
         super.init(coder: unarchiver)
+        amtMoved = unarchiver.decodeObject() as! CGFloat!
+        doubleTapGestureRecognizer = unarchiver.decodeObject() as! UITapGestureRecognizer!
+        print("a")
         //fatalError("init(coder:) has not been implemented")
     }
 }

@@ -30,6 +30,18 @@ class Paper: UIImageView, ImageBlockDelegate, MathBlockDelegate {
         delegate.passHeldBlock(sender:sender)
     }
     
+    func savePaper(){
+
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
+        var filePath = documentsPath.appending("/file.desk")
+        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
+    }
+    
+    func loadPaper(state: Paper){
+        
+
+        
+    }
     
 
     //ImageBlock Delegate Functions
@@ -154,8 +166,14 @@ class Paper: UIImageView, ImageBlockDelegate, MathBlockDelegate {
     required init(coder unarchiver: NSCoder){
         super.init(coder: unarchiver)!
         images = unarchiver.decodeObject() as! [ImageBlock]!
-        expressions = unarchiver.decodeObject() as! [BlockExpression]!
+        for image in images! {
+            self.addSubview(image)
+        }
         
+        expressions = unarchiver.decodeObject() as! [Expression]!
+        for expression in expressions {
+            self.addSubview(expression)
+        }
     }
 
 

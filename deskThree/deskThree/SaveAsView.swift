@@ -30,9 +30,8 @@ class SaveAsView: UIView {
         
         ///saves metadata of project to meta file. overwrite same name if present
         func saveMetaData(name: String){
-            let project = workAreaRef.project
-            project?.modify()
-            project?.rename(name: name)
+            let project = DeskProject(name: name)
+            project.modify()
             
             let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
             
@@ -40,12 +39,12 @@ class SaveAsView: UIView {
             for i in 0..<projects.count{
                 if projects[i].name == name{
                     //raise dialog asking user confirmation to overwrite
-                    projects[i] = project!
+                    projects[i] = project
                     NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
                     return
                 }
             }
-            projects.append(project!)
+            projects.append(project)
             NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
         }
         

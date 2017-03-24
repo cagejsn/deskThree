@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FileExplorerViewControllerDelegate {
-    func didSelectProject(workArea:WorkArea)
+    func didSelectProject(newWorkArea:WorkArea)
     func dismissFileExplorer()
 }
 
@@ -36,7 +36,7 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         var label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 60))
         label.text = metaDataFromDisk[indexPath.row].name
         cell.addSubview(label)
-        cell.backgroundColor = UIColor.purple
+        cell.backgroundColor = UIColor.lightGray
         return cell
     }
     
@@ -45,20 +45,13 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        
         let path = PathLocator.getProjectFolder() + "/" + metaDataFromDisk[indexPath.row].name + ".DESK"
-
-        let file = NSKeyedUnarchiver.unarchiveObject(withFile: path) 
-        print(file)
-        
+        let file = NSKeyedUnarchiver.unarchiveObject(withFile: path)
         if let workArea = file as? WorkArea {
-            delegate.didSelectProject(workArea: workArea)
+            
+            delegate.didSelectProject(newWorkArea: workArea)
         }
-
     }
-
-    
 }
 
 

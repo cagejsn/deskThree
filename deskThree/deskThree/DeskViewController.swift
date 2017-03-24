@@ -135,10 +135,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.present(fileExplorer, animated: false, completion: nil)
 }
     
-    func didSelectProject(workArea:WorkArea){
+    func didSelectProject(newWorkArea:WorkArea){
+        workArea.removeFromSuperview()
+        self.workArea = nil
+        
+        self.workArea = newWorkArea
+        self.view.addSubview(newWorkArea)
         dismissFileExplorer()
         self.workArea.removeFromSuperview()
-        self.workArea = workArea
+        self.workArea = newWorkArea
         workArea.delegate = self
         workArea.customDelegate = self
         self.view.sendSubview(toBack: workArea)
