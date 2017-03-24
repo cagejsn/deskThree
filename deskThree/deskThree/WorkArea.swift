@@ -64,12 +64,8 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
         //if the block is not above an existing BlockGroup's dummy view, then we create a new blockgroup including only the new block
         var workingView = _movedView
         
-        
-       
-        
         /*check if expression overlaps with trash bin*/
         if(customDelegate.intersectsWithTrash(justMovedBlock: _movedView)){
-            print("deleting expression")
             currentPage.expressions.removeObject(object: _movedView)
             _movedView.isHidden = true
             return
@@ -173,7 +169,6 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
             zoomedView = movedBlock.frame
             
             zoomedView.origin = currentPage.convert(movedBlock.frame.origin, from: movedBlock.superview!)
-            //zoomedView.origin = CGPoint(x: (self.contentOffset.x + movedBlock.frame.origin.x ) / self.zoomScale, y: (self.contentOffset.y + movedBlock.frame.origin.y) / self.zoomScale)
         }
         //if a preexisting expression is being moved
         if let movedExpression = _movedView as? Expression {
@@ -191,17 +186,8 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
                     }
                     group.hideSpots()
                 }
-                //did I mess up
             }
         }
-        if(customDelegate.intersectsWithTrash(justMovedBlock: _movedView)){
-           // trashBin.open()
-        }
-        else{
-           // trashBin.closed()
-        }
-
-        
     }
     
     func hideAllSpots() {
@@ -226,12 +212,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
      If there is no page, add one and make it the current page
      */
     func movePage(direction: String) -> (currentPage: Int, totalNumPages: Int) {
-        print("Current page index: ", currentPageIndex)
         if direction == "right" {
-            print("Num pages: ", pages.count)
-            
-            print("Current page is: ", currentPage)
-            
             // Check if this is the last page
             if currentPageIndex == pages.count - 1 {
                 currentPageIndex += 1
@@ -283,8 +264,6 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
                 initCurPage()
             }
         }
-        print("New page index: ", currentPageIndex)
-        print("New current page is: ", currentPage)
         
         return (currentPageIndex, pages.count)
     }
