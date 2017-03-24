@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1507E1DBC19CF008364EC /* PDFGenerator.swift */; };
 		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
+		317034701E84FDE100C4429F /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3170345A1E84FDAC00C4429F /* Mixpanel.framework */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
 		5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A22C1E6C993100BFA775 /* BlockExpression.swift */; };
@@ -79,6 +80,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		317034591E84FDAC00C4429F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E115947D1CFF1491007F8B4F;
+			remoteInfo = Mixpanel;
+		};
+		3170345B1E84FDAC00C4429F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E12782B31D4AB4B30025FB05;
+			remoteInfo = Mixpanel_tvOS;
+		};
+		3170345D1E84FDAC00C4429F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E1F15F921E5F847200391AE3;
+			remoteInfo = MixpanelAppex;
+		};
+		3170345F1E84FDAC00C4429F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E1F15FC91E64A10700391AE3;
+			remoteInfo = Mixpanel_macOS;
+		};
 		52C9BB291E2D68AA005DA9C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DAFBE3981DBBDBC20007D249 /* Project object */;
@@ -105,6 +134,7 @@
 /* Begin PBXFileReference section */
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
+		317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		526C111B1E7DD8FE00196164 /* PathLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLocator.swift; sourceTree = "<group>"; };
 		526C111E1E7DF2CB00196164 /* DeskProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskProject.swift; sourceTree = "<group>"; };
 		5297A22C1E6C993100BFA775 /* BlockExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockExpression.swift; sourceTree = "<group>"; };
@@ -207,6 +237,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				317034701E84FDE100C4429F /* Mixpanel.framework in Frameworks */,
 				CE18D3651E6DCE2E00BC54D8 /* ATKMathWidget.framework in Frameworks */,
 				CE18D3611E6DCD2500BC54D8 /* ATKMath.framework in Frameworks */,
 				DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */,
@@ -225,6 +256,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		317034521E84FDAC00C4429F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3170345A1E84FDAC00C4429F /* Mixpanel.framework */,
+				3170345C1E84FDAC00C4429F /* Mixpanel.framework */,
+				3170345E1E84FDAC00C4429F /* MixpanelAppex.framework */,
+				317034601E84FDAC00C4429F /* Mixpanel.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		52C9BB251E2D68AA005DA9C2 /* deskThreeGraphTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +341,7 @@
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */,
 				DA5747641E74983E0010F754 /* Assets.xcassets */,
 				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
 				DA2D2A6C1E67AFE6008F59BB /* desk.deskThreeUT1.c */,
@@ -485,6 +528,10 @@
 					ProductGroup = CEC6DD0E1DEE8D14002A2460 /* Products */;
 					ProjectRef = CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */;
 				},
+				{
+					ProductGroup = 317034521E84FDAC00C4429F /* Products */;
+					ProjectRef = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -496,6 +543,34 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		3170345A1E84FDAC00C4429F /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 317034591E84FDAC00C4429F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3170345C1E84FDAC00C4429F /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 3170345B1E84FDAC00C4429F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3170345E1E84FDAC00C4429F /* MixpanelAppex.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MixpanelAppex.framework;
+			remoteRef = 3170345D1E84FDAC00C4429F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		317034601E84FDAC00C4429F /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 3170345F1E84FDAC00C4429F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		CEC6DD131DEE8D14002A2460 /* JotUI.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework.static;
