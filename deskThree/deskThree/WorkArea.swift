@@ -28,8 +28,8 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
         customDelegate.sendingToInputObject(for: sender)
     }
     
-    //stores metadata of this workspace. Initialized to untitled. can be
-    //replaced with setDeskProject
+    // stores metadata of this workspace. Initialized to untitled. can be
+    // replaced with setDeskProject
     var project: DeskProject!
     
     ///sets workarea's meta data object
