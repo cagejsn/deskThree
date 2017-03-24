@@ -142,8 +142,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.workArea = newWorkArea
         self.view.addSubview(newWorkArea)
         dismissFileExplorer()
-        self.workArea.removeFromSuperview()
-        self.workArea = newWorkArea
+        
+        if let dView = self.view as? DeskView {
+            dView.workArea = self.workArea
+            
+        }
+        
         workArea.delegate = self
         workArea.customDelegate = self
         self.view.sendSubview(toBack: workArea)

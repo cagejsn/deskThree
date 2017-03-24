@@ -99,12 +99,10 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         }
         return false
     }
-    
 
     func getExpressionString() -> String{
         return self.expressionString
     }
-    
     
     //MARK: Support Methods
     static func evaluateStringWidth (textToEvaluate: String) -> CGFloat{
@@ -117,7 +115,6 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(amtMoved)
-        aCoder.encode(doubleTapGestureRecognizer)
     }
     
     //MARK: Initialization
@@ -130,17 +127,16 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
-        
-        
     }
     
     required init?(coder unarchiver: NSCoder) {
         self.parser = Parser(functionString: "")
         super.init(coder: unarchiver)
         amtMoved = unarchiver.decodeObject() as! CGFloat!
-        doubleTapGestureRecognizer = unarchiver.decodeObject() as! UITapGestureRecognizer!
-        print("a")
-        //fatalError("init(coder:) has not been implemented")
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
+        doubleTapGestureRecognizer!.numberOfTapsRequired = 2
+        doubleTapGestureRecognizer?.delegate = self
+        self.addGestureRecognizer(doubleTapGestureRecognizer!)
     }
 }
 

@@ -175,7 +175,6 @@ class BlockExpression: Expression{
         super.encode(with: aCoder)
         aCoder.encode(isDisplayingSpots)
         aCoder.encode(dummyViews)
-        aCoder.encode(longPressGR)
         aCoder.encode(rootBlock)
     }
 
@@ -193,9 +192,10 @@ class BlockExpression: Expression{
         super.init(coder: unarchiver)
         self.isDisplayingSpots = unarchiver.decodeObject() as! Bool
         self.dummyViews = unarchiver.decodeObject() as! [Block]!
-        self.longPressGR = unarchiver.decodeObject() as! UILongPressGestureRecognizer!
         self.rootBlock = unarchiver.decodeObject() as! Block!
-        //        fatalError("init(coder:) has not been implemented")
+        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(BlockExpression.handleLongPress))
+        longPressGR.minimumPressDuration = 0.5
+        self.addGestureRecognizer(longPressGR)
     }
     
 }
