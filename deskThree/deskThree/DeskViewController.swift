@@ -340,7 +340,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
-        print("UNDO!")
         jotView.undo()
     }
     
@@ -351,7 +350,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
      */
     
     @IBAction func pageRightButtonPressed(_ sender: Any) {
-        print("Right!")
         let pagesInfo = workArea.movePage(direction: "right")
         
         self.currentPage = pagesInfo.currentPage + 1
@@ -373,7 +371,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func pageLeftButtonPressed(_ sender: Any) {
-        print("Left!")
         let pagesInfo = workArea.movePage(direction: "left")
         self.currentPage = pagesInfo.currentPage + 1
         self.totalPages = pagesInfo.totalNumPages
@@ -428,7 +425,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-       // setupMathViewConstraints()
     }
     
     func setupMathViewConstraints(){
@@ -476,8 +472,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             self.workArea.currentPage.addSubview(mathBlock)
         }
        
-        //mathView.clear(false)
-        // mathView.solve()
     }
     
     func printText(){
@@ -514,7 +508,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     //pragma mark - Helpers
@@ -534,12 +527,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func stepWidthForStroke() -> CGFloat {
-
-//        print(activePen().stepWidthForStroke())
-//        return activePen().stepWidthForStroke()
-
         return CGFloat(0.3)
-
     }
     
     func supportsRotation() -> Bool {
