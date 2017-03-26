@@ -16,7 +16,7 @@ protocol WorkAreaDelegate {
     func sendingToInputObject(for element: Any)
 }
 
-class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDelegate {
+class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
     
     var pages: [Paper] = [Paper]()
     var currentPage: Paper!
@@ -24,9 +24,18 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
 
-    func passHeldBlock(sender: MathBlock) {
+    func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
     }
+    
+    func setupDelegateChain(){
+        for page in pages {
+            page.delegate = self
+            page.setupDelegateChain()
+        }
+    }
+    
+    
     
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
@@ -50,7 +59,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
         currentPage.addSubview(express)
         express.tag = -1
         currentPage.expressions.append(express as! BlockExpression)
-        express.delegate = self
+        express.delegate = self.currentPage
         newBlock.frame.origin = CGPoint.zero
         express.addSubview(newBlock)
     }
@@ -84,7 +93,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDele
             currentPage.addSubview(blockExpression)
             blockExpression.addSubview(block)
             currentPage.expressions.append(blockExpression)
-            blockExpression.delegate = self
+            blockExpression.delegate = self.currentPage
             block.frame.origin = CGPoint.zero
             block.parentExpression = blockExpression
             workingView = blockExpression

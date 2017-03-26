@@ -10,19 +10,53 @@ import Foundation
 import UIKit
 
 protocol PaperDelegate {
-    func passHeldBlock(sender:MathBlock)
+    func passHeldBlock(sender:Expression)
+    func didIncrementMove(_movedView: UIView)
+    func didCompleteMove(_movedView: UIView)
+    func didEvaluate(forExpression sender: Expression, result: Float)
+    func hideTrash()
+    func unhideTrash()
 }
 
 
-class Paper: UIImageView, ImageBlockDelegate, MathBlockDelegate {
+class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate {
     
     var delegate: PaperDelegate!
-    var images: [ImageBlock]?
+    var images: [ImageBlock]!
     var expressions: [Expression]!
-  //  var longPressGR: UILongPressGestureRecognizer!
+    
+    
+    func elementWantsSendToInputObject(element:Any){
+        delegate.passHeldBlock(sender: element as! Expression)
+    }
+    
+    func didIncrementMove(_movedView: UIView){
+        delegate.didIncrementMove(_movedView: _movedView)
+    }
+    
+    func didCompleteMove(_movedView: UIView){
+        delegate.didCompleteMove(_movedView: _movedView)
+    }
+    
+    func didEvaluate(forExpression sender: Expression, result: Float){
+        delegate.didEvaluate(forExpression: sender, result: result)
+    }
+    
+    func hideTrash(){
+        delegate.hideTrash()
+    }
+    
+    func unhideTrash(){
+        delegate.unhideTrash()
+    }
+    
+    
+    
+    
+    
     
     func addMathBlockToPage(block: MathBlock){
-        block.delegate2 = self
+        block.delegate = self
         expressions.append(block)
     }
     
@@ -143,6 +177,16 @@ class Paper: UIImageView, ImageBlockDelegate, MathBlockDelegate {
     private var lastPoint: CGPoint = CGPoint.zero
     private var buffer: UIImage = UIImage(named: "engineeringPaper")!
     
+    
+    func setupDelegateChain(){
+        for image in images {
+            image.delegate = self
+        }
+        
+        for expression in expressions {
+            expression.delegate = self
+        }
+    }
     
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)

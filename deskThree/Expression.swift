@@ -25,6 +25,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     var delegate: ExpressionDelegate?
     var parser: Parser
     var expressionString: String = ""
+    var longPressGR: UILongPressGestureRecognizer!
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
@@ -78,8 +79,10 @@ class Expression: UIView, UIGestureRecognizerDelegate {
             delegate!.didEvaluate(forExpression: self, result: Float(parser.getY()[0]))
 
         }
-        
-
+    }
+    
+    func handleLongPress(){
+        delegate?.elementWantsSendToInputObject(element: self)
     }
     
     //MARK: Support Methods
@@ -119,6 +122,9 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Expression.handleLongPress))
+        longPressGR.minimumPressDuration = 0.5
+        self.addGestureRecognizer(longPressGR)
     }
     
     required init?(coder unarchiver: NSCoder) {
@@ -129,6 +135,9 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Expression.handleLongPress))
+        longPressGR.minimumPressDuration = 0.5
+        self.addGestureRecognizer(longPressGR)
     }
 }
 

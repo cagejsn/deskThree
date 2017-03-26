@@ -8,25 +8,16 @@
 
 import Foundation
 
-protocol MathBlockDelegate {
-    func didHoldBlock(sender: MathBlock)
-}
+
 
 class MathBlock: Expression{
-    var delegate2: MathBlockDelegate!
     private var imageHolder: UIImageView!
     var mathSymbols: [Any]!
-    private var longPressGR: UILongPressGestureRecognizer!
     
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(imageHolder)
         aCoder.encode(mathSymbols)
-    }
-    
-    // Make DVC a delegate for longpress to work when mathView is not a subview
-    func handleLongPress(){
-        delegate2.didHoldBlock(sender:self)
     }
     
         
@@ -43,18 +34,12 @@ class MathBlock: Expression{
         mathSymbols = symbols
         print(mathSymbols.count)
         expressionString = text
-        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(MathBlock.handleLongPress))
-        longPressGR.minimumPressDuration = 0.5
-        self.addGestureRecognizer(longPressGR)
     }
     
     required init?(coder unarchiver: NSCoder) {
         super.init(coder: unarchiver)
         self.imageHolder = unarchiver.decodeObject() as! UIImageView!
         self.mathSymbols = unarchiver.decodeObject() as! [Any]!
-        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(MathBlock.handleLongPress))
-        longPressGR.minimumPressDuration = 0.5
-        self.addGestureRecognizer(longPressGR)
-        
+
     }
 }

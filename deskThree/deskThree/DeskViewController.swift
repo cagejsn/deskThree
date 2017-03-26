@@ -148,7 +148,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             dView.setup()
         }
         
+        workArea.setupDelegateChain()
+        
         workArea.delegate = self
+        toolDrawer.delegate = workArea
         workArea.customDelegate = self
         self.view.sendSubview(toBack: workArea)
         workArea.minimumZoomScale = 0.6
@@ -477,7 +480,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         if let image1 =  mathView.resultAsImage(){
             let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
-            mathBlock.delegate = workArea
+            mathBlock.delegate = workArea.currentPage
             workArea.currentPage.addMathBlockToPage(block: mathBlock)
             var loc = self.view.center
             loc = loc - CGPoint(x: 0, y: 200)

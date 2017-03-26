@@ -12,7 +12,6 @@ class BlockExpression: Expression{
     
     private var isDisplayingSpots: Bool = false
     private var dummyViews: [Block] = []
-    private var longPressGR: UILongPressGestureRecognizer!
     // Make this private soon
     var rootBlock: Block!
     
@@ -71,10 +70,6 @@ class BlockExpression: Expression{
         return newBlock!
     }
 
-    
-    func handleLongPress(){
-        delegate?.elementWantsSendToInputObject(element: self)
-    }
     
     /// tells is one block is close to another
     func isNear(incomingFrame: CGRect) -> Bool{
@@ -183,9 +178,7 @@ class BlockExpression: Expression{
         rootBlock = firstVal
         let newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)
         super.init(frame: newFrame)
-        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(BlockExpression.handleLongPress))
-        longPressGR.minimumPressDuration = 0.5
-        self.addGestureRecognizer(longPressGR)
+      
     }
     
     required init?(coder unarchiver: NSCoder) {
@@ -193,9 +186,6 @@ class BlockExpression: Expression{
         self.isDisplayingSpots = unarchiver.decodeObject() as! Bool
         self.dummyViews = unarchiver.decodeObject() as! [Block]!
         self.rootBlock = unarchiver.decodeObject() as! Block!
-        longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(BlockExpression.handleLongPress))
-        longPressGR.minimumPressDuration = 0.5
-        self.addGestureRecognizer(longPressGR)
     }
     
 }
