@@ -145,7 +145,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         if let dView = self.view as? DeskView {
             dView.workArea = self.workArea
-            
+            dView.setup()
         }
         
         workArea.delegate = self

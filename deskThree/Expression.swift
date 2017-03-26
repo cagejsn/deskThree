@@ -21,7 +21,6 @@ protocol ExpressionDelegate {
 class Expression: UIView, UIGestureRecognizerDelegate {
     
     //MARK: Variables
-
     var amtMoved: CGFloat = 0
     var delegate: ExpressionDelegate?
     var parser: Parser
@@ -29,17 +28,10 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
-    
-
-    
-    
-
- 
-    
+        
     /* MARK: Touch Events */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         superview!.bringSubview(toFront: self)
-        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -24,54 +24,9 @@ class Block: UILabel {
     var faceText: String?
 
     
-    //MARK: Initialization
-    override init (frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
+  
     
-    func setup() {
-        //custom color for the symbol blocks can be adjusted here: current color name "seagreen"
-        self.backgroundColor = Constants.block.colors.def
-        // use bounds not frame or it'll be offset
-        //self.frame = bounds
-        // Make the view stretch with containing view
-        //self.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth];
-        // Adding custom subview on top of our view (over any custom drawing > see note below)
-        self.backgroundColor = UIColor.green
-        self.textAlignment = .center
-    }
-    
-    func loadViewFromNib() -> UIView {
-        let bundle = Bundle(for: type(of: self))
-        let nib = UINib(nibName:"Block", bundle: bundle)
-        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
-        return view
-    }
-    
-    
-    //MARK: setup for exporting
-    required init(coder unarchiver: NSCoder){
-        super.init(coder: unarchiver)!
-        self.faceText = unarchiver.decodeObject() as! String!
-        self.text = self.faceText
-    }
-    
-    
-    override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        faceText = self.text
-        aCoder.encode(faceText)
-        aCoder.encode(self.type)
-        aCoder.encode(self.precedence)
-        aCoder.encode(self.parentExpression)
-        aCoder.encode(isAvailableOnRight)
-        aCoder.encode(isAvailableOnLeft)
-        aCoder.encode(parent)
-        aCoder.encode(leftChild)
-        aCoder.encode(rightChild)
-        aCoder.encode(innerChild)
-    }
+   
 
     
 
@@ -219,5 +174,59 @@ class Block: UILabel {
     
     func setColor(color : UIColor) {
         self.backgroundColor = color
+    }
+    
+    
+    func setup() {
+        //custom color for the symbol blocks can be adjusted here: current color name "seagreen"
+        self.backgroundColor = Constants.block.colors.def
+        // use bounds not frame or it'll be offset
+        //self.frame = bounds
+        // Make the view stretch with containing view
+        //self.autoresizingMask = [UIViewAutoresizing.flexibleHeight, UIViewAutoresizing.flexibleWidth];
+        // Adding custom subview on top of our view (over any custom drawing > see note below)
+        self.backgroundColor = UIColor.green
+        self.textAlignment = .center
+    }
+    
+    func loadViewFromNib() -> UIView {
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName:"Block", bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil)[0] as! UIView
+        return view
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        faceText = self.text
+        aCoder.encode(faceText)
+        aCoder.encode(self.type)
+        aCoder.encode(self.precedence)
+        aCoder.encode(isAvailableOnRight)
+        aCoder.encode(isAvailableOnLeft)
+        aCoder.encode(leftChild)
+        aCoder.encode(rightChild)
+        
+        //in setup function, we must find a way to set the parentExpression and the parent properties w/o saving them as pointers, because the pointers will change when we bring them back from disk
+    }
+    
+    //MARK: setup for exporting
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        self.faceText = unarchiver.decodeObject() as! String!
+        self.text = self.faceText
+        self.type = unarchiver.decodeObject() as! Int!
+        self.precedence = unarchiver.decodeObject() as! Int!
+        isAvailableOnRight = unarchiver.decodeObject() as! Bool
+        isAvailableOnLeft = unarchiver.decodeObject() as! Bool
+        leftChild = unarchiver.decodeObject() as! Block?
+        rightChild = unarchiver.decodeObject() as! Block?
+        
+    }
+    
+    //MARK: Initialization
+    override init (frame: CGRect) {
+        super.init(frame: frame)
+        setup()
     }
 }
