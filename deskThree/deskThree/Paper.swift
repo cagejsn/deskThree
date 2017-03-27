@@ -9,39 +9,65 @@
 import Foundation
 import UIKit
 
-class Paper: UIImageView, ImageBlockDelegate {
-    
-    var images: [ImageBlock]?
-    var expressions: [Expression]!
-  //  var longPressGR: UILongPressGestureRecognizer!
-    
-    
-        
-    //MARK: Initializers
-    init() {
-        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
-     //   longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Paper.handleLongPress(sender:)))
-   //     longPressGR.minimumPressDuration = 0.8
-   //     self.addGestureRecognizer(longPressGR)
-        expressions = [Expression]()
-        self.image = UIImage(named: "engineeringPaper2")
-        self.isOpaque = false
-        images = [ImageBlock]() //creates an array to save the imageblocks
-    }
-    
-    //MARK: setup for exporting
-    required init(coder unarchiver: NSCoder){
-        super.init(coder: unarchiver)!
-        images = unarchiver.decodeObject() as! [ImageBlock]!
-        expressions = unarchiver.decodeObject() as! [Expression]!
-        
-    }
+protocol PaperDelegate {
+    func passHeldBlock(sender:Expression)
+    func didIncrementMove(_movedView: UIView)
+    func didCompleteMove(_movedView: UIView)
+    func didEvaluate(forExpression sender: Expression, result: Float)
+    func hideTrash()
+    func unhideTrash()
+}
 
+
+class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate {
     
-    override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        aCoder.encode(images)
-        aCoder.encode(expressions)
+    var delegate: PaperDelegate!
+    var images: [ImageBlock]!
+    var expressions: [Expression]!
+    
+    
+    func elementWantsSendToInputObject(element:Any){
+        delegate.passHeldBlock(sender: element as! Expression)
+    }
+    
+    func didIncrementMove(_movedView: UIView){
+        delegate.didIncrementMove(_movedView: _movedView)
+    }
+    
+    func didCompleteMove(_movedView: UIView){
+        delegate.didCompleteMove(_movedView: _movedView)
+    }
+    
+    func didEvaluate(forExpression sender: Expression, result: Float){
+        delegate.didEvaluate(forExpression: sender, result: result)
+    }
+    
+    func hideTrash(){
+        delegate.hideTrash()
+    }
+    
+    func unhideTrash(){
+        delegate.unhideTrash()
+    }
+    
+    func stylizeViews(){
+        for exp in expressions {
+            if let exp = exp as? BlockExpression {
+                exp.stylizeViews()
+            }
+        }
+    }
+    
+    
+    
+    
+    func addMathBlockToPage(block: MathBlock){
+        block.delegate = self
+        expressions.append(block)
+    }
+    
+    func didHoldBlock(sender: MathBlock) {
+        delegate.passHeldBlock(sender:sender)
     }
     
     func savePaper(){
@@ -156,5 +182,49 @@ class Paper: UIImageView, ImageBlockDelegate {
     private var path: UIBezierPath = UIBezierPath()
     private var lastPoint: CGPoint = CGPoint.zero
     private var buffer: UIImage = UIImage(named: "engineeringPaper")!
+    
+    
+    func setupDelegateChain(){
+        for image in images {
+            image.delegate = self
+        }
+        
+        for expression in expressions {
+            expression.delegate = self
+        }
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(images)
+        aCoder.encode(expressions)
+    }
+    
+    //MARK: Initializers
+    init() {
+        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+        //   longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Paper.handleLongPress(sender:)))
+        //     longPressGR.minimumPressDuration = 0.8
+        //     self.addGestureRecognizer(longPressGR)
+        expressions = [BlockExpression]()
+        self.image = UIImage(named: "engineeringPaper2")
+        self.isOpaque = false
+        images = [ImageBlock]() //creates an array to save the imageblocks
+    }
+    
+    //MARK: setup for loading
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        images = unarchiver.decodeObject() as! [ImageBlock]!
+        for image in images! {
+            self.addSubview(image)
+        }
+        
+        expressions = unarchiver.decodeObject() as! [Expression]!
+        for expression in expressions {
+            self.addSubview(expression)
+        }
+    }
+
 
 }

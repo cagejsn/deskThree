@@ -158,9 +158,4 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         aCoder.encode(imageHolder)
     }
     
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        //aDecoder.encode(self)
-//        //fatalError("init(coder:) has not been implemented")
-//    }
 }
