@@ -50,7 +50,13 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate {
         delegate.unhideTrash()
     }
     
-    
+    func stylizeViews(){
+        for exp in expressions {
+            if let exp = exp as? BlockExpression {
+                exp.stylizeViews()
+            }
+        }
+    }
     
     
     

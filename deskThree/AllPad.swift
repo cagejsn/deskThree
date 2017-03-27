@@ -63,6 +63,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         
         if let express = element as? BlockExpression {
             numEntryArea.setTitle(ETree.printCurrentTree(root: express.rootBlock), for: .normal)
+            numEntryAreaText = ETree.printCurrentTree(root: express.rootBlock)
         }
     }
     

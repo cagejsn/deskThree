@@ -20,6 +20,10 @@ class BlockExpression: Expression{
         return dummyViews
     }
     
+    func stylizeViews(){
+        rootBlock.stylizeViews()
+    }
+    
     static func makeBlock(blockLocation: CGPoint, blockType: Int, blockData: String) -> Block {
         let blockWidth: CGFloat = evaluateStringWidth(textToEvaluate: blockData)
         var newBlock: Block!

@@ -149,6 +149,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         
         workArea.setupDelegateChain()
+        workArea.stylizeViews()
         
         workArea.delegate = self
         toolDrawer.delegate = workArea

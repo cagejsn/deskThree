@@ -26,8 +26,15 @@ class Block: UILabel {
     
   
     
-   
+    func stylizeViews(){
+        self.stylize()
+        leftChild?.stylize()
+        rightChild?.stylize()
+    }
 
+    func stylize(){
+        self.layer.cornerRadius = 10
+    }
     
 
     //MARK: Support Methods

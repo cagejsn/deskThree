@@ -35,6 +35,11 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
         }
     }
     
+    func stylizeViews(){
+        for page in pages {
+            page.stylizeViews()
+        }
+    }
     
     
     // stores metadata of this workspace. Initialized to untitled. can be
