@@ -110,6 +110,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(amtMoved)
+        aCoder.encode(expressionString)
     }
     
     //MARK: Initialization
@@ -131,6 +132,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         self.parser = Parser(functionString: "")
         super.init(coder: unarchiver)
         amtMoved = unarchiver.decodeObject() as! CGFloat!
+        expressionString = unarchiver.decodeObject() as! String!
         doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self

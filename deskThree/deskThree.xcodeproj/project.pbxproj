@@ -18,7 +18,7 @@
 		CE18D3611E6DCD2500BC54D8 /* ATKMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE18D3601E6DCD2500BC54D8 /* ATKMath.framework */; };
 		CE18D3631E6DCD4600BC54D8 /* ATKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE18D3621E6DCD4600BC54D8 /* ATKCore.framework */; };
 		CE18D3651E6DCE2E00BC54D8 /* ATKMathWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE18D3641E6DCE2E00BC54D8 /* ATKMathWidget.framework */; };
-		CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE18D3671E6E08E700BC54D8 /* MathBlock.swift */; };
+		CE18D3681E6E08E700BC54D8 /* e.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE18D3671E6E08E700BC54D8 /* e.swift */; };
 		CE3E876C1E354D640076DA3A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */; };
 		CEC6DD101DEE8D14002A2460 /* JotUI in Resources */ = {isa = PBXBuildFile; fileRef = CEC6DD0B1DEE8D14002A2460 /* JotUI */; };
 		CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC6DD131DEE8D14002A2460 /* JotUI.framework */; };
@@ -116,7 +116,7 @@
 		CE18D3601E6DCD2500BC54D8 /* ATKMath.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKMath.framework; path = "MyScript_ATK-ios-2.2/Frameworks/ATKMath.framework"; sourceTree = "<group>"; };
 		CE18D3621E6DCD4600BC54D8 /* ATKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKCore.framework; path = "MyScript_ATK-ios-2.2/Frameworks/ATKCore.framework"; sourceTree = "<group>"; };
 		CE18D3641E6DCE2E00BC54D8 /* ATKMathWidget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKMathWidget.framework; path = "MyScript_ATK-ios-2.2/Frameworks/ATKMathWidget.framework"; sourceTree = "<group>"; };
-		CE18D3671E6E08E700BC54D8 /* MathBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathBlock.swift; sourceTree = "<group>"; };
+		CE18D3671E6E08E700BC54D8 /* e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = e.swift; sourceTree = "<group>"; };
 		CEC6DD0B1DEE8D14002A2460 /* JotUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = JotUI; sourceTree = "<group>"; };
 		CEC6DD0C1DEE8D14002A2460 /* JotUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotUI.h; sourceTree = "<group>"; };
 		CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = JotUI.xcodeproj; sourceTree = "<group>"; };
@@ -365,7 +365,7 @@
 				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
 				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
 				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
-				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
+				CE18D3671E6E08E700BC54D8 /* e.swift */,
 				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
 				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
 				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
@@ -597,7 +597,7 @@
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */,
-				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,
+				CE18D3681E6E08E700BC54D8 /* e.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
 				5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */,
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
