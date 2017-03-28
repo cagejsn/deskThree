@@ -190,6 +190,7 @@ class BlockExpression: Expression{
         self.isDisplayingSpots = unarchiver.decodeObject() as! Bool
         self.dummyViews = unarchiver.decodeObject() as! [Block]!
         self.rootBlock = unarchiver.decodeObject() as! Block!
+        self.expressionString = ETree.printCurrentTree(root: self.rootBlock)
     }
     
 }
