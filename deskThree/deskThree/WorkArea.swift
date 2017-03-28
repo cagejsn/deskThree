@@ -297,11 +297,8 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
     }
     
     override func encode(with aCoder: NSCoder){
-        self.currentPage.removeFromSuperview()
         super.encode(with: aCoder)
         aCoder.encode(pages)
-        
-        self.addSubview(currentPage)
     }
     
     init(){
@@ -326,7 +323,13 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
         pages = loadedPaper
         self.currentPage = pages.first
         currentPage.isHidden = false
+        
+        for view in self.subviews{
+            view.isHidden = true
+        }
+        
         self.addSubview(currentPage)
+        currentPage.isHidden = false
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         currentPage.contentMode = .scaleAspectFit
        // self.sendSubview(toBack: currentPage)
