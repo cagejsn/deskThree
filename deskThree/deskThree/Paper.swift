@@ -19,12 +19,14 @@ protocol PaperDelegate {
 }
 
 
-class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate {
+class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStateProxyDelegate {
     
     var delegate: PaperDelegate!
     var images: [ImageBlock]!
     var expressions: [Expression]!
-    
+    var drawingState: JotViewStateProxy!
+    var jotViewStateInkPath: String!
+    var jotViewStatePlistPath: String!
     
     func elementWantsSendToInputObject(element:Any){
         delegate.passHeldBlock(sender: element as! Expression)
@@ -80,7 +82,11 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate {
 
         
     }
-    
+
+    func reInitDrawingState() {
+        drawingState.isForgetful = true
+        drawingState = JotViewStateProxy()
+    }
 
     //ImageBlock Delegate Functions
     func fixImageToPage(image: ImageBlock){
@@ -97,6 +103,20 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate {
 
     }
     
+    //pragma mark - JotViewStateProxyDelegate
+    
+    func documentDir() -> String {
+        let userDocumentsPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        return userDocumentsPaths.first!
+    }
+    
+    func didLoadState(_ state: JotViewStateProxy!) {
+        
+    }
+    
+    func didUnloadState(_ state: JotViewStateProxy!) {
+        
+    }
     
     func setupDelegateChain(){
         for image in images {
@@ -121,6 +141,7 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate {
         self.image = UIImage(named: "engineeringPaper2")
         self.isOpaque = false
         images = [ImageBlock]() //creates an array to save the imageblocks
+        drawingState = JotViewStateProxy(delegate: self)
     }
     
     //MARK: setup for loading

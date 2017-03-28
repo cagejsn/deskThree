@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate  {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate  {
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
@@ -27,10 +27,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var eraser: Eraser!
     var curPen = Constants.pens.pen
     var jotView: JotView!
-    var pageDrawingStates: [JotViewStateProxy] = [JotViewStateProxy]()
-    var jotViewStateInkPath: String!
-    var jotViewStatePlistPath: String!
-    var graphingBlock: GraphingBlock!
+
+//    var graphingBlock: GraphingBlock!
     var trashBin: Trash!
     var prevScaleFactor: CGFloat!
     var mathView: OCRMathView!
@@ -250,10 +248,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
-        pageDrawingStates.append(JotViewStateProxy(delegate: self))
-        pageDrawingStates[0].delegate = self
-        pageDrawingStates[0].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-        jotView.loadState(pageDrawingStates[0])
+        workArea.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(workArea.currentPage.drawingState)
         // inserting jotView right below toolbar
         self.view.insertSubview(jotView, at: 1)
         jotView.isUserInteractionEnabled = false
@@ -347,9 +343,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
         //workArea.frame = workArea.currentPage.frame
-        pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
+        workArea.currentPage.drawingState.isForgetful = false
         jotView.exportToImage(onComplete: exportPdf , withScale: 1.66667)
-        pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
+        workArea.currentPage.drawingState.isForgetful = true
     }
     
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
@@ -365,19 +361,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBAction func pageRightButtonPressed(_ sender: Any) {
         let pagesInfo = workArea.movePage(direction: "right")
         
+        // If this is a new page, create new state
+        if (pagesInfo.totalNumPages > self.totalPages){
+            workArea.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        }
+        jotView.loadState(workArea.currentPage.drawingState)
+        
         self.currentPage = pagesInfo.currentPage + 1
         self.totalPages = pagesInfo.totalNumPages
 
-        pageDrawingStates[pagesInfo.currentPage-1].isForgetful = false;
-        // If this is a new page, create new state
-        if (pagesInfo.totalNumPages > pageDrawingStates.count){
-            pageDrawingStates.append(JotViewStateProxy(delegate: self))
-            pageDrawingStates[pagesInfo.currentPage].delegate = self
-            pageDrawingStates[pagesInfo.currentPage].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-        }
-        pageDrawingStates[pagesInfo.currentPage].isForgetful = true
-        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
-        
         jotView.currentPage = workArea.currentPage
         
         updatePageNotification()
@@ -387,12 +379,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let pagesInfo = workArea.movePage(direction: "left")
         self.currentPage = pagesInfo.currentPage + 1
         self.totalPages = pagesInfo.totalNumPages
-        if (pagesInfo.currentPage != 0) {
-            pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
-        }
-        pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
-        jotView.currentPage = workArea.currentPage;
-        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
+        
+        jotView.currentPage = workArea.currentPage
+        jotView.loadState(workArea.currentPage.drawingState)
         
         updatePageNotification()
     }
@@ -497,10 +486,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
         // We just load up a whole new state to get a cleared backing texture. I know, it is 
         // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself
-        pageDrawingStates[workArea.currentPageIndex].isForgetful = true
-        pageDrawingStates[workArea.currentPageIndex] = JotViewStateProxy (delegate: self)
-        pageDrawingStates[workArea.currentPageIndex].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-        jotView.loadState(pageDrawingStates[workArea.currentPageIndex])
+        workArea.currentPage.reInitDrawingState()
+        workArea.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(workArea.currentPage.drawingState)
         jotView.clear(true)
         
     }
@@ -591,20 +579,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return activePen().smoothness(forCoalescedTouch: coalescedTouch, from: touch)
     }
     
-    //pragma mark - JotViewStateProxyDelegate
-    
-    func documentDir() -> String {
-        var userDocumentsPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        return userDocumentsPaths.first!
-    }
-    
-    func didLoadState(_ state: JotViewStateProxy!) {
-        
-    }
-    
-    func didUnloadState(_ state: JotViewStateProxy!) {
-        
-    }
+
     
     ///unpacks and loads in whatever is at /file.desk
     @IBAction func didPressLoad(_ sender: Any) {
