@@ -218,6 +218,7 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate {
         images = unarchiver.decodeObject() as! [ImageBlock]!
         for image in images! {
             self.addSubview(image)
+            image.delegate = self
         }
         
         expressions = unarchiver.decodeObject() as! [Expression]!
