@@ -318,7 +318,6 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
         // Initialize the first page & set it as the current page
         let loadedPaper = aDecoder.decodeObject() as! [Paper]
         pages = loadedPaper
@@ -330,7 +329,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
         currentPage.isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
 
-
+        print(self.panGestureRecognizer.isEnabled)
         
     }
 }
