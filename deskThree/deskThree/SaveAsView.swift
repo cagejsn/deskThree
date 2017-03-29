@@ -18,10 +18,16 @@ class SaveAsView: UIView {
         
         let projectName = projectNameTextField.text
         if(projectName != ""){
-        if(saveProject(name: projectName!)){print("yes")} else { print("no1")}
+            if(saveProject(name: projectName!)){
+                print("Project saved successfully")
+            } else {
+                print("Project not saved")
+            }
+        closeButtonTapped(self)
+        }else{
+            workAreaRef.raiseAlert(title: "", alert: "Enter Name.")
         }
         
-        print("no2")
 }
 
 
@@ -62,7 +68,7 @@ class SaveAsView: UIView {
     
     
     
-    
+
     @IBAction func closeButtonTapped(_ sender: Any) {
         self.removeFromSuperview()  
     }

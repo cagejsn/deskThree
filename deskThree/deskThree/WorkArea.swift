@@ -14,6 +14,7 @@ protocol WorkAreaDelegate {
     func unhideTrash()
     func hideTrash()
     func sendingToInputObject(for element: Any)
+    func displayErrorInViewController(title: String, description: String)
 }
 
 class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
@@ -280,6 +281,11 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
         }
         
         return (currentPageIndex, pages.count)
+    }
+    
+    func raiseAlert(title: String, alert: String){
+        
+        customDelegate.displayErrorInViewController(title: title, description: alert)
     }
     
     // MARK: init and helpers
