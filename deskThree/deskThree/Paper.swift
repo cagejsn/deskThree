@@ -11,11 +11,10 @@ import UIKit
 
 protocol PaperDelegate {
     func passHeldBlock(sender:Expression)
-    func didIncrementMove(_movedView: UIView)
-    func didCompleteMove(_movedView: UIView)
+    func didBeginMove(movedView: UIView)
+    func didIncrementMove(movedView: UIView)
+    func didCompleteMove(movedView: UIView)
     func didEvaluate(forExpression sender: Expression, result: Float)
-    func hideTrash()
-    func unhideTrash()
 }
 
 
@@ -30,26 +29,24 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate {
         delegate.passHeldBlock(sender: element as! Expression)
     }
     
-    func didIncrementMove(_movedView: UIView){
-        delegate.didIncrementMove(_movedView: _movedView)
+    func didBeginMove(movedView: UIView){
+        delegate.didBeginMove(movedView: movedView)
+    }
+
+    
+    func didIncrementMove(movedView: UIView){
+        delegate.didIncrementMove(movedView: movedView)
     }
     
-    func didCompleteMove(_movedView: UIView){
-        delegate.didCompleteMove(_movedView: _movedView)
+    func didCompleteMove(movedView: UIView){
+        delegate.didCompleteMove(movedView: movedView)
     }
     
     func didEvaluate(forExpression sender: Expression, result: Float){
         delegate.didEvaluate(forExpression: sender, result: result)
     }
     
-    func hideTrash(){
-        delegate.hideTrash()
-    }
-    
-    func unhideTrash(){
-        delegate.unhideTrash()
-    }
-    
+       
     func stylizeViews(){
         for exp in expressions {
             if let exp = exp as? BlockExpression {
