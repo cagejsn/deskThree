@@ -15,7 +15,7 @@ protocol DeskControlModuleDelegate {
 class DeskControlModule: DWBubbleMenuButton {
     
     var imageView: UIImageView!
-    var delegate2: DeskControlModuleDelegate!
+    var deskViewControllerDelegate: DeskControlModuleDelegate!
     
     func setup(){
     
@@ -55,7 +55,7 @@ class DeskControlModule: DWBubbleMenuButton {
     
     
     func fileExplorerWasTapped(){
-        delegate2.fileExplorerButtonTapped(self)
+        deskViewControllerDelegate.fileExplorerButtonTapped(self)
     }
     
     func saveWasTapped(){

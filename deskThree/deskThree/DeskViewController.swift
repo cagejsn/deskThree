@@ -92,7 +92,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupDeskControlModule(){
         deskControlModule = DeskControlModule(frame: CGRect(x: 10, y: 20, width: 44, height: 44))
-        deskControlModule.delegate2 = self
+        deskControlModule.deskViewControllerDelegate = self
         self.view.addSubview(deskControlModule)
     }
     
