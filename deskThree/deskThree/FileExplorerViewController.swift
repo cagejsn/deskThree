@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Zip
 
 protocol FileExplorerViewControllerDelegate {
     func didSelectProject(newWorkArea:WorkArea)
@@ -45,9 +46,42 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let path = PathLocator.getProjectFolder() + "/" + metaDataFromDisk[indexPath.row].name + ".DESK"
-        let file = NSKeyedUnarchiver.unarchiveObject(withFile: path)
-        if let workArea = file as? WorkArea {
+        let name = metaDataFromDisk[indexPath.row].name
+        let pathToUnzip = PathLocator.getProjectFolder() + "/" + name! + ".DZIP"
+        
+        let pathToTempFolder = PathLocator.getTempFolder()
+        let pathToTempInstance = pathToTempFolder+"/"+name!
+        if FileManager.default.fileExists(atPath: pathToTempInstance){
+            do{
+                try FileManager.default.removeItem(atPath: pathToTempInstance)
+            }
+            catch{}
+        }
+        //making the folder to temporarily hold the unzipped data
+        do{
+            try FileManager.default.createDirectory(atPath: pathToTempInstance, withIntermediateDirectories: true, attributes: nil)
+        }
+        catch{}
+        
+        Zip.addCustomFileExtension("DZIP")
+        
+        //unzipping file into just created directory
+        do{
+            try Zip.unzipFile(NSURL(string: pathToUnzip) as! URL, destination: NSURL(string: pathToTempInstance) as! URL, overwrite: true, password: "password", progress: { (progress) -> () in
+                print(progress)
+            })
+            print("unzip successful")
+
+            print("successfully created temp file of project")
+        }
+        catch let error as Error{
+            print(error.localizedDescription)
+            print("not unzipping file")
+        }
+        
+        
+        let unzippedWorkArea = NSKeyedUnarchiver.unarchiveObject(withFile: pathToTempInstance+"/WorkArea.Desk")
+        if let workArea = unzippedWorkArea as? WorkArea {
             
             delegate.didSelectProject(newWorkArea: workArea)
         }

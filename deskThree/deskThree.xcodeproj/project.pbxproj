@@ -11,14 +11,18 @@
 		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
+		528F8ADD1E8C207700E75EF4 /* ZipKit.xcodeproj in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */; };
+		528F8AE11E8C222600E75EF4 /* Zip in Resources */ = {isa = PBXBuildFile; fileRef = 528F8AE01E8C222600E75EF4 /* Zip */; };
+		528F8AE21E8C65FA00E75EF4 /* Zip in Sources */ = {isa = PBXBuildFile; fileRef = 528F8AE01E8C222600E75EF4 /* Zip */; };
 		5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A22C1E6C993100BFA775 /* BlockExpression.swift */; };
 		52A662A31E32B1C8008E088A /* Trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A662A21E32B1C8008E088A /* Trash.swift */; };
 		52C9BB271E2D68AA005DA9C2 /* deskThreeGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB261E2D68AA005DA9C2 /* deskThreeGraphTests.swift */; };
 		52C9BB301E2D6D0F005DA9C2 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */; };
+		84A286E1B4659887E21BA248 /* Pods_deskThreeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D85D143F1868D830A35F28 /* Pods_deskThreeUITests.framework */; };
 		CE18D3611E6DCD2500BC54D8 /* ATKMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE18D3601E6DCD2500BC54D8 /* ATKMath.framework */; };
 		CE18D3631E6DCD4600BC54D8 /* ATKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE18D3621E6DCD4600BC54D8 /* ATKCore.framework */; };
 		CE18D3651E6DCE2E00BC54D8 /* ATKMathWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE18D3641E6DCE2E00BC54D8 /* ATKMathWidget.framework */; };
-		CE18D3681E6E08E700BC54D8 /* e.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE18D3671E6E08E700BC54D8 /* e.swift */; };
+		CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE18D3671E6E08E700BC54D8 /* MathBlock.swift */; };
 		CE3E876C1E354D640076DA3A /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */; };
 		CEC6DD101DEE8D14002A2460 /* JotUI in Resources */ = {isa = PBXBuildFile; fileRef = CEC6DD0B1DEE8D14002A2460 /* JotUI */; };
 		CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC6DD131DEE8D14002A2460 /* JotUI.framework */; };
@@ -76,9 +80,31 @@
 		DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */; };
 		DAFBE3B91DBBDBC20007D249 /* deskThreeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3B81DBBDBC20007D249 /* deskThreeUITests.swift */; };
 		DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */; };
+		FD790B00756F5FF42BD73BEE /* Pods_deskThreeGraphTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FDB8E9B662FF0977E2FA15E /* Pods_deskThreeGraphTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		528F8AD71E8C206F00E75EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB6F09CE174838FC00F91524;
+			remoteInfo = ZipKit;
+		};
+		528F8AD91E8C206F00E75EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB6F0A4617483E5000F91524;
+			remoteInfo = zipkit;
+		};
+		528F8ADB1E8C206F00E75EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CB6F0A9817484BDE00F91524;
+			remoteInfo = touchzipkit;
+		};
 		52C9BB291E2D68AA005DA9C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DAFBE3981DBBDBC20007D249 /* Project object */;
@@ -105,18 +131,29 @@
 /* Begin PBXFileReference section */
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
+		3859C6E36B6E6B67EBB67107 /* Pods-deskThreeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-deskThreeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-deskThreeUITests/Pods-deskThreeUITests.release.xcconfig"; sourceTree = "<group>"; };
 		526C111B1E7DD8FE00196164 /* PathLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLocator.swift; sourceTree = "<group>"; };
 		526C111E1E7DF2CB00196164 /* DeskProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskProject.swift; sourceTree = "<group>"; };
+		528F8ACD1E8C175600E75EF4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ZipKit.xcodeproj; sourceTree = "<group>"; };
+		528F8AE01E8C222600E75EF4 /* Zip */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Zip; sourceTree = "<group>"; };
 		5297A22C1E6C993100BFA775 /* BlockExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockExpression.swift; sourceTree = "<group>"; };
 		52A662A21E32B1C8008E088A /* Trash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trash.swift; sourceTree = "<group>"; };
 		52C9BB241E2D68AA005DA9C2 /* deskThreeGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = deskThreeGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52C9BB261E2D68AA005DA9C2 /* deskThreeGraphTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deskThreeGraphTests.swift; sourceTree = "<group>"; };
 		52C9BB281E2D68AA005DA9C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = deskThree/Parser.swift; sourceTree = SOURCE_ROOT; };
+		5FDB8E9B662FF0977E2FA15E /* Pods_deskThreeGraphTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_deskThreeGraphTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AE1AB8DE35B0F528A15D603 /* Pods-deskThree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-deskThree.release.xcconfig"; path = "Pods/Target Support Files/Pods-deskThree/Pods-deskThree.release.xcconfig"; sourceTree = "<group>"; };
+		8F28B86EF7569D41EE8DDD25 /* Pods_deskThree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_deskThree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6560090D3F30830E462529E /* Pods-deskThree.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-deskThree.debug.xcconfig"; path = "Pods/Target Support Files/Pods-deskThree/Pods-deskThree.debug.xcconfig"; sourceTree = "<group>"; };
+		B5427CB9C957386B3B470DAA /* Pods-deskThreeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-deskThreeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-deskThreeUITests/Pods-deskThreeUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		C3D85D143F1868D830A35F28 /* Pods_deskThreeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_deskThreeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD85807C13CDC96BBCF1E1BD /* Pods-deskThreeGraphTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-deskThreeGraphTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-deskThreeGraphTests/Pods-deskThreeGraphTests.debug.xcconfig"; sourceTree = "<group>"; };
 		CE18D3601E6DCD2500BC54D8 /* ATKMath.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKMath.framework; path = "MyScript_ATK-ios-2.2/Frameworks/ATKMath.framework"; sourceTree = "<group>"; };
 		CE18D3621E6DCD4600BC54D8 /* ATKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKCore.framework; path = "MyScript_ATK-ios-2.2/Frameworks/ATKCore.framework"; sourceTree = "<group>"; };
 		CE18D3641E6DCE2E00BC54D8 /* ATKMathWidget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKMathWidget.framework; path = "MyScript_ATK-ios-2.2/Frameworks/ATKMathWidget.framework"; sourceTree = "<group>"; };
-		CE18D3671E6E08E700BC54D8 /* e.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = e.swift; sourceTree = "<group>"; };
+		CE18D3671E6E08E700BC54D8 /* MathBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathBlock.swift; sourceTree = "<group>"; };
 		CEC6DD0B1DEE8D14002A2460 /* JotUI */ = {isa = PBXFileReference; lastKnownFileType = folder; path = JotUI; sourceTree = "<group>"; };
 		CEC6DD0C1DEE8D14002A2460 /* JotUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotUI.h; sourceTree = "<group>"; };
 		CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = JotUI.xcodeproj; sourceTree = "<group>"; };
@@ -193,6 +230,7 @@
 		DAFBE3B81DBBDBC20007D249 /* deskThreeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deskThreeUITests.swift; sourceTree = "<group>"; };
 		DAFBE3BA1DBBDBC20007D249 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		EADCDCADAFEE4D3C38FC4B80 /* Pods-deskThreeGraphTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-deskThreeGraphTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-deskThreeGraphTests/Pods-deskThreeGraphTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +238,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD790B00756F5FF42BD73BEE /* Pods_deskThreeGraphTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE18D3651E6DCE2E00BC54D8 /* ATKMathWidget.framework in Frameworks */,
+				528F8ADD1E8C207700E75EF4 /* ZipKit.xcodeproj in Frameworks */,
 				CE18D3611E6DCD2500BC54D8 /* ATKMath.framework in Frameworks */,
 				DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */,
 				CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */,
@@ -219,12 +259,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84A286E1B4659887E21BA248 /* Pods_deskThreeUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		06501B0DD850028D549BF600 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A6560090D3F30830E462529E /* Pods-deskThree.debug.xcconfig */,
+				7AE1AB8DE35B0F528A15D603 /* Pods-deskThree.release.xcconfig */,
+				CD85807C13CDC96BBCF1E1BD /* Pods-deskThreeGraphTests.debug.xcconfig */,
+				EADCDCADAFEE4D3C38FC4B80 /* Pods-deskThreeGraphTests.release.xcconfig */,
+				B5427CB9C957386B3B470DAA /* Pods-deskThreeUITests.debug.xcconfig */,
+				3859C6E36B6E6B67EBB67107 /* Pods-deskThreeUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		528F8AD21E8C206F00E75EF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				528F8AD81E8C206F00E75EF4 /* ZipKit.framework */,
+				528F8ADA1E8C206F00E75EF4 /* libzipkit.a */,
+				528F8ADC1E8C206F00E75EF4 /* libtouchzipkit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		52C9BB251E2D68AA005DA9C2 /* deskThreeGraphTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,6 +328,8 @@
 		DAA494DE1DC2ED5A00C73780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */,
+				528F8ACD1E8C175600E75EF4 /* libz.tbd */,
 				CE18D3641E6DCE2E00BC54D8 /* ATKMathWidget.framework */,
 				CE18D3621E6DCD4600BC54D8 /* ATKCore.framework */,
 				CE18D3601E6DCD2500BC54D8 /* ATKMath.framework */,
@@ -272,6 +338,9 @@
 				DAE5D3211E62335A007DE25F /* ATKMathWidget.framework */,
 				DAE5D31D1E623337007DE25F /* SystemConfiguration.framework */,
 				DAA494DF1DC2ED5A00C73780 /* Foundation.framework */,
+				8F28B86EF7569D41EE8DDD25 /* Pods_deskThree.framework */,
+				5FDB8E9B662FF0977E2FA15E /* Pods_deskThreeGraphTests.framework */,
+				C3D85D143F1868D830A35F28 /* Pods_deskThreeUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -299,6 +368,7 @@
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				528F8AE01E8C222600E75EF4 /* Zip */,
 				DA5747641E74983E0010F754 /* Assets.xcassets */,
 				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
 				DA2D2A6C1E67AFE6008F59BB /* desk.deskThreeUT1.c */,
@@ -325,6 +395,7 @@
 				DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */,
 				DAE5D32B1E6235D5007DE25F /* MyCertificate.h */,
 				DAA494DE1DC2ED5A00C73780 /* Frameworks */,
+				06501B0DD850028D549BF600 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -365,7 +436,7 @@
 				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
 				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
 				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
-				CE18D3671E6E08E700BC54D8 /* e.swift */,
+				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
 				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
 				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
 				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
@@ -392,9 +463,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 52C9BB2E1E2D68AA005DA9C2 /* Build configuration list for PBXNativeTarget "deskThreeGraphTests" */;
 			buildPhases = (
+				0FB3DD88BEFFA8B05B8C951B /* [CP] Check Pods Manifest.lock */,
 				52C9BB201E2D68AA005DA9C2 /* Sources */,
 				52C9BB211E2D68AA005DA9C2 /* Frameworks */,
 				52C9BB221E2D68AA005DA9C2 /* Resources */,
+				88AF96FF75F9199929FF7054 /* [CP] Embed Pods Frameworks */,
+				884F5C47B83286D0C53CA2BF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -410,9 +484,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DAFBE3BD1DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "deskThree" */;
 			buildPhases = (
+				202C35E42C8EABC42A727657 /* [CP] Check Pods Manifest.lock */,
 				DAFBE39C1DBBDBC20007D249 /* Sources */,
 				DAFBE39D1DBBDBC20007D249 /* Frameworks */,
 				DAFBE39E1DBBDBC20007D249 /* Resources */,
+				7D23C67F4E85B178F46F350A /* [CP] Embed Pods Frameworks */,
+				935EE4381394B671697B746B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -427,9 +504,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DAFBE3C01DBBDBC20007D249 /* Build configuration list for PBXNativeTarget "deskThreeUITests" */;
 			buildPhases = (
+				08CD5FAB590C7986645BED04 /* [CP] Check Pods Manifest.lock */,
 				DAFBE3B01DBBDBC20007D249 /* Sources */,
 				DAFBE3B11DBBDBC20007D249 /* Frameworks */,
 				DAFBE3B21DBBDBC20007D249 /* Resources */,
+				70002C8581826559041A011F /* [CP] Embed Pods Frameworks */,
+				6CF845ECA5B77ECE4B91679D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -485,6 +565,10 @@
 					ProductGroup = CEC6DD0E1DEE8D14002A2460 /* Products */;
 					ProjectRef = CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */;
 				},
+				{
+					ProductGroup = 528F8AD21E8C206F00E75EF4 /* Products */;
+					ProjectRef = 528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -496,6 +580,27 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		528F8AD81E8C206F00E75EF4 /* ZipKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ZipKit.framework;
+			remoteRef = 528F8AD71E8C206F00E75EF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		528F8ADA1E8C206F00E75EF4 /* libzipkit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libzipkit.a;
+			remoteRef = 528F8AD91E8C206F00E75EF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		528F8ADC1E8C206F00E75EF4 /* libtouchzipkit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libtouchzipkit.a;
+			remoteRef = 528F8ADB1E8C206F00E75EF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		CEC6DD131DEE8D14002A2460 /* JotUI.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework.static;
@@ -531,6 +636,7 @@
 				25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */,
 				DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */,
 				DADC67FC1E27E9F800C14F5B /* GraphingBlock.xib in Resources */,
+				528F8AE11E8C222600E75EF4 /* Zip in Resources */,
 				DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */,
 				DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */,
 				DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */,
@@ -548,6 +654,144 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		08CD5FAB590C7986645BED04 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		0FB3DD88BEFFA8B05B8C951B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		202C35E42C8EABC42A727657 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6CF845ECA5B77ECE4B91679D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-deskThreeUITests/Pods-deskThreeUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		70002C8581826559041A011F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-deskThreeUITests/Pods-deskThreeUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7D23C67F4E85B178F46F350A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-deskThree/Pods-deskThree-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		884F5C47B83286D0C53CA2BF /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-deskThreeGraphTests/Pods-deskThreeGraphTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		88AF96FF75F9199929FF7054 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-deskThreeGraphTests/Pods-deskThreeGraphTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		935EE4381394B671697B746B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-deskThree/Pods-deskThree-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		52C9BB201E2D68AA005DA9C2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -562,6 +806,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				528F8AE21E8C65FA00E75EF4 /* Zip in Sources */,
 				CE3E876C1E354D640076DA3A /* Parser.swift in Sources */,
 				DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */,
 				DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */,
@@ -597,7 +842,7 @@
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */,
-				CE18D3681E6E08E700BC54D8 /* e.swift in Sources */,
+				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
 				5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */,
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
@@ -652,6 +897,7 @@
 /* Begin XCBuildConfiguration section */
 		52C9BB2B1E2D68AA005DA9C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD85807C13CDC96BBCF1E1BD /* Pods-deskThreeGraphTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -668,6 +914,7 @@
 		};
 		52C9BB2C1E2D68AA005DA9C2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EADCDCADAFEE4D3C38FC4B80 /* Pods-deskThreeGraphTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -773,6 +1020,7 @@
 		};
 		DAFBE3BE1DBBDBC20007D249 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A6560090D3F30830E462529E /* Pods-deskThree.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -802,6 +1050,7 @@
 		};
 		DAFBE3BF1DBBDBC20007D249 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7AE1AB8DE35B0F528A15D603 /* Pods-deskThree.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -830,6 +1079,7 @@
 		};
 		DAFBE3C11DBBDBC20007D249 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B5427CB9C957386B3B470DAA /* Pods-deskThreeUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = deskThreeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -842,6 +1092,7 @@
 		};
 		DAFBE3C21DBBDBC20007D249 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3859C6E36B6E6B67EBB67107 /* Pods-deskThreeUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = deskThreeUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
