@@ -13,6 +13,7 @@
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
 		528F8B081E8D9E2900E75EF4 /* mixpanel-swift in Resources */ = {isa = PBXBuildFile; fileRef = 528F8B071E8D9E2900E75EF4 /* mixpanel-swift */; };
 		528F8B131E8DA03A00E75EF4 /* Mixpanel.xcodeproj in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */; };
+		528F8B151E8DB57300E75EF4 /* Zip in Resources */ = {isa = PBXBuildFile; fileRef = 528F8B141E8DB57300E75EF4 /* Zip */; };
 		5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A22C1E6C993100BFA775 /* BlockExpression.swift */; };
 		52A662A31E32B1C8008E088A /* Trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A662A21E32B1C8008E088A /* Trash.swift */; };
 		52C9BB271E2D68AA005DA9C2 /* deskThreeGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB261E2D68AA005DA9C2 /* deskThreeGraphTests.swift */; };
@@ -146,6 +147,7 @@
 		528F8B051E8D9DBB00E75EF4 /* mixpanel-swift */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "mixpanel-swift"; sourceTree = "<group>"; };
 		528F8B071E8D9E2900E75EF4 /* mixpanel-swift */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "mixpanel-swift"; sourceTree = "<group>"; };
 		528F8B0C1E8D9EA800E75EF4 /* Mixpanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Mixpanel.swift; path = "mixpanel-swift/Mixpanel/Mixpanel.swift"; sourceTree = "<group>"; };
+		528F8B141E8DB57300E75EF4 /* Zip */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Zip; sourceTree = "<group>"; };
 		5297A22C1E6C993100BFA775 /* BlockExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockExpression.swift; sourceTree = "<group>"; };
 		52A662A21E32B1C8008E088A /* Trash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trash.swift; sourceTree = "<group>"; };
 		52C9BB241E2D68AA005DA9C2 /* deskThreeGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = deskThreeGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -359,6 +361,7 @@
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				528F8B141E8DB57300E75EF4 /* Zip */,
 				528F8B071E8D9E2900E75EF4 /* mixpanel-swift */,
 				DA5747641E74983E0010F754 /* Assets.xcassets */,
 				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
@@ -621,6 +624,7 @@
 				DA4A54731E8CD00B0039B030 /* LowerDeskControls.xib in Resources */,
 				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
+				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
 				DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */,
 				DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */,
 				DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */,
