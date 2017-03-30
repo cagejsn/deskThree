@@ -29,22 +29,38 @@ class DeskControlModule: DWBubbleMenuButton {
       
         let fileExplorerButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         fileExplorerButton.setImage(UIImage(named: "fileButtonDesk"), for: .normal)
-        fileExplorerButton.addTarget(self, action: #selector(DeskControlModule.fileExplorerWasTapped), for: .touchUpInside)
+        fileExplorerButton.addTarget(self, action: #selector(DeskControlModule.fileExplorerButtonWasTapped), for: .touchUpInside)
         buttons.append(fileExplorerButton)
         
         let saveButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         saveButton.setImage(UIImage(named: "saveButtonDesk"), for: .normal)
-        saveButton.addTarget(self, action: #selector(DeskControlModule.saveWasTapped), for: .touchUpInside)
+        saveButton.addTarget(self, action: #selector(DeskControlModule.saveButtonWasTapped), for: .touchUpInside)
         buttons.append(saveButton)
         
         togglePenButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         togglePenButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
-        togglePenButton.addTarget(self, action: #selector(DeskControlModule.togglePenTapped), for: .touchUpInside)
+        togglePenButton.addTarget(self, action: #selector(DeskControlModule.togglePenButtonWasTapped), for: .touchUpInside)
         buttons.append(togglePenButton)
         
         let importPhotoButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         importPhotoButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
-        importPhotoButton.addTarget(self, action: #selector(DeskControlModule.importPhotoWasTapped), for: .touchUpInside)
+        importPhotoButton.addTarget(self, action: #selector(DeskControlModule.importPhotoButtonWasTapped), for: .touchUpInside)
+        buttons.append(importPhotoButton)
+
+        let toggleMyScriptViewButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        toggleMyScriptViewButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
+        toggleMyScriptViewButton.addTarget(self, action: #selector(DeskControlModule.toggleMyScriptViewButtonWasTapped), for: .touchUpInside)
+        buttons.append(toggleMyScriptViewButton)
+
+        let exportPageButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        exportPageButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
+        exportPageButton.addTarget(self, action: #selector(DeskControlModule.exportPageButtonWasTapped), for: .touchUpInside)
+        buttons.append(exportPageButton)
+        
+        let clearPageButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        clearPageButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
+        clearPageButton.addTarget(self, action: #selector(DeskControlModule.clearPageButtonWasTapped), for: .touchUpInside)
+        buttons.append(clearPageButton)
         
         self.addButtons(buttons)
     }
@@ -60,15 +76,15 @@ class DeskControlModule: DWBubbleMenuButton {
         imageView.image = UIImage(named: "moreButton")
     }
     
-    func fileExplorerWasTapped(){
+    func fileExplorerButtonWasTapped(){
         deskViewControllerDelegate.fileExplorerButtonTapped(self)
     }
     
-    func saveWasTapped(){
+    func saveButtonWasTapped(){
         deskViewControllerDelegate.saveButtonTapped(self)
     }
     
-    func togglePenTapped(){
+    func togglePenButtonWasTapped(){
         // Change pen type
         deskViewControllerDelegate.togglePen()
 
@@ -84,10 +100,21 @@ class DeskControlModule: DWBubbleMenuButton {
         }
     }
     
-    func importPhotoWasTapped() {
+    func importPhotoButtonWasTapped() {
         deskViewControllerDelegate.loadImageButtonPushed(self)
     }
     
+    func toggleMyScriptViewButtonWasTapped() {
+        
+    }
+    
+    func exportPageButtonWasTapped() {
+        
+    }
+    
+    func clearPageButtonWasTapped() {
+        
+    }
     
      override init(frame: CGRect) {
         super.init(frame: frame, expansionDirection: .DirectionDown)

@@ -391,22 +391,25 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
      */
     func loadImageButtonPushed(_ sender: Any) {
         if(UIImagePickerController.isSourceTypeAvailable(.camera)){
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-//                alert.popoverPresentationController?.barButtonItem = sender
-            alert.popoverPresentationController?.sourceView = self.view
-//            alert.popoverPresentationController?.sourceRect = self.view.bounds
-                alert.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 200, height: 200)
-                alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
+            let alert = UIAlertController(title: "Choose a Photo", message: nil, preferredStyle: UIAlertControllerStyle.alert)
+            
+//            alert.popoverPresentationController?.sourceView = self.view
+//            alert.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 200, height: 200)
+            
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
                 action in
                 self.gkimagePicker.imagePickerController.sourceType = .camera
                 self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
                 action in self.gkimagePicker.imagePickerController.sourceType = .photoLibrary
                 self.present(self.gkimagePicker.imagePickerController, animated: false, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        
         } else {
             self.present(gkimagePicker.imagePickerController, animated: false, completion: nil)
         }
