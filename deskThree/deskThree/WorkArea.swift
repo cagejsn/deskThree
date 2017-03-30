@@ -14,6 +14,7 @@ protocol WorkAreaDelegate {
     func unhideTrash()
     func hideTrash()
     func sendingToInputObject(for element: Any)
+    func displayErrorInViewController(title: String, description: String)
 }
 
 class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
@@ -23,7 +24,10 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
     var currentPageIndex = 0
     var longPressGR: UILongPressGestureRecognizer!
     var customDelegate: WorkAreaDelegate!
-
+    // stores metadata of this workspace. Initialized to untitled. can be
+    // replaced with setDeskProject
+    var project: DeskProject!
+    
     func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
     }
@@ -42,9 +46,6 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
     }
     
     
-    // stores metadata of this workspace. Initialized to untitled. can be
-    // replaced with setDeskProject
-    var project: DeskProject!
     
     ///sets workarea's meta data object
     func setDeskProject(project: DeskProject){
@@ -236,6 +237,7 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
      If there is no page, add one and make it the current page
      */
     func movePage(direction: String) -> (currentPage: Int, totalNumPages: Int) {
+        currentPage.drawingState.isForgetful = false
         if direction == "right" {
             // Check if this is the last page
             if currentPageIndex == pages.count - 1 {
@@ -254,6 +256,9 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
                 pages[currentPageIndex].isHidden = false
                 
                 currentPage = pages[currentPageIndex]
+                
+                currentPage.delegate = self
+                
             } else {
                 currentPageIndex += 1
                 
@@ -288,8 +293,13 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
                 initCurPage()
             }
         }
-        
+        currentPage.drawingState.isForgetful = true
         return (currentPageIndex, pages.count)
+    }
+    
+    func raiseAlert(title: String, alert: String){
+        
+        customDelegate.displayErrorInViewController(title: title, description: alert)
     }
     
     // MARK: init and helpers

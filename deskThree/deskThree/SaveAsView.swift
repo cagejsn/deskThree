@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Zip
 
 class SaveAsView: UIView {
     var workViewRef: WorkView!
@@ -18,19 +18,32 @@ class SaveAsView: UIView {
         
         let projectName = projectNameTextField.text
         if(projectName != ""){
-
             if(saveProject(name: projectName!)){
                 print("Project saved successfully")
             } else {
                 print("Project not saved")
             }
         closeButtonTapped(self)
+
         }else{
             workViewRef.raiseAlert(title: "", alert: "Enter Name.")
         }
         
 }
 
+
+        }else if(projectName == ""){
+            workAreaRef.raiseAlert(title: "", alert: "Enter project name.")
+        }else if(projectName?.contains(" "))!{
+            workAreaRef.raiseAlert(title: "", alert: "Project name cannot contain spaces.")
+        }
+        
+    }
+    func isAcceptableName(name: String) -> Bool{
+        
+        return !(name.contains(" ") || name == "")
+        
+    }
 
     ///saves project and metadata to files. Returs true if success
     func saveProject(name: String) -> Bool{
@@ -58,18 +71,63 @@ class SaveAsView: UIView {
         saveMetaData(name: name)
         
         //saves to documents/DeskThree/Projects/name.DESK
-        let filePath = PathLocator.getProjectFolder()+"/"+name+".DESK"
+        let tempFolderPath = PathLocator.getTempFolder()
+        let folderToZip = tempFolderPath+"/"+name
+        
+        //create the folder
+        if(!FileManager.default.fileExists(atPath: folderToZip)){
+            
+            do {
+                try FileManager.default.createDirectory(atPath: folderToZip, withIntermediateDirectories: false, attributes: nil)
+            } catch let error as NSError {
+                print(error.localizedDescription);
+            }
+        }
+        //save the work area into the folder
+        NSKeyedArchiver.archiveRootObject(workAreaRef, toFile: folderToZip+"/WorkArea.Desk")
+        
+        //save jot ui into the folder, folderToZip
+        
         
         
         NSKeyedArchiver.archiveRootObject(workViewRef, toFile: filePath)
+
         
+        
+        
+        
+        
+        do{
+            let destinationFolderURL = NSURL(string: PathLocator.getProjectFolder()) as! URL
+            let zipFilePath = NSURL(string: PathLocator.getProjectFolder() + "/"+name)?.appendingPathExtension("DZIP")
+            print(zipFilePath)
+            if FileManager.default.fileExists(atPath: String(describing: zipFilePath)) {
+                try FileManager.default.removeItem(at: zipFilePath!)
+            }
+
+            var thingsToZip = [URL]()
+            for thing in try FileManager.default.contentsOfDirectory(atPath: folderToZip){
+                thingsToZip.append( NSURL(string: folderToZip+"/"+thing) as! URL)
+            }
+            try Zip.zipFiles(paths: thingsToZip, zipFilePath: zipFilePath!, password: "password", progress: { (progress) -> () in
+                print(progress)
+            }) //Zip
+            Zip.addCustomFileExtension("DZIP")
+            
+            
+            try FileManager.default.removeItem(atPath: folderToZip)
+        }
+        catch{
+            print("error when zipping file")
+            return false
+        }
         return true
         
     }
     
     
     
-    
+
     @IBAction func closeButtonTapped(_ sender: Any) {
         self.removeFromSuperview()  
     }

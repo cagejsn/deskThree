@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Zip
 
 protocol FileExplorerViewControllerDelegate {
     func didSelectProject(newWorkView:WorkView)
@@ -50,7 +51,15 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         if let workArea = file as? WorkView {
             
             delegate.didSelectProject(newWorkView: workArea)
+
         }
+        //jot file should be here as whatever you name it. Grab it and load it into JotUI. You might need to make a function
+        //in DVC. This's delegate is DVC.
+        
+        
+        
+        
+        
     }
 }
 
