@@ -17,21 +17,13 @@ class SaveAsView: UIView {
     @IBAction func saveButtonTapped(_ sender: Any) {
         
         let projectName = projectNameTextField.text
-        if(projectName != ""){
+        if(isAcceptableName(projectName)){
             if(saveProject(name: projectName!)){
                 print("Project saved successfully")
             } else {
                 print("Project not saved")
             }
-        closeButtonTapped(self)
-
-        }else{
-            workViewRef.raiseAlert(title: "", alert: "Enter Name.")
-        }
-        
-}
-
-
+            closeButtonTapped(self)
         }else if(projectName == ""){
             workAreaRef.raiseAlert(title: "", alert: "Enter project name.")
         }else if(projectName?.contains(" "))!{
