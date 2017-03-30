@@ -16,6 +16,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
     var deskControlModule: DeskControlModule!
+    var lowerDeskControls: LowerDeskControls!
     
     //JotUI Properties
     var pen: Pen!
@@ -55,6 +56,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupMyScript()
         setupPageNumberSystem()
         setupDeskControlModule()
+        setupLowerControls()
      
         // Setup file explorer buttons
         
@@ -85,6 +87,20 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         cornerPageLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -60).isActive = true
         cornerPageLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
+    
+    func setupLowerControls(){
+        
+        lowerDeskControls = Bundle.main.loadNibNamed("LowerDeskControls", owner: nil, options: nil)?.first as!LowerDeskControls!
+        lowerDeskControls.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - 88, width: 216, height: 44)
+        lowerDeskControls.layoutSubviews()
+        self.view.addSubview(lowerDeskControls)
+        
+
+        
+            
+        
+    }
+
     
     func setupDeskControlModule(){
         deskControlModule = DeskControlModule(frame: CGRect(x: 10, y: 20, width: 44, height: 44))
