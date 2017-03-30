@@ -28,8 +28,8 @@ class Block: UILabel {
     
     func stylizeViews(){
         self.stylize()
-        leftChild?.stylize()
-        rightChild?.stylize()
+        leftChild?.stylizeViews()
+        rightChild?.stylizeViews()
     }
 
     func stylize(){

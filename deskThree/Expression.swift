@@ -11,11 +11,10 @@ import UIKit
 
 protocol ExpressionDelegate {
     func elementWantsSendToInputObject(element:Any)
-    func didIncrementMove(_movedView: UIView)
-    func didCompleteMove(_movedView: UIView)
+    func didBeginMove(movedView: UIView)
+    func didIncrementMove(movedView: UIView)
+    func didCompleteMove(movedView: UIView)
     func didEvaluate(forExpression sender: Expression, result: Float)
-    func hideTrash()
-    func unhideTrash()
 }
 
 class Expression: UIView, UIGestureRecognizerDelegate {
@@ -32,11 +31,11 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         
     /* MARK: Touch Events */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        delegate?.didBeginMove(movedView: self)
         superview!.bringSubview(toFront: self)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.delegate!.unhideTrash()
         let touch: AnyObject = touches.first as UITouch!
         let currentTouch = touch.location(in: self)
         let previousTouch = touch.previousLocation(in: self)
@@ -45,7 +44,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         let isInsideBounds = isMoveInsideBound(x: self.frame.origin.x + dx, y:self.frame.origin.y + dy, width: self.frame.width, height:self.frame.height)
         if (isInsideBounds) {
             if(amtMoved >= 10){
-                self.delegate!.didIncrementMove(_movedView: self)
+                self.delegate!.didIncrementMove(movedView: self)
                 amtMoved = 0
             }
             amtMoved += (abs(dx) + abs(dy))
@@ -57,8 +56,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?)
     {
-        self.delegate!.didCompleteMove(_movedView: self)
-        self.delegate!.hideTrash()
+        self.delegate!.didCompleteMove(movedView: self)
     }
     
     
@@ -110,6 +108,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(amtMoved)
+        aCoder.encode(expressionString)
     }
     
     //MARK: Initialization
@@ -131,6 +130,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         self.parser = Parser(functionString: "")
         super.init(coder: unarchiver)
         amtMoved = unarchiver.decodeObject() as! CGFloat!
+        expressionString = unarchiver.decodeObject() as! String!
         doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self

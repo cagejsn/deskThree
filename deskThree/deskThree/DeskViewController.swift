@@ -146,6 +146,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             dView.setup()
         }
         
+        setupDeskView()
+        
         workArea.setupDelegateChain()
         workArea.stylizeViews()
         
@@ -322,6 +324,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return workArea.currentPage
     }
+
     
     
     

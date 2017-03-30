@@ -14,6 +14,7 @@ protocol WorkAreaDelegate {
     func unhideTrash()
     func hideTrash()
     func sendingToInputObject(for element: Any)
+    func displayErrorInViewController(title: String, description: String)
 }
 
 class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
@@ -73,23 +74,60 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
         customDelegate!.sendingToInputObject(for: element)
     }
     
-    func didCompleteMove(_movedView: UIView){
+    func didBeginMove(movedView: UIView) {
+        customDelegate.unhideTrash()
+    }
+    
+    func didIncrementMove(movedView: UIView){
+        var zoomedView = CGRect() //temp CGRect
+        //if the block is from an InputObject
+        if let movedBlock = movedView as? Block {
+            zoomedView = movedBlock.frame
+            
+            zoomedView.origin = currentPage.convert(movedBlock.frame.origin, from: movedBlock.superview!)
+        }
+        //if a preexisting expression is being moved
+        if let movedExpression = movedView as? Expression {
+            zoomedView = movedExpression.frame
+        }
+        
+        customDelegate.intersectsWithTrash(justMovedBlock: movedView)
+        
+        for group in currentPage.expressions {
+            if let group = group as? BlockExpression {
+                if(group != movedView){
+                    if(group.isNear(incomingFrame: zoomedView)){
+                        if(group.getIsDisplayingSpots() == false){
+                            group.findAndShowAvailableSpots(_movedView: movedView)
+                            //this will send the message to "group" that it needs to show its available spots for movedView
+                        }
+                        continue
+                    }
+                    group.hideSpots()
+                }
+            }
+        }
+    }
+
+    
+    func didCompleteMove(movedView: UIView){
         //checks if the block's been dropped above any of the dummy views
         //if the block is not above an existing BlockGroup's dummy view, then we create a new blockgroup including only the new block
-        var workingView = _movedView
+        var workingView = movedView
+        customDelegate.hideTrash()
         
         /*check if expression overlaps with trash bin*/
-        if(customDelegate.intersectsWithTrash(justMovedBlock: _movedView)){
-            currentPage.expressions.removeObject(object: _movedView)
-            _movedView.isHidden = true
+        if(customDelegate.intersectsWithTrash(justMovedBlock: movedView)){
+            currentPage.expressions.removeObject(object: movedView)
+            movedView.isHidden = true
             return
         }
         
-        if let block = _movedView as? Block {
+        if let block = movedView as? Block {
             var blockExpression = BlockExpression(firstVal: block)
             blockExpression.tag = -1
             
-            blockExpression.frame.origin = currentPage.convert(_movedView.frame.origin, from: _movedView.superview!)
+            blockExpression.frame.origin = currentPage.convert(movedView.frame.origin, from: movedView.superview!)
            
             currentPage.addSubview(blockExpression)
             blockExpression.addSubview(block)
@@ -176,33 +214,6 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
         hideAllSpots()  
         
     }
-    func didIncrementMove(_movedView: UIView){
-        var zoomedView = CGRect() //temp CGRect
-        //if the block is from an InputObject
-        if let movedBlock = _movedView as? Block {
-            zoomedView = movedBlock.frame
-            
-            zoomedView.origin = currentPage.convert(movedBlock.frame.origin, from: movedBlock.superview!)
-        }
-        //if a preexisting expression is being moved
-        if let movedExpression = _movedView as? Expression {
-            zoomedView = movedExpression.frame
-        }
-        for group in currentPage.expressions {
-            if let group = group as? BlockExpression {
-                if(group != _movedView){
-                    if(group.isNear(incomingFrame: zoomedView)){
-                        if(group.getIsDisplayingSpots() == false){
-                            group.findAndShowAvailableSpots(_movedView: _movedView)
-                            //this will send the message to "group" that it needs to show its available spots for movedView
-                        }
-                        continue
-                    }
-                    group.hideSpots()
-                }
-            }
-        }
-    }
     
     func hideAllSpots() {
         for expression in currentPage.expressions {
@@ -245,6 +256,9 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
                 pages[currentPageIndex].isHidden = false
                 
                 currentPage = pages[currentPageIndex]
+                
+                currentPage.delegate = self
+                
             } else {
                 currentPageIndex += 1
                 
@@ -283,6 +297,11 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
         return (currentPageIndex, pages.count)
     }
     
+    func raiseAlert(title: String, alert: String){
+        
+        customDelegate.displayErrorInViewController(title: title, description: alert)
+    }
+    
     // MARK: init and helpers
     func initCurPage() {
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
@@ -319,18 +338,23 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
         // Initialize the first page & set it as the current page
         let loadedPaper = aDecoder.decodeObject() as! [Paper]
         pages = loadedPaper
         self.currentPage = pages.first
+        currentPage.isHidden = false
+        
+        for view in self.subviews{
+            view.isHidden = true
+        }
+        
         self.addSubview(currentPage)
+        currentPage.isHidden = false
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         currentPage.contentMode = .scaleAspectFit
        // self.sendSubview(toBack: currentPage)
         currentPage.isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
-
 
         
     }

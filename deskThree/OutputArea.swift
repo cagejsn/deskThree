@@ -13,7 +13,7 @@ import UIKit
 protocol OutputAreaDelegate{
     func outputAreaDidPassIncrementalMove(movedView: UIView)
     func outputAreaDidPassBlock (lastBlock: Block)
-    func outputAreaCreatedBlock()
+    func outputAreaCreatedBlock(newBlock: Block)
 
 }
 
@@ -39,10 +39,10 @@ class OutputArea: UIButton {
     
     //function below is the one that is actually used by OutputArea
     func makeBlock(withLocale blockLocation: CGPoint) -> Block {
-        delegate!.outputAreaCreatedBlock()
+        
         let blockWidth: CGFloat = Expression.evaluateStringWidth(textToEvaluate: currentTitle!)
         var newBlock = Block(frame: CGRect(x: 0, y: 0, width: blockWidth, height: Constants.block.height))
-
+        delegate!.outputAreaCreatedBlock(newBlock: newBlock)
         switch typeOfOutputArea! {
         case 1:
             newBlock.setColor(color: Constants.block.colors.green)
