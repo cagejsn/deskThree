@@ -11,6 +11,8 @@
 		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
+		528F8B081E8D9E2900E75EF4 /* mixpanel-swift in Resources */ = {isa = PBXBuildFile; fileRef = 528F8B071E8D9E2900E75EF4 /* mixpanel-swift */; };
+		528F8B131E8DA03A00E75EF4 /* Mixpanel.xcodeproj in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */; };
 		5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A22C1E6C993100BFA775 /* BlockExpression.swift */; };
 		52A662A31E32B1C8008E088A /* Trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A662A21E32B1C8008E088A /* Trash.swift */; };
 		52C9BB271E2D68AA005DA9C2 /* deskThreeGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB261E2D68AA005DA9C2 /* deskThreeGraphTests.swift */; };
@@ -83,6 +85,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		528F8AFA1E8D9C3600E75EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E115947D1CFF1491007F8B4F;
+			remoteInfo = Mixpanel;
+		};
+		528F8AFC1E8D9C3600E75EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E12782B31D4AB4B30025FB05;
+			remoteInfo = Mixpanel_tvOS;
+		};
+		528F8AFE1E8D9C3600E75EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E1F15F921E5F847200391AE3;
+			remoteInfo = MixpanelAppex;
+		};
+		528F8B001E8D9C3600E75EF4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E1F15FC91E64A10700391AE3;
+			remoteInfo = Mixpanel_macOS;
+		};
 		52C9BB291E2D68AA005DA9C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DAFBE3981DBBDBC20007D249 /* Project object */;
@@ -111,6 +141,11 @@
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
 		526C111B1E7DD8FE00196164 /* PathLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLocator.swift; sourceTree = "<group>"; };
 		526C111E1E7DF2CB00196164 /* DeskProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskProject.swift; sourceTree = "<group>"; };
+		528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
+		528F8B021E8D9C4300E75EF4 /* Mixpanel */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mixpanel; path = "mixpanel-swift/Mixpanel"; sourceTree = "<group>"; };
+		528F8B051E8D9DBB00E75EF4 /* mixpanel-swift */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "mixpanel-swift"; sourceTree = "<group>"; };
+		528F8B071E8D9E2900E75EF4 /* mixpanel-swift */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "mixpanel-swift"; sourceTree = "<group>"; };
+		528F8B0C1E8D9EA800E75EF4 /* Mixpanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Mixpanel.swift; path = "mixpanel-swift/Mixpanel/Mixpanel.swift"; sourceTree = "<group>"; };
 		5297A22C1E6C993100BFA775 /* BlockExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockExpression.swift; sourceTree = "<group>"; };
 		52A662A21E32B1C8008E088A /* Trash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trash.swift; sourceTree = "<group>"; };
 		52C9BB241E2D68AA005DA9C2 /* deskThreeGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = deskThreeGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +253,7 @@
 			files = (
 				CE18D3651E6DCE2E00BC54D8 /* ATKMathWidget.framework in Frameworks */,
 				CE18D3611E6DCD2500BC54D8 /* ATKMath.framework in Frameworks */,
+				528F8B131E8DA03A00E75EF4 /* Mixpanel.xcodeproj in Frameworks */,
 				DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */,
 				CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */,
 				CE18D3631E6DCD4600BC54D8 /* ATKCore.framework in Frameworks */,
@@ -234,6 +270,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		528F8AF41E8D9C3600E75EF4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */,
+				528F8AFD1E8D9C3600E75EF4 /* Mixpanel.framework */,
+				528F8AFF1E8D9C3600E75EF4 /* MixpanelAppex.framework */,
+				528F8B011E8D9C3600E75EF4 /* Mixpanel.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		52C9BB251E2D68AA005DA9C2 /* deskThreeGraphTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,6 +320,10 @@
 		DAA494DE1DC2ED5A00C73780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				528F8B0C1E8D9EA800E75EF4 /* Mixpanel.swift */,
+				528F8B051E8D9DBB00E75EF4 /* mixpanel-swift */,
+				528F8B021E8D9C4300E75EF4 /* Mixpanel */,
+				528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */,
 				CE18D3641E6DCE2E00BC54D8 /* ATKMathWidget.framework */,
 				CE18D3621E6DCD4600BC54D8 /* ATKCore.framework */,
 				CE18D3601E6DCD2500BC54D8 /* ATKMath.framework */,
@@ -308,6 +359,7 @@
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				528F8B071E8D9E2900E75EF4 /* mixpanel-swift */,
 				DA5747641E74983E0010F754 /* Assets.xcassets */,
 				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
 				DA2D2A6C1E67AFE6008F59BB /* desk.deskThreeUT1.c */,
@@ -472,7 +524,7 @@
 					};
 					DAFBE39F1DBBDBC20007D249 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 9GGQU4DHVC;
+						DevelopmentTeam = 6SJHMR9UMT;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
@@ -499,6 +551,10 @@
 					ProductGroup = CEC6DD0E1DEE8D14002A2460 /* Products */;
 					ProjectRef = CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */;
 				},
+				{
+					ProductGroup = 528F8AF41E8D9C3600E75EF4 /* Products */;
+					ProjectRef = 528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -510,6 +566,34 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 528F8AFA1E8D9C3600E75EF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		528F8AFD1E8D9C3600E75EF4 /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 528F8AFC1E8D9C3600E75EF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		528F8AFF1E8D9C3600E75EF4 /* MixpanelAppex.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MixpanelAppex.framework;
+			remoteRef = 528F8AFE1E8D9C3600E75EF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		528F8B011E8D9C3600E75EF4 /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 528F8B001E8D9C3600E75EF4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		CEC6DD131DEE8D14002A2460 /* JotUI.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework.static;
@@ -533,6 +617,7 @@
 			files = (
 				DAF9E20C1E7C6D8600EBF436 /* SaveAsView.xib in Resources */,
 				DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */,
+				528F8B081E8D9E2900E75EF4 /* mixpanel-swift in Resources */,
 				DA4A54731E8CD00B0039B030 /* LowerDeskControls.xib in Resources */,
 				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
@@ -797,7 +882,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 9GGQU4DHVC;
+				DEVELOPMENT_TEAM = 6SJHMR9UMT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",
@@ -826,7 +911,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 9GGQU4DHVC;
+				DEVELOPMENT_TEAM = 6SJHMR9UMT;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",

@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
 
     
     let gkimagePicker = GKImagePicker()
@@ -258,20 +258,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
 
-<<<<<<< HEAD
-        pen = Pen(minSize: 0.5, andMaxSize: 1.3, andMinAlpha: 0.8, andMaxAlpha: 1)
 
-=======
         pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
         eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
->>>>>>> 44e90d4b526ff80292d3a0baba06ce46c74dd26c
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         jotView.delegate = self
         jotView.isUserInteractionEnabled = true
-        workArea.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-        jotView.loadState(workArea.currentPage.drawingState)
+        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(workView.currentPage.drawingState)
         // inserting jotView right below toolbar
         self.view.insertSubview(jotView, at: 1)
         jotView.isUserInteractionEnabled = false
@@ -366,9 +362,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: UIToolbar on click methods
     func printButtonPushed(_ sender: Any) {
         //workView.frame = workView.currentPage.frame
-        pageDrawingStates[workView.currentPageIndex].isForgetful = false;
+        workView.currentPage.drawingState.isForgetful = false
         jotView.exportToImage(onComplete: exportPdf , withScale: 1.66667)
-        pageDrawingStates[workView.currentPageIndex].isForgetful = true;
+        workView.currentPage.drawingState.isForgetful = true
 
     }
     
@@ -383,12 +379,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let pagesInfo = workView.movePage(direction: "left")
         self.currentPage = pagesInfo.currentPage + 1
         self.totalPages = pagesInfo.totalNumPages
-        if (pagesInfo.currentPage != 0) {
-            pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
-        }
-        pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
-        jotView.currentPage = workView.currentPage;
-        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
+        
+        jotView.currentPage = workView.currentPage
+        jotView.loadState(workView.currentPage.drawingState)
+        
         
         updatePageNotification()
     }
@@ -398,19 +392,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func nextPageTapped(_ sender: Any) {
         let pagesInfo = workView.movePage(direction: "right")
         
+        // If this is a new page, create new state
+        if (pagesInfo.totalNumPages > self.totalPages){
+            workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+            workView.currentPage.delegate = workView
+        }
+        jotView.loadState(workView.currentPage.drawingState)
+        
         self.currentPage = pagesInfo.currentPage + 1
         self.totalPages = pagesInfo.totalNumPages
         
-        pageDrawingStates[pagesInfo.currentPage-1].isForgetful = false;
-
-        // If this is a new page, create new state
-        if (pagesInfo.totalNumPages > self.totalPages){
-            workArea.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-        }
-        jotView.loadState(workArea.currentPage.drawingState)
-        
         jotView.currentPage = workView.currentPage
-
         
         updatePageNotification()
     }
@@ -520,11 +512,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
         // We just load up a whole new state to get a cleared backing texture. I know, it is 
         // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself
-        pageDrawingStates[workView.currentPageIndex].isForgetful = true
-        pageDrawingStates[workView.currentPageIndex] = JotViewStateProxy (delegate: self)
-        pageDrawingStates[workView.currentPageIndex].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-        jotView.loadState(pageDrawingStates[workView.currentPageIndex])
-
+        workView.currentPage.reInitDrawingState()
+        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(workView.currentPage.drawingState)
         jotView.clear(true)
         
     }
@@ -575,13 +565,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func stepWidthForStroke() -> CGFloat {
-<<<<<<< HEAD
+
        // print(activePen().stepWidthForStroke())
        // return activePen().stepWidthForStroke()
-        return CGFloat(0.4)
-=======
+
         return CGFloat(0.3)
->>>>>>> 44e90d4b526ff80292d3a0baba06ce46c74dd26c
     }
     
     func supportsRotation() -> Bool {

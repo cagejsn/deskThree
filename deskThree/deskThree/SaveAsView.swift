@@ -17,7 +17,7 @@ class SaveAsView: UIView {
     @IBAction func saveButtonTapped(_ sender: Any) {
         
         let projectName = projectNameTextField.text
-        if(isAcceptableName(projectName)){
+        if(isAcceptableName(name: projectName!)){
             if(saveProject(name: projectName!)){
                 print("Project saved successfully")
             } else {
@@ -25,14 +25,14 @@ class SaveAsView: UIView {
             }
             closeButtonTapped(self)
         }else if(projectName == ""){
-            workAreaRef.raiseAlert(title: "", alert: "Enter project name.")
+            workViewRef.raiseAlert(title: "", alert: "Enter project name.")
         }else if(projectName?.contains(" "))!{
-            workAreaRef.raiseAlert(title: "", alert: "Project name cannot contain spaces.")
+            workViewRef.raiseAlert(title: "", alert: "Project name cannot contain spaces.")
         }
         
     }
+    
     func isAcceptableName(name: String) -> Bool{
-        
         return !(name.contains(" ") || name == "")
         
     }
@@ -76,14 +76,12 @@ class SaveAsView: UIView {
             }
         }
         //save the work area into the folder
-        NSKeyedArchiver.archiveRootObject(workAreaRef, toFile: folderToZip+"/WorkArea.Desk")
+        NSKeyedArchiver.archiveRootObject(workViewRef, toFile: folderToZip+"/WorkView.Desk")
         
         //save jot ui into the folder, folderToZip
         
         
         
-        NSKeyedArchiver.archiveRootObject(workViewRef, toFile: filePath)
-
         
         
         
