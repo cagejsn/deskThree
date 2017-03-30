@@ -332,7 +332,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     //MARK: UIToolbar on click methods
-    @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
+    func printButtonPushed(_ sender: Any) {
         //workView.frame = workView.currentPage.frame
         pageDrawingStates[workView.currentPageIndex].isForgetful = false;
         jotView.exportToImage(onComplete: exportPdf , withScale: 1.66667)
@@ -416,7 +416,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     ///this function will present a MAWMathView to the User
-    @IBAction func mathFormulaButtonTapped(_ sender: UIBarButtonItem) {
+    func mathFormulaButtonTapped(_ sender: Any) {
         if(mathView.superview == nil){
             self.view.addSubview(mathView)
             setupMathViewConstraints()
@@ -425,8 +425,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mathView.removeFromSuperview()
         }
     }
-    
-    
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -485,7 +483,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     
-    @IBAction func clearButtonTapped(_ sender: AnyObject) {
+    func clearButtonTapped(_ sender: AnyObject) {
         // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
         // We just load up a whole new state to get a cleared backing texture. I know, it is 
         // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself

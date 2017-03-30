@@ -12,6 +12,9 @@ protocol DeskControlModuleDelegate {
     func fileExplorerButtonTapped(_ sender: Any)
     func saveButtonTapped(_ sender: Any)
     func loadImageButtonPushed(_ sender: Any)
+    func mathFormulaButtonTapped(_ sender: Any)
+    func printButtonPushed(_ sender: Any)
+    func clearButtonTapped(_ sender: AnyObject)
     func getCurPen() -> Constants.pens
     func togglePen()
 }
@@ -105,15 +108,15 @@ class DeskControlModule: DWBubbleMenuButton {
     }
     
     func toggleMyScriptViewButtonWasTapped() {
-        
+        deskViewControllerDelegate.mathFormulaButtonTapped(self)
     }
     
     func exportPageButtonWasTapped() {
-        
+        deskViewControllerDelegate.printButtonPushed(self)
     }
     
     func clearPageButtonWasTapped() {
-        
+        deskViewControllerDelegate.clearButtonTapped(self)
     }
     
      override init(frame: CGRect) {
