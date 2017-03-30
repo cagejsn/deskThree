@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
 
     
     let gkimagePicker = GKImagePicker()
@@ -42,6 +42,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var totalPages: Int!
     var cornerPageLabel: UILabel!
     
+    //below methods are here so that it conforms to jotstate delegate
+    var drawingState: JotViewStateProxy!
+    var jotViewStateInkPath: String!
+    var jotViewStatePlistPath: String!
+    func didLoadState(_ state: JotViewStateProxy!) {
+        
+    }
+    
+    func didUnloadState(_ state: JotViewStateProxy!) {
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -403,6 +414,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.totalPages = pagesInfo.totalNumPages
         
         jotView.currentPage = workView.currentPage
+        jotView.loadState(workView.currentPage.drawingState)
         
         updatePageNotification()
     }

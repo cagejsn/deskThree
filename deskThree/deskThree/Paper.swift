@@ -73,12 +73,7 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
         var filePath = documentsPath.appending("/file.desk")
         NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
     }
-    
-    func loadPaper(state: Paper){
-        
 
-        
-    }
 
     func reInitDrawingState() {
         drawingState.isForgetful = true
