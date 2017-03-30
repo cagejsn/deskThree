@@ -123,7 +123,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         jotView.redo()
     }
     
-    
+    func archiveJotView(folderToZip: String){
+//        for(page in workView.pages)
+    }
 
     
     func setupDeskControlModule(){

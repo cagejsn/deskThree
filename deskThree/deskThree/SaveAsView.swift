@@ -75,14 +75,17 @@ class SaveAsView: UIView {
                 print(error.localizedDescription);
             }
         }
-        //save the work area into the folder
-        NSKeyedArchiver.archiveRootObject(workViewRef, toFile: folderToZip+"/WorkView.Desk")
         
         //save jot ui into the folder, folderToZip
         
+//        workViewRef.customDelegate.archiveJotView(folderToZip)
+        
+        //save the work area into the folder
+        NSKeyedArchiver.archiveRootObject(workViewRef, toFile: folderToZip+"/WorkView.Desk")
         
         
         
+//        jotView.exportImage(to: <#T##String!#>, andThumbnailTo: <#T##String!#>, andStateTo: <#T##String!#>, withThumbnailScale: <#T##CGFloat#>, onComplete: <#T##((UIImage?, UIImage?, JotViewImmutableState?) -> Void)!##((UIImage?, UIImage?, JotViewImmutableState?) -> Void)!##(UIImage?, UIImage?, JotViewImmutableState?) -> Void#>)
         
         
         

@@ -15,6 +15,7 @@ protocol WorkViewDelegate {
     func hideTrash()
     func sendingToInputObject(for element: Any)
     func displayErrorInViewController(title: String, description: String)
+    func archiveJotView(folderToZip: String)
 }
 
 class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
