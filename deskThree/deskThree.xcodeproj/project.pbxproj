@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1507E1DBC19CF008364EC /* PDFGenerator.swift */; };
 		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
+		317034701E84FDE100C4429F /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3170345A1E84FDAC00C4429F /* Mixpanel.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		317034721E85061B00C4429F /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3170345A1E84FDAC00C4429F /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
 		528F8ADD1E8C207700E75EF4 /* ZipKit.xcodeproj in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */; };
@@ -84,6 +86,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+
 		528F8AD71E8C206F00E75EF4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */;
@@ -104,6 +107,40 @@
 			proxyType = 2;
 			remoteGlobalIDString = CB6F0A9817484BDE00F91524;
 			remoteInfo = touchzipkit;
+		317034591E84FDAC00C4429F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E115947D1CFF1491007F8B4F;
+			remoteInfo = Mixpanel;
+		};
+		3170345B1E84FDAC00C4429F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E12782B31D4AB4B30025FB05;
+			remoteInfo = Mixpanel_tvOS;
+		};
+		3170345D1E84FDAC00C4429F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E1F15F921E5F847200391AE3;
+			remoteInfo = MixpanelAppex;
+		};
+		3170345F1E84FDAC00C4429F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E1F15FC91E64A10700391AE3;
+			remoteInfo = Mixpanel_macOS;
+		};
+		317034731E85061B00C4429F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = E115947C1CFF1491007F8B4F;
+			remoteInfo = Mixpanel;
 		};
 		52C9BB291E2D68AA005DA9C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -128,10 +165,25 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		317034751E85061B00C4429F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				317034721E85061B00C4429F /* Mixpanel.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
 		3859C6E36B6E6B67EBB67107 /* Pods-deskThreeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-deskThreeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-deskThreeUITests/Pods-deskThreeUITests.release.xcconfig"; sourceTree = "<group>"; };
+		317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		526C111B1E7DD8FE00196164 /* PathLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLocator.swift; sourceTree = "<group>"; };
 		526C111E1E7DF2CB00196164 /* DeskProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskProject.swift; sourceTree = "<group>"; };
 		528F8ACD1E8C175600E75EF4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -246,6 +298,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				317034701E84FDE100C4429F /* Mixpanel.framework in Frameworks */,
 				CE18D3651E6DCE2E00BC54D8 /* ATKMathWidget.framework in Frameworks */,
 				528F8ADD1E8C207700E75EF4 /* ZipKit.xcodeproj in Frameworks */,
 				CE18D3611E6DCD2500BC54D8 /* ATKMath.framework in Frameworks */,
@@ -266,6 +319,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+
 		06501B0DD850028D549BF600 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,6 +339,15 @@
 				528F8AD81E8C206F00E75EF4 /* ZipKit.framework */,
 				528F8ADA1E8C206F00E75EF4 /* libzipkit.a */,
 				528F8ADC1E8C206F00E75EF4 /* libtouchzipkit.a */,
+
+		317034521E84FDAC00C4429F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3170345A1E84FDAC00C4429F /* Mixpanel.framework */,
+				3170345C1E84FDAC00C4429F /* Mixpanel.framework */,
+				3170345E1E84FDAC00C4429F /* MixpanelAppex.framework */,
+				317034601E84FDAC00C4429F /* Mixpanel.framework */,
+
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -369,9 +432,9 @@
 			isa = PBXGroup;
 			children = (
 				528F8AE01E8C222600E75EF4 /* Zip */,
+				317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */,
+				CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */,
 				DA5747641E74983E0010F754 /* Assets.xcassets */,
-				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
-				DA2D2A6C1E67AFE6008F59BB /* desk.deskThreeUT1.c */,
 				DAE5D3271E6233D5007DE25F /* resources.bundle */,
 				DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */,
 				DADC7C5D1DF0F4650086626E /* AllPad.swift */,
@@ -382,10 +445,11 @@
 				DADC7C621DF0F4650086626E /* Expression.swift */,
 				DADC7C631DF0F4650086626E /* InputObject.swift */,
 				DADC7C641DF0F4650086626E /* OutputArea.swift */,
+				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
 				DA93BC681E08744800CC2130 /* MathEntryArea.swift */,
+				DA2D2A6C1E67AFE6008F59BB /* desk.deskThreeUT1.c */,
 				CEC6DD0B1DEE8D14002A2460 /* JotUI */,
 				CEC6DD0C1DEE8D14002A2460 /* JotUI.h */,
-				CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */,
 				DA49189E1DE64EDF00E3AA1D /* CopiedFromJotUI */,
 				DAA494F31DC3A0E600C73780 /* GKImagePickerFiles */,
 				DAFBE3A21DBBDBC20007D249 /* deskThree */,
@@ -412,21 +476,17 @@
 		DAFBE3A21DBBDBC20007D249 /* deskThree */ = {
 			isa = PBXGroup;
 			children = (
-				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
-				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
+				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
+				DAFBE3A71DBBDBC20007D249 /* Main.storyboard */,
 				DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
-				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
-				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
-				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
-				DA7050E31E25591000079047 /* GraphView.swift */,
+				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
+				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
 				DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */,
 				5297A22C1E6C993100BFA775 /* BlockExpression.swift */,
-				DAFBE3A71DBBDBC20007D249 /* Main.storyboard */,
 				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
-				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
 				25D1507E1DBC19CF008364EC /* PDFGenerator.swift */,
 				DA5464501DBD10A300E644F0 /* Paper.swift */,
 				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
@@ -435,14 +495,18 @@
 				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
 				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
 				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
-				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
-				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
 				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
 				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
 				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
 				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
 				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
 				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
+				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
+				DA7050E31E25591000079047 /* GraphView.swift */,
+				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
+				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
+				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
+				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -487,10 +551,12 @@
 				DAFBE39C1DBBDBC20007D249 /* Sources */,
 				DAFBE39D1DBBDBC20007D249 /* Frameworks */,
 				DAFBE39E1DBBDBC20007D249 /* Resources */,
+				317034751E85061B00C4429F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				317034741E85061B00C4429F /* PBXTargetDependency */,
 			);
 			name = deskThree;
 			productName = deskThree;
@@ -535,7 +601,7 @@
 					};
 					DAFBE39F1DBBDBC20007D249 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 6SJHMR9UMT;
+						DevelopmentTeam = 7L6WDTQH67;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
@@ -563,8 +629,11 @@
 					ProjectRef = CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */;
 				},
 				{
+
 					ProductGroup = 528F8AD21E8C206F00E75EF4 /* Products */;
 					ProjectRef = 528F8AD11E8C206F00E75EF4 /* ZipKit.xcodeproj */;
+					ProductGroup = 317034521E84FDAC00C4429F /* Products */;
+					ProjectRef = 317034511E84FDAC00C4429F /* Mixpanel.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -577,6 +646,7 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+
 		528F8AD81E8C206F00E75EF4 /* ZipKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -596,6 +666,32 @@
 			fileType = archive.ar;
 			path = libtouchzipkit.a;
 			remoteRef = 528F8ADB1E8C206F00E75EF4 /* PBXContainerItemProxy */;
+		3170345A1E84FDAC00C4429F /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 317034591E84FDAC00C4429F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3170345C1E84FDAC00C4429F /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 3170345B1E84FDAC00C4429F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3170345E1E84FDAC00C4429F /* MixpanelAppex.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MixpanelAppex.framework;
+			remoteRef = 3170345D1E84FDAC00C4429F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		317034601E84FDAC00C4429F /* Mixpanel.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Mixpanel.framework;
+			remoteRef = 3170345F1E84FDAC00C4429F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		CEC6DD131DEE8D14002A2460 /* JotUI.framework */ = {
@@ -815,6 +911,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		317034741E85061B00C4429F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Mixpanel;
+			targetProxy = 317034731E85061B00C4429F /* PBXContainerItemProxy */;
+		};
 		52C9BB2A1E2D68AA005DA9C2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DAFBE39F1DBBDBC20007D249 /* deskThree */;
@@ -974,12 +1075,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A6560090D3F30830E462529E /* Pods-deskThree.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEVELOPMENT_TEAM = 7L6WDTQH67;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",
@@ -1004,12 +1106,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AE1AB8DE35B0F528A15D603 /* Pods-deskThree.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEVELOPMENT_TEAM = 7L6WDTQH67;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",
