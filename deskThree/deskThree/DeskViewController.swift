@@ -8,10 +8,13 @@
 
 import Foundation
 import UIKit
-
+import Mixpanel
 
 
 class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate  {
+    
+    // Initialize Mixpanel
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
@@ -115,6 +118,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     @IBAction func saveButtonTapped(_ sender: Any) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Save")
+        
         var view = Bundle.main.loadNibNamed("SaveAsView", owner: self, options: nil)?.first as? SaveAsView
         self.view.addSubview(view!)
         if(workArea != nil){
@@ -130,6 +136,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     @IBAction func fileExplorerButtonTapped(_ sender: Any) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: File Explorer")
+        
         var fileExplorer = FileExplorerViewController()
         fileExplorer.delegate = self
         self.present(fileExplorer, animated: false, completion: nil)
@@ -154,6 +163,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     @IBAction func toggleEraser(_ sender: Any) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Pen/Eraser")
+        
         curPen.next()
         switch curPen{
         case .eraser:
@@ -333,6 +345,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Print")
+
         //workArea.frame = workArea.currentPage.frame
         pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
         jotView.exportToImage(onComplete: exportPdf , withScale: 1.66667)
@@ -340,6 +355,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Undo")
+
         jotView.undo()
     }
     
@@ -350,6 +368,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
      */
     
     @IBAction func pageRightButtonPressed(_ sender: Any) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Page Right")
+
         let pagesInfo = workArea.movePage(direction: "right")
         
         self.currentPage = pagesInfo.currentPage + 1
@@ -371,6 +392,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     @IBAction func pageLeftButtonPressed(_ sender: Any) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Page Left")
+
         let pagesInfo = workArea.movePage(direction: "left")
         self.currentPage = pagesInfo.currentPage + 1
         self.totalPages = pagesInfo.totalNumPages
@@ -391,6 +415,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
      Allows user to bring an image into the work area
      */
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Load Image")
+
         if( UIImagePickerController.isSourceTypeAvailable(.camera)){
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 alert.popoverPresentationController?.barButtonItem = sender
@@ -413,9 +440,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     ///this function will present a MAWMathView to the User
     @IBAction func mathFormulaButtonTapped(_ sender: UIBarButtonItem) {
         if(mathView.superview == nil){
+            // Mixpanel event
+            mixpanel.track(event: "Button: MyScript View Show")
+
             self.view.addSubview(mathView)
             setupMathViewConstraints()
         } else {
+            // Mixpanel event
+            mixpanel.track(event: "Button: MyScript View Hide")
+
             mathView.clear(true)
             mathView.removeFromSuperview()
         }
@@ -461,7 +494,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func createMathBlock(){
-        
+
         if let image1 =  mathView.resultAsImage(){
             let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
             mathBlock.delegate = workArea
@@ -514,8 +547,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func activePen() -> Pen {
         switch curPen {
         case .pen:
+            print("PEN!!")
             return pen
         case .eraser:
+            print("ERASER!!")
             return eraser
         }
         return pen

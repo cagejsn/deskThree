@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Mixpanel
 
 protocol WorkAreaDelegate {
     func intersectsWithTrash(justMovedBlock: UIView)->Bool
@@ -17,6 +18,9 @@ protocol WorkAreaDelegate {
 }
 
 class WorkArea: UIScrollView, InputObjectDelegate, ExpressionDelegate, PaperDelegate {
+    
+    // Initialize Mixpanel
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     
     var pages: [Paper] = [Paper]()
     var currentPage: Paper!

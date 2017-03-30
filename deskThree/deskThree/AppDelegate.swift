@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        // Mixpanel initialization
+        // Mixpanel initialization using Desk's unique token
         Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
         
         return true
