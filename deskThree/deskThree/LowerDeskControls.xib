@@ -22,6 +22,9 @@
                         <constraint firstAttribute="height" constant="44" id="DjS-ri-vqU"/>
                     </constraints>
                     <state key="normal" title="Button" image="lastPageButton"/>
+                    <connections>
+                        <action selector="lastPageTapped:" destination="-1" eventType="touchUpInside" id="5o2-nl-MCd"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GXy-NE-9KQ">
                     <rect key="frame" x="57.5" y="0.0" width="44" height="44"/>
@@ -30,6 +33,9 @@
                         <constraint firstAttribute="width" constant="44" id="x7n-Zw-c4H"/>
                     </constraints>
                     <state key="normal" title="Button" image="undoButton"/>
+                    <connections>
+                        <action selector="undoTapped:" destination="-1" eventType="touchUpInside" id="2ak-8M-js1"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rAi-mf-PoB">
                     <rect key="frame" x="115" y="0.0" width="44" height="44"/>
@@ -38,6 +44,9 @@
                         <constraint firstAttribute="height" constant="44" id="qqy-8Z-Tkf"/>
                     </constraints>
                     <state key="normal" title="Button" image="redoButton"/>
+                    <connections>
+                        <action selector="redoTapped:" destination="-1" eventType="touchUpInside" id="fgu-PA-NbN"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WN0-X8-ETL">
                     <rect key="frame" x="172.5" y="0.0" width="43.5" height="44"/>
@@ -46,6 +55,9 @@
                         <constraint firstAttribute="width" constant="44" id="cuC-aI-KzU"/>
                     </constraints>
                     <state key="normal" title="Button" image="nextPageButton"/>
+                    <connections>
+                        <action selector="nextPageTapped:" destination="-1" eventType="touchUpInside" id="GVb-wV-eEr"/>
+                    </connections>
                 </button>
             </subviews>
             <constraints>

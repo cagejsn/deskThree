@@ -9,18 +9,29 @@
 import Foundation
 
 
-class LowerDeskControls: UIView {
 
-  
+class LowerDeskControls: UIView {
     
+    var delegate: DeskControlModuleDelegate!
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        print(self.frame)
         self.clipsToBounds = true
-        
         }
     
+    @IBAction func lastPageTapped(_ sender: Any) {
+        delegate.lastPageTapped(self)
+    }
+
+    @IBAction func undoTapped(_ sender: Any) {
+        delegate.undoTapped(self)
+    }
   
+    @IBAction func redoTapped(_ sender: Any) {
+        delegate.redoTapped(self)
+    }
     
+    @IBAction func nextPageTapped(_ sender: Any) {
+        delegate.nextPageTapped(self)
+    }
 }

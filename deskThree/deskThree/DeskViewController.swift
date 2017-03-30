@@ -90,16 +90,30 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupLowerControls(){
         
-        lowerDeskControls = Bundle.main.loadNibNamed("LowerDeskControls", owner: nil, options: nil)?.first as!LowerDeskControls!
-        lowerDeskControls.frame = CGRect(x: 0, y: UIScreen.main.bounds.height - 88, width: 216, height: 44)
-        lowerDeskControls.layoutSubviews()
+        lowerDeskControls = Bundle.main.loadNibNamed("LowerDeskControls", owner: nil, options: nil )?.first as!LowerDeskControls!
+       // lowerDeskControls.frame = CGRect(x: 10, y: UIScreen.main.bounds.height - 54, width: 216, height: 44)
         self.view.addSubview(lowerDeskControls)
-        
+        lowerDeskControls.translatesAutoresizingMaskIntoConstraints = false
 
+        let margins = view.layoutMarginsGuide
+        lowerDeskControls.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        lowerDeskControls.widthAnchor.constraint(equalToConstant: 216).isActive = true
+        lowerDeskControls.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 0).isActive = true
+        lowerDeskControls.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -10).isActive = true
         
-            
-        
+        lowerDeskControls.delegate = self
+        lowerDeskControls.layoutSubviews()
     }
+    
+    func undoTapped(_ sender: Any) {
+        jotView.undo()
+    }
+    
+    func redoTapped(_ sender: Any) {
+        jotView.redo()
+    }
+    
+    
 
     
     func setupDeskControlModule(){
@@ -355,21 +369,35 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         pageDrawingStates[workView.currentPageIndex].isForgetful = true;
     }
     
-    @IBAction func undoButtonPressed(_ sender: AnyObject) {
-        jotView.undo()
-    }
     
     /**
      Pagination
      ----------
      Allows user to move forwards and backwards in pages
      */
-    @IBAction func pageRightButtonPressed(_ sender: Any) {
+ 
+    func lastPageTapped(_ sender: Any) {
+        let pagesInfo = workView.movePage(direction: "left")
+        self.currentPage = pagesInfo.currentPage + 1
+        self.totalPages = pagesInfo.totalNumPages
+        if (pagesInfo.currentPage != 0) {
+            pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
+        }
+        pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
+        jotView.currentPage = workView.currentPage;
+        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
+        
+        updatePageNotification()
+    }
+    
+    
+    
+    func nextPageTapped(_ sender: Any) {
         let pagesInfo = workView.movePage(direction: "right")
         
         self.currentPage = pagesInfo.currentPage + 1
         self.totalPages = pagesInfo.totalNumPages
-
+        
         pageDrawingStates[pagesInfo.currentPage-1].isForgetful = false;
         // If this is a new page, create new state
         if (pagesInfo.totalNumPages > pageDrawingStates.count){
@@ -384,20 +412,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         updatePageNotification()
     }
-    
-    @IBAction func pageLeftButtonPressed(_ sender: Any) {
-        let pagesInfo = workView.movePage(direction: "left")
-        self.currentPage = pagesInfo.currentPage + 1
-        self.totalPages = pagesInfo.totalNumPages
-        if (pagesInfo.currentPage != 0) {
-            pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
-        }
-        pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
-        jotView.currentPage = workView.currentPage;
-        jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
-        
-        updatePageNotification()
-    }
+
     
     
     /**

@@ -17,6 +17,13 @@ protocol DeskControlModuleDelegate {
     func clearButtonTapped(_ sender: AnyObject)
     func getCurPen() -> Constants.pens
     func togglePen()
+    
+    
+    func lastPageTapped(_ sender: Any)
+    func undoTapped(_ sender: Any)
+    func redoTapped(_ sender: Any)
+    func nextPageTapped(_ sender: Any) 
+    
 }
 
 class DeskControlModule: DWBubbleMenuButton {
@@ -46,22 +53,23 @@ class DeskControlModule: DWBubbleMenuButton {
         buttons.append(togglePenButton)
         
         let importPhotoButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-        importPhotoButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
+        importPhotoButton.setImage(UIImage(named: "cameraButton"
+        ), for: .normal)
         importPhotoButton.addTarget(self, action: #selector(DeskControlModule.importPhotoButtonWasTapped), for: .touchUpInside)
         buttons.append(importPhotoButton)
 
         let toggleMyScriptViewButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-        toggleMyScriptViewButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
+        toggleMyScriptViewButton.setImage(UIImage(named: "fOfXButton"), for: .normal)
         toggleMyScriptViewButton.addTarget(self, action: #selector(DeskControlModule.toggleMyScriptViewButtonWasTapped), for: .touchUpInside)
         buttons.append(toggleMyScriptViewButton)
 
         let exportPageButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-        exportPageButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
+        exportPageButton.setImage(UIImage(named: "printButton"), for: .normal)
         exportPageButton.addTarget(self, action: #selector(DeskControlModule.exportPageButtonWasTapped), for: .touchUpInside)
         buttons.append(exportPageButton)
         
         let clearPageButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-        clearPageButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
+        clearPageButton.setImage(UIImage(named: "clearButton"), for: .normal)
         clearPageButton.addTarget(self, action: #selector(DeskControlModule.clearPageButtonWasTapped), for: .touchUpInside)
         buttons.append(clearPageButton)
         
