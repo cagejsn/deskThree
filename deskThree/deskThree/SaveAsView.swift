@@ -10,7 +10,7 @@ import Foundation
 
 
 class SaveAsView: UIView {
-    var workAreaRef: WorkArea!
+    var workViewRef: WorkView!
     
     @IBOutlet var projectNameTextField: UITextField!
     
@@ -18,10 +18,17 @@ class SaveAsView: UIView {
         
         let projectName = projectNameTextField.text
         if(projectName != ""){
-        if(saveProject(name: projectName!)){print("yes")} else { print("no1")}
+
+            if(saveProject(name: projectName!)){
+                print("Project saved successfully")
+            } else {
+                print("Project not saved")
+            }
+        closeButtonTapped(self)
+        }else{
+            workViewRef.raiseAlert(title: "", alert: "Enter Name.")
         }
         
-        print("no2")
 }
 
 
@@ -54,7 +61,7 @@ class SaveAsView: UIView {
         let filePath = PathLocator.getProjectFolder()+"/"+name+".DESK"
         
         
-        NSKeyedArchiver.archiveRootObject(workAreaRef, toFile: filePath)
+        NSKeyedArchiver.archiveRootObject(workViewRef, toFile: filePath)
         
         return true
         

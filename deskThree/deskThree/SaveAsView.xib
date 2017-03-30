@@ -29,26 +29,26 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dmq-2x-vSs">
-                    <rect key="frame" x="0.0" y="0.0" width="512" height="44"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="XVC-ey-NnC"/>
-                    </constraints>
-                    <items>
-                        <barButtonItem systemItem="stop" id="OYB-zi-kwn">
-                            <connections>
-                                <action selector="closeButtonTapped:" destination="iN0-l3-epB" id="J05-BY-C1U"/>
-                            </connections>
-                        </barButtonItem>
-                    </items>
-                </toolbar>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dGU-dn-0BA">
-                    <rect key="frame" x="446" y="420" width="46" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="46" id="Ogx-bN-5fZ"/>
-                        <constraint firstAttribute="height" constant="30" id="wyc-nw-pJU"/>
-                    </constraints>
-                    <state key="normal" title="Save"/>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dgq-YL-NCF">
+                    <rect key="frame" x="490" y="20" width="70" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.74795759959999997" green="0.086349032029999995" blue="0.002123810066" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <size key="titleShadowOffset" width="1" height="1"/>
+                    <state key="normal" title="Cancel">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="closeButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="odG-j8-5NY"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dGU-dn-0BA">
+                    <rect key="frame" x="380" y="20" width="70" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.65739924630000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <size key="titleShadowOffset" width="1" height="1"/>
+                    <state key="normal" title="Save">
+                        <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
                     <connections>
                         <action selector="saveButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="DPL-WR-NU7"/>
                     </connections>

@@ -10,13 +10,13 @@ import Foundation
 
 class DeskView: UIView, UIGestureRecognizerDelegate{
     
-    var workArea: WorkArea!
+    var workView: WorkView!
     var jotView: JotView!
     var longPressGR: UILongPressGestureRecognizer!
 
     
     func setup(){
-        jotView.currentPage = workArea.currentPage
+        jotView.currentPage = workView.currentPage
         
         longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(DeskView.handleLongPress(sender:)))
         self.addGestureRecognizer(longPressGR)

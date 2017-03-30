@@ -9,7 +9,7 @@
 import Foundation
 
 protocol FileExplorerViewControllerDelegate {
-    func didSelectProject(newWorkArea:WorkArea)
+    func didSelectProject(newWorkView:WorkView)
     func dismissFileExplorer()
 }
 
@@ -47,9 +47,9 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let path = PathLocator.getProjectFolder() + "/" + metaDataFromDisk[indexPath.row].name + ".DESK"
         let file = NSKeyedUnarchiver.unarchiveObject(withFile: path)
-        if let workArea = file as? WorkArea {
+        if let workArea = file as? WorkView {
             
-            delegate.didSelectProject(newWorkArea: workArea)
+            delegate.didSelectProject(newWorkView: workArea)
         }
     }
 }

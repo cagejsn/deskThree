@@ -11,9 +11,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeskViewController" customModule="deskThree" customModuleProvider="target">
             <connections>
-                <outlet property="fileExplorerButton" destination="M95-T4-R3s" id="C6I-0x-cgj"/>
-                <outlet property="penButton" destination="v9O-2n-0TF" id="A9s-mx-cg4"/>
-                <outlet property="saveButton" destination="O0i-u7-mbl" id="OGd-fd-zOJ"/>
                 <outlet property="view" destination="AVO-vL-44u" id="ILK-Wq-1Si"/>
             </connections>
         </placeholder>
@@ -22,48 +19,6 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="H8k-g9-IGb">
-                    <rect key="frame" x="15" y="60" width="44" height="132"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M95-T4-R3s">
-                            <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="5cz-xx-FiS"/>
-                                <constraint firstAttribute="width" constant="44" id="X0j-Gv-Yaf"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <connections>
-                                <action selector="fileExplorerButtonTapped:" destination="-1" eventType="touchUpInside" id="Orj-en-WAI"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O0i-u7-mbl">
-                            <rect key="frame" x="0.0" y="44" width="44" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="2jn-hH-3Wg"/>
-                                <constraint firstAttribute="width" constant="44" id="CYF-Sm-abe"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <connections>
-                                <action selector="saveButtonTapped:" destination="-1" eventType="touchUpInside" id="gpc-Eq-jMS"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9O-2n-0TF">
-                            <rect key="frame" x="0.0" y="88" width="44" height="44"/>
-                            <state key="normal" title="Button"/>
-                            <connections>
-                                <action selector="toggleEraser:" destination="-1" eventType="touchUpInside" id="uEJ-NQ-5DD"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <constraints>
-                        <constraint firstItem="M95-T4-R3s" firstAttribute="top" secondItem="H8k-g9-IGb" secondAttribute="top" id="2yA-oy-Lyd"/>
-                        <constraint firstItem="M95-T4-R3s" firstAttribute="leading" secondItem="H8k-g9-IGb" secondAttribute="leading" id="D6Y-zl-HS0"/>
-                        <constraint firstAttribute="height" constant="132" id="DLz-VW-3AV"/>
-                        <constraint firstItem="O0i-u7-mbl" firstAttribute="top" secondItem="M95-T4-R3s" secondAttribute="bottom" id="L6E-iP-ESf"/>
-                        <constraint firstAttribute="width" constant="44" id="NgV-wa-1xy"/>
-                        <constraint firstItem="O0i-u7-mbl" firstAttribute="leading" secondItem="H8k-g9-IGb" secondAttribute="leading" id="byk-vg-7oj"/>
-                    </constraints>
-                </stackView>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sjq-WA-Ug4">
                     <rect key="frame" x="0.0" y="980" width="768" height="44"/>
                     <items>
@@ -101,7 +56,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SdU-Ta-iQ4"/>
                         <barButtonItem style="plain" id="NBD-el-rsL" userLabel="Left Page Button">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gfe-Hs-ahX">
-                                <rect key="frame" x="544" y="7" width="30" height="30"/>
+                                <rect key="frame" x="588" y="7" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="&lt;"/>
                                 <connections>
@@ -111,7 +66,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" id="ctC-nR-Ktp" userLabel="Right Page Button">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fCO-aq-nJG">
-                                <rect key="frame" x="584" y="7" width="30" height="30"/>
+                                <rect key="frame" x="628" y="7" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="&gt;"/>
                                 <connections>
@@ -124,21 +79,11 @@
                         </barButtonItem>
                         <barButtonItem style="plain" id="EeV-3o-pKc" userLabel="Load Button">
                             <button key="customView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0sr-N7-bEb" userLabel="Load">
-                                <rect key="frame" x="624" y="7" width="34" height="30"/>
+                                <rect key="frame" x="668" y="7" width="34" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Load"/>
                                 <connections>
                                     <action selector="didPressLoad:" destination="-1" eventType="touchDown" id="TAb-dc-LLK"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                        <barButtonItem style="plain" id="7gY-WN-Rpz" userLabel="Save Button">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="J1d-X8-5hS" userLabel="Save">
-                                <rect key="frame" x="668" y="7" width="34" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="didPressSave:" destination="-1" eventType="touchDown" id="Cga-Vy-oWE"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -154,9 +99,7 @@
             <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="sjq-WA-Ug4" firstAttribute="leading" secondItem="AVO-vL-44u" secondAttribute="leading" id="1JR-5e-Oyi"/>
-                <constraint firstItem="H8k-g9-IGb" firstAttribute="top" secondItem="AVO-vL-44u" secondAttribute="top" constant="60" id="1MH-fk-7YF"/>
                 <constraint firstAttribute="trailing" secondItem="sjq-WA-Ug4" secondAttribute="trailing" id="8KR-EL-EB7"/>
-                <constraint firstItem="H8k-g9-IGb" firstAttribute="leading" secondItem="AVO-vL-44u" secondAttribute="leading" constant="15" id="JrT-BD-LFh"/>
                 <constraint firstAttribute="bottom" secondItem="sjq-WA-Ug4" secondAttribute="bottom" id="MZv-fv-sVc"/>
             </constraints>
             <point key="canvasLocation" x="-323" y="-515"/>
