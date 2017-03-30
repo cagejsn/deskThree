@@ -152,15 +152,28 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         super.init(coder: unarchiver)!
         imageHolder = unarchiver.decodeObject() as! UIImageView!
         
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageBlock.toggleEditable))
+        doubleTapGestureRecognizer?.numberOfTapsRequired = 2
+        self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        
+        rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(ImageBlock.handleRotate(sender:)))
+        self.addGestureRecognizer(rotationGestureRecognizer)
+
+        zoomGR = UIPinchGestureRecognizer(target: self, action: #selector(ImageBlock.handlePinch))
+        zoomGR!.delegate = self
+        self.addGestureRecognizer(zoomGR!)
+        editable = unarchiver.decodeObject() as! Bool!
+        if(editable){
+            self.layer.borderWidth = 3
+            self.layer.borderColor = UIColor.purple.cgColor
+        }
+
     }
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(imageHolder)
+        aCoder.encode(editable)
+        
     }
     
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        //aDecoder.encode(self)
-//        //fatalError("init(coder:) has not been implemented")
-//    }
 }
