@@ -17,21 +17,25 @@ class SaveAsView: UIView {
     @IBAction func saveButtonTapped(_ sender: Any) {
         
         let projectName = projectNameTextField.text
-        if(projectName != ""){
+        if(isAcceptableName(name: projectName!)){
             if(saveProject(name: projectName!)){
                 print("Project saved successfully")
             } else {
                 print("Project not saved")
             }
         closeButtonTapped(self)
-        }else{
-            workAreaRef.raiseAlert(title: "", alert: "Enter Name.")
+        }else if(projectName == ""){
+            workAreaRef.raiseAlert(title: "", alert: "Enter project name.")
+        }else if(projectName?.contains(" "))!{
+            workAreaRef.raiseAlert(title: "", alert: "Project name cannot contain spaces.")
         }
         
     }
-
-
-    
+    func isAcceptableName(name: String) -> Bool{
+        
+        return !(name.contains(" ") || name == "")
+        
+    }
 
     ///saves project and metadata to files. Returs true if success
     func saveProject(name: String) -> Bool{
@@ -74,7 +78,11 @@ class SaveAsView: UIView {
         //save the work area into the folder
         NSKeyedArchiver.archiveRootObject(workAreaRef, toFile: folderToZip+"/WorkArea.Desk")
         
-        //save jot ui into the folder
+        //save jot ui into the folder, folderToZip
+        
+        
+        
+        
         
         
         
@@ -84,11 +92,9 @@ class SaveAsView: UIView {
             let zipFilePath = NSURL(string: PathLocator.getProjectFolder() + "/"+name)?.appendingPathExtension("DZIP")
             print(zipFilePath)
             if FileManager.default.fileExists(atPath: String(describing: zipFilePath)) {
-                print("File exists, removing")
                 try FileManager.default.removeItem(at: zipFilePath!)
-                print("removed duplicate file")
             }
-            print("about to attempt zipping files")
+
             var thingsToZip = [URL]()
             for thing in try FileManager.default.contentsOfDirectory(atPath: folderToZip){
                 thingsToZip.append( NSURL(string: folderToZip+"/"+thing) as! URL)
@@ -96,7 +102,6 @@ class SaveAsView: UIView {
             try Zip.zipFiles(paths: thingsToZip, zipFilePath: zipFilePath!, password: "password", progress: { (progress) -> () in
                 print(progress)
             }) //Zip
-            print("zip successful")
             Zip.addCustomFileExtension("DZIP")
             
             

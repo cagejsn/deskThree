@@ -82,9 +82,15 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         
         let unzippedWorkArea = NSKeyedUnarchiver.unarchiveObject(withFile: pathToTempInstance+"/WorkArea.Desk")
         if let workArea = unzippedWorkArea as? WorkArea {
-            
             delegate.didSelectProject(newWorkArea: workArea)
         }
+        //jot file should be here as whatever you name it. Grab it and load it into JotUI. You might need to make a function
+        //in DVC. This's delegate is DVC.
+        
+        
+        
+        
+        
     }
 }
 
