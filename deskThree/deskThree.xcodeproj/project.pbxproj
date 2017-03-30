@@ -30,6 +30,8 @@
 		CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC6DD131DEE8D14002A2460 /* JotUI.framework */; };
 		DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1308DC1E5007F9008EBD14 /* DeskView.swift */; };
 		DA2D2A6D1E67AFE6008F59BB /* desk.deskThreeUT1.c in Sources */ = {isa = PBXBuildFile; fileRef = DA2D2A6C1E67AFE6008F59BB /* desk.deskThreeUT1.c */; };
+		DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE141E8C966100520FFD /* DeskControlModule.swift */; };
+		DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */; };
 		DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688BE1E414613006A9E1A /* ToolDrawer.swift */; };
 		DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688C11E43F98A006A9E1A /* CGPoint+.swift */; };
 		DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688F81E47B970006A9E1A /* CGRect+.swift */; };
@@ -42,6 +44,8 @@
 		DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AB1DE75AAA00E3AA1D /* quad.fsh */; };
 		DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
 		DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */; };
+		DA4A54701E8CCFE70039B030 /* LowerDeskControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4A546F1E8CCFE70039B030 /* LowerDeskControls.swift */; };
+		DA4A54731E8CD00B0039B030 /* LowerDeskControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */; };
 		DA5464511DBD10A300E644F0 /* Paper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5464501DBD10A300E644F0 /* Paper.swift */; };
 		DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */; };
 		DA5747601E7491E50010F754 /* OCRMathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57475F1E7491E50010F754 /* OCRMathView.swift */; };
@@ -56,7 +60,7 @@
 		DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E81DC3A0D600C73780 /* GKImageCropViewController.m */; };
 		DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494EA1DC3A0D600C73780 /* GKImagePicker.m */; };
 		DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494EC1DC3A0D600C73780 /* GKResizeableCropOverlayView.m */; };
-		DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */; };
+		DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EC1DBBF2DD001F7901 /* WorkView.swift */; };
 		DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */; };
 		DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DADC67F51E26A89500C14F5B /* fragmentShader.glsl */; };
 		DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */; };
@@ -211,6 +215,9 @@
 		CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = JotUI.xcodeproj; sourceTree = "<group>"; };
 		DA1308DC1E5007F9008EBD14 /* DeskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskView.swift; sourceTree = "<group>"; };
 		DA2D2A6C1E67AFE6008F59BB /* desk.deskThreeUT1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = desk.deskThreeUT1.c; path = deskThree/desk.deskThreeUT1.c; sourceTree = "<group>"; };
+		DA35EE141E8C966100520FFD /* DeskControlModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskControlModule.swift; sourceTree = "<group>"; };
+		DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBubbleMenuButton.h; sourceTree = "<group>"; };
+		DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWBubbleMenuButton.m; sourceTree = "<group>"; };
 		DA3688BE1E414613006A9E1A /* ToolDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolDrawer.swift; sourceTree = "<group>"; };
 		DA3688C11E43F98A006A9E1A /* CGPoint+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+.swift"; sourceTree = "<group>"; };
 		DA3688F81E47B970006A9E1A /* CGRect+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGRect+.swift"; sourceTree = "<group>"; };
@@ -226,6 +233,8 @@
 		DA4918AB1DE75AAA00E3AA1D /* quad.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.fsh; sourceTree = "<group>"; };
 		DA4918AC1DE75AAA00E3AA1D /* quad.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.vsh; sourceTree = "<group>"; };
 		DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = stencil.fsh; sourceTree = "<group>"; };
+		DA4A546F1E8CCFE70039B030 /* LowerDeskControls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LowerDeskControls.swift; sourceTree = "<group>"; };
+		DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LowerDeskControls.xib; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
 		DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKFilteredImageView.swift; sourceTree = "<group>"; };
 		DA57475F1E7491E50010F754 /* OCRMathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRMathView.swift; sourceTree = "<group>"; };
@@ -248,7 +257,7 @@
 		DAA494EA1DC3A0D600C73780 /* GKImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKImagePicker.m; sourceTree = "<group>"; };
 		DAA494EB1DC3A0D600C73780 /* GKResizeableCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKResizeableCropOverlayView.h; sourceTree = "<group>"; };
 		DAA494EC1DC3A0D600C73780 /* GKResizeableCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKResizeableCropOverlayView.m; sourceTree = "<group>"; };
-		DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkArea.swift; sourceTree = "<group>"; };
+		DAD144EC1DBBF2DD001F7901 /* WorkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
 		DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageBlock.swift; sourceTree = "<group>"; };
 		DADC67F51E26A89500C14F5B /* fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragmentShader.glsl; sourceTree = "<group>"; };
 		DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphingBlock.swift; sourceTree = "<group>"; };
@@ -478,8 +487,8 @@
 			children = (
 				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
-				DAFBE3A71DBBDBC20007D249 /* Main.storyboard */,
-				DAD144EC1DBBF2DD001F7901 /* WorkArea.swift */,
+				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
+
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
 				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
@@ -495,18 +504,27 @@
 				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
 				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
 				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
+				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
+				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
+
 				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
 				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
 				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
 				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
 				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
 				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
+				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
+				DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */,
+				DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */,
+				DA4A546F1E8CCFE70039B030 /* LowerDeskControls.swift */,
+				DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */,
 				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
 				DA7050E31E25591000079047 /* GraphView.swift */,
 				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
 				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
 				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
 				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
+
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -601,7 +619,8 @@
 					};
 					DAFBE39F1DBBDBC20007D249 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 7L6WDTQH67;
+						DevelopmentTeam = 9GGQU4DHVC;
+
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
@@ -717,6 +736,7 @@
 			files = (
 				DAF9E20C1E7C6D8600EBF436 /* SaveAsView.xib in Resources */,
 				DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */,
+				DA4A54731E8CD00B0039B030 /* LowerDeskControls.xib in Resources */,
 				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */,
@@ -858,6 +878,7 @@
 				CE3E876C1E354D640076DA3A /* Parser.swift in Sources */,
 				DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */,
 				DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */,
+				DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
 				DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */,
 				DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */,
@@ -876,7 +897,9 @@
 				DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */,
 				25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */,
 				DA2D2A6D1E67AFE6008F59BB /* desk.deskThreeUT1.c in Sources */,
-				DAD144ED1DBBF2DD001F7901 /* WorkArea.swift in Sources */,
+				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,
+				DA4A54701E8CCFE70039B030 /* LowerDeskControls.swift in Sources */,
+				DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
 				DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
@@ -1081,7 +1104,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7L6WDTQH67;
+				DEVELOPMENT_TEAM = 9GGQU4DHVC;
+
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",
@@ -1112,7 +1136,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 7L6WDTQH67;
+				DEVELOPMENT_TEAM = 9GGQU4DHVC;
+
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",
