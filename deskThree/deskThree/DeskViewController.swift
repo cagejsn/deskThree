@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate  {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
@@ -92,6 +92,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupDeskControlModule(){
         deskControlModule = DeskControlModule(frame: CGRect(x: 10, y: 20, width: 44, height: 44))
+        deskControlModule.delegate2 = self
         self.view.addSubview(deskControlModule)
     }
     
@@ -132,7 +133,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         view?.layer.cornerRadius = 5
     }
     
-    @IBAction func fileExplorerButtonTapped(_ sender: Any) {
+    
+    func fileExplorerButtonTapped(_ sender: Any) {
         var fileExplorer = FileExplorerViewController()
         fileExplorer.delegate = self
         self.present(fileExplorer, animated: false, completion: nil)
