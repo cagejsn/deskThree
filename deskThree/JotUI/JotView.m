@@ -35,6 +35,7 @@
 #import "JotGLColorlessPointProgram.h"
 #import "JotGLColoredPointProgram.h"
 #import "NSArray+JotMapReduce.h"
+#import "UIImage+Resize.h"
 
 #define kJotValidateUndoTimer .06
 
@@ -579,12 +580,12 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
     // the rest can be done in Core Graphics in a background thread
     dispatch_async([JotView importExportImageQueue], ^{
         @autoreleasepool {
-            if (state.isForgetful) {
-                DebugLog(@"forget: skipping export for forgetful jotview");
-                exportFinishBlock(nil);
-                [imageTextureLock unlock];
-                return;
-            }
+//            if (state.isForgetful) {
+//                DebugLog(@"forget: skipping export for forgetful jotview");
+//                exportFinishBlock(nil);
+//                [imageTextureLock unlock];
+//                return;
+//            }
 
             JotGLContext* secondSubContext = [[JotGLContext alloc] initWithName:@"JotViewExportToImageContext" andSharegroup:mainThreadContext.sharegroup andValidateThreadWith:^BOOL {
                 return [JotView isImportExportImageQueue];
@@ -601,7 +602,8 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
 
                 CGSize fullSize = viewFramebuffer.initialViewport;
                 /* Export size matches the actual paper size */
-                CGSize exportSize = CGSizeMake(1275, 1650);
+//                CGSize exportSize = CGSizeMake(1275 * 2 , 1650 * 2);
+                CGSize exportSize = CGSizeMake(ceilf(fullSize.width), ceilf(fullSize.height));
 
                 [secondSubContext glViewportWithX:0 y:0 width:(GLsizei)fullSize.width height:(GLsizei)fullSize.height];
 
@@ -730,9 +732,13 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
                 if (!cgImage) {
                     @throw [NSException exceptionWithName:@"CGContext Exception" reason:@"can't create new context" userInfo:nil];
                 }
-
+                
                 UIImage* image = [UIImage imageWithCGImage:cgImage scale:self.contentScaleFactor orientation:UIImageOrientationUp];
-
+                
+                // Scale the image to the outputScale required to fit with page contents
+                CGInterpolationQuality quality = kCGInterpolationNone;
+                image = [image resizedImage:CGSizeMake(image.size.width*outputScale, image.size.height*outputScale) interpolationQuality: quality];
+                
                 // Clean up
                 free(data);
                 CFRelease(ref);
@@ -1593,10 +1599,7 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
     if (!state)
         return;
     
-    //Ignore pan and pinch
-    if (event.allTouches.count > 1)
-        return;
-    
+    // Doing this before ignoring pan and pinch fixes random lines appearing on screen
     for (UITouch* touch in touches) {
         @autoreleasepool {
             // If appropriate, add code necessary to save the state of the application.
@@ -1606,6 +1609,12 @@ static inline CGFloat distanceBetween2(CGPoint a, CGPoint b) {
             }
         }
     }
+    
+    // Ignore pan and pinch
+    if (event.allTouches.count > 1){
+        return;
+    }
+
     // we need to erase the current stroke from the screen, so
     // clear the canvas and rerender all valid strokes
     [self renderAllStrokesToContext:context inFramebuffer:viewFramebuffer andPresentBuffer:YES inRect:CGRectZero];

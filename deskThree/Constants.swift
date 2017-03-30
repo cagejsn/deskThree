@@ -84,4 +84,18 @@ struct Constants {
             static let gray: UIColor = UIColor.init(red: 160/255, green: 160/255, blue: 160/255, alpha: 1.0)
         }
     }
+    enum pens: Int {
+        case pen = 0
+        case eraser = 1
+        
+        static var count: Int { return pens.eraser.rawValue + 1}
+        mutating func next() {
+            switch self {
+            case .pen:
+                self = .eraser
+            case .eraser:
+                self = .pen
+            }
+        }
+    }
 }

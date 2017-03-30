@@ -8,15 +8,27 @@
 
 import Foundation
 import UIKit
+import Mixpanel
 
 
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkAreaDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate  {
+    
+    // Initialize Mixpanel
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workArea: WorkArea!
     
+    @IBOutlet var fileExplorerButton: UIButton!
+    @IBOutlet var saveButton: UIButton!
+   
+    @IBOutlet weak var penButton: UIButton!
+
+    
     //JotUI Properties
     var pen: Pen!
+    var eraser: Eraser!
+    var curPen = Constants.pens.pen
     var jotView: JotView!
     var pageDrawingStates: [JotViewStateProxy] = [JotViewStateProxy]()
     var jotViewStateInkPath: String!
@@ -24,13 +36,20 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var graphingBlock: GraphingBlock!
     var trashBin: Trash!
     var prevScaleFactor: CGFloat!
+    var mathView: OCRMathView!
     
     var toolDrawer: ToolDrawer!
     
     var customContraints: [NSLayoutConstraint]!
+    var myScriptConstraints: [NSLayoutConstraint]!
     
-    @IBOutlet weak var currentPageLabel: UILabel!
-    @IBOutlet weak var totalPagesLabel: UILabel!
+    var certificateRegistered: Bool!
+    
+    // Page number notifications
+    var currentPage: Int!
+    var totalPages: Int!
+    var cornerPageLabel: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,14 +60,119 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolDrawer()
         setupTrash()
         setupDeskView()
+        setupMyScript()
         
-        currentPageLabel.text = "1"
-        totalPagesLabel.text = "1"
+        // Setup page number notification
+        self.currentPage = 1
+        self.totalPages = 1
+        cornerPageLabel = UILabel()
+        cornerPageLabel.textAlignment = .center
+        cornerPageLabel.text = "Page \(String(self.currentPage)) of \(String(self.totalPages))"
+        cornerPageLabel.numberOfLines = 1
+        cornerPageLabel.textColor = UIColor.white
+        cornerPageLabel.font = UIFont.systemFont(ofSize: 16.0)
+        cornerPageLabel.backgroundColor = UIColor.lightGray
+        cornerPageLabel.layer.cornerRadius = 5
+        cornerPageLabel.layer.masksToBounds = true
+        self.view.addSubview(cornerPageLabel)
+        // Get margins for constrains
+        let margins = view.layoutMarginsGuide
+        // Set constraints for the page nuber notification
+        cornerPageLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        cornerPageLabel.widthAnchor.constraint(equalToConstant: 105).isActive = true
+        cornerPageLabel.translatesAutoresizingMaskIntoConstraints = false
+        cornerPageLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -60).isActive = true
+        cornerPageLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+
+        // Setup file explorer buttons
+        fileExplorerButton.setImage(UIImage(named:"fileButtonDesk"), for: .normal)
+        saveButton.setImage(UIImage(named:"saveButtonDesk"), for: .normal)
+        
+        // Setup pen
+        curPen = .pen // Points to pen
+        penButton.setImage(UIImage(named:"pencilButtonDesk"), for: .normal)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(_: animated)
         workArea.setupForJotView()
+        pageNotificationFadeOut()
+    }
+    
+    func updatePageNotification() {
+        cornerPageLabel.text = "Page \(String(self.currentPage)) of \(String(self.totalPages))"
+        pageNotificationFadeIn()
+        pageNotificationFadeOut()
+    }
+    
+    func pageNotificationFadeOut() {
+        UIView.animate(withDuration: 2.5, delay: 0.5, animations: {
+            self.cornerPageLabel.alpha = 0.0
+        })
+    }
+    
+    func pageNotificationFadeIn() {
+        UIView.animate(withDuration: 2.5) {
+            self.cornerPageLabel.alpha = 1.0
+        }
+    }
+
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Save")
+        
+        var view = Bundle.main.loadNibNamed("SaveAsView", owner: self, options: nil)?.first as? SaveAsView
+        self.view.addSubview(view!)
+        if(workArea != nil){
+        view?.workAreaRef = workArea
+        }
+        view?.center = self.view.center
+        view?.layer.shadowOffset = CGSize(width: -3, height: 3)
+        view?.layer.shadowRadius = 3
+        view?.layer.shadowOpacity = 0.5
+        view?.layer.cornerRadius = 5
+        
+    }
+    
+    
+    @IBAction func fileExplorerButtonTapped(_ sender: Any) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: File Explorer")
+        
+        var fileExplorer = FileExplorerViewController()
+        fileExplorer.delegate = self
+        self.present(fileExplorer, animated: false, completion: nil)
+}
+    
+    func didSelectProject(workArea:WorkArea){
+        dismissFileExplorer()
+        self.workArea.removeFromSuperview()
+        self.workArea = workArea
+        workArea.delegate = self
+        workArea.customDelegate = self
+        self.view.sendSubview(toBack: workArea)
+        workArea.minimumZoomScale = 0.6
+        workArea.maximumZoomScale = 2.0
+        self.view.insertSubview(workArea, at: 0)
+        workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
+    }
+
+    func dismissFileExplorer(){
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    
+    @IBAction func toggleEraser(_ sender: Any) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Pen/Eraser")
+        
+        curPen.next()
+        switch curPen{
+        case .eraser:
+            penButton.setImage(UIImage(named:"eraserButtonDesk"), for: .normal)
+        case .pen:
+            penButton.setImage(UIImage(named:"pencilButtonDesk"), for: .normal)
+        }
     }
     
     // MARK - UIScrollViewDelegate functions
@@ -59,15 +183,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             jotView.transform = jotView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
             
         }
-//        print(scrollView.zoomScale)
-//        print(scrollView.contentScaleFactor)
+        
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
 
         prevScaleFactor = scrollView.zoomScale
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        print(scrollView.contentOffset)
         
         jotView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
@@ -75,7 +197,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     //incoming view does intersect with Trash?
     func intersectsWithTrash(justMovedBlock: UIView) -> Bool {
-        if( trashBin.frame.contains(self.view.convert(justMovedBlock.frame.origin, from: justMovedBlock.superview!))){
+        if( trashBin.frame.contains(self.view.convert(justMovedBlock.frame.origin + CGPoint(x: 0, y:justMovedBlock.frame.height), from: justMovedBlock.superview!))){
             trashBin.open()
             return true
         }
@@ -102,11 +224,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupWorkArea(){
+        workArea = WorkArea()
         workArea.delegate = self
         workArea.customDelegate = self
         self.view.sendSubview(toBack: workArea)
         workArea.minimumZoomScale = 0.6
         workArea.maximumZoomScale = 2.0
+        self.view.insertSubview(workArea, at: 0)
+        workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
     }
     
     func setupGKPicker(){
@@ -117,8 +242,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupJotView(){
 
-        pen = Pen(minSize: 1.0, andMaxSize: 2, andMinAlpha: 0.8, andMaxAlpha: 1)
-
+        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
         jotView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
@@ -131,10 +256,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // inserting jotView right below toolbar
         self.view.insertSubview(jotView, at: 1)
         jotView.isUserInteractionEnabled = false
-        print(jotView.pagePtSize)
-        print(jotView.scale)
-        print(jotView.contentScaleFactor)
-       // jotView.contentScaleFactor = 1.0
+        jotView.speedUpFPS()
     }
     
     func setupToolDrawer(){
@@ -154,7 +276,42 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
+    // TODO: Should we subclass MAWMathView and push all of this code in there?
+    func setupMyScript(){
+        
+        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
+        mathView = OCRMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
+        
+        certificateRegistered = mathView.registerCertificate(certificate)
+        
+        if(certificateRegistered!){
+            mathView.delegate = self
+            
+            var mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            mathView.addSearchDir(bundlePath as String)
+            mathView.configure(withBundle: "math", andConfig: "standard")
+            mathView.paddingRatio = UIEdgeInsetsMake(7, 7, 7, 7)
+            
+        }
+        let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
+        doubleTapGR.numberOfTapsRequired = 2
+        mathView.layer.cornerRadius = 10
+        mathView.clipsToBounds = true
+        mathView.layer.borderColor = UIColor.gray.cgColor
+        mathView.layer.borderWidth = 2
+        mathView.beautificationOption = MAWBeautifyOption.fontify
+        
+        mathView.delegate2 = self   
+    }
+    
     func sendingToInputObject(for element: Any){
+        if let mathElement = element as? MathBlock {
+            
+            mathView.clear(true)
+            mathView.addSymbols(mathElement.mathSymbols, allowUndo: true)
+        }
         toolDrawer.passElement(element)
     }
     
@@ -173,27 +330,34 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func exportPdf(imageV: UIImage?){
         var useful: UIImageView = UIImageView (image: imageV)
+        
         workArea.currentPage.addSubview(useful)
-        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "secondPDF")
+        var pdfFileName = PDFGenerator.createPdfFromView(aView: workArea.currentPage, saveToDocumentsWithFileName: "Preview")
         var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
         pdfShareHelper.delegate = self
         pdfShareHelper.uti = "com.adobe.pdf"
         // Currently, Preview itself gives option to share
         pdfShareHelper.presentPreview(animated: false)
         useful.removeFromSuperview()
+       // workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+
     }
     
     //MARK: UIToolbar on click methods
     @IBAction func printButtonPushed(_ sender: UIBarButtonItem) {
-        workArea.frame = workArea.currentPage.frame
+        // Mixpanel event
+        mixpanel.track(event: "Button: Print")
+
+        //workArea.frame = workArea.currentPage.frame
         pageDrawingStates[workArea.currentPageIndex].isForgetful = false;
-        jotView.exportToImage(onComplete: exportPdf , withScale: (workArea.currentPage.image?.scale)!)
-        workArea.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
+        jotView.exportToImage(onComplete: exportPdf , withScale: 1.66667)
         pageDrawingStates[workArea.currentPageIndex].isForgetful = true;
     }
     
     @IBAction func undoButtonPressed(_ sender: AnyObject) {
-        print("UNDO!")
+        // Mixpanel event
+        mixpanel.track(event: "Button: Undo")
+
         jotView.undo()
     }
     
@@ -204,33 +368,44 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
      */
     
     @IBAction func pageRightButtonPressed(_ sender: Any) {
-        print("Right!")
+        // Mixpanel event
+        mixpanel.track(event: "Button: Page Right")
+
         let pagesInfo = workArea.movePage(direction: "right")
+        
+        self.currentPage = pagesInfo.currentPage + 1
+        self.totalPages = pagesInfo.totalNumPages
+
         pageDrawingStates[pagesInfo.currentPage-1].isForgetful = false;
         // If this is a new page, create new state
         if (pagesInfo.totalNumPages > pageDrawingStates.count){
-        pageDrawingStates.append(JotViewStateProxy(delegate: self))
-        pageDrawingStates[pagesInfo.currentPage].delegate = self
-        pageDrawingStates[pagesInfo.currentPage].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+            pageDrawingStates.append(JotViewStateProxy(delegate: self))
+            pageDrawingStates[pagesInfo.currentPage].delegate = self
+            pageDrawingStates[pagesInfo.currentPage].loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
         }
         pageDrawingStates[pagesInfo.currentPage].isForgetful = true
         jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
         
         jotView.currentPage = workArea.currentPage
-        currentPageLabel.text = String(pagesInfo.currentPage + 1)
-        totalPagesLabel.text = String(pagesInfo.totalNumPages)
         
+        updatePageNotification()
     }
     
     @IBAction func pageLeftButtonPressed(_ sender: Any) {
-        print("Left!")
+        // Mixpanel event
+        mixpanel.track(event: "Button: Page Left")
+
         let pagesInfo = workArea.movePage(direction: "left")
-        pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
+        self.currentPage = pagesInfo.currentPage + 1
+        self.totalPages = pagesInfo.totalNumPages
+        if (pagesInfo.currentPage != 0) {
+            pageDrawingStates[pagesInfo.currentPage + 1].isForgetful = false;
+        }
         pageDrawingStates[pagesInfo.currentPage].isForgetful = true;
         jotView.currentPage = workArea.currentPage;
         jotView.loadState(pageDrawingStates[pagesInfo.currentPage])
-        currentPageLabel.text = String(pagesInfo.currentPage + 1)
-        totalPagesLabel.text = String(pagesInfo.totalNumPages)
+        
+        updatePageNotification()
     }
     
     
@@ -240,6 +415,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
      Allows user to bring an image into the work area
      */
     @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Load Image")
+
         if( UIImagePickerController.isSourceTypeAvailable(.camera)){
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
                 alert.popoverPresentationController?.barButtonItem = sender
@@ -258,6 +436,82 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             self.present(gkimagePicker.imagePickerController, animated: false, completion: nil)
         }
     }
+    
+    ///this function will present a MAWMathView to the User
+    @IBAction func mathFormulaButtonTapped(_ sender: UIBarButtonItem) {
+        if(mathView.superview == nil){
+            // Mixpanel event
+            mixpanel.track(event: "Button: MyScript View Show")
+
+            self.view.addSubview(mathView)
+            setupMathViewConstraints()
+        } else {
+            // Mixpanel event
+            mixpanel.track(event: "Button: MyScript View Hide")
+
+            mathView.clear(true)
+            mathView.removeFromSuperview()
+        }
+    }
+    
+    
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+    }
+    
+    func setupMathViewConstraints(){
+        mathView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
+        let rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
+       // var topConstraint = NSLayoutConstraint(item: mathView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 100)
+        let bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -100)
+        let heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 400)
+        
+        
+        
+        myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
+        self.view.addConstraints(myScriptConstraints)
+        
+    }
+    
+    func mathViewDidBeginConfiguration(_ mathView: MAWMathView!) {
+        
+    }
+    
+    func mathView(_ mathView: MAWMathView!, didFailConfigurationWithError error: Error!) {
+        NSLog("unable to config", error.localizedDescription)
+        print(error.localizedDescription)
+    }
+    
+    func mathViewDidBeginRecognition(_ mathView: MAWMathView!) {
+        
+    }
+    
+    func mathViewDidEndRecognition(_ mathView: MAWMathView!) {
+
+    }
+    
+    func createMathBlock(){
+
+        if let image1 =  mathView.resultAsImage(){
+            let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
+            mathBlock.delegate = workArea
+            workArea.currentPage.addMathBlockToPage(block: mathBlock)
+            var loc = self.view.center
+            loc = loc - CGPoint(x: 0, y: 200)
+            mathBlock.center = mathBlock.convert(loc, to: workArea.currentPage)
+            self.workArea.currentPage.addSubview(mathBlock)
+        }
+       
+    }
+    
+    func printText(){
+        
+        print(mathView.resultAsLaTeX())
+    }
+
     
     @IBAction func clearButtonTapped(_ sender: AnyObject) {
         // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
@@ -287,11 +541,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     //pragma mark - Helpers
     func activePen() -> Pen {
+        switch curPen {
+        case .pen:
+            print("PEN!!")
+            return pen
+        case .eraser:
+            print("ERASER!!")
+            return eraser
+        }
         return pen
     }
     
@@ -301,9 +562,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func stepWidthForStroke() -> CGFloat {
-       // print(activePen().stepWidthForStroke())
-       // return activePen().stepWidthForStroke()
-        return CGFloat(0.2)
+        return CGFloat(0.3)
     }
     
     func supportsRotation() -> Bool {
@@ -367,11 +626,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func didUnloadState(_ state: JotViewStateProxy!) {
         
-    }
-    
-    @IBAction func didPressSave(_ sender: Any) {
-        print("should save")
-        workArea.pages[0].savePaper()
     }
     
     ///unpacks and loads in whatever is at /file.desk
