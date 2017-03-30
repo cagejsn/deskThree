@@ -255,6 +255,9 @@ class WorkArea: UIScrollView, InputObjectDelegate, PaperDelegate {
                 pages[currentPageIndex].isHidden = false
                 
                 currentPage = pages[currentPageIndex]
+                
+                currentPage.delegate = self
+                
             } else {
                 currentPageIndex += 1
                 
