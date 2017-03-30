@@ -466,7 +466,7 @@
 					};
 					DAFBE39F1DBBDBC20007D249 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 6SJHMR9UMT;
+						DevelopmentTeam = 9GGQU4DHVC;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
@@ -789,7 +789,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEVELOPMENT_TEAM = 9GGQU4DHVC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",
@@ -818,7 +818,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEVELOPMENT_TEAM = 9GGQU4DHVC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",

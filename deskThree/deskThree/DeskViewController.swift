@@ -17,10 +17,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var workView: WorkView!
     var deskControlModule: DeskControlModule!
     
-    @IBOutlet var fileExplorerButton: UIButton!
-    @IBOutlet var saveButton: UIButton!
-    @IBOutlet weak var penButton: UIButton!
-
     //JotUI Properties
     var pen: Pen!
     var eraser: Eraser!
@@ -120,8 +116,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
 
-    @IBAction func saveButtonTapped(_ sender: Any) {
-        var view = Bundle.main.loadNibNamed("SaveAsView", owner: self, options: nil)?.first as? SaveAsView
+    func saveButtonTapped(_ sender: Any) {
+        let view = Bundle.main.loadNibNamed("SaveAsView", owner: self, options: nil)?.first as? SaveAsView
         self.view.addSubview(view!)
         if(workView != nil){
         view?.workViewRef = workView
@@ -135,7 +131,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     
     func fileExplorerButtonTapped(_ sender: Any) {
-        var fileExplorer = FileExplorerViewController()
+        let fileExplorer = FileExplorerViewController()
         fileExplorer.delegate = self
         self.present(fileExplorer, animated: false, completion: nil)
     }
@@ -169,14 +165,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
   
-    @IBAction func toggleEraser(_ sender: Any) {
-        curPen.next()
-        switch curPen{
-        case .eraser:
-            penButton.setImage(UIImage(named:"eraserButtonDesk"), for: .normal)
-        case .pen:
-            penButton.setImage(UIImage(named:"pencilButtonDesk"), for: .normal)
-        }
+    func toggleEraser(_ sender: Any) {
     }
     
     // MARK - UIScrollViewDelegate functions
@@ -359,7 +348,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
      ----------
      Allows user to move forwards and backwards in pages
      */
-    
     @IBAction func pageRightButtonPressed(_ sender: Any) {
         let pagesInfo = workView.movePage(direction: "right")
         
@@ -401,10 +389,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
      ----------
      Allows user to bring an image into the work area
      */
-    @IBAction func loadImageButtonPushed(_ sender: UIBarButtonItem) {
-        if( UIImagePickerController.isSourceTypeAvailable(.camera)){
+    func loadImageButtonPushed(_ sender: Any) {
+        if(UIImagePickerController.isSourceTypeAvailable(.camera)){
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                alert.popoverPresentationController?.barButtonItem = sender
+//                alert.popoverPresentationController?.barButtonItem = sender
+            alert.popoverPresentationController?.sourceView = self.view
+//            alert.popoverPresentationController?.sourceRect = self.view.bounds
+                alert.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 200, height: 200)
                 alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
                 action in
                 self.gkimagePicker.imagePickerController.sourceType = .camera
@@ -505,7 +496,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // MARK: GKImagePickerController Delegate
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
         if let pickedImage = pickedImage as? UIImage  {
-            var imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
+            let imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
             workView.currentPage.images?.append(imageBlock) //adds to the array, used to toggle editable
             workView.currentPage.addSubview(imageBlock)
             imageBlock.center = self.view.center
@@ -525,13 +516,24 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func activePen() -> Pen {
         switch curPen {
         case .pen:
+            print("PEN!!")
             return pen
         case .eraser:
+            print("ERASER!!")
             return eraser
+        default:
+            return pen
         }
-        return pen
     }
     
+    func getCurPen() -> Constants.pens {
+        return curPen
+    }
+    
+    func togglePen() {
+        curPen.next()
+    }
+
     //JotUIDelegate
     func textureForStroke() -> JotBrushTexture! {
         return activePen().textureForStroke()
