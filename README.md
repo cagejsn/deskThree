@@ -29,3 +29,10 @@ Ensure your BundleID matches: `desk.deskThreeUT1`
 This could be caused by a couple things:
 1. Have you installed github submodules? Run `git submodule update --init --recursive`
 2. Are the Carthage packages added to deskThree.xcodeproj->General Tab->Embedded Binaries? If you do not see and or see some missing, in Xcode, click on deskThree.xcodeproj->General->Embedded Binaries. Then, in finder, go to `deskThree/deskThree/Carthage/Build/iOS/` and drag all of the [libraries].framework (e.g. Zip.framework) into the Embedded Binaries
+
+
+*Module compiled with Swift [version] cannot be imported in Swift [version]*
+
+This is a Carthage error. See [this](http://stackoverflow.com/questions/40250381/module-compiled-with-swift-3-0-cannot-be-imported-in-swift-3-0-1)
+
+
