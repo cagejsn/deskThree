@@ -78,14 +78,14 @@ class SaveAsView: UIView {
         
         //save jot ui into the folder, folderToZip
         
-//        workViewRef.customDelegate.archiveJotView(folderToZip)
+        
+        
+        workViewRef.customDelegate.archiveJotView(folderToZip: folderToZip)
+        
+        
         
         //save the work area into the folder
         NSKeyedArchiver.archiveRootObject(workViewRef, toFile: folderToZip+"/WorkView.Desk")
-        
-        
-        
-//        jotView.exportImage(to: <#T##String!#>, andThumbnailTo: <#T##String!#>, andStateTo: <#T##String!#>, withThumbnailScale: <#T##CGFloat#>, onComplete: <#T##((UIImage?, UIImage?, JotViewImmutableState?) -> Void)!##((UIImage?, UIImage?, JotViewImmutableState?) -> Void)!##(UIImage?, UIImage?, JotViewImmutableState?) -> Void#>)
         
         
         
@@ -98,6 +98,7 @@ class SaveAsView: UIView {
                 try FileManager.default.removeItem(at: zipFilePath!)
             }
 
+            /*
             var thingsToZip = [URL]()
             for thing in try FileManager.default.contentsOfDirectory(atPath: folderToZip){
                 thingsToZip.append( NSURL(string: folderToZip+"/"+thing) as! URL)
@@ -105,10 +106,11 @@ class SaveAsView: UIView {
             try Zip.zipFiles(paths: thingsToZip, zipFilePath: zipFilePath!, password: "password", progress: { (progress) -> () in
                 print(progress)
             }) //Zip
+            */
             Zip.addCustomFileExtension("DZIP")
             
             
-            try FileManager.default.removeItem(atPath: folderToZip)
+            //try FileManager.default.removeItem(atPath: folderToZip)
         }
         catch{
             print("error when zipping file")

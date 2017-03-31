@@ -46,6 +46,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var drawingState: JotViewStateProxy!
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
+        
     func didLoadState(_ state: JotViewStateProxy!) {
         
     }
@@ -123,8 +124,48 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         jotView.redo()
     }
     
+
+
+    
     func archiveJotView(folderToZip: String){
-//        for(page in workView.pages)
+        
+        var archivedPages = 0
+        
+        func doNothing(ink: UIImage? , thumb: UIImage?, state : JotViewImmutableState?) -> Void{
+            archivedPages+=1
+        }
+        
+        archivedPages = 0
+        var inkLocation: String
+        var stateLocation: String
+        var thumbLocation: String
+/*        do{
+            let files = try FileManager.default.contentsOfDirectory(atPath: folderToZip)
+            
+            for file in files{
+                try FileManager.default.removeItem(atPath: folderToZip+"/"+file)
+            }
+        }
+        catch{
+        }
+*/        
+        var count: Int = 1
+        for page in workView.pages {
+            
+            jotView.loadState(page.drawingState)
+            
+            inkLocation = folderToZip+"/ink"+String(count)
+            stateLocation = folderToZip+"/state"+String(count)
+            thumbLocation = folderToZip+"/thumb"+String(count)
+            
+            page.drawingState.isForgetful = false
+            jotView.exportImage(to: inkLocation, andThumbnailTo: thumbLocation, andStateTo: stateLocation, andJotState: page.drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
+            page.jotViewStateInkPath = inkLocation
+            page.jotViewStatePlistPath = stateLocation
+            count += 1
+
+
+        }
     }
 
     
@@ -204,6 +245,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.maximumZoomScale = 2.0
         self.view.insertSubview(workView, at: 0)
         workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
+        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+        jotView.loadState(workView.currentPage.drawingState)
+
     }
 
   
@@ -416,7 +460,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.totalPages = pagesInfo.totalNumPages
         
         jotView.currentPage = workView.currentPage
-        jotView.loadState(workView.currentPage.drawingState)
+        //jotView.loadState(workView.currentPage.drawingState)
         
         updatePageNotification()
     }
