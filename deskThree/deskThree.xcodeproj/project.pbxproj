@@ -13,6 +13,7 @@
 		314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
 		3148815A1E8DD5800015D095 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3148815E1E8DDCDA0015D095 /* com.desk.education.c in Sources */ = {isa = PBXBuildFile; fileRef = 3148815D1E8DDCDA0015D095 /* com.desk.education.c */; };
+		314881611E8DEE670015D095 /* MyScript_ATK-ios-2.2 in Resources */ = {isa = PBXBuildFile; fileRef = 314881601E8DEE670015D095 /* MyScript_ATK-ios-2.2 */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
 		528F8B151E8DB57300E75EF4 /* Zip in Resources */ = {isa = PBXBuildFile; fileRef = 528F8B141E8DB57300E75EF4 /* Zip */; };
@@ -165,6 +166,7 @@
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
 		314881561E8DD5770015D095 /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Zip.framework; path = Carthage/Build/iOS/Zip.framework; sourceTree = "<group>"; };
 		3148815D1E8DDCDA0015D095 /* com.desk.education.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = com.desk.education.c; sourceTree = "<group>"; };
+		314881601E8DEE670015D095 /* MyScript_ATK-ios-2.2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "MyScript_ATK-ios-2.2"; sourceTree = "<group>"; };
 		526C111B1E7DD8FE00196164 /* PathLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLocator.swift; sourceTree = "<group>"; };
 		526C111E1E7DF2CB00196164 /* DeskProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskProject.swift; sourceTree = "<group>"; };
 		528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 		DAA494DE1DC2ED5A00C73780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				314881601E8DEE670015D095 /* MyScript_ATK-ios-2.2 */,
 				528F8B0C1E8D9EA800E75EF4 /* Mixpanel.swift */,
 				528F8B051E8D9DBB00E75EF4 /* mixpanel-swift */,
 				528F8B021E8D9C4300E75EF4 /* Mixpanel */,
@@ -663,6 +666,7 @@
 				DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */,
 				DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */,
 				DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */,
+				314881611E8DEE670015D095 /* MyScript_ATK-ios-2.2 in Resources */,
 				DA4918AF1DE75AAA00E3AA1D /* colorlesspoint.vsh in Resources */,
 				DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */,
 			);
@@ -680,14 +684,14 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3148815F1E8DE9410015D095 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
 		};
