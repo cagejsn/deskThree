@@ -477,8 +477,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -75)
         let heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 300)
         
-        
-        
         myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
         self.view.addConstraints(myScriptConstraints)
         
