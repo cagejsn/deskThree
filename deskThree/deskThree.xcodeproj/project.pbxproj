@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1507E1DBC19CF008364EC /* PDFGenerator.swift */; };
 		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
+		314881531E8DD3150015D095 /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 314881521E8DD3150015D095 /* Zip.framework */; };
+		314881541E8DD3150015D095 /* Zip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 314881521E8DD3150015D095 /* Zip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
 		528F8B081E8D9E2900E75EF4 /* mixpanel-swift in Resources */ = {isa = PBXBuildFile; fileRef = 528F8B071E8D9E2900E75EF4 /* mixpanel-swift */; };
@@ -137,9 +139,24 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		314881551E8DD3160015D095 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				314881541E8DD3150015D095 /* Zip.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
+		314881521E8DD3150015D095 /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Zip.framework; path = Carthage/Build/iOS/Zip.framework; sourceTree = "<group>"; };
 		526C111B1E7DD8FE00196164 /* PathLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLocator.swift; sourceTree = "<group>"; };
 		526C111E1E7DF2CB00196164 /* DeskProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskProject.swift; sourceTree = "<group>"; };
 		528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
@@ -258,6 +275,7 @@
 				528F8B131E8DA03A00E75EF4 /* Mixpanel.xcodeproj in Frameworks */,
 				DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */,
 				CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */,
+				314881531E8DD3150015D095 /* Zip.framework in Frameworks */,
 				CE18D3631E6DCD4600BC54D8 /* ATKCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -361,6 +379,7 @@
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				314881521E8DD3150015D095 /* Zip.framework */,
 				528F8B141E8DB57300E75EF4 /* Zip */,
 				528F8B071E8D9E2900E75EF4 /* mixpanel-swift */,
 				DA5747641E74983E0010F754 /* Assets.xcassets */,
@@ -482,6 +501,7 @@
 				DAFBE39C1DBBDBC20007D249 /* Sources */,
 				DAFBE39D1DBBDBC20007D249 /* Frameworks */,
 				DAFBE39E1DBBDBC20007D249 /* Resources */,
+				314881551E8DD3160015D095 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -527,7 +547,7 @@
 					};
 					DAFBE39F1DBBDBC20007D249 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 6SJHMR9UMT;
+						DevelopmentTeam = 9GGQU4DHVC;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
@@ -886,11 +906,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEVELOPMENT_TEAM = 9GGQU4DHVC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/MyScript_ATK-ios-2.2/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -915,11 +936,12 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEVELOPMENT_TEAM = 9GGQU4DHVC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"./MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/MyScript_ATK-ios-2.2/Frameworks",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
