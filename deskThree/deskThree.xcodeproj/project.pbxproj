@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1507E1DBC19CF008364EC /* PDFGenerator.swift */; };
 		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
-		314881571E8DD5770015D095 /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 314881561E8DD5770015D095 /* Zip.framework */; };
 		314881581E8DD5770015D095 /* Zip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 314881561E8DD5770015D095 /* Zip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
 		3148815A1E8DD5800015D095 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -282,7 +281,6 @@
 				DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */,
 				314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */,
 				CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */,
-				314881571E8DD5770015D095 /* Zip.framework in Frameworks */,
 				CE18D3631E6DCD4600BC54D8 /* ATKCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -508,6 +506,7 @@
 				DAFBE39D1DBBDBC20007D249 /* Frameworks */,
 				DAFBE39E1DBBDBC20007D249 /* Resources */,
 				314881551E8DD3160015D095 /* Embed Frameworks */,
+				3148815F1E8DE9410015D095 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -677,6 +676,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3148815F1E8DE9410015D095 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\n# This script loops through the frameworks embedded in the application and\n# removes unused architectures.\nfind \"$APP_PATH\" -name '*.framework' -type d | while read -r FRAMEWORK\ndo\nFRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\necho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\ndo\necho \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o \"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create \"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		52C9BB201E2D68AA005DA9C2 /* Sources */ = {
@@ -959,6 +974,7 @@
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lstdc++",
