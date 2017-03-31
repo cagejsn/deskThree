@@ -555,13 +555,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func activePen() -> Pen {
         switch curPen {
         case .pen:
-            print("PEN!!")
             return pen
         case .eraser:
-            print("ERASER!!")
             return eraser
-        default:
-            return pen
         }
     }
     
