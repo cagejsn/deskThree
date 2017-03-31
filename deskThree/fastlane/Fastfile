@@ -25,7 +25,7 @@ platform :ios do
     @username = "zakkeener@utexas.edu"
 
     # Ensure there are no uncommitted changes
-    ensure_git_status_clean
+    # ensure_git_status_clean
   end
 '''
   # Increments the build number
