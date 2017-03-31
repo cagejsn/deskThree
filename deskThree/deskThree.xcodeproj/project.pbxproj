@@ -13,7 +13,6 @@
 		314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
 		3148815A1E8DD5800015D095 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3148815E1E8DDCDA0015D095 /* com.desk.education.c in Sources */ = {isa = PBXBuildFile; fileRef = 3148815D1E8DDCDA0015D095 /* com.desk.education.c */; };
-		314881611E8DEE670015D095 /* MyScript_ATK-ios-2.2 in Resources */ = {isa = PBXBuildFile; fileRef = 314881601E8DEE670015D095 /* MyScript_ATK-ios-2.2 */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
 		528F8B151E8DB57300E75EF4 /* Zip in Resources */ = {isa = PBXBuildFile; fileRef = 528F8B141E8DB57300E75EF4 /* Zip */; };
@@ -648,11 +647,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA5747651E74983E0010F754 /* Assets.xcassets in Resources */,
-				314881611E8DEE670015D095 /* MyScript_ATK-ios-2.2 in Resources */,
 				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
+				DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
-				DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */,
 				DAF9E20C1E7C6D8600EBF436 /* SaveAsView.xib in Resources */,
 				DA4A54731E8CD00B0039B030 /* LowerDeskControls.xib in Resources */,
 				DADC7C661DF0F4650086626E /* AllPad.xib in Resources */,
