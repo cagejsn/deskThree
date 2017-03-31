@@ -647,28 +647,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAF9E20C1E7C6D8600EBF436 /* SaveAsView.xib in Resources */,
-				DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */,
-				DA4A54731E8CD00B0039B030 /* LowerDeskControls.xib in Resources */,
+				DA5747651E74983E0010F754 /* Assets.xcassets in Resources */,
+				314881611E8DEE670015D095 /* MyScript_ATK-ios-2.2 in Resources */,
 				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
-				DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */,
-				DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */,
-				DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */,
-				DA5747651E74983E0010F754 /* Assets.xcassets in Resources */,
-				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
-				DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */,
+				DAE5D3281E6233D5007DE25F /* resources.bundle in Resources */,
+				DAF9E20C1E7C6D8600EBF436 /* SaveAsView.xib in Resources */,
+				DA4A54731E8CD00B0039B030 /* LowerDeskControls.xib in Resources */,
 				DADC7C661DF0F4650086626E /* AllPad.xib in Resources */,
 				25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */,
-				DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */,
 				DADC67FC1E27E9F800C14F5B /* GraphingBlock.xib in Resources */,
-				DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */,
-				DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */,
-				DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */,
-				314881611E8DEE670015D095 /* MyScript_ATK-ios-2.2 in Resources */,
-				DA4918AF1DE75AAA00E3AA1D /* colorlesspoint.vsh in Resources */,
 				DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */,
+				DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */,
+				DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */,
+				DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */,
+				DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */,
+				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
+				DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */,
+				DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */,
+				DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */,
+				DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */,
+				DA4918AF1DE75AAA00E3AA1D /* colorlesspoint.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,7 +941,6 @@
 				DEVELOPMENT_TEAM = 9GGQU4DHVC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"./MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
@@ -974,7 +973,6 @@
 				DEVELOPMENT_TEAM = 9GGQU4DHVC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					"./MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
