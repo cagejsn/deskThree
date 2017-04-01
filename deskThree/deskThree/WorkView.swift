@@ -240,7 +240,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
      */
     func movePage(direction: String) -> (currentPage: Int, totalNumPages: Int) {
         currentPage.drawingState.isForgetful = false
-        if direction == "right" {
+        if direction  == "right" {
             // Check if this is the last page
             if currentPageIndex == pages.count - 1 {
                 currentPageIndex += 1
