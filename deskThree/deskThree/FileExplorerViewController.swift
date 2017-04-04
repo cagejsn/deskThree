@@ -53,19 +53,21 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         let pathToTempInstance = pathToTempFolder+"/"+name!
         if FileManager.default.fileExists(atPath: pathToTempInstance){
             do{
-                try FileManager.default.removeItem(atPath: pathToTempInstance)
+                //try FileManager.default.removeItem(atPath: pathToTempInstance)
             }
             catch{}
         }
         //making the folder to temporarily hold the unzipped data
+        /*
         do{
             try FileManager.default.createDirectory(atPath: pathToTempInstance, withIntermediateDirectories: true, attributes: nil)
         }
         catch{}
-        
+        */
         Zip.addCustomFileExtension("DZIP")
         
         //unzipping file into just created directory
+        /*
         do{
             try Zip.unzipFile(NSURL(string: pathToUnzip) as! URL, destination: NSURL(string: pathToTempInstance) as! URL, overwrite: true, password: "password", progress: { (progress) -> () in
                 print(progress)
@@ -74,7 +76,7 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         catch let error as Error{
             print(error.localizedDescription)
         }
-        
+        */
         
         let unzippedWorkArea = NSKeyedUnarchiver.unarchiveObject(withFile: pathToTempInstance+"/WorkView.Desk")
         if let workArea = unzippedWorkArea as? WorkView {
@@ -83,11 +85,7 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         //jot file should be here as whatever you name it. Grab it and load it into JotUI. You might need to make a function
         //in DVC. This's delegate is DVC.
         
-        
-        
-        
-        //jot file should be here as whatever you name it. Grab it and load it into JotUI. You might need to make a function
-        //in DVC. This's delegate is DVC.
+
         
         
         
