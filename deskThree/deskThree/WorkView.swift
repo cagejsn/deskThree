@@ -274,7 +274,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
                 pages[currentPageIndex].isHidden = false
             }
             
-            initCurPage()
             
         } else if direction == "left" {
             // Check if this is the first page
@@ -290,7 +289,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
                 pages[currentPageIndex].isHidden = false
                 
                 currentPage = pages[currentPageIndex]
-                initCurPage()
             }
         }
         currentPage.drawingState.isForgetful = true

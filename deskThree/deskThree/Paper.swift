@@ -23,6 +23,7 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
     var delegate: PaperDelegate!
     var images: [ImageBlock]!
     var expressions: [Expression]!
+    var drawingView: JotView!
     var drawingState: JotViewStateProxy!
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
@@ -95,6 +96,25 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
 
     }
     
+//    func setupDrawingView(){
+//        
+//        
+//        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+//        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+//        pen.shouldUseVelocity = true
+//        //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
+//        workView.currentPage.drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
+//        jotView.delegate = self
+//        jotView.isUserInteractionEnabled = true
+//        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+//        jotView.loadState(workView.currentPage.drawingState)
+//        // inserting jotView right below toolbar
+//        self.view.insertSubview(jotView, at: 1)
+//        jotView.isUserInteractionEnabled = false
+//        jotView.speedUpFPS()
+//    }
+
+    
     //pragma mark - JotViewStateProxyDelegate
     
     func documentDir() -> String {
@@ -133,7 +153,7 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
         self.image = UIImage(named: "engineeringPaper2")
         self.isOpaque = false
         images = [ImageBlock]() //creates an array to save the imageblocks
-        drawingState = JotViewStateProxy(delegate: self)
+        drawingState = JotViewStateProxy()
     }
     
     //MARK: setup for loading
