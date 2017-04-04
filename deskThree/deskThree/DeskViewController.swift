@@ -373,7 +373,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         for page in workView.pages {
             page.isHidden = false
             page.drawingState.isForgetful = false
-//            jotView.loadState(page.drawingState)
+            
+            jotView.loadState(page.drawingState)
+            
+            
+            
             jotView.exportToImage(onComplete: {[page] (imageV: UIImage?) in
                 let useful: UIImageView = UIImageView (image: imageV)
                 page.addSubview(useful)

@@ -81,6 +81,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     }
     
     func didIncrementMove(movedView: UIView){
+        
         var zoomedView = CGRect() //temp CGRect
         //if the block is from an InputObject
         if let movedBlock = movedView as? Block {

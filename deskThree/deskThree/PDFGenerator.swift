@@ -25,15 +25,15 @@ class PDFGenerator: NSObject {
             
             UIGraphicsBeginPDFPageWithInfo(rect, nil)
             guard var pdfContext = UIGraphicsGetCurrentContext() else { return "no"}
+            page.isHidden = false
 
            // page.layer.setNeedsDisplay()
-           // page.layer.render(in: pdfContext)
+            page.layer.render(in: pdfContext)
             //var formattedLayer = page.viewPrintFormatter().view.layer
             //formattedLayer.render(in: pdfContext)
           //  page.draw(page.bounds)
-    //    page.isHidden = false
 
-          page.drawHierarchy(in: rect, afterScreenUpdates: false)
+            //page.drawHierarchy(in: rect, afterScreenUpdates: false)
             
             
             
