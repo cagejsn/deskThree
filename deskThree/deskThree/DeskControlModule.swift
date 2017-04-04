@@ -55,6 +55,12 @@ class DeskControlModule: DWBubbleMenuButton {
         togglePenButton.addTarget(self, action: #selector(DeskControlModule.togglePenButtonWasTapped), for: .touchUpInside)
         buttons.append(togglePenButton)
         
+        changePenColorButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        changePenColorButton.setImage(UIImage(named: "penColorButtonBlack"), for: .normal)
+        changePenColorButton.addTarget(self, action: #selector(DeskControlModule.changePenColorButtonWasTapped), for: .touchUpInside)
+        buttons.append(changePenColorButton)
+        
+        
         let importPhotoButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         importPhotoButton.setImage(UIImage(named: "cameraButton"
         ), for: .normal)
@@ -76,11 +82,7 @@ class DeskControlModule: DWBubbleMenuButton {
         clearPageButton.addTarget(self, action: #selector(DeskControlModule.clearPageButtonWasTapped), for: .touchUpInside)
         buttons.append(clearPageButton)
         
-        changePenColorButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-        changePenColorButton.setImage(UIImage(named: "penColorButtonBlack"), for: .normal)
-        changePenColorButton.addTarget(self, action: #selector(DeskControlModule.changePenColorButtonWasTapped), for: .touchUpInside)
-        buttons.append(changePenColorButton)
-        
+
         self.addButtons(buttons)
     }
     
