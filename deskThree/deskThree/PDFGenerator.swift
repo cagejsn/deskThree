@@ -28,6 +28,7 @@ class PDFGenerator: NSObject {
 
             page.isHidden = false
             page.layer.render(in: pdfContext)
+            page.isHidden = (page != workView.currentPage) ? true : false
         }
         
         UIGraphicsEndPDFContext()
