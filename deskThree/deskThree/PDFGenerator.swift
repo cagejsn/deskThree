@@ -11,11 +11,12 @@ import UIKit
 
 class PDFGenerator: NSObject {
     
-    
+
     
    static func createPdfFromView(workView: WorkView, saveToDocumentsWithFileName fileName: String) -> String
     {
-        
+        let imageReadySema = DispatchSemaphore(value: 0)
+
         var pdfData = NSMutableData()
         UIGraphicsBeginPDFContextToData(pdfData, workView.currentPage.bounds, nil)
         
@@ -27,6 +28,17 @@ class PDFGenerator: NSObject {
             guard var pdfContext = UIGraphicsGetCurrentContext() else { return "no"}
 
             page.isHidden = false
+            page.drawingState.isForgetful = false
+            page.drawingView.exportToImage(onComplete: {[page] (imageV: UIImage?) in
+                let useful: UIImageView = UIImageView (image: imageV)
+                page.addSubview(useful)
+                page.setNeedsDisplay()
+                imageReadySema.signal()}
+                , withScale: 1.66667)
+            
+            // Wait till the onComplete block is done
+            imageReadySema.wait()
+            page.drawingState.isForgetful = true
             page.layer.render(in: pdfContext)
             page.isHidden = (page != workView.currentPage) ? true : false
         }

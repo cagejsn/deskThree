@@ -18,7 +18,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var workView: WorkView!
     var deskControlModule: DeskControlModule!
     var lowerDeskControls: LowerDeskControls!
-    let imageReadySema = DispatchSemaphore(value: 0)
     
     //JotUI Properties
     var pen: Pen!
@@ -356,59 +355,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     
-    
-    
-    func exportPdf(imageV: UIImage?){
-        var useful: UIImageView = UIImageView (image: imageV)
-        
-        workView.currentPage.addSubview(useful)
-        
-        var pdfFileName = PDFGenerator.createPdfFromView(workView: workView, saveToDocumentsWithFileName: "Preview")
-        var pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
+    //MARK: UIToolbar on click methods
+    func printButtonPushed(_ sender: Any) {
+
+        let pdfFileName = PDFGenerator.createPdfFromView(workView: workView, saveToDocumentsWithFileName: "Preview")
+        let pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
         pdfShareHelper.delegate = self
         pdfShareHelper.uti = "com.adobe.pdf"
         // Currently, Preview itself gives option to share
         pdfShareHelper.presentPreview(animated: false)
         
-        useful.removeFromSuperview()
-       // workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
-    }
-    
-    //MARK: UIToolbar on click methods
-    func printButtonPushed(_ sender: Any) {
-//        workView.frame = workView.currentPage.frame
-        
-        //        workView.currentPage.isHidden = false
-        workView.currentPage.drawingState.isForgetful = false
-        workView.currentPage.drawingView.exportToImage(onComplete: exportPdf, withScale: 1.666667)
-        workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 44)
-        workView.currentPage.drawingState.isForgetful = true
-        
-//        let startingPage = workView.currentPage
-//        startingPage?.drawingView.removeFromSuperview()
-        
-        // Get all jotStates to be an image on top of their respective views
-//        for page in workView.pages {
-//            self.view.insertSubview(page.drawingView, at: 1)
-//            
-//            page.isHidden = false
-//            page.drawingState.isForgetful = false
-//            page.drawingView.exportToImage(onComplete: {[page] (imageV: UIImage?) in
-//                let useful: UIImageView = UIImageView (image: imageV)
-//                page.addSubview(useful)
-//                page.setNeedsDisplay()
-//                self.imageReadySema.signal()}
-//                , withScale: 1.66667)
-//            
-//            // Wait till the onComplete block is done
-//            imageReadySema.wait()
-//            page.drawingState.isForgetful = true
-//            
-//            page.drawingView.removeFromSuperview()
-//        }
-        
-        
-//        self.view.insertSubview(workView.currentPage.drawingView, at: 1)
+        //        self.view.insertSubview(workView.currentPage.drawingView, at: 1)
     }
     
     
