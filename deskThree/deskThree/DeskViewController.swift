@@ -357,7 +357,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     //MARK: UIToolbar on click methods
     func printButtonPushed(_ sender: Any) {
-
         let pdfFileName = PDFGenerator.createPdfFromView(workView: workView, saveToDocumentsWithFileName: "Preview")
         let pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
         pdfShareHelper.delegate = self

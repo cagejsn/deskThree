@@ -36,7 +36,6 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
         delegate.didBeginMove(movedView: movedView)
     }
 
-    
     func didIncrementMove(movedView: UIView){
         delegate.didIncrementMove(movedView: movedView)
     }
