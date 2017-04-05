@@ -322,10 +322,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return pen.color
     }
     
-    func setupJotView(){
+    func setupJotView(color: UIColor = UIColor.black){
 
         
         pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen.color = color
         eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
         pen.shouldUseVelocity = true
         //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
@@ -458,7 +459,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         // If this is a new page, create new state
         if (pagesInfo.totalNumPages > self.totalPages){
-            setupJotView()
+            setupJotView(color: pen.color)
         }
         workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
         
