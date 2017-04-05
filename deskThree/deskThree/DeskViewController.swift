@@ -45,6 +45,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var drawingState: JotViewStateProxy!
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
+        
     func didLoadState(_ state: JotViewStateProxy!) {
         
     }
@@ -122,8 +123,46 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.currentPage.drawingView.redo()
     }
     
+
+
+    
     func archiveJotView(folderToZip: String){
-//        for(page in workView.pages)
+        
+        var archivedPages = 0
+        
+        func doNothing(ink: UIImage? , thumb: UIImage?, state : JotViewImmutableState?) -> Void{
+            archivedPages+=1
+        }
+        
+        archivedPages = 0
+        var inkLocation: String
+        var stateLocation: String
+        var thumbLocation: String
+/*        do{
+            let files = try FileManager.default.contentsOfDirectory(atPath: folderToZip)
+            
+            for file in files{
+                try FileManager.default.removeItem(atPath: folderToZip+"/"+file)
+            }
+        }
+        catch{
+        }
+*/        
+        var count: Int = 1
+        for page in workView.pages {
+            
+            inkLocation = folderToZip+"/ink"+String(count)
+            stateLocation = folderToZip+"/state"+String(count)
+            thumbLocation = folderToZip+"/thumb"+String(count)
+            
+            page.drawingState.isForgetful = false
+            page.drawingView.exportImage(to: inkLocation, andThumbnailTo: thumbLocation, andStateTo: stateLocation, andJotState: page.drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
+            page.jotViewStateInkPath = inkLocation
+            page.jotViewStatePlistPath = stateLocation
+            count += 1
+
+
+        }
     }
 
     
@@ -203,6 +242,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.maximumZoomScale = 2.0
         self.view.insertSubview(workView, at: 0)
         workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
+        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: workView.currentPage.drawingView.bounds.size, andScale: workView.currentPage.drawingView.scale, andContext: workView.currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
+        workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
+
     }
 
   
@@ -221,7 +263,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
-    
     
     //incoming view does intersect with Trash?
     func intersectsWithTrash(justMovedBlock: UIView) -> Bool {
@@ -267,6 +308,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.delegate = self
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
+    }
+    
+    func togglePenColor() {
+        if pen.color == UIColor.black {
+            pen.color = UIColor.red
+        }else{
+            pen.color = UIColor.black
+        }
+    }
+    
+    func getCurPenColor() -> UIColor {
+        return pen.color
     }
     
     func setupJotView(){

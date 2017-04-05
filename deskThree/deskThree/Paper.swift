@@ -143,6 +143,8 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
         super.encode(with: aCoder)
         aCoder.encode(images)
         aCoder.encode(expressions)
+        aCoder.encode(jotViewStatePlistPath)
+        aCoder.encode(jotViewStateInkPath)
     }
     
     //MARK: Initializers
@@ -168,6 +170,12 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
         for expression in expressions {
             self.addSubview(expression)
         }
+        
+        jotViewStatePlistPath = unarchiver.decodeObject() as! String
+        jotViewStateInkPath = unarchiver.decodeObject() as! String
+        drawingState = JotViewStateProxy(delegate: self)
+
+        
     }
 
 

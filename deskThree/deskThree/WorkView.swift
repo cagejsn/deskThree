@@ -47,8 +47,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         }
     }
     
-    
-    
     ///sets workarea's meta data object
     func setDeskProject(project: DeskProject){
         self.project = project

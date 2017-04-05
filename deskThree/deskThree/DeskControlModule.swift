@@ -17,12 +17,14 @@ protocol DeskControlModuleDelegate {
     func clearButtonTapped(_ sender: AnyObject)
     func getCurPen() -> Constants.pens
     func togglePen()
+    func togglePenColor()
     
     
     func lastPageTapped(_ sender: Any)
     func undoTapped(_ sender: Any)
     func redoTapped(_ sender: Any)
-    func nextPageTapped(_ sender: Any) 
+    func nextPageTapped(_ sender: Any)
+    func getCurPenColor() -> UIColor
     
 }
 
@@ -31,6 +33,7 @@ class DeskControlModule: DWBubbleMenuButton {
     var imageView: UIImageView!
     var deskViewControllerDelegate: DeskControlModuleDelegate!
     var togglePenButton: UIButton!
+    var changePenColorButton: UIButton!
     
     func setup(){
         var buttons = [UIButton]()
@@ -51,6 +54,12 @@ class DeskControlModule: DWBubbleMenuButton {
         togglePenButton.setImage(UIImage(named: "pencilButtonDesk"), for: .normal)
         togglePenButton.addTarget(self, action: #selector(DeskControlModule.togglePenButtonWasTapped), for: .touchUpInside)
         buttons.append(togglePenButton)
+        
+        changePenColorButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        changePenColorButton.setImage(UIImage(named: "penColorButtonBlack"), for: .normal)
+        changePenColorButton.addTarget(self, action: #selector(DeskControlModule.changePenColorButtonWasTapped), for: .touchUpInside)
+        buttons.append(changePenColorButton)
+        
         
         let importPhotoButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         importPhotoButton.setImage(UIImage(named: "cameraButton"
@@ -73,6 +82,7 @@ class DeskControlModule: DWBubbleMenuButton {
         clearPageButton.addTarget(self, action: #selector(DeskControlModule.clearPageButtonWasTapped), for: .touchUpInside)
         buttons.append(clearPageButton)
         
+
         self.addButtons(buttons)
     }
     
@@ -123,9 +133,28 @@ class DeskControlModule: DWBubbleMenuButton {
         deskViewControllerDelegate.printButtonPushed(self)
     }
     
+    func changePenColorButtonWasTapped(){
+        deskViewControllerDelegate.togglePenColor()
+        // Get the current pen color
+        let curColor = deskViewControllerDelegate.getCurPenColor()
+        
+        // Depending on type, show the right image
+        switch curColor{
+        case UIColor.black:
+            changePenColorButton.setImage(UIImage(named:"penColorButtonBlack"), for: .normal)
+            break
+        case UIColor.red:
+            changePenColorButton.setImage(UIImage(named:"penColorButtonRed"), for: .normal)
+            break
+        default:
+            return
+        }
+    }
+    
     func clearPageButtonWasTapped() {
         deskViewControllerDelegate.clearButtonTapped(self)
     }
+
     
      override init(frame: CGRect) {
         super.init(frame: frame, expansionDirection: .DirectionDown)
