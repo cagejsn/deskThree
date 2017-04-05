@@ -580,12 +580,12 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
     // the rest can be done in Core Graphics in a background thread
     dispatch_async([JotView importExportImageQueue], ^{
         @autoreleasepool {
-//            if (state.isForgetful) {
-//                DebugLog(@"forget: skipping export for forgetful jotview");
-//                exportFinishBlock(nil);
-//                [imageTextureLock unlock];
-//                return;
-//            }
+            if (state.isForgetful) {
+                DebugLog(@"forget: skipping export for forgetful jotview");
+                exportFinishBlock(nil);
+                [imageTextureLock unlock];
+                return;
+            }
 
             JotGLContext* secondSubContext = [[JotGLContext alloc] initWithName:@"JotViewExportToImageContext" andSharegroup:mainThreadContext.sharegroup andValidateThreadWith:^BOOL {
                 return [JotView isImportExportImageQueue];

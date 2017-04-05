@@ -79,6 +79,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     }
     
     func didIncrementMove(movedView: UIView){
+        
         var zoomedView = CGRect() //temp CGRect
         //if the block is from an InputObject
         if let movedBlock = movedView as? Block {
@@ -272,7 +273,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
                 pages[currentPageIndex].isHidden = false
             }
             
-            initCurPage()
             
         } else if direction == "left" {
             // Check if this is the first page
@@ -288,7 +288,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
                 pages[currentPageIndex].isHidden = false
                 
                 currentPage = pages[currentPageIndex]
-                initCurPage()
             }
         }
         currentPage.drawingState.isForgetful = true
