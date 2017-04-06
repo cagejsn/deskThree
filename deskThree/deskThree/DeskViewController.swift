@@ -224,15 +224,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func didSelectProject(newWorkView:WorkView){
-        workView.removeFromSuperview()
-        self.workView = nil
-        self.workView = newWorkView
-        self.view.addSubview(newWorkView)
+        setupWorkView(workSpace: newWorkView)
         dismissFileExplorer()
-        if let dView = self.view as? DeskView {
-            dView.workView = self.workView
-            dView.setup()
-        }
+//        if let dView = self.view as? DeskView {
+//            dView.workView = self.workView
+//            dView.setup()
+//        }
         setupJotView()
         setupDeskView()
         workView.setupDelegateChain()
@@ -296,8 +293,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         trashBin.hide()
     }
     
-    func setupWorkView(){
-        workView = WorkView()
+    func setupWorkView(workSpace: WorkView = WorkView()){
+        workView = workSpace
         workView.delegate = self
         workView.customDelegate = self
         self.view.sendSubview(toBack: workView)
