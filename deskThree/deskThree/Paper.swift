@@ -9,39 +9,62 @@
 import Foundation
 import UIKit
 
-class Paper: UIImageView, ImageBlockDelegate {
+protocol PaperDelegate {
+    func passHeldBlock(sender:Expression)
+    func didBeginMove(movedView: UIView)
+    func didIncrementMove(movedView: UIView)
+    func didCompleteMove(movedView: UIView)
+    func didEvaluate(forExpression sender: Expression, result: Float)
+}
+
+
+class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStateProxyDelegate {
     
-    var images: [ImageBlock]?
+    var delegate: PaperDelegate!
+    var images: [ImageBlock]!
     var expressions: [Expression]!
-  //  var longPressGR: UILongPressGestureRecognizer!
+    var drawingView: JotView!
+    var drawingState: JotViewStateProxy!
+    var jotViewStateInkPath: String!
+    var jotViewStatePlistPath: String!
     
-    
-        
-    //MARK: Initializers
-    init() {
-        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
-     //   longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Paper.handleLongPress(sender:)))
-   //     longPressGR.minimumPressDuration = 0.8
-   //     self.addGestureRecognizer(longPressGR)
-        expressions = [Expression]()
-        self.image = UIImage(named: "engineeringPaper2")
-        self.isOpaque = false
-        images = [ImageBlock]() //creates an array to save the imageblocks
+    func elementWantsSendToInputObject(element:Any){
+        delegate.passHeldBlock(sender: element as! Expression)
     }
     
-    //MARK: setup for exporting
-    required init(coder unarchiver: NSCoder){
-        super.init(coder: unarchiver)!
-        images = unarchiver.decodeObject() as! [ImageBlock]!
-        expressions = unarchiver.decodeObject() as! [Expression]!
-        
+    func didBeginMove(movedView: UIView){
+        delegate.didBeginMove(movedView: movedView)
     }
 
+    func didIncrementMove(movedView: UIView){
+        delegate.didIncrementMove(movedView: movedView)
+    }
     
-    override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        aCoder.encode(images)
-        aCoder.encode(expressions)
+    func didCompleteMove(movedView: UIView){
+        delegate.didCompleteMove(movedView: movedView)
+    }
+    
+    func didEvaluate(forExpression sender: Expression, result: Float){
+        delegate.didEvaluate(forExpression: sender, result: result)
+    }
+    
+       
+    func stylizeViews(){
+        for exp in expressions {
+            if let exp = exp as? BlockExpression {
+                exp.stylizeViews()
+            }
+        }
+    }
+    
+    
+    func addMathBlockToPage(block: MathBlock){
+        block.delegate = self
+        expressions.append(block)
+    }
+    
+    func didHoldBlock(sender: MathBlock) {
+        delegate.passHeldBlock(sender:sender)
     }
     
     func savePaper(){
@@ -50,13 +73,12 @@ class Paper: UIImageView, ImageBlockDelegate {
         var filePath = documentsPath.appending("/file.desk")
         NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
     }
-    
-    func loadPaper(state: Paper){
-        
 
-        
+
+    func reInitDrawingState() {
+        drawingState.isForgetful = true
+        drawingState = JotViewStateProxy()
     }
-    
 
     //ImageBlock Delegate Functions
     func fixImageToPage(image: ImageBlock){
@@ -73,88 +95,88 @@ class Paper: UIImageView, ImageBlockDelegate {
 
     }
     
-    // This is never called
-    private func setupGestureRecognizers() {
-        // 1. Set up a pan gesture recognizer to track where user moves finger
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: Selector(("handlePan")))
-        self.addGestureRecognizer(panRecognizer)
+//    func setupDrawingView(){
+//        
+//        
+//        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+//        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+//        pen.shouldUseVelocity = true
+//        //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
+//        workView.currentPage.drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
+//        jotView.delegate = self
+//        jotView.isUserInteractionEnabled = true
+//        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
+//        jotView.loadState(workView.currentPage.drawingState)
+//        // inserting jotView right below toolbar
+//        self.view.insertSubview(jotView, at: 1)
+//        jotView.isUserInteractionEnabled = false
+//        jotView.speedUpFPS()
+//    }
+
+    
+    //pragma mark - JotViewStateProxyDelegate
+    
+    func documentDir() -> String {
+        let userDocumentsPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        return userDocumentsPaths.first!
     }
     
-    @objc func handlePan(sender: UIPanGestureRecognizer) {
-        let point = sender.location(in: self)
-        switch sender.state {
-        case .began:
-            self.startAtPoint(point: point)
-        case .changed:
-            self.continueAtPoint(point: point)
-        case .ended:
-            self.endAtPoint(point: point)
-        case .failed:
-            self.endAtPoint(point: point)
-        default:
-            assert(false, "State not handled")
+    func didLoadState(_ state: JotViewStateProxy!) {
+        
+    }
+    
+    func didUnloadState(_ state: JotViewStateProxy!) {
+        
+    }
+    
+    func setupDelegateChain(){
+        for image in images {
+            image.delegate = self
+        }
+        
+        for expression in expressions {
+            expression.delegate = self
         }
     }
     
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(images)
+        aCoder.encode(expressions)
+        aCoder.encode(jotViewStatePlistPath)
+        aCoder.encode(jotViewStateInkPath)
+    }
     
-    func drawLine(a: CGPoint, b: CGPoint, buffer: UIImage?) -> UIImage {
-        let size = self.bounds.size;
-        
-        UIGraphicsBeginImageContextWithOptions(size, true, 0)
-        let context = UIGraphicsGetCurrentContext()
-        self.sendSubview(toBack: self)
-        context!.setFillColor(self.backgroundColor?.cgColor ?? UIColor.white.cgColor)
-        context!.fill(self.bounds)
-        
-        // Draw previous buffer first
-        if let buffer = buffer {
-            buffer.draw(in: self.bounds)
+    //MARK: Initializers
+    init() {
+        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+        expressions = [BlockExpression]()
+        self.image = UIImage(named: "engineeringPaper2")
+        self.isOpaque = false
+        images = [ImageBlock]() //creates an array to save the imageblocks
+        drawingState = JotViewStateProxy()
+    }
+    
+    //MARK: setup for loading
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        images = unarchiver.decodeObject() as! [ImageBlock]!
+        for image in images! {
+            self.addSubview(image)
+            image.delegate = self
         }
         
-        // Draw the line
-        self.drawColor.setStroke()
-        self.path.lineWidth = self.drawWidth
-        self.path.lineCapStyle = CGLineCap.round
-        self.path.stroke()
-        context!.setLineWidth(self.drawWidth)
-        context!.setLineCap(CGLineCap.round)
-        
-        context!.move(to: a)
-        context!.addLine(to: b)
-        context!.strokePath()
-        
-        // Grab the updated buffer
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image!
-    }
-    
-    func startAtPoint(point: CGPoint) {
-        self.lastPoint = point
-    }
-    
-    func continueAtPoint(point: CGPoint) {
-        autoreleasepool {
-            // Draw the current stroke in an accumulated bitmap
-            self.buffer = self.drawLine(a: self.lastPoint, b: point, buffer: self.buffer)
-            
-            // Replace the layer contents with the updated image
-            self.image = self.buffer
-            
-            // Update last point for next stroke
-            self.lastPoint = point
+        expressions = unarchiver.decodeObject() as! [Expression]!
+        for expression in expressions {
+            self.addSubview(expression)
         }
+        
+        jotViewStatePlistPath = unarchiver.decodeObject() as! String
+        jotViewStateInkPath = unarchiver.decodeObject() as! String
+        drawingState = JotViewStateProxy(delegate: self)
+
+        
     }
-    
-    func endAtPoint(point: CGPoint) {
-        self.lastPoint = CGPoint.zero
-    }
-    
-    var drawColor: UIColor = UIColor.black
-    var drawWidth: CGFloat = 10.0
-    
-    private var path: UIBezierPath = UIBezierPath()
-    private var lastPoint: CGPoint = CGPoint.zero
-    private var buffer: UIImage = UIImage(named: "engineeringPaper")!
+
 
 }
