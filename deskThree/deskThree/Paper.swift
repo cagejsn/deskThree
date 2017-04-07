@@ -116,7 +116,7 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
         // Loading drawingState onto drawingView
         drawingState.loadJotStateAsynchronously(false, with: drawingView.bounds.size, andScale: drawingView.scale, andContext: drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
         drawingView.loadState(drawingState)
-        drawingView.isUserInteractionEnabled = false
+        drawingView.isUserInteractionEnabled = true
         drawingView.speedUpFPS()
         
     }

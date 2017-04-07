@@ -224,6 +224,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func didSelectProject(newWorkView:WorkView){
+        //gets rid of old workView
+        eliminateOldWorkView(workViewToElimate: self.workView)
+        
+        
         setupWorkView(workSpace: newWorkView)
         dismissFileExplorer()
 //        if let dView = self.view as? DeskView {
@@ -235,14 +239,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.setupDelegateChain()
         workView.stylizeViews()
         
-        workView.delegate = self
-        toolDrawer.delegate = workView
-        workView.customDelegate = self
-        self.view.sendSubview(toBack: workView)
-        workView.minimumZoomScale = 0.6
-        workView.maximumZoomScale = 2.0
-        self.view.insertSubview(workView, at: 0)
-        workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
         workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: workView.currentPage.drawingView.bounds.size, andScale: workView.currentPage.drawingView.scale, andContext: workView.currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
         workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
 
@@ -294,6 +290,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupWorkView(workSpace: WorkView = WorkView()){
+        
+        
         workView = workSpace
         workView.delegate = self
         workView.customDelegate = self
@@ -303,6 +301,20 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.insertSubview(workView, at: 0)
         workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
 
+    }
+    
+    func eliminateOldWorkView(workViewToElimate: WorkView){
+        
+        if (workViewToElimate == self.workView){
+            workViewToElimate.removeFromSuperview()
+            workView = nil
+            if let dView = self.view as? DeskView {
+                if (dView.jotView == workViewToElimate.currentPage.drawingView){
+                    dView.jotView.removeFromSuperview()
+                    dView.jotView = nil
+                }
+            }
+        }
     }
     
     func setupGKPicker(){
