@@ -154,17 +154,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         var count: Int = 1
         for page in workView.pages {
             
-            inkLocation = folderToZip+"/ink"+String(count)
-            stateLocation = folderToZip+"/state"+String(count)
-            thumbLocation = folderToZip+"/thumb"+String(count)
+            inkLocation = folderToZip+"/ink"+String(count)+".png"
+            stateLocation = folderToZip+"/state"+String(count)+".plist"
+            thumbLocation = folderToZip+"/thumb"+String(count)+".png"
+            
             
             page.drawingState.isForgetful = false
             page.drawingView.exportImage(to: inkLocation, andThumbnailTo: thumbLocation, andStateTo: stateLocation, andJotState: page.drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
             page.jotViewStateInkPath = inkLocation
             page.jotViewStatePlistPath = stateLocation
             count += 1
-
-
         }
     }
 
@@ -239,6 +238,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.setupDelegateChain()
         workView.stylizeViews()
         
+        workView.currentPage.drawingState.isForgetful = true
+        workView.currentPage.drawingState = JotViewStateProxy.init(delegate: workView.currentPage)
+        workView.currentPage.drawingState.delegate = workView.currentPage
         workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: workView.currentPage.drawingView.bounds.size, andScale: workView.currentPage.drawingView.scale, andContext: workView.currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
         workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
 
