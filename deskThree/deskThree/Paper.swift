@@ -109,7 +109,7 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
         pen.color = color
         eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
         pen.shouldUseVelocity = true
-        drawingState = JotViewStateProxy()
+        drawingState = JotViewStateProxy.init(delegate: self)
         drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         drawingView.delegate = self
         drawingView.isUserInteractionEnabled = true
