@@ -13,6 +13,7 @@
 		31353B781E96ED06003F61DB /* resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3271E6233D5007DE25F /* resources.bundle */; };
 		31353B791E96ED06003F61DB /* LowerDeskControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */; };
 		31353B821E96EDD3003F61DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA5747641E74983E0010F754 /* Assets.xcassets */; };
+		31353B831E96EF08003F61DB /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A91DE75AAA00E3AA1D /* colorlesspoint.vsh */; };
 		314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
 		3148815E1E8DDCDA0015D095 /* com.desk.education.c in Sources */ = {isa = PBXBuildFile; fileRef = 3148815D1E8DDCDA0015D095 /* com.desk.education.c */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
@@ -39,7 +40,6 @@
 		DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A21DE64EDF00E3AA1D /* Marker.m */; };
 		DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A41DE64EDF00E3AA1D /* Pen.m */; };
 		DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A81DE75AAA00E3AA1D /* coloredpoint.vsh */; };
-		DA4918AF1DE75AAA00E3AA1D /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A91DE75AAA00E3AA1D /* colorlesspoint.vsh */; };
 		DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AA1DE75AAA00E3AA1D /* point.fsh */; };
 		DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AB1DE75AAA00E3AA1D /* quad.fsh */; };
 		DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
@@ -596,7 +596,7 @@
 					};
 					DAFBE39F1DBBDBC20007D249 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = 6SJHMR9UMT;
+						DevelopmentTeam = 9GGQU4DHVC;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
@@ -721,9 +721,9 @@
 			files = (
 				31353B821E96EDD3003F61DB /* Assets.xcassets in Resources */,
 				31353B771E96ED06003F61DB /* SaveAsView.xib in Resources */,
+				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
 				31353B781E96ED06003F61DB /* resources.bundle in Resources */,
 				31353B791E96ED06003F61DB /* LowerDeskControls.xib in Resources */,
-				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
 				DADC7C661DF0F4650086626E /* AllPad.xib in Resources */,
@@ -735,11 +735,11 @@
 				DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */,
 				DA4918B21DE75AAA00E3AA1D /* quad.vsh in Resources */,
 				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
+				31353B831E96EF08003F61DB /* colorlesspoint.vsh in Resources */,
 				DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */,
 				DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */,
 				DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */,
 				DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */,
-				DA4918AF1DE75AAA00E3AA1D /* colorlesspoint.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1009,14 +1009,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEVELOPMENT_TEAM = 9GGQU4DHVC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = deskThree/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1040,14 +1040,14 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 6SJHMR9UMT;
+				DEVELOPMENT_TEAM = 9GGQU4DHVC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = deskThree/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
