@@ -9,39 +9,70 @@
 import Foundation
 import UIKit
 
-class Paper: UIImageView, ImageBlockDelegate {
+protocol PaperDelegate {
+    func passHeldBlock(sender:Expression)
+    func didBeginMove(movedView: UIView)
+    func didIncrementMove(movedView: UIView)
+    func didCompleteMove(movedView: UIView)
+    func didEvaluate(forExpression sender: Expression, result: Float)
+}
+
+
+class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate, JotViewStateProxyDelegate {
     
-    var images: [ImageBlock]?
+    var delegate: PaperDelegate!
+    var images: [ImageBlock]!
     var expressions: [Expression]!
-  //  var longPressGR: UILongPressGestureRecognizer!
+    
+    //JotUI Properties
+    var drawingView: JotView!
+    var pen: Pen!
+    var eraser: Eraser!
+    var curPen = Constants.pens.pen
+    
+    // JotViewStateProxy Properties
+    var jotViewStateInkPath: String!
+    var jotViewStatePlistPath: String!
+    var drawingState: JotViewStateProxy!
     
     
-        
-    //MARK: Initializers
-    init() {
-        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
-     //   longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(Paper.handleLongPress(sender:)))
-   //     longPressGR.minimumPressDuration = 0.8
-   //     self.addGestureRecognizer(longPressGR)
-        expressions = [Expression]()
-        self.image = UIImage(named: "engineeringPaper2")
-        self.isOpaque = false
-        images = [ImageBlock]() //creates an array to save the imageblocks
+    func elementWantsSendToInputObject(element:Any){
+        delegate.passHeldBlock(sender: element as! Expression)
     }
     
-    //MARK: setup for exporting
-    required init(coder unarchiver: NSCoder){
-        super.init(coder: unarchiver)!
-        images = unarchiver.decodeObject() as! [ImageBlock]!
-        expressions = unarchiver.decodeObject() as! [Expression]!
-        
+    func didBeginMove(movedView: UIView){
+        delegate.didBeginMove(movedView: movedView)
     }
 
+    func didIncrementMove(movedView: UIView){
+        delegate.didIncrementMove(movedView: movedView)
+    }
     
-    override func encode(with aCoder: NSCoder) {
-        super.encode(with: aCoder)
-        aCoder.encode(images)
-        aCoder.encode(expressions)
+    func didCompleteMove(movedView: UIView){
+        delegate.didCompleteMove(movedView: movedView)
+    }
+    
+    func didEvaluate(forExpression sender: Expression, result: Float){
+        delegate.didEvaluate(forExpression: sender, result: result)
+    }
+    
+       
+    func stylizeViews(){
+        for exp in expressions {
+            if let exp = exp as? BlockExpression {
+                exp.stylizeViews()
+            }
+        }
+    }
+    
+    
+    func addMathBlockToPage(block: MathBlock){
+        block.delegate = self
+        expressions.append(block)
+    }
+    
+    func didHoldBlock(sender: MathBlock) {
+        delegate.passHeldBlock(sender:sender)
     }
     
     func savePaper(){
@@ -50,13 +81,12 @@ class Paper: UIImageView, ImageBlockDelegate {
         var filePath = documentsPath.appending("/file.desk")
         NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
     }
-    
-    func loadPaper(state: Paper){
-        
 
-        
+
+    func reInitDrawingState() {
+        drawingState.isForgetful = true
+        drawingState = JotViewStateProxy()
     }
-    
 
     //ImageBlock Delegate Functions
     func fixImageToPage(image: ImageBlock){
@@ -73,88 +103,190 @@ class Paper: UIImageView, ImageBlockDelegate {
 
     }
     
-    // This is never called
-    private func setupGestureRecognizers() {
-        // 1. Set up a pan gesture recognizer to track where user moves finger
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: Selector(("handlePan")))
-        self.addGestureRecognizer(panRecognizer)
+    func setupDrawingView(color: UIColor = UIColor.black){
+        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen.color = color
+        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen.shouldUseVelocity = true
+        drawingState = JotViewStateProxy.init(delegate: self)
+        drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
+        drawingView.delegate = self
+        drawingView.isUserInteractionEnabled = true
+        // Loading drawingState onto drawingView
+        drawingState.loadJotStateAsynchronously(false, with: drawingView.bounds.size, andScale: drawingView.scale, andContext: drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
+        drawingView.loadState(drawingState)
+        drawingView.isUserInteractionEnabled = true
+        drawingView.speedUpFPS()
     }
     
-    @objc func handlePan(sender: UIPanGestureRecognizer) {
-        let point = sender.location(in: self)
-        switch sender.state {
-        case .began:
-            self.startAtPoint(point: point)
-        case .changed:
-            self.continueAtPoint(point: point)
-        case .ended:
-            self.endAtPoint(point: point)
-        case .failed:
-            self.endAtPoint(point: point)
-        default:
-            assert(false, "State not handled")
+    // pragma mark - JotViewDelagate and other JotView stuff
+    func togglePenColor() {
+        if pen.color == UIColor.black {
+            pen.color = UIColor.red
+        }else{
+            pen.color = UIColor.black
         }
     }
     
-    
-    func drawLine(a: CGPoint, b: CGPoint, buffer: UIImage?) -> UIImage {
-        let size = self.bounds.size;
-        
-        UIGraphicsBeginImageContextWithOptions(size, true, 0)
-        let context = UIGraphicsGetCurrentContext()
-        self.sendSubview(toBack: self)
-        context!.setFillColor(self.backgroundColor?.cgColor ?? UIColor.white.cgColor)
-        context!.fill(self.bounds)
-        
-        // Draw previous buffer first
-        if let buffer = buffer {
-            buffer.draw(in: self.bounds)
-        }
-        
-        // Draw the line
-        self.drawColor.setStroke()
-        self.path.lineWidth = self.drawWidth
-        self.path.lineCapStyle = CGLineCap.round
-        self.path.stroke()
-        context!.setLineWidth(self.drawWidth)
-        context!.setLineCap(CGLineCap.round)
-        
-        context!.move(to: a)
-        context!.addLine(to: b)
-        context!.strokePath()
-        
-        // Grab the updated buffer
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image!
+    func setPenColor(color: UIColor){
+        pen.color = color
     }
     
-    func startAtPoint(point: CGPoint) {
-        self.lastPoint = point
+    func getCurPenColor() -> UIColor {
+        return pen.color
     }
-    
-    func continueAtPoint(point: CGPoint) {
-        autoreleasepool {
-            // Draw the current stroke in an accumulated bitmap
-            self.buffer = self.drawLine(a: self.lastPoint, b: point, buffer: self.buffer)
-            
-            // Replace the layer contents with the updated image
-            self.image = self.buffer
-            
-            // Update last point for next stroke
-            self.lastPoint = point
+
+    //pragma mark - Helpers
+    func activePen() -> Pen {
+        switch curPen {
+        case .pen:
+            return pen
+        case .eraser:
+            return eraser
         }
     }
     
-    func endAtPoint(point: CGPoint) {
-        self.lastPoint = CGPoint.zero
+    func setPen(pen: Constants.pens){
+        curPen = pen
     }
     
-    var drawColor: UIColor = UIColor.black
-    var drawWidth: CGFloat = 10.0
+    func getCurPen() -> Constants.pens {
+        return curPen
+    }
     
-    private var path: UIBezierPath = UIBezierPath()
-    private var lastPoint: CGPoint = CGPoint.zero
-    private var buffer: UIImage = UIImage(named: "engineeringPaper")!
+    func togglePen() {
+        curPen.next()
+    }
+    
+    func textureForStroke() -> JotBrushTexture! {
+        return activePen().textureForStroke()
+    }
+    
+    func stepWidthForStroke() -> CGFloat {
+        
+        // print(activePen().stepWidthForStroke())
+        // return activePen().stepWidthForStroke()
+        
+        return CGFloat(0.3)
+    }
+    
+    func supportsRotation() -> Bool {
+        return activePen().supportsRotation()
+    }
+    
+    func willAddElements(_ elements: [Any]!, to stroke: JotStroke!, fromPreviousElement previousElement: AbstractBezierPathElement!) -> [Any]! {
+        return activePen().willAddElements(elements, to: stroke, fromPreviousElement: previousElement)
+    }
+    
+    func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
+        activePen().willBeginStroke(withCoalescedTouch: coalescedTouch, from: touch)
+        return true
+    }
+    
+    func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().willMoveStroke(withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
+        //noop
+    }
+    
+    func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().didEndStroke(withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().willCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func didCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().didCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func color(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> UIColor! {
+        // hmm?
+        //activePen().shouldUseVelocity
+        return activePen().color(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func width(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
+        //activePen().shouldUseVelocity
+        return activePen().width(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func smoothness(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
+        return activePen().smoothness(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    
+    
+    //pragma mark - JotViewStateProxyDelegate
+    
+    func documentDir() -> String {
+        let userDocumentsPaths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        return userDocumentsPaths.first!
+    }
+    
+    func didLoadState(_ state: JotViewStateProxy!) {
+        
+    }
+    
+    func didUnloadState(_ state: JotViewStateProxy!) {
+        
+    }
+    
+    func setupDelegateChain(){
+        for image in images {
+            image.delegate = self
+        }
+        
+        for expression in expressions {
+            expression.delegate = self
+        }
+    }
+    
+    override func encode(with aCoder: NSCoder) {
+        super.encode(with: aCoder)
+        aCoder.encode(images)
+        aCoder.encode(expressions)
+        aCoder.encode(jotViewStatePlistPath)
+        aCoder.encode(jotViewStateInkPath)
+    }
+    
+    //MARK: Initializers
+    init() {
+        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+        expressions = [BlockExpression]()
+        self.image = UIImage(named: "engineeringPaper2")
+        self.isOpaque = false
+        images = [ImageBlock]()
+        setupDrawingView()
+        
+        // Setup pen
+        curPen = .pen // Points to pen
+    }
+    
+    //MARK: setup for loading
+    required init(coder unarchiver: NSCoder){
+        super.init(coder: unarchiver)!
+        images = unarchiver.decodeObject() as! [ImageBlock]!
+        for image in images! {
+            self.addSubview(image)
+            image.delegate = self
+        }
+        
+        expressions = unarchiver.decodeObject() as! [Expression]!
+        for expression in expressions {
+            self.addSubview(expression)
+        }
+        
+        let temp = PathLocator.getTempFolder()
+        
+        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
+        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)
+        setupDrawingView()
+        
+    }
+
 
 }

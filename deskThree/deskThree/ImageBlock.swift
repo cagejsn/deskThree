@@ -12,7 +12,13 @@ import UIKit
 protocol ImageBlockDelegate {
     func fixImageToPage(image: ImageBlock)
     func freeImageForMovement(image: ImageBlock)
-    func helpMove(imageBlock: ImageBlock, dx: CGFloat, dy: CGFloat) 
+    func helpMove(imageBlock: ImageBlock, dx: CGFloat, dy: CGFloat)
+    
+    func didBeginMove(movedView: UIView)
+    func didIncrementMove(movedView: UIView)
+    func didCompleteMove(movedView: UIView)
+    
+    
 }
 
 class ImageBlock: UIView, UIGestureRecognizerDelegate {
@@ -60,12 +66,14 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         if(editable){
          //
             superview!.bringSubview(toFront: self)
+            delegate.didBeginMove(movedView: self)
         }
     }
     
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
+            delegate.didIncrementMove(movedView: self)
             let touch: AnyObject = touches.first as UITouch!
             let currentTouch = touch.location(in: self)
             let previousTouch = touch.previousLocation(in: self)
@@ -79,6 +87,9 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        if(editable){
+        delegate.didCompleteMove(movedView: self)
+        }
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -152,15 +163,28 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         super.init(coder: unarchiver)!
         imageHolder = unarchiver.decodeObject() as! UIImageView!
         
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageBlock.toggleEditable))
+        doubleTapGestureRecognizer?.numberOfTapsRequired = 2
+        self.addGestureRecognizer(doubleTapGestureRecognizer!)
+        
+        rotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(ImageBlock.handleRotate(sender:)))
+        self.addGestureRecognizer(rotationGestureRecognizer)
+
+        zoomGR = UIPinchGestureRecognizer(target: self, action: #selector(ImageBlock.handlePinch))
+        zoomGR!.delegate = self
+        self.addGestureRecognizer(zoomGR!)
+        editable = unarchiver.decodeObject() as! Bool!
+        if(editable){
+            self.layer.borderWidth = 3
+            self.layer.borderColor = UIColor.purple.cgColor
+        }
+
     }
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(imageHolder)
+        aCoder.encode(editable)
+        
     }
     
-//    required init?(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//        //aDecoder.encode(self)
-//        //fatalError("init(coder:) has not been implemented")
-//    }
 }

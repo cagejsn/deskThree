@@ -8,4 +8,6 @@
 #import "Pen.h"
 #import "Marker.h"
 #import "Eraser.h"
-
+#import <ATKMathWidget/MAWMathWidget.h>
+#import "MyCertificate.h"
+#import "DWBubbleMenuButton.h"

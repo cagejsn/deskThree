@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FileExplorerViewController" customModule="deskThree" customModuleProvider="target">
+            <connections>
+                <outlet property="tableView" destination="Af2-EA-YxK" id="ZOD-Zg-cGr"/>
+                <outlet property="view" destination="iN0-l3-epB" id="QYb-ng-KFW"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Af2-EA-YxK">
+                    <rect key="frame" x="0.0" y="49" width="375" height="618"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Select a project..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTe-P7-hau">
+                    <rect key="frame" x="64" y="0.0" width="253" height="41"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="253" id="ZCn-YO-lMT"/>
+                        <constraint firstAttribute="height" constant="41" id="em7-Jm-cfP"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="24"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ExS-Jm-Y5T">
+                    <rect key="frame" x="10" y="11" width="46" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="46" id="HzM-0X-dxE"/>
+                        <constraint firstAttribute="height" constant="30" id="T1P-FD-BTY"/>
+                    </constraints>
+                    <state key="normal" title="cancel">
+                        <color key="titleColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="cancelButtonTapped:" destination="-1" eventType="touchUpInside" id="hMV-T9-5Jj"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.65739924630000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="ExS-Jm-Y5T" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="11" id="74d-4l-KAU"/>
+                <constraint firstAttribute="trailing" secondItem="Af2-EA-YxK" secondAttribute="trailing" id="Jg6-Iy-OLx"/>
+                <constraint firstItem="Af2-EA-YxK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="44" id="SZk-9Q-Tho"/>
+                <constraint firstItem="Af2-EA-YxK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TGO-HP-qr3"/>
+                <constraint firstAttribute="bottom" secondItem="Af2-EA-YxK" secondAttribute="bottom" id="ndg-nI-xvc"/>
+                <constraint firstItem="ExS-Jm-Y5T" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="rw4-ME-J8H"/>
+                <constraint firstItem="wTe-P7-hau" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="64" id="s0e-gY-5oS"/>
+                <constraint firstItem="wTe-P7-hau" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="xdR-I2-QCF"/>
+            </constraints>
+            <point key="canvasLocation" x="44.5" y="65.5"/>
+        </view>
+    </objects>
+</document>

@@ -61,8 +61,9 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     
     override func receiveElement(_ element: Any) {
         
-        if let express = element as? Expression {
+        if let express = element as? BlockExpression {
             numEntryArea.setTitle(ETree.printCurrentTree(root: express.rootBlock), for: .normal)
+            numEntryAreaText = ETree.printCurrentTree(root: express.rootBlock)
         }
     }
     
@@ -412,7 +413,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
     
     @IBAction func addSqrtToEntryArea( _ sender: UIButton) {
-        numEntryAreaText += "sqrt("
+        numEntryAreaText += "√("
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
             self.numEntryArea.layoutIfNeeded()

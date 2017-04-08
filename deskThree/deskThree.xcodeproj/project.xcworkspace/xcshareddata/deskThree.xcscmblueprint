@@ -4,13 +4,17 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "82D76AD8AFB906CFBCE507F7B9F48A4912D3A9C1" : 9223372036854775807,
     "F17204345BA1EFE800B96008A55D96025E2CDBC9" : 9223372036854775807,
-    "82D76AD8AFB906CFBCE507F7B9F48A4912D3A9C1" : 9223372036854775807
+    "8461D418048B28199CB2217BC5F15DC2FD50EF10" : 9223372036854775807,
+    "9F6F760EBAF3C2706B279FAF5F4F7BAEBB4671FD" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "99AEFA25-E9A1-4236-BCE8-79F7496BF362",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "82D76AD8AFB906CFBCE507F7B9F48A4912D3A9C1" : "deskThree\/",
     "F17204345BA1EFE800B96008A55D96025E2CDBC9" : "GKImagePicker\/",
-    "82D76AD8AFB906CFBCE507F7B9F48A4912D3A9C1" : "deskThree\/"
+    "8461D418048B28199CB2217BC5F15DC2FD50EF10" : "..\/Documents\/CodingProjects\/EngineeringDesk",
+    "9F6F760EBAF3C2706B279FAF5F4F7BAEBB4671FD" : "deskThree\/deskThree\/mixpanel-swift\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "deskThree",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -20,6 +24,16 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/cagejsn\/deskThree.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "82D76AD8AFB906CFBCE507F7B9F48A4912D3A9C1"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/cjohnson85\/engineeringdesk.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8461D418048B28199CB2217BC5F15DC2FD50EF10"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:mixpanel\/mixpanel-swift.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9F6F760EBAF3C2706B279FAF5F4F7BAEBB4671FD"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/gekitz\/GKImagePicker.git",
