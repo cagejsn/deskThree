@@ -64,13 +64,13 @@ class SaveAsView: UIView {
         
         //saves to documents/DeskThree/Projects/name.DESK
         let tempFolderPath = PathLocator.getTempFolder()
-        let folderToZip = tempFolderPath+"/"+name
+        let folderToZip = "/"+name
         
         //create the folder
-        if(!FileManager.default.fileExists(atPath: folderToZip)){
+        if(!FileManager.default.fileExists(atPath: tempFolderPath+folderToZip)){
             
             do {
-                try FileManager.default.createDirectory(atPath: folderToZip, withIntermediateDirectories: false, attributes: nil)
+                try FileManager.default.createDirectory(atPath: tempFolderPath+folderToZip, withIntermediateDirectories: false, attributes: nil)
             } catch let error as NSError {
                 print(error.localizedDescription);
             }
@@ -85,7 +85,7 @@ class SaveAsView: UIView {
         
         
         //save the work area into the folder
-        NSKeyedArchiver.archiveRootObject(workViewRef, toFile: folderToZip+"/WorkView.Desk")
+        NSKeyedArchiver.archiveRootObject(workViewRef, toFile: tempFolderPath+folderToZip+"/WorkView.Desk")
         
         
         
