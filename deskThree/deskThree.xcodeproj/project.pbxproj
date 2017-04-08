@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D1507E1DBC19CF008364EC /* PDFGenerator.swift */; };
 		25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25FB33341DBCFE5500785111 /* DeskViewController.xib */; };
-		311C3AD51E996E7A00F61CE4 /* SaveAsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */; };
-		311C3ADE1E996E8000F61CE4 /* LowerDeskControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */; };
-		311C3AE21E996ED200F61CE4 /* resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3271E6233D5007DE25F /* resources.bundle */; };
-		311C3AE31E996EE300F61CE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA5747641E74983E0010F754 /* Assets.xcassets */; };
-		311C3AE41E996EF400F61CE4 /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
-		31353B831E96EF08003F61DB /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A91DE75AAA00E3AA1D /* colorlesspoint.vsh */; };
+		311C3ABE1E9964F500F61CE4 /* SaveAsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */; };
+		311C3ABF1E9964FE00F61CE4 /* resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3271E6233D5007DE25F /* resources.bundle */; };
+		311C3AC01E99650700F61CE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA5747641E74983E0010F754 /* Assets.xcassets */; };
+		311C3AC41E9965A000F61CE4 /* ATKMathWidget.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */; };
+		311C3ACD1E99664500F61CE4 /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
+		311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */; };
+		311C3AE81E996FD700F61CE4 /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A91DE75AAA00E3AA1D /* colorlesspoint.vsh */; };
 		314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
 		3148815E1E8DDCDA0015D095 /* com.desk.education.c in Sources */ = {isa = PBXBuildFile; fileRef = 3148815D1E8DDCDA0015D095 /* com.desk.education.c */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
@@ -74,7 +75,6 @@
 		DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C631DF0F4650086626E /* InputObject.swift */; };
 		DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C641DF0F4650086626E /* OutputArea.swift */; };
 		DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5D31D1E623337007DE25F /* SystemConfiguration.framework */; };
-		DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */; };
 		DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE7CE821E7D70480050A543 /* SaveAsView.swift */; };
 		DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */; };
 		DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */; };
@@ -719,24 +719,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
-				311C3AE21E996ED200F61CE4 /* resources.bundle in Resources */,
-				311C3AE31E996EE300F61CE4 /* Assets.xcassets in Resources */,
+				311C3AC41E9965A000F61CE4 /* ATKMathWidget.bundle in Resources */,
+				311C3ABF1E9964FE00F61CE4 /* resources.bundle in Resources */,
+				311C3AC01E99650700F61CE4 /* Assets.xcassets in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
-				311C3AD51E996E7A00F61CE4 /* SaveAsView.xib in Resources */,
+				311C3ABE1E9964F500F61CE4 /* SaveAsView.xib in Resources */,
+				311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */,
 				DADC7C661DF0F4650086626E /* AllPad.xib in Resources */,
 				25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */,
 				DADC67FC1E27E9F800C14F5B /* GraphingBlock.xib in Resources */,
 				DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */,
-				311C3ADE1E996E8000F61CE4 /* LowerDeskControls.xib in Resources */,
 				DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */,
 				DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */,
 				DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */,
+				311C3ACD1E99664500F61CE4 /* quad.vsh in Resources */,
 				DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */,
-				311C3AE41E996EF400F61CE4 /* quad.vsh in Resources */,
 				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
-				31353B831E96EF08003F61DB /* colorlesspoint.vsh in Resources */,
+				311C3AE81E996FD700F61CE4 /* colorlesspoint.vsh in Resources */,
 				DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */,
 				DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */,
 				DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */,
