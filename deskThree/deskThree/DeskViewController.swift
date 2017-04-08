@@ -396,7 +396,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func sendingToInputObject(for element: Any){
         if let mathElement = element as? MathBlock {
-            
             mathView.clear(true)
             mathView.addSymbols(mathElement.mathSymbols, allowUndo: true)
         }
@@ -502,11 +501,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     ///this function will present a MAWMathView to the User
     func mathFormulaButtonTapped(_ sender: Any) {
         if(mathView.superview == nil){
-            mixpanel.track(event: "MyScript Box: Show")
+            mixpanel.track(event: "Button: MyScript Box: Export")
             self.view.addSubview(mathView)
             setupMathViewConstraints()
         } else {
-            mixpanel.track(event: "MyScript Box: Hide")
+            mixpanel.track(event: "Button: MyScript Box: Clear")
             mathView.clear(true)
             mathView.removeFromSuperview()
         }
