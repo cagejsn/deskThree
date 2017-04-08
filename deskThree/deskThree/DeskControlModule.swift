@@ -41,9 +41,7 @@ class DeskControlModule: DWBubbleMenuButton {
 
     func setup(){
         var buttons = [UIButton]()
-    
         self.collapseAfterSelection = false
-      
         let fileExplorerButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         fileExplorerButton.setImage(UIImage(named: "fileButtonDesk"), for: .normal)
         fileExplorerButton.addTarget(self, action: #selector(DeskControlModule.fileExplorerButtonWasTapped), for: .touchUpInside)
@@ -88,6 +86,33 @@ class DeskControlModule: DWBubbleMenuButton {
         
 
         self.addButtons(buttons)
+    }
+    
+    func enforceControlsState(_ pen: Constants.pens, _ color: UIColor){
+        
+        // Depending on type, show the right image
+        switch pen{
+        case .eraser:
+            togglePenButton.setImage(UIImage(named:"eraserButtonDesk"), for: .normal)
+        case .pen:
+            togglePenButton.setImage(UIImage(named:"pencilButtonDesk"), for: .normal)
+        }
+        
+        
+        // Depending on type, show the right image
+        switch color{
+        case UIColor.black:
+            changePenColorButton.setImage(UIImage(named:"penColorButtonBlack"), for: .normal)
+            break
+        case UIColor.red:
+            changePenColorButton.setImage(UIImage(named:"penColorButtonRed"), for: .normal)
+            break
+        default:
+            return
+        }
+        
+        
+        
     }
     
     override func showButtons() {

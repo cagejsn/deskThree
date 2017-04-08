@@ -29,7 +29,18 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
     var project: DeskProject!
+
     
+    
+    
+    func enforceControlsState(pen: Constants.pens, color: UIColor){
+        
+        currentPage.setPenColor(color: color)
+        currentPage.setPen(pen: pen)
+        
+        
+    }
+
     func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
     }

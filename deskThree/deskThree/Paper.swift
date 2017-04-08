@@ -134,6 +134,10 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
         }
     }
     
+    func setPenColor(color: UIColor){
+        pen.color = color
+    }
+    
     func getCurPenColor() -> UIColor {
         return pen.color
     }
@@ -146,6 +150,10 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
         case .eraser:
             return eraser
         }
+    }
+    
+    func setPen(pen: Constants.pens){
+        curPen = pen
     }
     
     func getCurPen() -> Constants.pens {

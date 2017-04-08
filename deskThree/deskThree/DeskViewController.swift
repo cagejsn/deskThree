@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+
 import Mixpanel
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
@@ -444,12 +445,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupJotView()
         workView.initCurPage()
         updatePageNotification()
+        
+        
+        deskControlModule.enforceControlsState(getCurPen(), getCurPenColor())
+        
+        
     }
     
     
     
     func nextPageTapped(_ sender: Any) {
         // This line makes sure the jotView and workView zoomscales are in sync
+        
         workView.setZoomScale(workView.minimumZoomScale, animated: false)
 
         let pagesInfo = workView.movePage(direction: "right")
@@ -463,6 +470,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupJotView()
         workView.initCurPage()
         updatePageNotification()
+        
+        
+        deskControlModule.enforceControlsState(getCurPen(), getCurPenColor())
     }
 
     
