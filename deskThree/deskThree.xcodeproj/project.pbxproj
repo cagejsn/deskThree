@@ -719,17 +719,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31353B821E96EDD3003F61DB /* Assets.xcassets in Resources */,
-				31353B771E96ED06003F61DB /* SaveAsView.xib in Resources */,
 				DAE5D3261E6233A8007DE25F /* ATKMathWidget.bundle in Resources */,
 				31353B781E96ED06003F61DB /* resources.bundle in Resources */,
-				31353B791E96ED06003F61DB /* LowerDeskControls.xib in Resources */,
+				31353B821E96EDD3003F61DB /* Assets.xcassets in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
 				DADC7C661DF0F4650086626E /* AllPad.xib in Resources */,
+				31353B771E96ED06003F61DB /* SaveAsView.xib in Resources */,
 				25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */,
 				DADC67FC1E27E9F800C14F5B /* GraphingBlock.xib in Resources */,
 				DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */,
+				31353B791E96ED06003F61DB /* LowerDeskControls.xib in Resources */,
 				DAFBE3A91DBBDBC20007D249 /* Main.storyboard in Resources */,
 				DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */,
 				DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */,
