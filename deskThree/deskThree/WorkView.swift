@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Mixpanel
 
 protocol WorkViewDelegate {
     func intersectsWithTrash(justMovedBlock: UIView)->Bool
@@ -28,7 +29,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
     var project: DeskProject!
-    
     
     func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
@@ -79,7 +79,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     }
     
     func didIncrementMove(movedView: UIView){
-        
         var zoomedView = CGRect() //temp CGRect
         //if the block is from an InputObject
         if let movedBlock = movedView as? Block {
@@ -296,7 +295,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     }
     
     func raiseAlert(title: String, alert: String){
-        
         customDelegate.displayErrorInViewController(title: title, description: alert)
     }
     

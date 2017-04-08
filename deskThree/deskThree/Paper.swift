@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Mixpanel
 
 protocol PaperDelegate {
     func passHeldBlock(sender:Expression)
@@ -35,7 +36,9 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
     var jotViewStatePlistPath: String!
     var drawingState: JotViewStateProxy!
     
-    
+    // Mixpanel initialization
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+
     func elementWantsSendToInputObject(element:Any){
         delegate.passHeldBlock(sender: element as! Expression)
     }
@@ -67,6 +70,9 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
     
     
     func addMathBlockToPage(block: MathBlock){
+        // Mixpanel event
+        mixpanel.track(event: "Math Block Added to Paper")
+
         block.delegate = self
         expressions.append(block)
     }

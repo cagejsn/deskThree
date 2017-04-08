@@ -8,19 +8,18 @@
 
 import Foundation
 import UIKit
-
+import Mixpanel
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
 class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
 
-    
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
     var deskControlModule: DeskControlModule!
     var lowerDeskControls: LowerDeskControls!
     
 
-//    var graphingBlock: GraphingBlock!
+    var graphingBlock: GraphingBlock!
     var trashBin: Trash!
     var prevScaleFactor: CGFloat!
     var mathView: OCRMathView!
@@ -36,7 +35,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var currentPage: Int!
     var totalPages: Int!
     var cornerPageLabel: UILabel!
-        
+    
+    // Mixpanel initialization
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+
     func didLoadState(_ state: JotViewStateProxy!) {
         
     }
@@ -86,7 +88,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupLowerControls(){
-        
         lowerDeskControls = Bundle.main.loadNibNamed("LowerDeskControls", owner: nil, options: nil )?.first as!LowerDeskControls!
        // lowerDeskControls.frame = CGRect(x: 10, y: UIScreen.main.bounds.height - 54, width: 216, height: 44)
         self.view.addSubview(lowerDeskControls)
@@ -230,6 +231,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func didSelectProject(newWorkView:WorkView){
+        // Mixpanel event
+        mixpanel.track(event: "Project Selected")
+
         //gets rid of old workView
         eliminateOldWorkView(workViewToElimate: self.workView)
         
@@ -250,6 +254,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        // Mixpanel event
+        mixpanel.track(event: "Gesture: Zoom")
+
         if(prevScaleFactor != nil){
             workView.currentPage.drawingView.transform = workView.currentPage.drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
         }
@@ -258,11 +265,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Mixpanel event
+        mixpanel.track(event: "Gesture: Scroll")
+
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
     
     //incoming view does intersect with Trash?
     func intersectsWithTrash(justMovedBlock: UIView) -> Bool {
+        // Mixpanel event
+        mixpanel.track(event: "Trash Hovered Over")
+
         if( trashBin.frame.contains(self.view.convert(justMovedBlock.frame.origin + CGPoint(x: 0, y:justMovedBlock.frame.height), from: justMovedBlock.superview!))){
             trashBin.open()
             return true
@@ -273,11 +286,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     ///expression delegate for trash disappear
     func hideTrash(){
+        // Mixpanel event
+        mixpanel.track(event: "Trash Hidden")
         trashBin.hide()
     }
     
     ///expression delegate for trash appear
     func unhideTrash(){
+        // Mixpanel event
+        mixpanel.track(event: "Trash Unhidden")
         trashBin.unhide()
     }
     
@@ -290,7 +307,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupWorkView(workSpace: WorkView = WorkView()){
-        
         workView = workSpace
         if(toolDrawer != nil){
             toolDrawer.delegate = workView
@@ -306,7 +322,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func eliminateOldWorkView(workViewToElimate: WorkView){
-        
         if (workViewToElimate == self.workView){
             workViewToElimate.setZoomScale(workViewToElimate.minimumZoomScale, animated: false)
             workViewToElimate.currentPage.drawingView.removeFromSuperview()
@@ -326,10 +341,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
     }
-    
-
-    
-
     
     func setupJotView(){
         // inserting jotView right below toolbar. This is the only line that needs to be here
@@ -356,7 +367,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // TODO: Should we subclass MAWMathView and push all of this code in there?
     func setupMyScript(){
-        
         var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
         mathView = OCRMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
         
@@ -386,7 +396,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func sendingToInputObject(for element: Any){
         if let mathElement = element as? MathBlock {
-            
             mathView.clear(true)
             mathView.addSymbols(mathElement.mathSymbols, allowUndo: true)
         }
@@ -413,7 +422,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         pdfShareHelper.uti = "com.adobe.pdf"
         // Currently, Preview itself gives option to share
         pdfShareHelper.presentPreview(animated: false)
-        
     }
     
     
@@ -422,7 +430,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
      ----------
      Allows user to move forwards and backwards in pages
      */
- 
     func lastPageTapped(_ sender: Any) {
         // This line makes sure the jotView and workView zoomscales are in sync
         workView.setZoomScale(workView.minimumZoomScale, animated: false)
@@ -494,9 +501,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     ///this function will present a MAWMathView to the User
     func mathFormulaButtonTapped(_ sender: Any) {
         if(mathView.superview == nil){
+            mixpanel.track(event: "Button: MyScript Box: Export")
             self.view.addSubview(mathView)
             setupMathViewConstraints()
         } else {
+            mixpanel.track(event: "Button: MyScript Box: Clear")
             mathView.clear(true)
             mathView.removeFromSuperview()
         }
@@ -568,6 +577,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     // MARK: GKImagePickerController Delegate
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
+        // Mixpanel event
+        mixpanel.track(event: "User At Image Picker Screen")
+
         if let pickedImage = pickedImage as? UIImage  {
             let imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
             workView.currentPage.images?.append(imageBlock) //adds to the array, used to toggle editable
@@ -590,6 +602,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     ///unpacks and loads in whatever is at /file.desk
     @IBAction func didPressLoad(_ sender: Any) {
+        // Mixpanel event
+        mixpanel.track(event: "Desk File Selected")
+
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
         var filePath = documentsPath.appending("/file.desk")
         print(filePath)

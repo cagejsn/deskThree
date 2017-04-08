@@ -21,6 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Mixpanel initialization
         Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
         
+        let mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+
+        // Mixpanel event
+        mixpanel.track(event: "App Started")
+        
         return true
     }
 
