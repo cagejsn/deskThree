@@ -58,9 +58,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupPageNumberSystem()
         setupDeskControlModule()
         setupLowerControls()
-     
         // Setup file explorer buttons
-        
     }
     
     func setupPageNumberSystem(){
@@ -237,6 +235,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         
         setupWorkView(workSpace: newWorkView)
+        
         dismissFileExplorer()
 //        if let dView = self.view as? DeskView {
 //            dView.workView = self.workView
@@ -265,7 +264,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             workView.currentPage.drawingView.transform = workView.currentPage.drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
         }
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
-        prevScaleFactor = scrollView.zoomScale
+        prevScaleFactor = scrollView.zoomScale        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -302,8 +301,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupWorkView(workSpace: WorkView = WorkView()){
         
-        
         workView = workSpace
+        if(toolDrawer != nil){
+            toolDrawer.delegate = workView
+        }
         workView.delegate = self
         workView.customDelegate = self
         self.view.sendSubview(toBack: workView)
@@ -339,10 +340,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     
     func setupJotView(){
-
-        
-               // inserting jotView right below toolbar. This is the only line that needs to be here
-       // Call this wherever we call setupJotView
+        // inserting jotView right below toolbar. This is the only line that needs to be here
+        // Call this wherever we call setupJotView
         self.view.insertSubview(workView.currentPage.drawingView, at: 1)
     }
     

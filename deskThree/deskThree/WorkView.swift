@@ -319,6 +319,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         aCoder.encode(pages)
     }
     
+    
+    
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         var pape = Paper()
