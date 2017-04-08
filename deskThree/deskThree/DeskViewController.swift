@@ -309,6 +309,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         if (workViewToElimate == self.workView){
             workViewToElimate.setZoomScale(workViewToElimate.minimumZoomScale, animated: false)
+            workViewToElimate.currentPage.drawingView.removeFromSuperview()
             workViewToElimate.removeFromSuperview()
             workView = nil
             if let dView = self.view as? DeskView {
