@@ -10,8 +10,8 @@ import Foundation
 import UIKit
 
 
-
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, JotViewDelegate, JotViewStateProxyDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
+// TODO: consider moving DeskControlModuleDelegate to WorkView
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
 
     
     let gkimagePicker = GKImagePicker()
@@ -19,10 +19,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var deskControlModule: DeskControlModule!
     var lowerDeskControls: LowerDeskControls!
     
-    //JotUI Properties
-    var pen: Pen!
-    var eraser: Eraser!
-    var curPen = Constants.pens.pen
 
 //    var graphingBlock: GraphingBlock!
     var trashBin: Trash!
@@ -40,11 +36,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     var currentPage: Int!
     var totalPages: Int!
     var cornerPageLabel: UILabel!
-    
-    //below methods are here so that it conforms to jotstate delegate
-    var drawingState: JotViewStateProxy!
-    var jotViewStateInkPath: String!
-    var jotViewStatePlistPath: String!
         
     func didLoadState(_ state: JotViewStateProxy!) {
         
@@ -67,11 +58,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupPageNumberSystem()
         setupDeskControlModule()
         setupLowerControls()
-     
         // Setup file explorer buttons
-        
-        // Setup pen
-        curPen = .pen // Points to pen
     }
     
     func setupPageNumberSystem(){
@@ -123,7 +110,21 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.currentPage.drawingView.redo()
     }
     
-
+    func getCurPen() -> Constants.pens {
+        return workView.currentPage.getCurPen()
+    }
+    
+    func togglePen() {
+        workView.currentPage.togglePen()
+    }
+    
+    func togglePenColor() {
+        workView.currentPage.togglePenColor()
+    }
+    
+    func getCurPenColor() -> UIColor {
+        return workView.currentPage.getCurPenColor()
+    }
 
     
     func archiveJotView(folderToZip: String){
@@ -138,31 +139,39 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         var inkLocation: String
         var stateLocation: String
         var thumbLocation: String
-/*        do{
-            let files = try FileManager.default.contentsOfDirectory(atPath: folderToZip)
-            
-            for file in files{
-                try FileManager.default.removeItem(atPath: folderToZip+"/"+file)
-            }
-        }
-        catch{
-        }
-*/        
+        let temp = PathLocator.getTempFolder()
+//        do{
+//            let files = try FileManager.default.contentsOfDirectory(atPath: folderToZip)
+//            
+//            for file in files{
+//                try FileManager.default.removeItem(atPath: folderToZip+"/"+file)
+//            }
+//        }
+//        catch{
+//        }
+        
         var count: Int = 1
         for page in workView.pages {
+            let pageFolder = folderToZip+"/page"+String(count)
+            do {
+                print(temp+pageFolder)
+                try FileManager.default.createDirectory(atPath: temp+pageFolder, withIntermediateDirectories: true, attributes: nil)
+            } catch let error as NSError {
+                print(error.localizedDescription);
+            }
             
-            inkLocation = folderToZip+"/ink"+String(count)
-            stateLocation = folderToZip+"/state"+String(count)
-            thumbLocation = folderToZip+"/thumb"+String(count)
+            inkLocation = pageFolder+"/ink"+".png"
+            stateLocation = pageFolder+"/state"+".plist"
+            thumbLocation = pageFolder+"/thumb"+".png"
+            
             
             page.drawingState.isForgetful = false
-            page.drawingView.exportImage(to: inkLocation, andThumbnailTo: thumbLocation, andStateTo: stateLocation, andJotState: page.drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
+            page.drawingView.exportImage(to: temp+inkLocation, andThumbnailTo: temp+thumbLocation, andStateTo: temp+stateLocation, andJotState: page.drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
             page.jotViewStateInkPath = inkLocation
             page.jotViewStatePlistPath = stateLocation
             count += 1
-
-
         }
+
     }
 
     
@@ -221,30 +230,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func didSelectProject(newWorkView:WorkView){
-        workView.removeFromSuperview()
-        self.workView = nil
-        self.workView = newWorkView
-        self.view.addSubview(newWorkView)
+        //gets rid of old workView
+        eliminateOldWorkView(workViewToElimate: self.workView)
+        
+        
+        setupWorkView(workSpace: newWorkView)
+        
         dismissFileExplorer()
-        if let dView = self.view as? DeskView {
-            dView.workView = self.workView
-            dView.setup()
-        }
+      
+        setupJotView()
         setupDeskView()
         workView.setupDelegateChain()
         workView.stylizeViews()
-        
-        workView.delegate = self
-        toolDrawer.delegate = workView
-        workView.customDelegate = self
-        self.view.sendSubview(toBack: workView)
-        workView.minimumZoomScale = 0.6
-        workView.maximumZoomScale = 2.0
-        self.view.insertSubview(workView, at: 0)
-        workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
-        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: workView.currentPage.drawingView.bounds.size, andScale: workView.currentPage.drawingView.scale, andContext: workView.currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
-        workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
-
     }
 
   
@@ -257,7 +254,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             workView.currentPage.drawingView.transform = workView.currentPage.drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
         }
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
-        prevScaleFactor = scrollView.zoomScale
+        prevScaleFactor = scrollView.zoomScale        
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -292,8 +289,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         trashBin.hide()
     }
     
-    func setupWorkView(){
-        workView = WorkView()
+    func setupWorkView(workSpace: WorkView = WorkView()){
+        
+        workView = workSpace
+        if(toolDrawer != nil){
+            toolDrawer.delegate = workView
+        }
         workView.delegate = self
         workView.customDelegate = self
         self.view.sendSubview(toBack: workView)
@@ -304,40 +305,35 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     }
     
+    func eliminateOldWorkView(workViewToElimate: WorkView){
+        
+        if (workViewToElimate == self.workView){
+            workViewToElimate.setZoomScale(workViewToElimate.minimumZoomScale, animated: false)
+            workViewToElimate.currentPage.drawingView.removeFromSuperview()
+            workViewToElimate.removeFromSuperview()
+            workView = nil
+            if let dView = self.view as? DeskView {
+                if (dView.jotView == workViewToElimate.currentPage.drawingView){
+                    dView.jotView.removeFromSuperview()
+                    dView.jotView = nil
+                }
+            }
+        }
+    }
+    
     func setupGKPicker(){
         gkimagePicker.delegate = self
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
     }
     
-    func togglePenColor() {
-        if pen.color == UIColor.black {
-            pen.color = UIColor.red
-        }else{
-            pen.color = UIColor.black
-        }
-    }
-    
-    func getCurPenColor() -> UIColor {
-        return pen.color
-    }
-    
-    func setupJotView(color: UIColor = UIColor.black){
 
-        
-        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
-        pen.color = color
-        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
-        pen.shouldUseVelocity = true
-        //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
-        workView.currentPage.drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
-        workView.currentPage.drawingView.delegate = self
-        workView.currentPage.drawingView.isUserInteractionEnabled = true
-        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: workView.currentPage.drawingView.bounds.size, andScale: workView.currentPage.drawingView.scale, andContext: workView.currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
-        workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
-        workView.currentPage.drawingView.isUserInteractionEnabled = false
-        workView.currentPage.drawingView.speedUpFPS()
+    
+
+    
+    func setupJotView(){
         // inserting jotView right below toolbar. This is the only line that needs to be here
+        // Call this wherever we call setupJotView
         self.view.insertSubview(workView.currentPage.drawingView, at: 1)
     }
     
@@ -361,7 +357,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // TODO: Should we subclass MAWMathView and push all of this code in there?
     func setupMyScript(){
         
-        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as! Data
+        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
         mathView = OCRMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
         
         certificateRegistered = mathView.registerCertificate(certificate)
@@ -369,7 +365,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         if(certificateRegistered!){
             mathView.delegate = self
             
-            var mainBundle = Bundle.main
+            let mainBundle = Bundle.main
             var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
             bundlePath = bundlePath.appendingPathComponent("conf") as NSString
             mathView.addSearchDir(bundlePath as String)
@@ -418,7 +414,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // Currently, Preview itself gives option to share
         pdfShareHelper.presentPreview(animated: false)
         
-        //        self.view.insertSubview(workView.currentPage.drawingView, at: 1)
     }
     
     
@@ -432,17 +427,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // This line makes sure the jotView and workView zoomscales are in sync
         workView.setZoomScale(workView.minimumZoomScale, animated: false)
         
-        // Remove the drawing view of previous page before moving to another page
-        let previousPage = workView.currentPage
         
         let pagesInfo = workView.movePage(direction: "left")
         self.currentPage = pagesInfo.currentPage + 1
         self.totalPages = pagesInfo.totalNumPages
         
         workView.currentPage.drawingView.currentPage = workView.currentPage
-
-        previousPage?.drawingView.removeFromSuperview()
-        self.view.insertSubview(workView.currentPage.drawingView, at: 1)
+        
+        setupJotView()
         workView.initCurPage()
         updatePageNotification()
     }
@@ -452,24 +444,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func nextPageTapped(_ sender: Any) {
         // This line makes sure the jotView and workView zoomscales are in sync
         workView.setZoomScale(workView.minimumZoomScale, animated: false)
-        
-        // Remove the drawing view of previous page before moving to another page
-        let previousPage = workView.currentPage
+
         let pagesInfo = workView.movePage(direction: "right")
-        
-        // If this is a new page, create new state
-        if (pagesInfo.totalNumPages > self.totalPages){
-            setupJotView(color: pen.color)
-        }
-        workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
         
         self.currentPage = pagesInfo.currentPage + 1
         self.totalPages = pagesInfo.totalNumPages
         
+        // TODO: this line needs to go if its not used anymore
         workView.currentPage.drawingView.currentPage = workView.currentPage
         
-        previousPage?.drawingView.removeFromSuperview()
-        self.view.insertSubview(workView.currentPage.drawingView, at: 1)
+        setupJotView()
         workView.initCurPage()
         updatePageNotification()
     }
@@ -601,84 +585,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         super.didReceiveMemoryWarning()
     }
     
-    //pragma mark - Helpers
-    func activePen() -> Pen {
-        switch curPen {
-        case .pen:
-            return pen
-        case .eraser:
-            return eraser
-        }
-    }
-    
-    func getCurPen() -> Constants.pens {
-        return curPen
-    }
-    
-    func togglePen() {
-        curPen.next()
-    }
-
-    //JotUIDelegate
-    func textureForStroke() -> JotBrushTexture! {
-        return activePen().textureForStroke()
-    }
-    
-    func stepWidthForStroke() -> CGFloat {
-
-       // print(activePen().stepWidthForStroke())
-       // return activePen().stepWidthForStroke()
-
-        return CGFloat(0.3)
-    }
-    
-    func supportsRotation() -> Bool {
-        return activePen().supportsRotation()
-    }
-    
-    func willAddElements(_ elements: [Any]!, to stroke: JotStroke!, fromPreviousElement previousElement: AbstractBezierPathElement!) -> [Any]! {
-        return activePen().willAddElements(elements, to: stroke, fromPreviousElement: previousElement)
-    }
-    
-    func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
-        activePen().willBeginStroke(withCoalescedTouch: coalescedTouch, from: touch)
-        return true
-    }
-    
-    func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
-        activePen().willMoveStroke(withCoalescedTouch: coalescedTouch, from: touch)
-    }
-    
-    func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
-        //noop
-    }
-    
-    func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
-        activePen().didEndStroke(withCoalescedTouch: coalescedTouch, from: touch)
-    }
-    
-    func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
-        activePen().willCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
-    }
-    
-    func didCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
-        activePen().didCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
-    }
-    
-    func color(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> UIColor! {
-        // hmm?
-        //activePen().shouldUseVelocity
-        return activePen().color(forCoalescedTouch: coalescedTouch, from: touch)
-    }
-    
-    func width(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
-        //activePen().shouldUseVelocity
-        return activePen().width(forCoalescedTouch: coalescedTouch, from: touch)
-    }
-    
-    func smoothness(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
-        return activePen().smoothness(forCoalescedTouch: coalescedTouch, from: touch)
-    }
     
 
     

@@ -67,16 +67,16 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         Zip.addCustomFileExtension("DZIP")
         
         //unzipping file into just created directory
-        /*
-        do{
-            try Zip.unzipFile(NSURL(string: pathToUnzip) as! URL, destination: NSURL(string: pathToTempInstance) as! URL, overwrite: true, password: "password", progress: { (progress) -> () in
-                print(progress)
-            })
-        }
-        catch let error as Error{
-            print(error.localizedDescription)
-        }
-        */
+        
+//        do{
+//            try Zip.unzipFile(NSURL(string: pathToUnzip) as! URL, destination: NSURL(string: pathToTempInstance) as! URL, overwrite: true, password: "password", progress: { (progress) -> () in
+//                print(progress)
+//            })
+//        }
+//        catch let error as Error{
+//            print(error.localizedDescription)
+//        }
+        
         
         let unzippedWorkArea = NSKeyedUnarchiver.unarchiveObject(withFile: pathToTempInstance+"/WorkView.Desk")
         if let workArea = unzippedWorkArea as? WorkView {
