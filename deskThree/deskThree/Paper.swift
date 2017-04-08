@@ -274,8 +274,10 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
             self.addSubview(expression)
         }
         
-        jotViewStatePlistPath = unarchiver.decodeObject() as! String
-        jotViewStateInkPath = unarchiver.decodeObject() as! String
+        let temp = PathLocator.getTempFolder()
+        
+        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
+        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)
         setupDrawingView()
         
     }

@@ -141,6 +141,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         var inkLocation: String
         var stateLocation: String
         var thumbLocation: String
+        let temp = PathLocator.getTempFolder()
 //        do{
 //            let files = try FileManager.default.contentsOfDirectory(atPath: folderToZip)
 //            
@@ -160,7 +161,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             
             
             page.drawingState.isForgetful = false
-            page.drawingView.exportImage(to: inkLocation, andThumbnailTo: thumbLocation, andStateTo: stateLocation, andJotState: page.drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
+            page.drawingView.exportImage(to: temp+inkLocation, andThumbnailTo: temp+thumbLocation, andStateTo: temp+stateLocation, andJotState: page.drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
             page.jotViewStateInkPath = inkLocation
             page.jotViewStatePlistPath = stateLocation
             count += 1
