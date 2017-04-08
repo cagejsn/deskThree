@@ -238,21 +238,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         setupWorkView(workSpace: newWorkView)
         dismissFileExplorer()
-//        if let dView = self.view as? DeskView {
-//            dView.workView = self.workView
-//            dView.setup()
-//        }
+      
         setupJotView()
         setupDeskView()
         workView.setupDelegateChain()
         workView.stylizeViews()
-        
-//        workView.currentPage.drawingState.isForgetful = true
-//        workView.currentPage.drawingState = JotViewStateProxy.init(delegate: workView.currentPage)
-//        workView.currentPage.drawingState.delegate = workView.currentPage
-//        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: workView.currentPage.drawingView.bounds.size, andScale: workView.currentPage.drawingView.scale, andContext: workView.currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
-//        workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
-
     }
 
   
@@ -317,6 +307,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func eliminateOldWorkView(workViewToElimate: WorkView){
         
         if (workViewToElimate == self.workView){
+            workViewToElimate.setZoomScale(workViewToElimate.minimumZoomScale, animated: false)
             workViewToElimate.removeFromSuperview()
             workView = nil
             if let dView = self.view as? DeskView {
