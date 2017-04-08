@@ -15,6 +15,7 @@
 		311C3AC41E9965A000F61CE4 /* ATKMathWidget.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */; };
 		311C3ACD1E99664500F61CE4 /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
 		311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */; };
+		311C3AE81E996FD700F61CE4 /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A91DE75AAA00E3AA1D /* colorlesspoint.vsh */; };
 		314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
 		3148815E1E8DDCDA0015D095 /* com.desk.education.c in Sources */ = {isa = PBXBuildFile; fileRef = 3148815D1E8DDCDA0015D095 /* com.desk.education.c */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
@@ -41,7 +42,6 @@
 		DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A21DE64EDF00E3AA1D /* Marker.m */; };
 		DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */ = {isa = PBXBuildFile; fileRef = DA4918A41DE64EDF00E3AA1D /* Pen.m */; };
 		DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A81DE75AAA00E3AA1D /* coloredpoint.vsh */; };
-		DA4918AF1DE75AAA00E3AA1D /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A91DE75AAA00E3AA1D /* colorlesspoint.vsh */; };
 		DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AA1DE75AAA00E3AA1D /* point.fsh */; };
 		DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AB1DE75AAA00E3AA1D /* quad.fsh */; };
 		DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */; };
@@ -52,7 +52,6 @@
 		DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA67005B1E3EDD1C00A6179A /* GKContext.swift */; };
 		DA7050E41E25591000079047 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7050E31E25591000079047 /* GraphView.swift */; };
 		DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DA7050F11E25EFD100079047 /* vertexShader.glsl */; };
-		DA7E470A1E8DD552007C52C1 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
 		DA7E470B1E8DD552007C52C1 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA7E470F1E8DF1AB007C52C1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
@@ -313,7 +312,6 @@
 				314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */,
 				CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */,
 				CE18D3631E6DCD4600BC54D8 /* ATKCore.framework in Frameworks */,
-				DA7E470A1E8DD552007C52C1 /* Mixpanel.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,7 +586,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = desk;
 				TargetAttributes = {
 					52C9BB231E2D68AA005DA9C2 = {
@@ -738,7 +736,7 @@
 				311C3ACD1E99664500F61CE4 /* quad.vsh in Resources */,
 				DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */,
 				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
-				DA4918AF1DE75AAA00E3AA1D /* colorlesspoint.vsh in Resources */,
+				311C3AE81E996FD700F61CE4 /* colorlesspoint.vsh in Resources */,
 				DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */,
 				DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */,
 				DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */,
