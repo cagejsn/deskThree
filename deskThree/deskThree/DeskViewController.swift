@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 // TODO: consider moving DeskControlModuleDelegate to WorkView
 class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
 
@@ -437,12 +436,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupJotView()
         workView.initCurPage()
         updatePageNotification()
+        
+        
+        deskControlModule.enforceControlsState(getCurPen(), getCurPenColor())
+        
+        
     }
     
     
     
     func nextPageTapped(_ sender: Any) {
         // This line makes sure the jotView and workView zoomscales are in sync
+        
         workView.setZoomScale(workView.minimumZoomScale, animated: false)
 
         let pagesInfo = workView.movePage(direction: "right")
@@ -456,6 +461,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupJotView()
         workView.initCurPage()
         updatePageNotification()
+        
+        
+        deskControlModule.enforceControlsState(getCurPen(), getCurPenColor())
     }
 
     
