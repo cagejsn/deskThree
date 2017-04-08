@@ -18,15 +18,23 @@ protocol PaperDelegate {
 }
 
 
-class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStateProxyDelegate {
+class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate, JotViewStateProxyDelegate {
     
     var delegate: PaperDelegate!
     var images: [ImageBlock]!
     var expressions: [Expression]!
+    
+    //JotUI Properties
     var drawingView: JotView!
-    var drawingState: JotViewStateProxy!
+    var pen: Pen!
+    var eraser: Eraser!
+    var curPen = Constants.pens.pen
+    
+    // JotViewStateProxy Properties
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
+    var drawingState: JotViewStateProxy!
+    
     
     func elementWantsSendToInputObject(element:Any){
         delegate.passHeldBlock(sender: element as! Expression)
@@ -95,24 +103,116 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
 
     }
     
-//    func setupDrawingView(){
-//        
-//        
-//        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
-//        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
-//        pen.shouldUseVelocity = true
-//        //  UserDefaults.standard.set("marker", forKey: kSelectedBruch)
-//        workView.currentPage.drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
-//        jotView.delegate = self
-//        jotView.isUserInteractionEnabled = true
-//        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: jotView.bounds.size, andScale: jotView.scale, andContext: jotView.context, andBufferManager: JotBufferManager.sharedInstance())
-//        jotView.loadState(workView.currentPage.drawingState)
-//        // inserting jotView right below toolbar
-//        self.view.insertSubview(jotView, at: 1)
-//        jotView.isUserInteractionEnabled = false
-//        jotView.speedUpFPS()
-//    }
+    func setupDrawingView(color: UIColor = UIColor.black){
 
+        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen.color = color
+        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen.shouldUseVelocity = true
+        drawingState = JotViewStateProxy()
+        drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
+        drawingView.delegate = self
+        drawingView.isUserInteractionEnabled = true
+        // Loading drawingState onto drawingView
+        drawingState.loadJotStateAsynchronously(false, with: drawingView.bounds.size, andScale: drawingView.scale, andContext: drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
+        drawingView.loadState(drawingState)
+        drawingView.isUserInteractionEnabled = true
+        drawingView.speedUpFPS()
+        
+    }
+    
+    // pragma mark - JotViewDelagate and other JotView stuff
+    func togglePenColor() {
+        if pen.color == UIColor.black {
+            pen.color = UIColor.red
+        }else{
+            pen.color = UIColor.black
+        }
+    }
+    
+    func getCurPenColor() -> UIColor {
+        return pen.color
+    }
+
+    //pragma mark - Helpers
+    func activePen() -> Pen {
+        switch curPen {
+        case .pen:
+            return pen
+        case .eraser:
+            return eraser
+        }
+    }
+    
+    func getCurPen() -> Constants.pens {
+        return curPen
+    }
+    
+    func togglePen() {
+        curPen.next()
+    }
+    
+    func textureForStroke() -> JotBrushTexture! {
+        return activePen().textureForStroke()
+    }
+    
+    func stepWidthForStroke() -> CGFloat {
+        
+        // print(activePen().stepWidthForStroke())
+        // return activePen().stepWidthForStroke()
+        
+        return CGFloat(0.3)
+    }
+    
+    func supportsRotation() -> Bool {
+        return activePen().supportsRotation()
+    }
+    
+    func willAddElements(_ elements: [Any]!, to stroke: JotStroke!, fromPreviousElement previousElement: AbstractBezierPathElement!) -> [Any]! {
+        return activePen().willAddElements(elements, to: stroke, fromPreviousElement: previousElement)
+    }
+    
+    func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
+        activePen().willBeginStroke(withCoalescedTouch: coalescedTouch, from: touch)
+        return true
+    }
+    
+    func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().willMoveStroke(withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
+        //noop
+    }
+    
+    func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().didEndStroke(withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().willCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func didCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().didCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func color(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> UIColor! {
+        // hmm?
+        //activePen().shouldUseVelocity
+        return activePen().color(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func width(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
+        //activePen().shouldUseVelocity
+        return activePen().width(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func smoothness(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
+        return activePen().smoothness(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    
     
     //pragma mark - JotViewStateProxyDelegate
     
@@ -153,8 +253,11 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
         expressions = [BlockExpression]()
         self.image = UIImage(named: "engineeringPaper2")
         self.isOpaque = false
-        images = [ImageBlock]() //creates an array to save the imageblocks
-        drawingState = JotViewStateProxy()
+        images = [ImageBlock]()
+        setupDrawingView()
+        
+        // Setup pen
+        curPen = .pen // Points to pen
     }
     
     //MARK: setup for loading
@@ -171,10 +274,11 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate, JotViewStatePr
             self.addSubview(expression)
         }
         
-        jotViewStatePlistPath = unarchiver.decodeObject() as! String
-        jotViewStateInkPath = unarchiver.decodeObject() as! String
-        drawingState = JotViewStateProxy(delegate: self)
-
+        let temp = PathLocator.getTempFolder()
+        
+        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
+        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)
+        setupDrawingView()
         
     }
 

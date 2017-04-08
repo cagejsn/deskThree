@@ -19,7 +19,7 @@ protocol DeskControlModuleDelegate {
     func togglePen()
     func togglePenColor()
     
-    
+    // These funcs are called by lowerDeskControlModule
     func lastPageTapped(_ sender: Any)
     func undoTapped(_ sender: Any)
     func redoTapped(_ sender: Any)

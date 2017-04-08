@@ -240,6 +240,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     func movePage(direction: String) -> (currentPage: Int, totalNumPages: Int) {
         currentPage.drawingState.isForgetful = false
         if direction  == "right" {
+            currentPage.drawingView.removeFromSuperview()
             // Check if this is the last page
             if currentPageIndex == pages.count - 1 {
                 currentPageIndex += 1
@@ -277,7 +278,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         } else if direction == "left" {
             // Check if this is the first page
             if currentPageIndex != 0 {
-                
+                currentPage.drawingView.removeFromSuperview()
                 // Push back the old view
                 self.sendSubview(toBack: pages[currentPageIndex])
                 pages[currentPageIndex].isHidden = true
