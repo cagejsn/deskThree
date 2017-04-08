@@ -154,10 +154,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         var count: Int = 1
         for page in workView.pages {
+            let pageFolder = folderToZip+"/page"+String(count)
+            do {
+                print(temp+pageFolder)
+                try FileManager.default.createDirectory(atPath: temp+pageFolder, withIntermediateDirectories: true, attributes: nil)
+            } catch let error as NSError {
+                print(error.localizedDescription);
+            }
             
-            inkLocation = folderToZip+"/ink"+String(count)+".png"
-            stateLocation = folderToZip+"/state"+String(count)+".plist"
-            thumbLocation = folderToZip+"/thumb"+String(count)+".png"
+            inkLocation = pageFolder+"/ink"+".png"
+            stateLocation = pageFolder+"/state"+".plist"
+            thumbLocation = pageFolder+"/thumb"+".png"
             
             
             page.drawingState.isForgetful = false
@@ -166,6 +173,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             page.jotViewStatePlistPath = stateLocation
             count += 1
         }
+
     }
 
     
@@ -239,11 +247,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.setupDelegateChain()
         workView.stylizeViews()
         
-        workView.currentPage.drawingState.isForgetful = true
-        workView.currentPage.drawingState = JotViewStateProxy.init(delegate: workView.currentPage)
-        workView.currentPage.drawingState.delegate = workView.currentPage
-        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: workView.currentPage.drawingView.bounds.size, andScale: workView.currentPage.drawingView.scale, andContext: workView.currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
-        workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
+//        workView.currentPage.drawingState.isForgetful = true
+//        workView.currentPage.drawingState = JotViewStateProxy.init(delegate: workView.currentPage)
+//        workView.currentPage.drawingState.delegate = workView.currentPage
+//        workView.currentPage.drawingState.loadJotStateAsynchronously(false, with: workView.currentPage.drawingView.bounds.size, andScale: workView.currentPage.drawingView.scale, andContext: workView.currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
+//        workView.currentPage.drawingView.loadState(workView.currentPage.drawingState)
 
     }
 
