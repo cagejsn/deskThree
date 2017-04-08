@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 
 protocol InputObjectDelegate{
-    func didBeginMove(movedView: UIView)
-    func didCompleteMove(movedView: UIView)
-    func didIncrementMove(movedView: UIView)
+    func didCompleteMove(_movedView: UIView)
+    func didIncrementMove(_movedView: UIView)
+    func hideTrash()
+    func unhideTrash()
 }
 
 class InputObject: UIView, OutputAreaDelegate {
@@ -22,19 +23,22 @@ class InputObject: UIView, OutputAreaDelegate {
     var viewController: DeskViewController?
     
     func receiveElement(_ element: Any){
+        
     }
     
+    
     //MARK: OutputArea Delegate
-    func outputAreaCreatedBlock(newBlock: Block){
-        delegate!.didBeginMove(movedView: newBlock)
+    func outputAreaCreatedBlock(){
+        delegate!.unhideTrash()
     }
 
     func outputAreaDidPassIncrementalMove(movedView: UIView) {
-        self.delegate!.didIncrementMove(movedView: movedView)
+        self.delegate!.didIncrementMove(_movedView: movedView)
     }
     
     func outputAreaDidPassBlock(lastBlock: Block) {
-        self.delegate!.didCompleteMove(movedView: lastBlock)
+        delegate!.hideTrash()
+        self.delegate!.didCompleteMove(_movedView: lastBlock)
     }
 }
 

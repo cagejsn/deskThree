@@ -106,13 +106,13 @@ public class Parser {
             }
             //can be optimized for sure
         }else if(getWord().characters.count == 2){
-            self.cursor += 2
-        }else if(getWord().characters.count == 3){
             self.cursor += 3
+        }else if(getWord().characters.count == 3){
+            self.cursor += 4
         }else if(getWord().characters.count == 4){
             self.cursor += 5
         }else if(getWord().characters.count == 6){
-            self.cursor += 6
+            self.cursor += 7
         }else{
             self.cursor += 1
             
@@ -142,17 +142,37 @@ public class Parser {
                 throw MathError.missingOperand
             }
             
-            
-            var powArray: [Float64]
-            do {
-                try powArray = parserHighPriority()
-            } catch let error {
-                throw error
+            if(String(describing: function[cursor]) == "("){
+                parserIncrimentCursor()
+                var powArray: [Float64]
+                do {
+                    try powArray = parserExpression()
+                } catch let error {
+                    throw error
+                }
+                for i in 0..<self.domain.count {
+                    powArray[i] = pow(baseList[i], powArray[i])
+                }
+                if(String(describing: function[cursor]) != ")"){
+                    throw MathError.unmatchedParenthesis
+                }
+                parserIncrimentCursor()
+                return powArray
+            }else
+            {
+                
+                var powArray: [Float64]
+                do {
+                    try powArray = parserExpression()
+                } catch let error {
+                    throw error
+                }
+                for i in 0..<self.domain.count {
+                    powArray[i] = pow(baseList[i], powArray[i])
+                }
+                return powArray
+                
             }
-            for i in 0..<self.domain.count {
-                powArray[i] = pow(baseList[i], powArray[i])
-            }
-            return powArray
             
         }
         return baseList
@@ -184,7 +204,7 @@ public class Parser {
             }
             return resultList
         }
-        if(indicator == "(" || indicator == "["){
+        if(indicator == "("){
             parserIncrimentCursor()
             do {
                 try resultList = parserExpression()
@@ -192,8 +212,7 @@ public class Parser {
             } catch let error {
                 throw error
             }
-            print(String(describing: self.function[self.cursor]))
-            if(self.cursor >= self.function.count || (String(describing: self.function[self.cursor]) != ")" && String(describing: self.function[self.cursor]) != "]")){
+            if(self.cursor >= self.function.count || String(describing: self.function[self.cursor]) != ")"){
                 throw MathError.unmatchedParenthesis
             }
             parserIncrimentCursor()
@@ -218,9 +237,6 @@ public class Parser {
             }
             
             return resultList
-        }
-        if(indicator == "√"){
-            
         }
         if(self.cursor < self.function.count && String(describing: function[cursor]) == "π"){
             parserIncrimentCursor()
@@ -252,32 +268,17 @@ public class Parser {
         }
         let type: String = getWord()
         if(type != ""){
-            
-            //in the instance of an equation with a base, these will not be empty lists
-            var base: [Float64] = Array()
-            //also, in such a case, this will be true
-            var hasCustomBase: Bool = false
             parserIncrimentCursor()
-            if(String(describing: function[cursor]) == "_"){
-                parserIncrimentCursor()
-                hasCustomBase = true
-                //attain the base
-                do{
-                    base = try(parserHighPriority())
-                    resultList = try(parserHighPriority())
-                } catch let error{
-                    throw error
-                }
+            do {
+                try resultList = parserExpression()
                 
+            } catch let error {
+                throw error
             }
-            else{
-                do {
-                    try resultList = parserHighPriority()
-                    
-                } catch let error {
-                    throw error
-                }
+            if(self.cursor >= self.function.count || String(describing: self.function[self.cursor]) != ")"){
+                throw MathError.unmatchedParenthesis
             }
+            parserIncrimentCursor()
 
             if(type == "sin"){
                 for i in 0..<resultList.count {
@@ -303,15 +304,13 @@ public class Parser {
                 for i in 0..<resultList.count {
                     resultList[i] = atan(resultList[i])
                 }
+            }else if(type == "sqrt"){
+                for i in 0..<resultList.count {
+                    resultList[i] = sqrt(resultList[i])
+                }
             }else if(type == "log"){
-                if(hasCustomBase){
-                    for i in 0..<resultList.count {
-                        resultList[i] = logOf(base: base[i], val: resultList[i])
-                    }
-                }else{
-                    for i in 0..<resultList.count {
-                        resultList[i] = logOf(base: 10, val: resultList[i])
-                    }
+                for i in 0..<resultList.count {
+                    resultList[i] = logOf(base: 10, val: resultList[i])
                 }
             }else if(type == "ln"){
                 for i in 0..<resultList.count {
@@ -325,20 +324,6 @@ public class Parser {
             
         } catch MathError.missingOperand {
             throw MathError.missingOperand
-        }
-        if(indicator == "√"){
-            let arrayToRoot : [Float64]
-            parserIncrimentCursor()
-            do {
-                arrayToRoot = try parserHighPriority()
-                
-            } catch let error {
-                throw error
-            }
-            for number in arrayToRoot{
-                resultList.append(sqrt(number))
-            }
-
         }
         if(resultList.count == 0){
             //this - symbol is for negation
@@ -379,8 +364,8 @@ public class Parser {
         
         print(self.cursor < function.count)
         
-        var isMult: Bool = self.cursor < function.count && (String(describing: self.function[self.cursor]) == "✕" || String(describing: self.function[self.cursor]) == "×")
-        var isDiv:  Bool = self.cursor < function.count && (String(describing: self.function[self.cursor]) == "÷" || String(describing: self.function[self.cursor]) == "/")
+        var isMult: Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "✕"
+        var isDiv:  Bool = self.cursor < function.count && String(describing: self.function[self.cursor]) == "÷"
         
         while(self.cursor < function.count && (isMult || isDiv)){
             
@@ -402,8 +387,8 @@ public class Parser {
                     highPrioLeft[i] /= highPrioRight[i]
                 }
             }
-            isMult = self.cursor < function.count && (String(describing: self.function[self.cursor]) == "✕" || String(describing: self.function[self.cursor]) == "×")
-            isDiv  = self.cursor < function.count && (String(describing: self.function[self.cursor]) == "÷" || String(describing: self.function[self.cursor]) == "/")
+            isMult = self.cursor < function.count && String(describing: self.function[self.cursor]) == "✕"
+            isDiv  = self.cursor < function.count && String(describing: self.function[self.cursor]) == "÷"
             
         }
         return highPrioLeft
@@ -471,17 +456,6 @@ public class Parser {
         self.errorMSG = ""
         self.cursor = 0
         
-        //needs to throw error if x is found because var support not yet included.
-        //definitely change this later.
-        for token in function{
-            if String(describing: token) == "x" || String(describing: token) == "x"{
-                errorMSG = "x and y not supported yet"
-                print(errorMSG)
-                return
-            }
-        }
-        
-        
         self.parserGenDomain(start: start, end: end, steps: totalSteps)
         
             do {
@@ -496,12 +470,10 @@ public class Parser {
             }catch let error {
                 errorMSG = error.localizedDescription
             }
-        print(errorMSG)
     }
     
     ///change function
     public func parserSetFunction(functionString: String){
-        print(functionString)
         self.function = Array(functionString.characters)
     }
     

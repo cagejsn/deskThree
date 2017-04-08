@@ -160,7 +160,7 @@
 		668E838317FCB27D003B00D3 /* MMWeakTimerTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMWeakTimerTarget.h; sourceTree = "<group>"; };
 		668E838417FCB27D003B00D3 /* MMWeakTimerTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMWeakTimerTarget.m; sourceTree = "<group>"; };
 		6691EED3179B7097007BBD15 /* JotBufferManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotBufferManager.h; sourceTree = "<group>"; };
-		6691EED4179B7097007BBD15 /* JotBufferManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = JotBufferManager.m; sourceTree = "<group>"; };
+		6691EED4179B7097007BBD15 /* JotBufferManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = JotBufferManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6695B6D0174D497B0069E61F /* AbstractBezierPathElement-Protected.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AbstractBezierPathElement-Protected.h"; sourceTree = "<group>"; };
 		669B39AC1692B46A00F12F42 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		669B39B01692B46A00F12F42 /* JotUI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JotUI-Info.plist"; sourceTree = "<group>"; };
@@ -170,7 +170,7 @@
 		669B39D91692B50500F12F42 /* AbstractBezierPathElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractBezierPathElement.h; sourceTree = "<group>"; };
 		669B39DA1692B50500F12F42 /* AbstractBezierPathElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AbstractBezierPathElement.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		669B39DB1692B50500F12F42 /* CurveToPathElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveToPathElement.h; sourceTree = "<group>"; };
-		669B39DC1692B50500F12F42 /* CurveToPathElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CurveToPathElement.m; sourceTree = "<group>"; };
+		669B39DC1692B50500F12F42 /* CurveToPathElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CurveToPathElement.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		669B39E11692B50500F12F42 /* SegmentSmoother.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentSmoother.h; sourceTree = "<group>"; };
 		669B39E21692B50500F12F42 /* SegmentSmoother.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentSmoother.m; sourceTree = "<group>"; };
 		669B39F21692B52800F12F42 /* JotUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotUI.h; sourceTree = "<group>"; };
@@ -189,7 +189,7 @@
 		66A79017177251960092A28A /* JotTrashManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotTrashManager.h; sourceTree = "<group>"; };
 		66A79018177251960092A28A /* JotTrashManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotTrashManager.m; sourceTree = "<group>"; };
 		66AA5FB6169E77180046CA26 /* JotStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotStroke.h; sourceTree = "<group>"; };
-		66AA5FB7169E77180046CA26 /* JotStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = JotStroke.m; sourceTree = "<group>"; };
+		66AA5FB7169E77180046CA26 /* JotStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = JotStroke.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		66AA82E1177611D800F26904 /* JotImmutableStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotImmutableStroke.h; sourceTree = "<group>"; };
 		66AA82E2177611D800F26904 /* JotImmutableStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JotImmutableStroke.m; sourceTree = "<group>"; };
 		66AA82E617761C2300F26904 /* JotViewImmutableState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotViewImmutableState.h; sourceTree = "<group>"; };
@@ -917,7 +917,6 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "JotUI/JotUI-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				ONLY_ACTIVE_ARCH = NO;
 				ONLY_ACTIVE_PLATFORM = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
