@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Mixpanel
 
 protocol DeskControlModuleDelegate {
     func fileExplorerButtonTapped(_ sender: Any)
@@ -34,7 +35,10 @@ class DeskControlModule: DWBubbleMenuButton {
     var deskViewControllerDelegate: DeskControlModuleDelegate!
     var togglePenButton: UIButton!
     var changePenColorButton: UIButton!
-    
+
+    // Mixpanel initialization
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+
     func setup(){
         var buttons = [UIButton]()
         self.collapseAfterSelection = false
@@ -112,25 +116,39 @@ class DeskControlModule: DWBubbleMenuButton {
     }
     
     override func showButtons() {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Show Buttons")
+
         super.showButtons()
         imageView.image = UIImage(named: "lessButton")
-        
     }
     
     override func dismissButtons() {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Dismiss Buttons")
+
         super.dismissButtons()
         imageView.image = UIImage(named: "moreButton")
     }
     
     func fileExplorerButtonWasTapped(){
+        // Mixpanel event
+        mixpanel.track(event: "Button: File Explorer")
+
         deskViewControllerDelegate.fileExplorerButtonTapped(self)
     }
     
     func saveButtonWasTapped(){
+        // Mixpanel event
+        mixpanel.track(event: "Button: Save")
+
         deskViewControllerDelegate.saveButtonTapped(self)
     }
     
     func togglePenButtonWasTapped(){
+        // Mixpanel event
+        mixpanel.track(event: "Button: Pen Toggle")
+
         // Change pen type
         deskViewControllerDelegate.togglePen()
 
@@ -147,18 +165,30 @@ class DeskControlModule: DWBubbleMenuButton {
     }
     
     func importPhotoButtonWasTapped() {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Load Image")
+
         deskViewControllerDelegate.loadImageButtonPushed(self)
     }
     
     func toggleMyScriptViewButtonWasTapped() {
+        // Mixpanel event
+        mixpanel.track(event: "Button: MyScript Box")
+
         deskViewControllerDelegate.mathFormulaButtonTapped(self)
     }
     
     func exportPageButtonWasTapped() {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Print")
+
         deskViewControllerDelegate.printButtonPushed(self)
     }
     
     func changePenColorButtonWasTapped(){
+        // Mixpanel event
+        mixpanel.track(event: "Button: Pen Color Toggle")
+
         deskViewControllerDelegate.togglePenColor()
         // Get the current pen color
         let curColor = deskViewControllerDelegate.getCurPenColor()
@@ -166,9 +196,15 @@ class DeskControlModule: DWBubbleMenuButton {
         // Depending on type, show the right image
         switch curColor{
         case UIColor.black:
+            // Mixpanel event
+            mixpanel.track(event: "Pen Color: Black")
+
             changePenColorButton.setImage(UIImage(named:"penColorButtonBlack"), for: .normal)
             break
         case UIColor.red:
+            // Mixpanel event
+            mixpanel.track(event: "Pen Color: Red")
+
             changePenColorButton.setImage(UIImage(named:"penColorButtonRed"), for: .normal)
             break
         default:
@@ -177,9 +213,11 @@ class DeskControlModule: DWBubbleMenuButton {
     }
     
     func clearPageButtonWasTapped() {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Clear Page")
+
         deskViewControllerDelegate.clearButtonTapped(self)
     }
-
     
      override init(frame: CGRect) {
         super.init(frame: frame, expansionDirection: .DirectionDown)
