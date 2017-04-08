@@ -1,3 +1,0 @@
-[submodule "deskThree/mixpanel-swift"]
-	path = deskThree/mixpanel-swift
-	url = git@github.com:mixpanel/mixpanel-swift.git

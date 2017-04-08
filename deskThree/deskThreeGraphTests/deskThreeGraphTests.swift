@@ -74,13 +74,13 @@ class deskThreeGraphTests: XCTestCase {
         XCTAssert(v == 0.0)
     }
     
-//    func testParserLinearFirstPoint(){
-//        
-//        let p: Parser = Parser(functionString: "x")
-//        p.parserPlot(start: 5.0, end: 10, totalSteps: 100)
-//        let v: Float64 = p.getY()[0]
-//        XCTAssert(v == 5.0)
-//    }
+    func testParserLinearFirstPoint(){
+        
+        let p: Parser = Parser(functionString: "x")
+        p.parserPlot(start: 5.0, end: 10, totalSteps: 100)
+        let v: Float64 = p.getY()[0]
+        XCTAssert(v == 5.0)
+    }
     
     func testSinOfExpression(){
         
@@ -92,7 +92,7 @@ class deskThreeGraphTests: XCTestCase {
     
     func testParserRoot(){
         
-        let p: Parser = Parser(functionString: "√(4)")
+        let p: Parser = Parser(functionString: "sqrt(4)")
         p.parserPlot(start: 5.0, end: 10, totalSteps: 100)
         let v: Float64 = p.getY()[0]
         XCTAssert(v == 2.0)
