@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import SafariServices
 import Mixpanel
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
@@ -639,6 +639,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             //savedFile.delegate = self
             //self.present(viewController, animated: false, completion: nil)
         }
+    }
+    
+    func feedbackButtonTapped(_ sender: Any) {
+        print("JELLO!")
+        
+        let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link") as! URL)
+        self.present(svc, animated: true, completion: nil)
+        
     }
     
     public func displayErrorInViewController(title: String, description : String){

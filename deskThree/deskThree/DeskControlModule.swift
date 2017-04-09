@@ -16,6 +16,7 @@ protocol DeskControlModuleDelegate {
     func mathFormulaButtonTapped(_ sender: Any)
     func printButtonPushed(_ sender: Any)
     func clearButtonTapped(_ sender: AnyObject)
+    func feedbackButtonTapped(_ sender: Any)
     func getCurPen() -> Constants.pens
     func togglePen()
     func togglePenColor()
@@ -83,6 +84,11 @@ class DeskControlModule: DWBubbleMenuButton {
         clearPageButton.setImage(UIImage(named: "clearButton"), for: .normal)
         clearPageButton.addTarget(self, action: #selector(DeskControlModule.clearPageButtonWasTapped), for: .touchUpInside)
         buttons.append(clearPageButton)
+        
+        let feedbackButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        feedbackButton.setImage(UIImage(named: "clearButton"), for: .normal)
+        feedbackButton.addTarget(self, action: #selector(DeskControlModule.feedbackButtonWasTapped), for: .touchUpInside)
+        buttons.append(feedbackButton)
         
 
         self.addButtons(buttons)
@@ -219,7 +225,15 @@ class DeskControlModule: DWBubbleMenuButton {
         deskViewControllerDelegate.clearButtonTapped(self)
     }
     
-     override init(frame: CGRect) {
+    func feedbackButtonWasTapped() {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Feedback")
+        print("HELLO!")
+        
+        deskViewControllerDelegate.feedbackButtonTapped(self)
+    }
+
+    override init(frame: CGRect) {
         super.init(frame: frame, expansionDirection: .DirectionDown)
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         imageView.image = UIImage(named: "moreButton")
