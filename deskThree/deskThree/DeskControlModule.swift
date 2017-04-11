@@ -85,8 +85,8 @@ class DeskControlModule: DWBubbleMenuButton {
         clearPageButton.addTarget(self, action: #selector(DeskControlModule.clearPageButtonWasTapped), for: .touchUpInside)
         buttons.append(clearPageButton)
         
-        let feedbackButton = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
-        feedbackButton.setImage(UIImage(named: "clearButton"), for: .normal)
+        let feedbackButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 44))
+        feedbackButton.setImage(UIImage(named: "feedbackButton"), for: .normal)
         feedbackButton.addTarget(self, action: #selector(DeskControlModule.feedbackButtonWasTapped), for: .touchUpInside)
         buttons.append(feedbackButton)
         
