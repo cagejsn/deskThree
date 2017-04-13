@@ -381,7 +381,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
         currentPage.drawingView.currentPage = currentPage
         // Insert the new drawing view onto DeskView
-        superview?.insertSubview(currentPage.drawingView, at: 1)
+        currentPage.subviewDrawingView()
         initCurPage()
         updatePageNotification()
     }

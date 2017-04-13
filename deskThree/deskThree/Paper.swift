@@ -22,10 +22,11 @@ protocol PaperDelegate {
 class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate, JotViewDelegate, JotViewStateProxyDelegate {
     
     public var delegate: PaperDelegate!
+    // TODO: MAKE THIS PRIVATE!
+    public var expressions: [Expression]!
     
-    var prevScaleFactor: CGFloat!
-    var images: [ImageBlock]!
-    var expressions: [Expression]!
+    private var prevScaleFactor: CGFloat!
+    private var images: [ImageBlock]!
     //JotUI Properties
     var drawingView: JotView!
     var pen: Pen!
@@ -157,6 +158,13 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         drawingView.loadState(drawingState)
         drawingView.isUserInteractionEnabled = true
         drawingView.speedUpFPS()
+        
+        // Add it as DeskView's subview, right below the toolbar
+        superview?.superview?.insertSubview(drawingView, at: 1)
+    }
+    
+    func subviewDrawingView() {
+        superview?.superview?.insertSubview(drawingView, at: 1)
     }
     
     // pragma mark - JotViewDelagate and other JotView stuff

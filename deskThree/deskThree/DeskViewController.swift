@@ -52,7 +52,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // Do any additional setup after loading the view, typically from a nib.
         setupWorkView()
         setupGKPicker()
-        setupJotView()
         setupToolDrawer()
         setupTrash()
         setupDeskView()
@@ -127,8 +126,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupWorkView(workSpace: newWorkView)
         
         dismissFileExplorer()
-      
-        setupJotView()
+        
         setupDeskView()
         setupDelegateChain()
         workView.stylizeViews()
@@ -211,7 +209,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.maximumZoomScale = 2.0
         self.view.insertSubview(workView, at: 0)
         workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
-
+        workView.currentPage.subviewDrawingView()
     }
     
     //TODO: This should soon go
@@ -228,12 +226,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         gkimagePicker.delegate = self
         gkimagePicker.cropSize = CGSize(width: 320, height: 320)
         gkimagePicker.resizeableCropArea = true
-    }
-    
-    func setupJotView(){
-        // inserting jotView right below toolbar. This is the only line that needs to be here
-        // Call this wherever we call setupJotView
-        self.view.insertSubview(workView.currentPage.drawingView, at: 1)
     }
     
     func setupToolDrawer(){
@@ -424,40 +416,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         super.didReceiveMemoryWarning()
     }
     
-    
 
-    
-    ///unpacks and loads in whatever is at /file.desk
-    @IBAction func didPressLoad(_ sender: Any) {
-        // Mixpanel event
-        mixpanel.track(event: "Desk File Selected")
-
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
-        var filePath = documentsPath.appending("/file.desk")
-        print(filePath)
-        let file = NSKeyedUnarchiver.unarchiveObject(withFile: filePath)
-        if let savedFile = file as? Paper{
-            print(savedFile)
-            for image in savedFile.images! {
-                
-                print(image.frame.origin.x)
-                print(image.imageHolder.image)
-                
-                //reminder, add wrapper for image initialization.
-                workView.currentPage.addSubview(image)
-                workView.currentPage.images?.append(image) //adds to the array, used to toggle editable
-                image.center = self.view.center
-                image.isUserInteractionEnabled = true
-                image.contentMode = .scaleAspectFit
-                image.delegate = self.workView.currentPage
-                
-            }
-            //workView.currentPage.loadPaper(state: savedFile)
-            //savedFile.delegate = self
-            //self.present(viewController, animated: false, completion: nil)
-        }
-    }
-    
     public func displayErrorInViewController(title: String, description : String){
         let alertController = UIAlertController(title: title, message:
             description, preferredStyle: UIAlertControllerStyle.alert)
