@@ -20,15 +20,15 @@ protocol WorkViewDelegate {
 
 class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawingDelegate {
     
-    var pages: [Paper] = [Paper]()
-    var currentPage: Paper!
-    var currentPageIndex = 0
-    var longPressGR: UILongPressGestureRecognizer!
-    var customDelegate: WorkViewDelegate!
+    public var pages: [Paper] = [Paper]()
+    public var currentPage: Paper!
+    public var currentPageIndex = 0
+    public var longPressGR: UILongPressGestureRecognizer!
+    public var customDelegate: WorkViewDelegate!
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
-    var project: DeskProject!
-    var cornerPageLabel: UILabel!
+    public var project: DeskProject!
+    public var cornerPageLabel: UILabel!
     
     
     func enforceControlsState(pen: Constants.pens, color: UIColor){
@@ -402,6 +402,39 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         self.setZoomScale(minimumZoomScale, animated: false)
         self.setZoomScale((maximumZoomScale + minimumZoomScale)/2, animated: false)
         self.contentOffset = CGPoint(x: 0.0, y: 0.0)
+    }
+    
+    func exportPDF (to pdfData: NSMutableData) -> Bool {
+        let imageReadySema = DispatchSemaphore(value: 0)
+        
+        UIGraphicsBeginPDFContextToData(pdfData, currentPage.bounds, nil)
+        
+        
+        for page in pages {
+            let rect = page.bounds
+            UIGraphicsBeginPDFPageWithInfo(rect, nil)
+            guard let pdfContext = UIGraphicsGetCurrentContext() else { return false}
+            
+            page.drawingView.exportToImage(onComplete: {[page] (imageV: UIImage?) in
+                page.isHidden = false
+                let useful: UIImageView = UIImageView (image: imageV)
+                page.addSubview(useful)
+                page.setNeedsDisplay()
+                // Render the page contents into the PDF Context
+                page.layer.render(in: pdfContext)
+                page.isHidden = (page != self.currentPage) ? true : false
+                useful.removeFromSuperview()
+                // Signal that the onComplete block is done executing
+                imageReadySema.signal()}
+                , withScale: 1.66667)
+            
+            // Wait till the onComplete block is done
+            imageReadySema.wait()
+        }
+        
+        UIGraphicsEndPDFContext()
+        
+        return true
     }
     
     // Used by saveAsView to save drawingStates
