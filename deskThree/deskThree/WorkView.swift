@@ -51,6 +51,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func setupPageNumberSystem(){
+
         cornerPageLabel = UILabel()
         cornerPageLabel.textAlignment = .center
         cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
@@ -62,12 +63,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         cornerPageLabel.layer.masksToBounds = true
         self.addSubview(cornerPageLabel)
         // Get margins for constrains
-        let margins = self.layoutMarginsGuide
+        let margins = self.superview?.layoutMarginsGuide
         // Set constraints for the page nuber notification
         cornerPageLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
         cornerPageLabel.widthAnchor.constraint(equalToConstant: 105).isActive = true
         cornerPageLabel.translatesAutoresizingMaskIntoConstraints = false
-        cornerPageLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -60).isActive = true
+        cornerPageLabel.bottomAnchor.constraint(equalTo: (margins?.bottomAnchor)!, constant: -60).isActive = true
         cornerPageLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
         pageNotificationFadeOut()
@@ -110,13 +111,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     // MARK: PageAndDrawingDelegate
     func clearButtonTapped(_ sender: AnyObject) {
-        // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
-        // We just load up a whole new state to get a cleared backing texture. I know, it is
-        // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself
-        currentPage.reInitDrawingState()
-        currentPage.drawingState.loadJotStateAsynchronously(false, with: currentPage.drawingView.bounds.size, andScale: currentPage.drawingView.scale, andContext: currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
-        currentPage.drawingView.loadState(currentPage.drawingState)
-        currentPage.drawingView.clear(true)
+        currentPage.clearDrawing()
     }
     
     func undoTapped(_ sender: Any) {

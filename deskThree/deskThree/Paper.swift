@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Mixpanel
 
+// Figure out why we need this
 protocol PaperDelegate {
     func passHeldBlock(sender:Expression)
     func didBeginMove(movedView: UIView)
@@ -34,9 +35,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     var curPen = Constants.pens.pen
     
     // JotViewStateProxy Properties
-    var jotViewStateInkPath: String!
-    var jotViewStatePlistPath: String!
-    var drawingState: JotViewStateProxy!
+    internal var jotViewStateInkPath: String!
+    internal var jotViewStatePlistPath: String!
+    private var drawingState: JotViewStateProxy!
     
     // Mixpanel initialization
     var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
@@ -103,9 +104,6 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
 //    }
 
 
-    func reInitDrawingState() {
-        drawingState = JotViewStateProxy()
-    }
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
@@ -165,6 +163,16 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     func subviewDrawingView() {
         superview?.superview?.insertSubview(drawingView, at: 1)
+    }
+    
+    func clearDrawing() {
+        // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
+        // We just load up a whole new state to get a cleared backing texture. I know, it is
+        // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself        
+        drawingState = JotViewStateProxy()
+        drawingState.loadJotStateAsynchronously(false, with: drawingView.bounds.size, andScale: drawingView.scale, andContext: drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
+        drawingView.loadState(drawingState)
+        drawingView.clear(true)
     }
     
     // pragma mark - JotViewDelagate and other JotView stuff
