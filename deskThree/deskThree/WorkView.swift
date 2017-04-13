@@ -21,15 +21,15 @@ protocol WorkViewDelegate {
 class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawingDelegate {
     
     public var customDelegate: WorkViewDelegate!
+    public private(set) var currentPage: Paper!
     
-    public var pages: [Paper] = [Paper]()
-    public var currentPage: Paper!
-    public var currentPageIndex = 0
-    public var longPressGR: UILongPressGestureRecognizer!
+    private var pages: [Paper] = [Paper]()
+    private var currentPageIndex = 0
+    private var longPressGR: UILongPressGestureRecognizer!
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
-    public var project: DeskProject!
-    public var cornerPageLabel: UILabel!
+    private var project: DeskProject!
+    private var cornerPageLabel: UILabel!
     
     
     func enforceControlsState(pen: Constants.pens, color: UIColor){

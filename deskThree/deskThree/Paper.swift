@@ -21,11 +21,11 @@ protocol PaperDelegate {
 
 class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate, JotViewDelegate, JotViewStateProxyDelegate {
     
-    var delegate: PaperDelegate!
+    public var delegate: PaperDelegate!
+    
     var prevScaleFactor: CGFloat!
     var images: [ImageBlock]!
     var expressions: [Expression]!
-    
     //JotUI Properties
     var drawingView: JotView!
     var pen: Pen!
@@ -81,7 +81,18 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     func didHoldBlock(sender: MathBlock) {
         delegate.passHeldBlock(sender:sender)
     }
-
+    
+    // Adds an image onto the paper. Used by GKImagePicker Delegate
+    func addImageBlock (pickedImage: UIImage){
+            let imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
+            images?.append(imageBlock) //adds to the array, used to toggle editable
+            self.addSubview(imageBlock)
+        imageBlock.center = CGPoint (x: self.frame.size.width/4, y: self.frame.size.width/4)
+            imageBlock.isUserInteractionEnabled = true
+            imageBlock.contentMode = .scaleAspectFit
+            imageBlock.setImage(image: pickedImage)
+            imageBlock.delegate = self
+    }
 // NEVER USED
 //    func savePaper(){
 //

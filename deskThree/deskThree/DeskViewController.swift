@@ -253,7 +253,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // TODO: Should we subclass MAWMathView and push all of this code in there?
     func setupMyScript(){
-        var certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
+        let certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
         mathView = OCRMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
         
         certificateRegistered = mathView.registerCertificate(certificate)
@@ -414,17 +414,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
         // Mixpanel event
         mixpanel.track(event: "User At Image Picker Screen")
-
-        if let pickedImage = pickedImage as? UIImage  {
-            let imageBlock: ImageBlock = ImageBlock(frame: CGRect(x: 0, y: 0, width: 400, height: 400))
-            workView.currentPage.images?.append(imageBlock) //adds to the array, used to toggle editable
-            workView.currentPage.addSubview(imageBlock)
-            imageBlock.center = self.view.center
-            imageBlock.isUserInteractionEnabled = true
-            imageBlock.contentMode = .scaleAspectFit
-            imageBlock.setImage(image: pickedImage)
-            imageBlock.delegate = self.workView.currentPage
-        }
+        
+        workView.currentPage.addImageBlock(pickedImage: pickedImage)
+        
         dismiss(animated: true, completion: nil)
     }
     
