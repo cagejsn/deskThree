@@ -36,13 +36,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     var curPen = Constants.pens.pen
     
     
-    func enforceControlsState(pen: Constants.pens, color: UIColor){
-        
-        setPenColor(color: color)
-        setPen(pen: pen)
-        
-    }
-
     func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
     }
