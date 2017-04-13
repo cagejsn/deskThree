@@ -18,7 +18,7 @@ protocol WorkViewDelegate {
     func displayErrorInViewController(title: String, description: String)
 }
 
-class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawingDelegate {
+class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawingDelegate, JotViewDelegate {
     
     public var customDelegate: WorkViewDelegate!
     public private(set) var currentPage: Paper!
@@ -31,11 +31,15 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     private var project: DeskProject!
     private var cornerPageLabel: UILabel!
     
+    var pen: Pen!
+    var eraser: Eraser!
+    var curPen = Constants.pens.pen
+    
     
     func enforceControlsState(pen: Constants.pens, color: UIColor){
         
-        currentPage.setPenColor(color: color)
-        currentPage.setPen(pen: pen)
+        setPenColor(color: color)
+        setPen(pen: pen)
         
     }
 
@@ -51,7 +55,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func setupPageNumberSystem(){
-
         cornerPageLabel = UILabel()
         cornerPageLabel.textAlignment = .center
         cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
@@ -63,12 +66,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         cornerPageLabel.layer.masksToBounds = true
         self.addSubview(cornerPageLabel)
         // Get margins for constrains
-        let margins = self.superview?.layoutMarginsGuide
+        let margins = self.layoutMarginsGuide
         // Set constraints for the page nuber notification
         cornerPageLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
         cornerPageLabel.widthAnchor.constraint(equalToConstant: 105).isActive = true
         cornerPageLabel.translatesAutoresizingMaskIntoConstraints = false
-        cornerPageLabel.bottomAnchor.constraint(equalTo: (margins?.bottomAnchor)!, constant: -60).isActive = true
+        cornerPageLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -60).isActive = true
         cornerPageLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         
         pageNotificationFadeOut()
@@ -109,6 +112,107 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         return project!
     }
     
+    // MARK - JotViewDelegate functions
+    // pragma mark - JotViewDelagate and other JotView stuff
+    func togglePenColor() {
+        if pen.color == UIColor.black {
+            pen.color = UIColor.red
+        }else{
+            pen.color = UIColor.black
+        }
+    }
+    
+    func setPenColor(color: UIColor){
+        pen.color = color
+    }
+    
+    func getCurPenColor() -> UIColor {
+        return pen.color
+    }
+    
+    //pragma mark - Helpers
+    func activePen() -> Pen {
+        switch curPen {
+        case .pen:
+            return pen
+        case .eraser:
+            return eraser
+        }
+    }
+    
+    func setPen(pen: Constants.pens){
+        curPen = pen
+    }
+    
+    func getCurPen() -> Constants.pens {
+        return curPen
+    }
+    
+    func togglePen() {
+        curPen.next()
+    }
+    
+    func textureForStroke() -> JotBrushTexture! {
+        return activePen().textureForStroke()
+    }
+    
+    func stepWidthForStroke() -> CGFloat {
+        
+        // print(activePen().stepWidthForStroke())
+        // return activePen().stepWidthForStroke()
+        
+        return CGFloat(0.3)
+    }
+    
+    func supportsRotation() -> Bool {
+        return activePen().supportsRotation()
+    }
+    
+    func willAddElements(_ elements: [Any]!, to stroke: JotStroke!, fromPreviousElement previousElement: AbstractBezierPathElement!) -> [Any]! {
+        return activePen().willAddElements(elements, to: stroke, fromPreviousElement: previousElement)
+    }
+    
+    func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
+        activePen().willBeginStroke(withCoalescedTouch: coalescedTouch, from: touch)
+        return true
+    }
+    
+    func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().willMoveStroke(withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
+        //noop
+    }
+    
+    func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().didEndStroke(withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().willCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func didCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().didCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func color(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> UIColor! {
+        // hmm?
+        //activePen().shouldUseVelocity
+        return activePen().color(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func width(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
+        //activePen().shouldUseVelocity
+        return activePen().width(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func smoothness(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
+        return activePen().smoothness(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    
     // MARK: PageAndDrawingDelegate
     func clearButtonTapped(_ sender: AnyObject) {
         currentPage.clearDrawing()
@@ -120,22 +224,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     func redoTapped(_ sender: Any) {
         currentPage.drawingView.redo()
-    }
-    
-    func getCurPen() -> Constants.pens {
-        return currentPage.getCurPen()
-    }
-    
-    func togglePen() {
-        currentPage.togglePen()
-    }
-    
-    func togglePenColor() {
-        currentPage.togglePenColor()
-    }
-    
-    func getCurPenColor() -> UIColor {
-        return currentPage.getCurPenColor()
     }
 
     
@@ -388,6 +476,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     // MARK: init and helpers
     // Do we even need to do this?
     func initCurPage() {
+        currentPage.subviewDrawingView()
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex].contentMode = .scaleAspectFit
         currentPage.isUserInteractionEnabled = true
@@ -460,7 +549,14 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         aCoder.encode(pages)
     }
     
-    
+    func setupJotPens() {
+        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen.color = UIColor.black
+        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen.shouldUseVelocity = true
+        // Setup pen
+        curPen = .pen // Points to pen
+    }
     
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
@@ -475,6 +571,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         self.project = DeskProject(name: "Untitled")
         
         setupPageNumberSystem()
+        setupJotPens()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -494,5 +591,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         self.panGestureRecognizer.minimumNumberOfTouches = 2
 
         setupPageNumberSystem()
+        setupJotPens()
     }
 }
