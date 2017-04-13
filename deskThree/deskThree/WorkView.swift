@@ -16,10 +16,9 @@ protocol WorkViewDelegate {
     func hideTrash()
     func sendingToInputObject(for element: Any)
     func displayErrorInViewController(title: String, description: String)
-    func archiveJotView(folderToZip: String)
 }
 
-class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
+class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawingDelegate {
     
     var pages: [Paper] = [Paper]()
     var currentPage: Paper!
@@ -29,15 +28,13 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
     var project: DeskProject!
-
-    
+    var cornerPageLabel: UILabel!
     
     
     func enforceControlsState(pen: Constants.pens, color: UIColor){
         
         currentPage.setPenColor(color: color)
         currentPage.setPen(pen: pen)
-        
         
     }
 
@@ -49,6 +46,48 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         for page in pages {
             page.delegate = self
             page.setupDelegateChain()
+        }
+    }
+    
+    func setupPageNumberSystem(){
+        cornerPageLabel = UILabel()
+        cornerPageLabel.textAlignment = .center
+        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
+        cornerPageLabel.numberOfLines = 1
+        cornerPageLabel.textColor = UIColor.white
+        cornerPageLabel.font = UIFont.systemFont(ofSize: 16.0)
+        cornerPageLabel.backgroundColor = UIColor.lightGray
+        cornerPageLabel.layer.cornerRadius = 5
+        cornerPageLabel.layer.masksToBounds = true
+        self.addSubview(cornerPageLabel)
+        // Get margins for constrains
+        let margins = self.layoutMarginsGuide
+        // Set constraints for the page nuber notification
+        cornerPageLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        cornerPageLabel.widthAnchor.constraint(equalToConstant: 105).isActive = true
+        cornerPageLabel.translatesAutoresizingMaskIntoConstraints = false
+        cornerPageLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -60).isActive = true
+        cornerPageLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        
+        pageNotificationFadeOut()
+    }
+    
+    
+    func updatePageNotification() {
+        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
+        pageNotificationFadeIn()
+        pageNotificationFadeOut()
+    }
+    
+    func pageNotificationFadeOut() {
+        UIView.animate(withDuration: 2.5, delay: 0.5, animations: {
+            self.cornerPageLabel.alpha = 0.0
+        })
+    }
+    
+    func pageNotificationFadeIn() {
+        UIView.animate(withDuration: 2.5) {
+            self.cornerPageLabel.alpha = 1.0
         }
     }
     
@@ -68,11 +107,47 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         return project!
     }
     
+    // MARK: PageAndDrawingDelegate
+    func clearButtonTapped(_ sender: AnyObject) {
+        // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
+        // We just load up a whole new state to get a cleared backing texture. I know, it is
+        // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself
+        currentPage.reInitDrawingState()
+        currentPage.drawingState.loadJotStateAsynchronously(false, with: currentPage.drawingView.bounds.size, andScale: currentPage.drawingView.scale, andContext: currentPage.drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
+        currentPage.drawingView.loadState(currentPage.drawingState)
+        currentPage.drawingView.clear(true)
+    }
+    
+    func undoTapped(_ sender: Any) {
+        currentPage.drawingView.undo()
+    }
+    
+    func redoTapped(_ sender: Any) {
+        currentPage.drawingView.redo()
+    }
+    
+    func getCurPen() -> Constants.pens {
+        return currentPage.getCurPen()
+    }
+    
+    func togglePen() {
+        currentPage.togglePen()
+    }
+    
+    func togglePenColor() {
+        currentPage.togglePenColor()
+    }
+    
+    func getCurPenColor() -> UIColor {
+        return currentPage.getCurPenColor()
+    }
+
+    
     // MARK: Expression Delegate
     func didEvaluate(forExpression sender: Expression, result: Float){
-        var newBlock = BlockExpression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
+        let newBlock = BlockExpression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
         newBlock.removeFromSuperview()
-        var express = BlockExpression(firstVal: newBlock)
+        let express = BlockExpression(firstVal: newBlock)
         currentPage.addSubview(express)
         express.tag = -1
         currentPage.expressions.append(express as! BlockExpression)
@@ -135,7 +210,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         }
         
         if let block = movedView as? Block {
-            var blockExpression = BlockExpression(firstVal: block)
+            let blockExpression = BlockExpression(firstVal: block)
             blockExpression.tag = -1
             
             blockExpression.frame.origin = currentPage.convert(movedView.frame.origin, from: movedView.superview!)
@@ -148,7 +223,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
             block.parentExpression = blockExpression
             workingView = blockExpression
         }
-        if var blockExpression = workingView as? BlockExpression {
+        if let blockExpression = workingView as? BlockExpression {
             for group in currentPage.expressions {
                 if let group = group as? BlockExpression {
                     if(group != blockExpression ){
@@ -247,7 +322,10 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
      Move to a page to the right
      If there is no page, add one and make it the current page
      */
-    func movePage(direction: String) -> (currentPage: Int, totalNumPages: Int) {
+    func movePage(direction: String) {
+        // This line makes sure the jotView and workView zoomscales are in sync
+        self.setZoomScale(minimumZoomScale, animated: false)
+        
         currentPage.drawingState.isForgetful = false
         if direction  == "right" {
             currentPage.drawingView.removeFromSuperview()
@@ -302,7 +380,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
             }
         }
         currentPage.drawingState.isForgetful = true
-        return (currentPageIndex, pages.count)
+        currentPage.drawingView.currentPage = currentPage
+        // Insert the new drawing view onto DeskView
+        superview?.insertSubview(currentPage.drawingView, at: 1)
+        initCurPage()
+        updatePageNotification()
     }
     
     func raiseAlert(title: String, alert: String){
@@ -310,6 +392,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     }
     
     // MARK: init and helpers
+    // Do we even need to do this?
     func initCurPage() {
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex].contentMode = .scaleAspectFit
@@ -323,6 +406,27 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         self.contentOffset = CGPoint(x: 0.0, y: 0.0)
     }
     
+    // Used by saveAsView to save drawingStates
+    func archiveJotView(folderToZip: String){
+        //        do{
+        //            let files = try FileManager.default.contentsOfDirectory(atPath: folderToZip)
+        //
+        //            for file in files{
+        //                try FileManager.default.removeItem(atPath: folderToZip+"/"+file)
+        //            }
+        //        }
+        //        catch{
+        //        }
+        
+        var count: Int = 1
+        for page in pages {
+            let pageFolder = folderToZip+"/page"+String(count)
+            page.saveDrawing(at: pageFolder)
+            count += 1
+        }
+        
+    }
+    
     override func encode(with aCoder: NSCoder){
         super.encode(with: aCoder)
         aCoder.encode(pages)
@@ -332,7 +436,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        var pape = Paper()
+        let pape = Paper()
         pape.delegate = self
         pages.append(pape)
         self.addSubview(pages[0])
@@ -343,6 +447,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         pages[0].isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
         self.project = DeskProject(name: "Untitled")
+        
+        setupPageNumberSystem()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -351,7 +457,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         let loadedPaper = aDecoder.decodeObject() as! [Paper]
         pages = loadedPaper
         self.currentPage = pages.first
-        currentPage.isHidden = false
         
         for view in self.subviews{
             view.isHidden = true
@@ -365,6 +470,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         currentPage.isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
 
-        
+        setupPageNumberSystem()
     }
 }

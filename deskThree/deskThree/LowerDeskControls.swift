@@ -11,7 +11,7 @@ import Mixpanel
 
 class LowerDeskControls: UIView {
     
-    var delegate: DeskControlModuleDelegate!
+    var delegate: PageAndDrawingDelegate!
     
     // Mixpanel initialization
     var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
@@ -25,7 +25,7 @@ class LowerDeskControls: UIView {
         // Mixpanel event
         mixpanel.track(event: "Button: Page Left")
 
-        delegate.lastPageTapped(self)
+        delegate.movePage(direction: "left")
     }
 
     @IBAction func undoTapped(_ sender: Any) {
@@ -40,6 +40,6 @@ class LowerDeskControls: UIView {
         // Mixpanel event
         mixpanel.track(event: "Button: Page Right")
         
-        delegate.nextPageTapped(self)
+        delegate.movePage(direction: "right")
     }
 }

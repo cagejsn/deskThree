@@ -15,24 +15,26 @@ protocol DeskControlModuleDelegate {
     func loadImageButtonPushed(_ sender: Any)
     func mathFormulaButtonTapped(_ sender: Any)
     func printButtonPushed(_ sender: Any)
+}
+
+protocol PageAndDrawingDelegate {
     func clearButtonTapped(_ sender: AnyObject)
     func getCurPen() -> Constants.pens
     func togglePen()
     func togglePenColor()
     
     // These funcs are called by lowerDeskControlModule
-    func lastPageTapped(_ sender: Any)
+    func movePage(direction: String)
     func undoTapped(_ sender: Any)
     func redoTapped(_ sender: Any)
-    func nextPageTapped(_ sender: Any)
     func getCurPenColor() -> UIColor
-    
 }
 
 class DeskControlModule: DWBubbleMenuButton {
     
     var imageView: UIImageView!
     var deskViewControllerDelegate: DeskControlModuleDelegate!
+    var pageAndDrawingDelegate: PageAndDrawingDelegate!
     var togglePenButton: UIButton!
     var changePenColorButton: UIButton!
 
@@ -150,10 +152,10 @@ class DeskControlModule: DWBubbleMenuButton {
         mixpanel.track(event: "Button: Pen Toggle")
 
         // Change pen type
-        deskViewControllerDelegate.togglePen()
+        pageAndDrawingDelegate.togglePen()
 
         // Get the current pen type
-        let curPen = deskViewControllerDelegate.getCurPen()
+        let curPen = pageAndDrawingDelegate.getCurPen()
 
         // Depending on type, show the right image
         switch curPen{
@@ -189,9 +191,9 @@ class DeskControlModule: DWBubbleMenuButton {
         // Mixpanel event
         mixpanel.track(event: "Button: Pen Color Toggle")
 
-        deskViewControllerDelegate.togglePenColor()
+        pageAndDrawingDelegate.togglePenColor()
         // Get the current pen color
-        let curColor = deskViewControllerDelegate.getCurPenColor()
+        let curColor = pageAndDrawingDelegate.getCurPenColor()
         
         // Depending on type, show the right image
         switch curColor{
@@ -216,15 +218,17 @@ class DeskControlModule: DWBubbleMenuButton {
         // Mixpanel event
         mixpanel.track(event: "Button: Clear Page")
 
-        deskViewControllerDelegate.clearButtonTapped(self)
+        pageAndDrawingDelegate.clearButtonTapped(self)
     }
     
-     override init(frame: CGRect) {
+    init(frame: CGRect, moduleDelegate: DeskControlModuleDelegate, pageDelegate: PageAndDrawingDelegate) {
         super.init(frame: frame, expansionDirection: .DirectionDown)
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         imageView.image = UIImage(named: "moreButton")
         self.homeButtonView = imageView
         setup()
+        deskViewControllerDelegate = moduleDelegate
+        pageAndDrawingDelegate = pageDelegate
     }
     
     required init?(coder aDecoder: NSCoder) {

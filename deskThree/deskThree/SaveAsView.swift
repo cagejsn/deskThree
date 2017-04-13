@@ -80,9 +80,7 @@ class SaveAsView: UIView {
         
         
         
-        workViewRef.customDelegate.archiveJotView(folderToZip: folderToZip)
-        
-        
+        workViewRef.archiveJotView(folderToZip: folderToZip)
         
         //save the work area into the folder
         NSKeyedArchiver.archiveRootObject(workViewRef, toFile: tempFolderPath+folderToZip+"/WorkView.Desk")

@@ -80,13 +80,14 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
     func didHoldBlock(sender: MathBlock) {
         delegate.passHeldBlock(sender:sender)
     }
-    
-    func savePaper(){
 
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
-        var filePath = documentsPath.appending("/file.desk")
-        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
-    }
+// NEVER USED
+//    func savePaper(){
+//
+//        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as! String
+//        var filePath = documentsPath.appending("/file.desk")
+//        NSKeyedArchiver.archiveRootObject(self, toFile: filePath)
+//    }
 
 
     func reInitDrawingState() {
@@ -249,6 +250,32 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
         for expression in expressions {
             expression.delegate = self
         }
+    }
+    
+    func saveDrawing(at path: String){
+        
+        let temp = PathLocator.getTempFolder()
+        
+        do {
+            try FileManager.default.createDirectory(atPath: temp+path, withIntermediateDirectories: true, attributes: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription);
+        }
+        
+        
+        let inkLocation = path+"/ink"+".png"
+        let stateLocation = path+"/state"+".plist"
+        let thumbLocation = path+"/thumb"+".png"
+        
+        func doNothing(ink: UIImage? , thumb: UIImage?, state : JotViewImmutableState?) -> Void{
+            return;
+        }
+        
+        drawingState.isForgetful = false
+        drawingView.exportImage(to: temp+inkLocation, andThumbnailTo: temp+thumbLocation, andStateTo: temp+stateLocation, andJotState: drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
+        jotViewStateInkPath = inkLocation
+        jotViewStatePlistPath = stateLocation
+        
     }
     
     override func encode(with aCoder: NSCoder) {
