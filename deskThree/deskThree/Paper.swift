@@ -91,7 +91,6 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
 
 
     func reInitDrawingState() {
-        drawingState.isForgetful = true
         drawingState = JotViewStateProxy()
     }
 
@@ -271,7 +270,6 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
             return;
         }
         
-        drawingState.isForgetful = false
         drawingView.exportImage(to: temp+inkLocation, andThumbnailTo: temp+thumbLocation, andStateTo: temp+stateLocation, andJotState: drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
         jotViewStateInkPath = inkLocation
         jotViewStatePlistPath = stateLocation

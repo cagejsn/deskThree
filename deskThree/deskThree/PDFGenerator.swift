@@ -26,13 +26,11 @@ class PDFGenerator: NSObject {
             UIGraphicsBeginPDFPageWithInfo(rect, nil)
             guard let pdfContext = UIGraphicsGetCurrentContext() else { return "no"}
 
-            page.drawingState.isForgetful = false
             page.drawingView.exportToImage(onComplete: {[page] (imageV: UIImage?) in
                 page.isHidden = false
                 let useful: UIImageView = UIImageView (image: imageV)
                 page.addSubview(useful)
                 page.setNeedsDisplay()
-                page.drawingState.isForgetful = true
                 // Render the page contents into the PDF Context
                 page.layer.render(in: pdfContext)
                 page.isHidden = (page != workView.currentPage) ? true : false

@@ -326,7 +326,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         // This line makes sure the jotView and workView zoomscales are in sync
         self.setZoomScale(minimumZoomScale, animated: false)
         
-        currentPage.drawingState.isForgetful = false
         if direction  == "right" {
             currentPage.drawingView.removeFromSuperview()
             // Check if this is the last page
@@ -379,7 +378,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
                 currentPage = pages[currentPageIndex]
             }
         }
-        currentPage.drawingState.isForgetful = true
         currentPage.drawingView.currentPage = currentPage
         // Insert the new drawing view onto DeskView
         superview?.insertSubview(currentPage.drawingView, at: 1)
