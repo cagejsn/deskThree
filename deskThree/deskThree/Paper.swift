@@ -19,9 +19,10 @@ protocol PaperDelegate {
 }
 
 
-class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate, JotViewStateProxyDelegate {
+class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate, JotViewDelegate, JotViewStateProxyDelegate {
     
     var delegate: PaperDelegate!
+    var prevScaleFactor: CGFloat!
     var images: [ImageBlock]!
     var expressions: [Expression]!
     
@@ -93,8 +94,28 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
     func reInitDrawingState() {
         drawingState = JotViewStateProxy()
     }
+    
+    // MARK - UIScrollViewDelegate functions
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        // Mixpanel event
+        mixpanel.track(event: "Gesture: Zoom")
+        
+        if(prevScaleFactor != nil){
+            drawingView.transform = drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
+        }
+        drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+        prevScaleFactor = scrollView.zoomScale
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Mixpanel event
+        mixpanel.track(event: "Gesture: Scroll")
+        
+        drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+    }
 
-    //ImageBlock Delegate Functions
+
+    //MARK - ImageBlock Delegate Functions
     func fixImageToPage(image: ImageBlock){
         
     }
@@ -118,6 +139,8 @@ class Paper: UIImageView, ImageBlockDelegate, ExpressionDelegate,JotViewDelegate
         drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
         drawingView.delegate = self
         drawingView.isUserInteractionEnabled = true
+        // jotView's currentPage property is set which is used for hitTesting
+        drawingView.currentPage = self
         // Loading drawingState onto drawingView
         drawingState.loadJotStateAsynchronously(false, with: drawingView.bounds.size, andScale: drawingView.scale, andContext: drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
         drawingView.loadState(drawingState)

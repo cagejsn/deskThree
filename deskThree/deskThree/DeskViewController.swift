@@ -214,18 +214,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     }
     
+    //TODO: This should soon go
     func eliminateOldWorkView(workViewToElimate: WorkView){
         if (workViewToElimate == self.workView){
             workViewToElimate.setZoomScale(workViewToElimate.minimumZoomScale, animated: false)
             workViewToElimate.currentPage.drawingView.removeFromSuperview()
             workViewToElimate.removeFromSuperview()
             workView = nil
-            if let dView = self.view as? DeskView {
-                if (dView.jotView == workViewToElimate.currentPage.drawingView){
-                    dView.jotView.removeFromSuperview()
-                    dView.jotView = nil
-                }
-            }
         }
     }
     
@@ -250,8 +245,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupDeskView(){
         if let dView = view as? DeskView {
-            dView.workView = workView
-            dView.jotView = workView.currentPage.drawingView
             dView.setup()
             dView.addGestureRecognizer(workView.panGestureRecognizer)
             dView.addGestureRecognizer(workView.pinchGestureRecognizer!)

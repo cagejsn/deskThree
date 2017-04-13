@@ -20,11 +20,12 @@ protocol WorkViewDelegate {
 
 class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawingDelegate {
     
+    public var customDelegate: WorkViewDelegate!
+    
     public var pages: [Paper] = [Paper]()
     public var currentPage: Paper!
     public var currentPageIndex = 0
     public var longPressGR: UILongPressGestureRecognizer!
-    public var customDelegate: WorkViewDelegate!
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
     public var project: DeskProject!
@@ -395,6 +396,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex].contentMode = .scaleAspectFit
         currentPage.isUserInteractionEnabled = true
+//        self.delegate = currentPage
         setupForJotView()
     }
     
@@ -472,10 +474,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         pages.append(pape)
         self.addSubview(pages[0])
         currentPage = pages[0]
-        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
-        pages[0].contentMode = .scaleAspectFit
+        initCurPage()
         self.sendSubview(toBack: pages[0])
-        pages[0].isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
         self.project = DeskProject(name: "Untitled")
         
@@ -495,10 +495,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         
         self.addSubview(currentPage)
         currentPage.isHidden = false
-        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
-        currentPage.contentMode = .scaleAspectFit
-       // self.sendSubview(toBack: currentPage)
-        currentPage.isUserInteractionEnabled = true
+        initCurPage()
         self.panGestureRecognizer.minimumNumberOfTouches = 2
 
         setupPageNumberSystem()
