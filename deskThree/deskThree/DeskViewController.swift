@@ -115,15 +115,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.dismiss(animated: false, completion: nil)
     }
     
-    func didSelectProject(newWorkView:WorkView){
+    func didSelectProject(projectPath: String){
         // Mixpanel event
         mixpanel.track(event: "Project Selected")
 
         //gets rid of old workView
         eliminateOldWorkView(workViewToElimate: self.workView)
+        setupWorkView()
         
-        
-        setupWorkView(workSpace: newWorkView)
+        workView.loadProject(projectPath: projectPath)
         
         dismissFileExplorer()
         
