@@ -516,21 +516,107 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         return true
     }
     
+    func loadProject(projectPath: String){
+        
+        var count = 1
+        var pageAddr = ""
+        var page: Paper
+        
+        if FileManager.default.fileExists(atPath: projectPath + "/page" + String(count)){
+            pageAddr = projectPath+"/page" + String(count) + "/page.desk"
+            page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
+            pages[0] = page
+            self.addSubview(page)
+            count+=1
+        }
+        while(FileManager.default.fileExists(atPath: projectPath + "/page" + String(count))){
+            pageAddr = projectPath+"/page" + String(count) + "/page.desk"
+            print(pageAddr)
+            page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
+            pages.append(page)
+            self.addSubview(page)
+            count+=1
+            
+
+        }
+        
+        self.currentPage = pages.first
+        
+        for view in self.subviews{
+            view.isHidden = true
+        }
+        currentPage.isHidden = false
+        initCurPage()
+    }
+    
+    ///saves project and metadata to files. Returs true if success
+    func saveProject(name: String) -> Bool{
+        
+        ///saves metadata of project to meta file. overwrite same name if present
+        func saveMetaData(name: String){
+            
+            //creating metadata class instance and setting modified date to now
+            let project = DeskProject(name: name)
+            project.modify()
+            
+            //saving updated meta data to disk
+            let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
+            var projects = PathLocator.loadMetaData()
+            for i in 0..<projects.count{
+                if projects[i].name == name{
+                    //raise dialog asking user confirmation to overwrite
+                    projects[i] = project
+                    NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
+                    return
+                }
+            }
+            projects.append(project)
+            NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
+        }
+        
+        saveMetaData(name: name)
+        
+        let tempFolderPath = PathLocator.getTempFolder()
+        let destination = "/"+name
+        
+        //create the folder
+        if(FileManager.default.fileExists(atPath: tempFolderPath+destination)){
+            do {
+                try FileManager.default.removeItem(atPath: tempFolderPath+destination)
+            } catch let error as NSError {
+                print(error.localizedDescription);
+                return false
+            }
+        }
+        do {
+            try FileManager.default.createDirectory(atPath: tempFolderPath+destination, withIntermediateDirectories: false, attributes: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription);
+            return false
+        }
+        
+        archiveJotView(destinationFolder: destination)
+        
+        //save the work area into the folder
+        archivePageObjects(destinationFolder: destination)
+        return true
+    }
+    
+    func archivePageObjects(destinationFolder: String){
+        var count: Int = 1
+        for page in pages {
+            let pageFolder = PathLocator.getTempFolder() + destinationFolder+"/page"+String(count)
+            NSKeyedArchiver.archiveRootObject(page, toFile: pageFolder + "/page.desk")
+            count += 1
+        }
+    }
+    
     // Used by saveAsView to save drawingStates
-    func archiveJotView(folderToZip: String){
-        //        do{
-        //            let files = try FileManager.default.contentsOfDirectory(atPath: folderToZip)
-        //
-        //            for file in files{
-        //                try FileManager.default.removeItem(atPath: folderToZip+"/"+file)
-        //            }
-        //        }
-        //        catch{
-        //        }
+    func archiveJotView(destinationFolder: String){
         
         var count: Int = 1
         for page in pages {
-            let pageFolder = folderToZip+"/page"+String(count)
+            let pageFolder = destinationFolder+"/page"+String(count)
             page.saveDrawing(at: pageFolder)
             count += 1
         }

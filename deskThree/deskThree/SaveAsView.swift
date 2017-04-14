@@ -36,90 +36,10 @@ class SaveAsView: UIView {
         return !(name.contains(" ") || name == "")
         
     }
-
-    ///saves project and metadata to files. Returs true if success
+    
     func saveProject(name: String) -> Bool{
-        
-        ///saves metadata of project to meta file. overwrite same name if present
-        func saveMetaData(name: String){
-            let project = DeskProject(name: name)
-            project.modify()
-            
-            let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
-            
-            var projects = PathLocator.loadMetaData()
-            for i in 0..<projects.count{
-                if projects[i].name == name{
-                    //raise dialog asking user confirmation to overwrite
-                    projects[i] = project
-                    NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
-                    return
-                }
-            }
-            projects.append(project)
-            NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
-        }
-        
-        saveMetaData(name: name)
-        
-        //saves to documents/DeskThree/Projects/name.DESK
-        let tempFolderPath = PathLocator.getTempFolder()
-        let folderToZip = "/"+name
-        
-        //create the folder
-        if(!FileManager.default.fileExists(atPath: tempFolderPath+folderToZip)){
-            
-            do {
-                try FileManager.default.createDirectory(atPath: tempFolderPath+folderToZip, withIntermediateDirectories: false, attributes: nil)
-            } catch let error as NSError {
-                print(error.localizedDescription);
-            }
-        }
-        
-        //save jot ui into the folder, folderToZip
-        
-        
-        
-        workViewRef.archiveJotView(folderToZip: folderToZip)
-        
-        //save the work area into the folder
-        NSKeyedArchiver.archiveRootObject(workViewRef, toFile: tempFolderPath+folderToZip+"/WorkView.Desk")
-        
-        
-        
-        
-        do{
-            let destinationFolderURL = NSURL(string: PathLocator.getProjectFolder()) as! URL
-            let zipFilePath = NSURL(string: PathLocator.getProjectFolder() + "/"+name)?.appendingPathExtension("DZIP")
-            print(zipFilePath)
-            if FileManager.default.fileExists(atPath: String(describing: zipFilePath)) {
-                try FileManager.default.removeItem(at: zipFilePath!)
-            }
-
-            /*
-            var thingsToZip = [URL]()
-            for thing in try FileManager.default.contentsOfDirectory(atPath: folderToZip){
-                thingsToZip.append( NSURL(string: folderToZip+"/"+thing) as! URL)
-            }
-            try Zip.zipFiles(paths: thingsToZip, zipFilePath: zipFilePath!, password: "password", progress: { (progress) -> () in
-                print(progress)
-            }) //Zip
-            */
-            Zip.addCustomFileExtension("DZIP")
-            
-            
-            //try FileManager.default.removeItem(atPath: folderToZip)
-        }
-        catch{
-            print("error when zipping file")
-            return false
-        }
-        return true
-        
+        return workViewRef.saveProject(name: name);
     }
-    
-    
-    
 
     @IBAction func closeButtonTapped(_ sender: Any) {
         self.removeFromSuperview()  
