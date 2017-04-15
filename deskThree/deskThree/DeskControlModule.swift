@@ -15,6 +15,7 @@ protocol DeskControlModuleDelegate {
     func loadImageButtonPushed(_ sender: Any)
     func mathFormulaButtonTapped(_ sender: Any)
     func printButtonPushed(_ sender: Any)
+    func feedbackButtonTapped(_ sender: Any)
 }
 
 protocol PageAndDrawingDelegate {
@@ -85,6 +86,11 @@ class DeskControlModule: DWBubbleMenuButton {
         clearPageButton.setImage(UIImage(named: "clearButton"), for: .normal)
         clearPageButton.addTarget(self, action: #selector(DeskControlModule.clearPageButtonWasTapped), for: .touchUpInside)
         buttons.append(clearPageButton)
+        
+        let feedbackButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 44))
+        feedbackButton.setImage(UIImage(named: "feedbackButton"), for: .normal)
+        feedbackButton.addTarget(self, action: #selector(DeskControlModule.feedbackButtonWasTapped), for: .touchUpInside)
+        buttons.append(feedbackButton)
         
 
         self.addButtons(buttons)
@@ -213,7 +219,7 @@ class DeskControlModule: DWBubbleMenuButton {
             return
         }
     }
-    
+
     func clearPageButtonWasTapped() {
         // Mixpanel event
         mixpanel.track(event: "Button: Clear Page")
@@ -221,6 +227,14 @@ class DeskControlModule: DWBubbleMenuButton {
         pageAndDrawingDelegate.clearButtonTapped(self)
     }
     
+
+    func feedbackButtonWasTapped() {
+        // Mixpanel event
+        mixpanel.track(event: "Button: Feedback")
+        
+        deskViewControllerDelegate.feedbackButtonTapped(self)
+    }
+
     init(frame: CGRect, moduleDelegate: DeskControlModuleDelegate, pageDelegate: PageAndDrawingDelegate) {
         super.init(frame: frame, expansionDirection: .DirectionDown)
         imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))

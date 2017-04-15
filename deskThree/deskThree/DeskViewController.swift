@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-
+import SafariServices
 import Mixpanel
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
@@ -145,9 +145,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        // Mixpanel event
-        mixpanel.track(event: "Gesture: Zoom")
-
         if(prevScaleFactor != nil){
             workView.currentPage.drawingView.transform = workView.currentPage.drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
         }
@@ -164,9 +161,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     //incoming view does intersect with Trash?
     func intersectsWithTrash(justMovedBlock: UIView) -> Bool {
-        // Mixpanel event
-        mixpanel.track(event: "Trash Hovered Over")
-
         if( trashBin.frame.contains(self.view.convert(justMovedBlock.frame.origin + CGPoint(x: 0, y:justMovedBlock.frame.height), from: justMovedBlock.superview!))){
             trashBin.open()
             return true
@@ -396,7 +390,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func printText(){
-        
         print(mathView.resultAsLaTeX())
     }
 
@@ -416,7 +409,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         super.didReceiveMemoryWarning()
     }
     
-
+    func feedbackButtonTapped(_ sender: Any) {
+        let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link") as! URL)
+        self.present(svc, animated: true, completion: nil)
+        
+    }
+    
     public func displayErrorInViewController(title: String, description : String){
         let alertController = UIAlertController(title: title, message:
             description, preferredStyle: UIAlertControllerStyle.alert)
