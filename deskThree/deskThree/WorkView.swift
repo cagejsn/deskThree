@@ -16,31 +16,26 @@ protocol WorkViewDelegate {
     func hideTrash()
     func sendingToInputObject(for element: Any)
     func displayErrorInViewController(title: String, description: String)
-    func archiveJotView(folderToZip: String)
 }
 
-class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
+class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawingDelegate, JotViewDelegate {
     
-    var pages: [Paper] = [Paper]()
-    var currentPage: Paper!
-    var currentPageIndex = 0
-    var longPressGR: UILongPressGestureRecognizer!
-    var customDelegate: WorkViewDelegate!
+    public var customDelegate: WorkViewDelegate!
+    public private(set) var currentPage: Paper!
+    
+    private var pages: [Paper] = [Paper]()
+    private var currentPageIndex = 0
+    private var longPressGR: UILongPressGestureRecognizer!
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
-    var project: DeskProject!
-
+    private var project: DeskProject!
+    private var cornerPageLabel: UILabel!
+    
+    var pen: Pen!
+    var eraser: Eraser!
+    var curPen = Constants.pens.pen
     
     
-    
-    func enforceControlsState(pen: Constants.pens, color: UIColor){
-        
-        currentPage.setPenColor(color: color)
-        currentPage.setPen(pen: pen)
-        
-        
-    }
-
     func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
     }
@@ -49,6 +44,48 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         for page in pages {
             page.delegate = self
             page.setupDelegateChain()
+        }
+    }
+    
+    func setupPageNumberSystem(){
+        cornerPageLabel = UILabel()
+        cornerPageLabel.textAlignment = .center
+        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
+        cornerPageLabel.numberOfLines = 1
+        cornerPageLabel.textColor = UIColor.white
+        cornerPageLabel.font = UIFont.systemFont(ofSize: 16.0)
+        cornerPageLabel.backgroundColor = UIColor.lightGray
+        cornerPageLabel.layer.cornerRadius = 5
+        cornerPageLabel.layer.masksToBounds = true
+        self.addSubview(cornerPageLabel)
+        // Get margins for constrains
+        let margins = self.layoutMarginsGuide
+        // Set constraints for the page nuber notification
+        cornerPageLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        cornerPageLabel.widthAnchor.constraint(equalToConstant: 105).isActive = true
+        cornerPageLabel.translatesAutoresizingMaskIntoConstraints = false
+        cornerPageLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -60).isActive = true
+        cornerPageLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        
+        pageNotificationFadeOut()
+    }
+    
+    
+    func updatePageNotification() {
+        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
+        pageNotificationFadeIn()
+        pageNotificationFadeOut()
+    }
+    
+    func pageNotificationFadeOut() {
+        UIView.animate(withDuration: 2.5, delay: 0.5, animations: {
+            self.cornerPageLabel.alpha = 0.0
+        })
+    }
+    
+    func pageNotificationFadeIn() {
+        UIView.animate(withDuration: 2.5) {
+            self.cornerPageLabel.alpha = 1.0
         }
     }
     
@@ -68,11 +105,126 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         return project!
     }
     
+    // MARK - JotViewDelegate functions
+    // pragma mark - JotViewDelagate and other JotView stuff
+    func togglePenColor() {
+        if pen.color == UIColor.black {
+            pen.color = UIColor.red
+        }else{
+            pen.color = UIColor.black
+        }
+    }
+    
+    func setPenColor(color: UIColor){
+        pen.color = color
+    }
+    
+    func getCurPenColor() -> UIColor {
+        return pen.color
+    }
+    
+    //pragma mark - Helpers
+    func activePen() -> Pen {
+        switch curPen {
+        case .pen:
+            return pen
+        case .eraser:
+            return eraser
+        }
+    }
+    
+    func setPen(pen: Constants.pens){
+        curPen = pen
+    }
+    
+    func getCurPen() -> Constants.pens {
+        return curPen
+    }
+    
+    func togglePen() {
+        curPen.next()
+    }
+    
+    func textureForStroke() -> JotBrushTexture! {
+        return activePen().textureForStroke()
+    }
+    
+    func stepWidthForStroke() -> CGFloat {
+        
+        // print(activePen().stepWidthForStroke())
+        // return activePen().stepWidthForStroke()
+        
+        return CGFloat(0.3)
+    }
+    
+    func supportsRotation() -> Bool {
+        return activePen().supportsRotation()
+    }
+    
+    func willAddElements(_ elements: [Any]!, to stroke: JotStroke!, fromPreviousElement previousElement: AbstractBezierPathElement!) -> [Any]! {
+        return activePen().willAddElements(elements, to: stroke, fromPreviousElement: previousElement)
+    }
+    
+    func willBeginStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> Bool {
+        activePen().willBeginStroke(withCoalescedTouch: coalescedTouch, from: touch)
+        return true
+    }
+    
+    func willMoveStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().willMoveStroke(withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func willEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!, shortStrokeEnding: Bool) {
+        //noop
+    }
+    
+    func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().didEndStroke(withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().willCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func didCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
+        activePen().didCancel(stroke, withCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func color(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> UIColor! {
+        // hmm?
+        //activePen().shouldUseVelocity
+        return activePen().color(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func width(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
+        //activePen().shouldUseVelocity
+        return activePen().width(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    func smoothness(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {
+        return activePen().smoothness(forCoalescedTouch: coalescedTouch, from: touch)
+    }
+    
+    
+    // MARK: PageAndDrawingDelegate
+    func clearButtonTapped(_ sender: AnyObject) {
+        currentPage.clearDrawing()
+    }
+    
+    func undoTapped(_ sender: Any) {
+        currentPage.drawingView.undo()
+    }
+    
+    func redoTapped(_ sender: Any) {
+        currentPage.drawingView.redo()
+    }
+
+    
     // MARK: Expression Delegate
     func didEvaluate(forExpression sender: Expression, result: Float){
-        var newBlock = BlockExpression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
+        let newBlock = BlockExpression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
         newBlock.removeFromSuperview()
-        var express = BlockExpression(firstVal: newBlock)
+        let express = BlockExpression(firstVal: newBlock)
         currentPage.addSubview(express)
         express.tag = -1
         currentPage.expressions.append(express as! BlockExpression)
@@ -135,7 +287,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         }
         
         if let block = movedView as? Block {
-            var blockExpression = BlockExpression(firstVal: block)
+            let blockExpression = BlockExpression(firstVal: block)
             blockExpression.tag = -1
             
             blockExpression.frame.origin = currentPage.convert(movedView.frame.origin, from: movedView.superview!)
@@ -148,7 +300,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
             block.parentExpression = blockExpression
             workingView = blockExpression
         }
-        if var blockExpression = workingView as? BlockExpression {
+        if let blockExpression = workingView as? BlockExpression {
             for group in currentPage.expressions {
                 if let group = group as? BlockExpression {
                     if(group != blockExpression ){
@@ -247,8 +399,10 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
      Move to a page to the right
      If there is no page, add one and make it the current page
      */
-    func movePage(direction: String) -> (currentPage: Int, totalNumPages: Int) {
-        currentPage.drawingState.isForgetful = false
+    func movePage(direction: String) {
+        // This line makes sure the jotView and workView zoomscales are in sync
+        self.setZoomScale(minimumZoomScale, animated: false)
+        
         if direction  == "right" {
             currentPage.drawingView.removeFromSuperview()
             // Check if this is the last page
@@ -301,8 +455,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
                 currentPage = pages[currentPageIndex]
             }
         }
-        currentPage.drawingState.isForgetful = true
-        return (currentPageIndex, pages.count)
+        currentPage.drawingView.currentPage = currentPage
+        // Insert the new drawing view onto DeskView
+        currentPage.subviewDrawingView()
+        initCurPage()
+        updatePageNotification()
     }
     
     func raiseAlert(title: String, alert: String){
@@ -310,10 +467,13 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
     }
     
     // MARK: init and helpers
+    // Do we even need to do this?
     func initCurPage() {
+        currentPage.subviewDrawingView()
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex].contentMode = .scaleAspectFit
         currentPage.isUserInteractionEnabled = true
+//        self.delegate = currentPage
         setupForJotView()
     }
     
@@ -323,26 +483,174 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         self.contentOffset = CGPoint(x: 0.0, y: 0.0)
     }
     
+    func exportPDF (to pdfData: NSMutableData) -> Bool {
+        let imageReadySema = DispatchSemaphore(value: 0)
+        
+        UIGraphicsBeginPDFContextToData(pdfData, currentPage.bounds, nil)
+        
+        
+        for page in pages {
+            let rect = page.bounds
+            UIGraphicsBeginPDFPageWithInfo(rect, nil)
+            guard let pdfContext = UIGraphicsGetCurrentContext() else { return false}
+            
+            page.drawingView.exportToImage(onComplete: {[page] (imageV: UIImage?) in
+                page.isHidden = false
+                let useful: UIImageView = UIImageView (image: imageV)
+                page.addSubview(useful)
+                page.setNeedsDisplay()
+                // Render the page contents into the PDF Context
+                page.layer.render(in: pdfContext)
+                page.isHidden = (page != self.currentPage) ? true : false
+                useful.removeFromSuperview()
+                // Signal that the onComplete block is done executing
+                imageReadySema.signal()}
+                , withScale: 1.66667)
+            
+            // Wait till the onComplete block is done
+            imageReadySema.wait()
+        }
+        
+        UIGraphicsEndPDFContext()
+        
+        return true
+    }
+    
+    func loadProject(projectPath: String){
+        
+        var count = 1
+        var pageAddr = ""
+        var page: Paper
+        
+        if FileManager.default.fileExists(atPath: projectPath + "/page" + String(count)){
+            pageAddr = projectPath+"/page" + String(count) + "/page.desk"
+            page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
+            pages[0] = page
+            self.addSubview(page)
+            count+=1
+        }
+        while(FileManager.default.fileExists(atPath: projectPath + "/page" + String(count))){
+            pageAddr = projectPath+"/page" + String(count) + "/page.desk"
+            print(pageAddr)
+            page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
+            pages.append(page)
+            self.addSubview(page)
+            count+=1
+            
+
+        }
+        
+        self.currentPage = pages.first
+        
+        for view in self.subviews{
+            view.isHidden = true
+        }
+        currentPage.isHidden = false
+        initCurPage()
+    }
+    
+    ///saves project and metadata to files. Returs true if success
+    func saveProject(name: String) -> Bool{
+        
+        ///saves metadata of project to meta file. overwrite same name if present
+        func saveMetaData(name: String){
+            
+            //creating metadata class instance and setting modified date to now
+            let project = DeskProject(name: name)
+            project.modify()
+            
+            //saving updated meta data to disk
+            let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
+            var projects = PathLocator.loadMetaData()
+            for i in 0..<projects.count{
+                if projects[i].name == name{
+                    //raise dialog asking user confirmation to overwrite
+                    projects[i] = project
+                    NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
+                    return
+                }
+            }
+            projects.append(project)
+            NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
+        }
+        
+        saveMetaData(name: name)
+        
+        let tempFolderPath = PathLocator.getTempFolder()
+        let destination = "/"+name
+        
+        //create the folder
+        if(FileManager.default.fileExists(atPath: tempFolderPath+destination)){
+            do {
+                try FileManager.default.removeItem(atPath: tempFolderPath+destination)
+            } catch let error as NSError {
+                print(error.localizedDescription);
+                return false
+            }
+        }
+        do {
+            try FileManager.default.createDirectory(atPath: tempFolderPath+destination, withIntermediateDirectories: false, attributes: nil)
+        } catch let error as NSError {
+            print(error.localizedDescription);
+            return false
+        }
+        
+        archiveJotView(destinationFolder: destination)
+        
+        //save the work area into the folder
+        archivePageObjects(destinationFolder: destination)
+        return true
+    }
+    
+    func archivePageObjects(destinationFolder: String){
+        var count: Int = 1
+        for page in pages {
+            let pageFolder = PathLocator.getTempFolder() + destinationFolder+"/page"+String(count)
+            NSKeyedArchiver.archiveRootObject(page, toFile: pageFolder + "/page.desk")
+            count += 1
+        }
+    }
+    
+    // Used by saveAsView to save drawingStates
+    func archiveJotView(destinationFolder: String){
+        
+        var count: Int = 1
+        for page in pages {
+            let pageFolder = destinationFolder+"/page"+String(count)
+            page.saveDrawing(at: pageFolder)
+            count += 1
+        }
+        
+    }
+    
     override func encode(with aCoder: NSCoder){
         super.encode(with: aCoder)
         aCoder.encode(pages)
     }
     
-    
+    func setupJotPens() {
+        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen.color = UIColor.black
+        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen.shouldUseVelocity = true
+        // Setup pen
+        curPen = .pen // Points to pen
+    }
     
     init(){
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        var pape = Paper()
+        let pape = Paper()
         pape.delegate = self
         pages.append(pape)
         self.addSubview(pages[0])
         currentPage = pages[0]
-        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
-        pages[0].contentMode = .scaleAspectFit
+        initCurPage()
         self.sendSubview(toBack: pages[0])
-        pages[0].isUserInteractionEnabled = true
         self.panGestureRecognizer.minimumNumberOfTouches = 2
         self.project = DeskProject(name: "Untitled")
+        
+        setupPageNumberSystem()
+        setupJotPens()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -351,7 +659,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         let loadedPaper = aDecoder.decodeObject() as! [Paper]
         pages = loadedPaper
         self.currentPage = pages.first
-        currentPage.isHidden = false
         
         for view in self.subviews{
             view.isHidden = true
@@ -359,12 +666,10 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate {
         
         self.addSubview(currentPage)
         currentPage.isHidden = false
-        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
-        currentPage.contentMode = .scaleAspectFit
-       // self.sendSubview(toBack: currentPage)
-        currentPage.isUserInteractionEnabled = true
+        initCurPage()
         self.panGestureRecognizer.minimumNumberOfTouches = 2
 
-        
+        setupPageNumberSystem()
+        setupJotPens()
     }
 }

@@ -15,38 +15,10 @@ class PDFGenerator: NSObject {
     
    static func createPdfFromView(workView: WorkView, saveToDocumentsWithFileName fileName: String) -> String
     {
-        let imageReadySema = DispatchSemaphore(value: 0)
 
         let pdfData = NSMutableData()
-        UIGraphicsBeginPDFContextToData(pdfData, workView.currentPage.bounds, nil)
         
-        
-        for page in workView.pages {
-            let rect = page.bounds
-            UIGraphicsBeginPDFPageWithInfo(rect, nil)
-            guard let pdfContext = UIGraphicsGetCurrentContext() else { return "no"}
-
-            page.drawingState.isForgetful = false
-            page.drawingView.exportToImage(onComplete: {[page] (imageV: UIImage?) in
-                page.isHidden = false
-                let useful: UIImageView = UIImageView (image: imageV)
-                page.addSubview(useful)
-                page.setNeedsDisplay()
-                page.drawingState.isForgetful = true
-                // Render the page contents into the PDF Context
-                page.layer.render(in: pdfContext)
-                page.isHidden = (page != workView.currentPage) ? true : false
-                useful.removeFromSuperview()
-                // Signal that the onComplete block is done executing
-                imageReadySema.signal()}
-                , withScale: 1.66667)
-            
-            // Wait till the onComplete block is done
-            imageReadySema.wait()
-        }
-        
-        UIGraphicsEndPDFContext()
-
+        if !workView.exportPDF(to: pdfData) {return "no"}
         
         if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
             let documentsFileName = documentDirectories + "/" + fileName
