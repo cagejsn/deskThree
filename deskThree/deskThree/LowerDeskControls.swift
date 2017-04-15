@@ -29,10 +29,14 @@ class LowerDeskControls: UIView {
     }
 
     @IBAction func undoTapped(_ sender: Any) {
+        mixpanel.track(event: "Button: Undo")
+
         delegate.undoTapped(self)
     }
   
     @IBAction func redoTapped(_ sender: Any) {
+        mixpanel.track(event: "Button: Redo")
+        
         delegate.redoTapped(self)
     }
     
