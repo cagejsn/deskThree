@@ -394,6 +394,54 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         customDelegate.unhideTrash()
     }
     
+    func moveToNewPage(){
+        
+        currentPageIndex += 1
+        
+        // Add a new page
+        pages.append(Paper())
+        self.addSubview(pages[currentPageIndex])
+        
+        // Push back the old view
+        self.sendSubview(toBack: pages[currentPageIndex - 1])
+        pages[currentPageIndex - 1].isHidden = true
+        
+        // Bring forward the new view
+        self.bringSubview(toFront: pages[currentPageIndex])
+        pages[currentPageIndex].isHidden = false
+        
+        currentPage = pages[currentPageIndex]
+        currentPage.delegate = self
+    }
+    
+    func moveRight(){
+        currentPageIndex += 1
+        
+        // Move forward a page
+        currentPage = pages[currentPageIndex]
+        
+        // Push back the old view
+        self.sendSubview(toBack: pages[currentPageIndex - 1])
+        pages[currentPageIndex - 1].isHidden = true
+        
+        // Bring forward the new view
+        self.bringSubview(toFront: pages[currentPageIndex])
+        pages[currentPageIndex].isHidden = false
+    }
+    
+    func moveLeft(){
+        currentPage.drawingView.removeFromSuperview()
+        // Push back the old view
+        self.sendSubview(toBack: pages[currentPageIndex])
+        pages[currentPageIndex].isHidden = true
+        
+        currentPageIndex -= 1
+        // Bring forward the new view
+        self.bringSubview(toFront: pages[currentPageIndex])
+        pages[currentPageIndex].isHidden = false
+        
+        currentPage = pages[currentPageIndex]
+    }
     
     /**
      Move to a page to the right
@@ -407,52 +455,14 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             currentPage.drawingView.removeFromSuperview()
             // Check if this is the last page
             if currentPageIndex == pages.count - 1 {
-                currentPageIndex += 1
-                
-                // Add a new page
-                pages.append(Paper())
-                self.addSubview(pages[currentPageIndex])
-                
-                // Push back the old view
-                self.sendSubview(toBack: pages[currentPageIndex - 1])
-                pages[currentPageIndex - 1].isHidden = true
-                
-                // Bring forward the new view
-                self.bringSubview(toFront: pages[currentPageIndex])
-                pages[currentPageIndex].isHidden = false
-                
-                currentPage = pages[currentPageIndex]
-                currentPage.delegate = self
+                moveToNewPage()
             } else {
-                currentPageIndex += 1
-                
-                // Move forward a page
-                currentPage = pages[currentPageIndex]
-                
-                // Push back the old view
-                self.sendSubview(toBack: pages[currentPageIndex - 1])
-                pages[currentPageIndex - 1].isHidden = true
-                
-                // Bring forward the new view
-                self.bringSubview(toFront: pages[currentPageIndex])
-                pages[currentPageIndex].isHidden = false
+                moveRight()
             }
-            
-            
         } else if direction == "left" {
             // Check if this is the first page
             if currentPageIndex != 0 {
-                currentPage.drawingView.removeFromSuperview()
-                // Push back the old view
-                self.sendSubview(toBack: pages[currentPageIndex])
-                pages[currentPageIndex].isHidden = true
-                
-                currentPageIndex -= 1
-                // Bring forward the new view
-                self.bringSubview(toFront: pages[currentPageIndex])
-                pages[currentPageIndex].isHidden = false
-                
-                currentPage = pages[currentPageIndex]
+                moveLeft()
             }
         }
         currentPage.drawingView.currentPage = currentPage
