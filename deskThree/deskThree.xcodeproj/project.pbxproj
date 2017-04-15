@@ -476,6 +476,7 @@
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
+				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
 				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
 				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
@@ -494,7 +495,6 @@
 				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
 				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
 				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
-				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
 				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
 				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
 				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
@@ -1027,6 +1027,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
 				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
 			name = Debug;
@@ -1058,6 +1059,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 2;
 				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
 			name = Release;

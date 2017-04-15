@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Mixpanel
 
 protocol ExpressionDelegate {
     func elementWantsSendToInputObject(element:Any)
@@ -28,7 +29,10 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
-        
+
+    // Mixpanel initialization
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+
     /* MARK: Touch Events */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         delegate?.didBeginMove(movedView: self)
@@ -61,7 +65,9 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     
     //MARK: Gesture Recognizer Methods
-    func handleDoubleTap(){
+    func handleDoubleTap() {
+        mixpanel.track(event: "Gesture: Block: Double Tap")
+        
         print(self.expressionString)
         parser.parserSetFunction(functionString: expressionString)
         do {
@@ -80,6 +86,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     }
     
     func handleLongPress(){
+        mixpanel.track(event: "Gesture: Block: Long Press")
         delegate?.elementWantsSendToInputObject(element: self)
     }
     
@@ -113,8 +120,6 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     //MARK: Initialization
     override init(frame: CGRect){
-//        rootBlock = firstVal
-//        var newFrame: CGRect = CGRect(origin: firstVal.frame.origin, size: firstVal.frame.size)
         parser = Parser(functionString: "")
         super.init(frame: frame)
         doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
