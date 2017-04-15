@@ -451,7 +451,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         // This line makes sure the jotView and workView zoomscales are in sync
         self.setZoomScale(minimumZoomScale, animated: false)
         
-        saveProject()
+        savePage(page: currentPageIndex)
         
         if direction  == "right" {
             currentPage.drawingView.removeFromSuperview()
@@ -577,7 +577,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     ///saves project and metadata to files. Returs true if success
-    func saveProject() -> Bool{
+    func savePage(page: Int) -> Bool{
         
         let name = self.project.name
         
@@ -609,47 +609,34 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         let destination = "/"+name!
         
         //create the folder
-        if(FileManager.default.fileExists(atPath: tempFolderPath+destination)){
+        if(!FileManager.default.fileExists(atPath: tempFolderPath+destination)){
             do {
-                try FileManager.default.removeItem(atPath: tempFolderPath+destination)
+                try FileManager.default.createDirectory(atPath: tempFolderPath+destination, withIntermediateDirectories: false, attributes: nil)
             } catch let error as NSError {
                 print(error.localizedDescription);
                 return false
             }
         }
-        do {
-            try FileManager.default.createDirectory(atPath: tempFolderPath+destination, withIntermediateDirectories: false, attributes: nil)
-        } catch let error as NSError {
-            print(error.localizedDescription);
-            return false
-        }
-        
-        archiveJotView(destinationFolder: destination)
+        archiveJotView(destinationFolder: destination, page: page)
         
         //save the work area into the folder
-        archivePageObjects(destinationFolder: destination)
+        archivePageObjects(destinationFolder: destination, page: page)
         return true
     }
     
-    func archivePageObjects(destinationFolder: String){
-        var count: Int = 1
-        for page in pages {
-            let pageFolder = PathLocator.getTempFolder() + destinationFolder+"/page"+String(count)
-            NSKeyedArchiver.archiveRootObject(page, toFile: pageFolder + "/page.desk")
-            count += 1
-        }
+    func archivePageObjects(destinationFolder: String, page: Int){
+
+        let pageFolder = PathLocator.getTempFolder() + destinationFolder+"/page"+String(page+1)
+        NSKeyedArchiver.archiveRootObject(pages[page], toFile: pageFolder + "/page.desk")
     }
     
     // Used by saveAsView to save drawingStates
-    func archiveJotView(destinationFolder: String){
+    func archiveJotView(destinationFolder: String, page: Int){
         
-        var count: Int = 1
-        for page in pages {
-            let pageFolder = destinationFolder+"/page"+String(count)
-            page.saveDrawing(at: pageFolder)
-            count += 1
-        }
-        
+
+        let pageFolder = destinationFolder+"/page"+String(page+1)
+        pages[page].saveDrawing(at: pageFolder)
+
     }
     
     override func encode(with aCoder: NSCoder){

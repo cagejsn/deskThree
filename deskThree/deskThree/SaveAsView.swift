@@ -18,11 +18,7 @@ class SaveAsView: UIView {
         
         let projectName = projectNameTextField.text
         if(isAcceptableName(name: projectName!)){
-            if(saveProject(name: projectName!)){
-                print("Project saved successfully")
-            } else {
-                print("Project not saved")
-            }
+            saveProject(name: projectName!)
             closeButtonTapped(self)
         }else if(projectName == ""){
             workViewRef.raiseAlert(title: "", alert: "Enter project name.")
@@ -37,8 +33,8 @@ class SaveAsView: UIView {
         
     }
     
-    func saveProject(name: String) -> Bool{
-        return workViewRef.saveProject();
+    func saveProject(name: String){
+        workViewRef.getDeskProject().name = name
     }
 
     @IBAction func closeButtonTapped(_ sender: Any) {
