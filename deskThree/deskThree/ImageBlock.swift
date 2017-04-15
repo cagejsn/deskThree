@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Mixpanel
 
 protocol ImageBlockDelegate {
     func fixImageToPage(image: ImageBlock)
@@ -17,8 +18,6 @@ protocol ImageBlockDelegate {
     func didBeginMove(movedView: UIView)
     func didIncrementMove(movedView: UIView)
     func didCompleteMove(movedView: UIView)
-    
-    
 }
 
 class ImageBlock: UIView, UIGestureRecognizerDelegate {
@@ -31,10 +30,14 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     var delegate: ImageBlockDelegate! = nil
     var previousRotation: CGFloat = 0
 
-    
+    // Mixpanel initialization
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+
     //MARK: Custom Methods
     func toggleEditable(){
-        if(!editable){
+        mixpanel.track(event: "Gesture: Image: Toggle Editable")
+
+        if (!editable) {
             self.layer.borderWidth = 3
             self.layer.borderColor = UIColor.purple.cgColor
             zoomGR?.isEnabled = true
@@ -43,8 +46,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
             editable = true
             delegate!.freeImageForMovement(image: self)
             isUserInteractionEnabled = true
-            
-        } else{
+        } else {
             self.layer.borderColor = UIColor.clear.cgColor
             editable = false
             delegate!.fixImageToPage(image: self)
@@ -64,7 +66,6 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
-         //
             superview!.bringSubview(toFront: self)
             delegate.didBeginMove(movedView: self)
         }
@@ -86,7 +87,6 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         if(editable){
         delegate.didCompleteMove(movedView: self)
         }
@@ -103,7 +103,8 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     }
         
     func handleRotate( sender: UIRotationGestureRecognizer){
-        var dR = sender.rotation - previousRotation
+        mixpanel.track(event: "Gesture: Image: Handle Rotate")
+        let dR = sender.rotation - previousRotation
         previousRotation = sender.rotation
         self.imageHolder.transform = self.imageHolder.transform.rotated(by: dR)
         if(sender.state == .ended){
@@ -112,16 +113,14 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     }
 
     func handlePinch( sender: UIPinchGestureRecognizer){
-        if(editable){
+        mixpanel.track(event: "Gesture: Image: Handle Pinch")
+
+        if (editable) {
             if (sender.state == UIGestureRecognizerState.changed) {
                 if(sender.velocity < 0){
                     self.imageHolder.transform = self.imageHolder.transform.scaledBy(x: 0.99 , y: 0.99)
-                  //  self.bounds.size.width *= 0.99
-                  //  self.bounds.size.height  *= 0.99
                 } else {
                     self.imageHolder.transform = self.imageHolder.transform.scaledBy(x: 1.01 , y: 1.01)
-                 //   self.bounds.size.width *= 1.01
-                 //   self.bounds.size.height  *= 1.01
                 }
             }
         }
@@ -130,6 +129,8 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     
 
     func setImage(image: UIImage){
+        mixpanel.track(event: "Gesture: Image: Set Image")
+
         imageHolder.image = image
     }
 

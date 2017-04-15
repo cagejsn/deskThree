@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Mixpanel
 
 class AllPad: InputObject, MathEntryAreaDelegate {
     
@@ -59,8 +60,10 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     
     @IBOutlet weak var buttonArctan: OutputArea!
     
+    // Mixpanel initialization
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    
     override func receiveElement(_ element: Any) {
-        
         if let express = element as? BlockExpression {
             numEntryArea.setTitle(ETree.printCurrentTree(root: express.rootBlock), for: .normal)
             numEntryAreaText = ETree.printCurrentTree(root: express.rootBlock)
@@ -378,13 +381,15 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
     
     //MARK: MathEntryAreaDelegate
-    func didProduceBlockFromMath(){
+    func didProduceBlockFromMath() {
         numEntryAreaText = ""
     }
     
     //MARK: Events
     
     @IBAction func deleteTextFromEntryArea(_ sender: AnyObject) {
+        mixpanel.track(event: "Button: Calculator: Backspace")
+        
         if (numEntryAreaText.characters.count > 0) {
             numEntryAreaText.remove(at: numEntryAreaText.index(before: numEntryAreaText.endIndex))
             UIView.setAnimationsEnabled(false)
@@ -395,6 +400,8 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
     
     func deleteTextFromEntryAreaLongPressed(_ sender: AnyObject) {
+        mixpanel.track(event: "Button: Calculator: Backspace Long Press")
+
         if (numEntryAreaText.characters.count > 0) {
             numEntryAreaText.removeAll()
             numEntryArea.setTitle(numEntryAreaText, for: UIControlState.normal)
@@ -404,15 +411,16 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
     
 
-    
-    
-
     // Closes the calculator
     @IBAction func rightSwipeGestureRecognizer(_ sender: AnyObject) {
+        mixpanel.track(event: "Gesture: Calculator: Right Swipe (Close) Gesture")
+
         self.removeFromSuperview()
     }
     
     @IBAction func addSqrtToEntryArea( _ sender: UIButton) {
+        mixpanel.track(event: "Button: Calculator: Square Root")
+
         numEntryAreaText += "√("
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
@@ -421,6 +429,8 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
 
     @IBAction func addTextAndParenthesisToEntryArea( _ sender: UIButton) {
+        mixpanel.track(event: "Button: Calculator: Parenthesis")
+
         numEntryAreaText += sender.titleLabel!.text! + "("
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
@@ -428,6 +438,8 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         })
     }
     @IBAction func addTextToEntryArea( _ sender: UIButton) {
+        mixpanel.track(event: "Button: Calculator: Add Text")
+
         numEntryAreaText += sender.titleLabel!.text!
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
@@ -435,24 +447,26 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         })
     }
     @IBAction func equalsButtonPushed( _ sender: UIButton){
+        mixpanel.track(event: "Button: Calculator: Equals")
         
         let emptyString = (checkTextAreaIsEmpty(text: numEntryAreaText))
-        if emptyString{
-
-        
+        if emptyString {
             let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
             do {
                 try parser.parserPlot(start: 1, end: 2, totalSteps: 3)
             } catch MathError.missingOperand {
+                mixpanel.track(event: "Error: Missing Operand")
                 print("Missing operand, abort")
             } catch MathError.unmatchedParenthesis {
+                mixpanel.track(event: "Error: Missing Parenthesis")
                 print("Missing parenthesis, abort")
             }
             catch let error {
+                mixpanel.track(event: "Error: \(error.localizedDescription)")
                 print(error.localizedDescription)
             }
             
-            if(parser.getError() == ""){
+            if (parser.getError() == "") {
                 deleteTextFromEntryArea(self)
                 let answer: Float64 = parser.getY()[0]
                 numEntryAreaText = String(answer)
@@ -460,7 +474,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
                     self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
                     self.numEntryArea.layoutIfNeeded()
                 })
-            }else{
+            } else {
                 print(parser.getError())
                 super.viewController?.displayErrorInViewController(title: "Check Your Input", description: parser.getError())
             }
@@ -477,8 +491,4 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         return result
         
     }
-    
-    
-    
-    
 }

@@ -13,19 +13,11 @@ import Mixpanel
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        // Mixpanel initialization
-        Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
-        
-        let mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
 
-        // Mixpanel event
-        mixpanel.track(event: "App Started")
-        
         return true
     }
 
@@ -45,10 +37,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
+        Mixpanel.mainInstance().people.increment(property: "Times app launched", by: 1)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+
+        Mixpanel.mainInstance().people.increment(property: "Times app terminated", by: 1)
     }
 
 

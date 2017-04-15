@@ -217,7 +217,7 @@ class DeskControlModule: DWBubbleMenuButton {
             return
         }
     }
-    
+
     func clearPageButtonWasTapped() {
         // Mixpanel event
         mixpanel.track(event: "Button: Clear Page")
@@ -228,7 +228,6 @@ class DeskControlModule: DWBubbleMenuButton {
     func feedbackButtonWasTapped() {
         // Mixpanel event
         mixpanel.track(event: "Button: Feedback")
-        print("HELLO!")
         
         deskViewControllerDelegate.feedbackButtonTapped(self)
     }
