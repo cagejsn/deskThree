@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Mixpanel
 
 let toolSelectorHeight = 100
 let toolDrawerCollapsedWidth:CGFloat = 40
@@ -37,6 +38,9 @@ class ToolDrawer: UIView {
     var bottomContraint: NSLayoutConstraint!
     var heightContraint: NSLayoutConstraint!
     var widthContraint: NSLayoutConstraint!
+
+    // Mixpanel initialization
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     
     func passElement(_ element: Any){
         if(drawerPosition == .closed){
@@ -56,11 +60,12 @@ class ToolDrawer: UIView {
     }
     
     func handleSingleTap(sender: UITapGestureRecognizer){
+        mixpanel.track(event: "Gesture: Calculator: Single Touch Open/Close")
+
         let location = sender.location(in: self)
         if (toolIcons[0].frame.contains(location)){
         
             if (!isActive){
-                
                 activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
                 self.addSubview(activePad)
                 activePad.delegate = delegate
@@ -71,10 +76,14 @@ class ToolDrawer: UIView {
                 
             }
                 if(drawerPosition == DrawerPosition.closed){
+                    mixpanel.track(event: "Gesture: Calculator: Open")
+
                     animateToExpandedPosition()
                     drawerPosition = DrawerPosition.open
                     
                 } else {
+                    mixpanel.track(event: "Gesture: Calculator: Close")
+
                     animateToCollapsedPosition()
                     drawerPosition = DrawerPosition.closed
                 }
