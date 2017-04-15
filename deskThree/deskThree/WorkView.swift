@@ -528,7 +528,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         return true
     }
     
-    func setProjectToSerializedName() -> String{
+    func getSerializedProjectName() -> String{
         let projects = PathLocator.loadMetaData()
     
         var names: [String] = []
@@ -541,8 +541,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         while names.contains("Untitled"+String(i)){
             i+=1
         }
-        self.project.name = "Untitled"+String(i)
-        return self.project.name
+        return "Untitled"+String(i)
     }
     
     func loadProject(projectPath: String){
@@ -677,8 +676,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         initCurPage()
         self.sendSubview(toBack: pages[0])
         self.panGestureRecognizer.minimumNumberOfTouches = 2
-        self.project = DeskProject(name: "Untitled")
-        
+        self.project = DeskProject(name: getSerializedProjectName())
         setupPageNumberSystem()
         setupJotPens()
     }
