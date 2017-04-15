@@ -544,19 +544,15 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         return "Untitled"+String(i)
     }
     
-    func loadProject(projectPath: String){
+    func loadProject(projectName: String){
+        
+        let projectPath = PathLocator.getTempFolder()+"/"+projectName
         
         var count = 1
         var pageAddr = ""
         var page: Paper
+        pages.remove(at: 0)
         
-        if FileManager.default.fileExists(atPath: projectPath + "/page" + String(count)){
-            pageAddr = projectPath+"/page" + String(count) + "/page.desk"
-            page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
-            pages[0] = page
-            self.addSubview(page)
-            count+=1
-        }
         while(FileManager.default.fileExists(atPath: projectPath + "/page" + String(count))){
             pageAddr = projectPath+"/page" + String(count) + "/page.desk"
             print(pageAddr)
@@ -573,6 +569,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             view.isHidden = true
         }
         currentPage.isHidden = false
+        self.project.name = projectName
         initCurPage()
     }
     

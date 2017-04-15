@@ -45,14 +45,17 @@ class SaveAsView: UIView {
             //in case we caught a file that we want to replace
             if projects[i].name == newName{
                 projects.remove(at: i)
-                do{
-                    try FileManager.default.removeItem(atPath: temp+"/"+projects[i].name)
-                }
-                catch{
-                    print("file did not exist")
-                }
+                break
             }
-            //in case we caught the file that we want to change the name of
+        }
+        do{
+            try FileManager.default.removeItem(atPath: temp+"/"+newName)
+        }
+        catch{
+            print("file did not exist")
+        }
+        //in case we caught the file that we want to change the name of
+        for i in 0..<projects.count {
             if projects[i].name == oldName{
                 projects[i].name = newName
             }
@@ -65,8 +68,6 @@ class SaveAsView: UIView {
             print("error, project dir not moved correctly")
         }
         NSKeyedArchiver.archiveRootObject(projects, toFile: PathLocator.getMetaFolder()+"/Projects.meta")
-
-        
         workViewRef.getDeskProject().name = name
     }
 

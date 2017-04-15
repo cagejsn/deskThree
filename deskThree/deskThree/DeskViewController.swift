@@ -115,7 +115,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.dismiss(animated: false, completion: nil)
     }
     
-    func didSelectProject(projectPath: String){
+    func didSelectProject(projectName: String){
         // Mixpanel event
         mixpanel.track(event: "Project Selected")
 
@@ -123,7 +123,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         eliminateOldWorkView(workViewToElimate: self.workView)
         setupWorkView()
         
-        workView.loadProject(projectPath: projectPath)
+        workView.loadProject(projectName: projectName)
         
         dismissFileExplorer()
         
