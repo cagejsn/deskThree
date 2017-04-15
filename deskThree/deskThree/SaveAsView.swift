@@ -38,7 +38,7 @@ class SaveAsView: UIView {
     }
     
     func saveProject(name: String) -> Bool{
-        return workViewRef.saveProject(name: name);
+        return workViewRef.saveProject();
     }
 
     @IBAction func closeButtonTapped(_ sender: Any) {

@@ -451,6 +451,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         // This line makes sure the jotView and workView zoomscales are in sync
         self.setZoomScale(minimumZoomScale, animated: false)
         
+        saveProject()
+        
         if direction  == "right" {
             currentPage.drawingView.removeFromSuperview()
             // Check if this is the last page
@@ -526,6 +528,23 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         return true
     }
     
+    func setProjectToSerializedName() -> String{
+        let projects = PathLocator.loadMetaData()
+    
+        var names: [String] = []
+        
+        for project in projects {
+            names.append(project.name)
+        }
+        
+        var i = 1
+        while names.contains("Untitled"+String(i)){
+            i+=1
+        }
+        self.project.name = "Untitled"+String(i)
+        return self.project.name
+    }
+    
     func loadProject(projectPath: String){
         
         var count = 1
@@ -546,7 +565,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             pages.append(page)
             self.addSubview(page)
             count+=1
-            
 
         }
         
@@ -560,7 +578,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     ///saves project and metadata to files. Returs true if success
-    func saveProject(name: String) -> Bool{
+    func saveProject() -> Bool{
+        
+        let name = self.project.name
         
         ///saves metadata of project to meta file. overwrite same name if present
         func saveMetaData(name: String){
@@ -584,10 +604,10 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
         }
         
-        saveMetaData(name: name)
+        saveMetaData(name: name!)
         
         let tempFolderPath = PathLocator.getTempFolder()
-        let destination = "/"+name
+        let destination = "/"+name!
         
         //create the folder
         if(FileManager.default.fileExists(atPath: tempFolderPath+destination)){
