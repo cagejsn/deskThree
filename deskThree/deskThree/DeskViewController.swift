@@ -415,6 +415,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
+    func didRequestWRDisplay(query: String){
+        let newQuery = query.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
+        
+        let svc = SFSafariViewController(url: NSURL(string: "https://www.wolframalpha.com/input/?i=" + newQuery) as! URL)
+        self.present(svc, animated: true, completion: nil)
+    }
+    
     public func displayErrorInViewController(title: String, description : String){
         let alertController = UIAlertController(title: title, message:
             description, preferredStyle: UIAlertControllerStyle.alert)

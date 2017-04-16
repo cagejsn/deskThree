@@ -11,10 +11,12 @@ import UIKit
 
 protocol OCRMathViewDelegate {
     func createMathBlock()
+    func didRequestWRDisplay(query: String)
 }
 
 class OCRMathView: MAWMathView {
-    var clearButton: UIButton
+    var clearButton: UIButton!
+    var searchWRButton: UIButton!
     var outputAreaForExpressions: UIButton!
     var outputAreaConstraints: [NSLayoutConstraint]!
     var delegate2: OCRMathViewDelegate!
@@ -25,6 +27,10 @@ class OCRMathView: MAWMathView {
     
     func addToPageButtonTapped(){
         delegate2.createMathBlock()
+    }
+    
+    func searchWRButtonTapped(){
+        delegate2.didRequestWRDisplay(query: self.resultAsText())
     }
     
     func setupContraintsForOutputArea(){
@@ -43,13 +49,20 @@ class OCRMathView: MAWMathView {
     
     
     override init(frame: CGRect) {
+        super.init(frame: frame)
+
         //add buttons
         clearButton = UIButton(frame: CGRect(x: 15, y: 15, width: 50, height: 50))
         clearButton.setImage(UIImage(named:"clear"), for: .normal)
-        super.init(frame: frame)
         clearButton.addTarget(self, action: #selector(OCRMathView.clearButtonTapped), for:.touchUpInside)
-
         self.addSubview(clearButton)
+
+        
+        searchWRButton = UIButton(frame: CGRect(x: 15, y: 75, width: 50, height: 50))
+        searchWRButton.setImage(UIImage(named:"clear"), for: .normal)
+        searchWRButton.addTarget(self, action: #selector(OCRMathView.searchWRButtonTapped), for:.touchUpInside)
+        self.addSubview(searchWRButton)
+
         self.clipsToBounds = false
         outputAreaForExpressions = UIButton(frame: CGRect(x: self.frame.width - 65, y: 15, width: 50, height: 50))
         outputAreaForExpressions.setImage(UIImage(named:"addToPage"), for: .normal)
