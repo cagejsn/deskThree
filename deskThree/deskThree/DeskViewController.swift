@@ -16,28 +16,24 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
-    var deskControlModule: DeskControlModule!
-    var lowerDeskControls: LowerDeskControls!
+    private var deskControlModule: DeskControlModule!
+    private var lowerDeskControls: LowerDeskControls!
     
 
-    var graphingBlock: GraphingBlock!
-    var trashBin: Trash!
-    var prevScaleFactor: CGFloat!
-    var mathView: OCRMathView!
+    private var graphingBlock: GraphingBlock!
+    private var trashBin: Trash!
+    private var prevScaleFactor: CGFloat!
+    private var mathView: OCRMathView!
     
-    var toolDrawer: ToolDrawer!
+    private var toolDrawer: ToolDrawer!
     
-    var customContraints: [NSLayoutConstraint]!
-    var myScriptConstraints: [NSLayoutConstraint]!
+    private var customContraints: [NSLayoutConstraint]!
+    private var myScriptConstraints: [NSLayoutConstraint]!
     
-    var certificateRegistered: Bool!
-    
-    // Page number notifications
-    var currentPage: Int!
-    var totalPages: Int!
+    private var certificateRegistered: Bool!
     
     // Mixpanel initialization
-    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
 
     func didLoadState(_ state: JotViewStateProxy!) {
         

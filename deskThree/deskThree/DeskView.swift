@@ -10,7 +10,7 @@ import Foundation
 
 class DeskView: UIView, UIGestureRecognizerDelegate{
     
-    var longPressGR: UILongPressGestureRecognizer!
+    private var longPressGR: UILongPressGestureRecognizer!
 
     
     func setup(){
