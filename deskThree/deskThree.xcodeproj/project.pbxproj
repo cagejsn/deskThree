@@ -18,6 +18,10 @@
 		311C3AE81E996FD700F61CE4 /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A91DE75AAA00E3AA1D /* colorlesspoint.vsh */; };
 		314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
 		3148815E1E8DDCDA0015D095 /* com.desk.education.c in Sources */ = {isa = PBXBuildFile; fileRef = 3148815D1E8DDCDA0015D095 /* com.desk.education.c */; };
+		3176D2C81EA478F900866D21 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3176D2C61EA478F900866D21 /* Crashlytics.framework */; };
+		3176D2C91EA478F900866D21 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3176D2C71EA478F900866D21 /* Fabric.framework */; };
+		3176D2D41EA47A2D00866D21 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3176D2D31EA47A2D00866D21 /* libz.tbd */; };
+		3176D2D61EA47A3900866D21 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3176D2D51EA47A3900866D21 /* libc++.tbd */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
 		528F8B151E8DB57300E75EF4 /* Zip in Resources */ = {isa = PBXBuildFile; fileRef = 528F8B141E8DB57300E75EF4 /* Zip */; };
@@ -194,6 +198,10 @@
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
 		314881561E8DD5770015D095 /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Zip.framework; path = Carthage/Build/iOS/Zip.framework; sourceTree = "<group>"; };
 		3148815D1E8DDCDA0015D095 /* com.desk.education.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = com.desk.education.c; sourceTree = "<group>"; };
+		3176D2C61EA478F900866D21 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		3176D2C71EA478F900866D21 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		3176D2D31EA47A2D00866D21 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		3176D2D51EA47A3900866D21 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		526C111B1E7DD8FE00196164 /* PathLocator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PathLocator.swift; sourceTree = "<group>"; };
 		526C111E1E7DF2CB00196164 /* DeskProject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskProject.swift; sourceTree = "<group>"; };
 		528F8AF31E8D9C3600E75EF4 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
@@ -309,10 +317,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3176D2D61EA47A3900866D21 /* libc++.tbd in Frameworks */,
+				3176D2D41EA47A2D00866D21 /* libz.tbd in Frameworks */,
 				DA7E470F1E8DF1AB007C52C1 /* QuartzCore.framework in Frameworks */,
 				CE18D3651E6DCE2E00BC54D8 /* ATKMathWidget.framework in Frameworks */,
+				3176D2C81EA478F900866D21 /* Crashlytics.framework in Frameworks */,
 				CE18D3611E6DCD2500BC54D8 /* ATKMath.framework in Frameworks */,
 				DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */,
+				3176D2C91EA478F900866D21 /* Fabric.framework in Frameworks */,
 				314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */,
 				CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */,
 				CE18D3631E6DCD4600BC54D8 /* ATKCore.framework in Frameworks */,
@@ -390,6 +402,8 @@
 		DAA494DE1DC2ED5A00C73780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3176D2D51EA47A3900866D21 /* libc++.tbd */,
+				3176D2D31EA47A2D00866D21 /* libz.tbd */,
 				DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */,
 				528F8B0C1E8D9EA800E75EF4 /* Mixpanel.swift */,
 				528F8B051E8D9DBB00E75EF4 /* mixpanel-swift */,
@@ -433,6 +447,8 @@
 				314881561E8DD5770015D095 /* Zip.framework */,
 				528F8B141E8DB57300E75EF4 /* Zip */,
 				DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */,
+				3176D2C61EA478F900866D21 /* Crashlytics.framework */,
+				3176D2C71EA478F900866D21 /* Fabric.framework */,
 				DA5747641E74983E0010F754 /* Assets.xcassets */,
 				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
 				3148815D1E8DDCDA0015D095 /* com.desk.education.c */,
@@ -556,6 +572,7 @@
 				DAFBE39E1DBBDBC20007D249 /* Resources */,
 				314881551E8DD3160015D095 /* Embed Frameworks */,
 				3148815F1E8DE9410015D095 /* ShellScript */,
+				3176D2D21EA4791E00866D21 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -772,6 +789,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+		3176D2D21EA4791E00866D21 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 6778e199c22b9c45a2b16348fdf519707c845e04 39863d6b71adf6ffe104a1a20309e04f68bb5b65ed152b4ecbe27fdb05060c05";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1014,6 +1044,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -1046,6 +1077,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/MyScript_ATK-ios-2.2/Frameworks",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = deskThree/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
