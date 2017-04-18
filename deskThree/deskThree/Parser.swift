@@ -143,7 +143,6 @@ public class Parser {
     
     func parserPower(baseList: [Float64]) throws -> [Float64]{
         
-        
         if((self.cursor < self.function.count) && (String(describing: function[cursor]) == "^")){
             
             parserIncrimentCursor()
@@ -174,7 +173,7 @@ public class Parser {
         if((self.cursor < self.function.count) && isMultiplyableToken(token: String(describing: function[cursor]))){
             var multArray: [Float64]
             do {
-                try multArray = try parserHighPriority()
+                multArray = try parserHighPriority()
             } catch let error {
                 throw error
             }
@@ -209,7 +208,6 @@ public class Parser {
             do {
                 try resultList = parserPower(baseList: resultList)
                 try resultList = parserImplicitMult(leftHand: resultList)
-
             } catch let error {
                 throw error
             }
@@ -232,7 +230,6 @@ public class Parser {
 
             do {
                 try resultList = parserPower(baseList: resultList)
-                
                 if(!disableImplicitMult){
                     try resultList = parserImplicitMult(leftHand: resultList)
                 }
@@ -247,9 +244,7 @@ public class Parser {
             parserIncrimentCursor()
             do {
                 try resultList = parserPower(baseList: resultList)
-                if(!disableImplicitMult){
-                    try resultList = parserImplicitMult(leftHand: resultList)
-                }
+                try resultList = parserImplicitMult(leftHand: resultList)
             } catch let error {
                 throw error
             }
@@ -297,15 +292,15 @@ public class Parser {
                 hasCustomBase = true
                 //attain the base
                 do{
-                    base = try(parserHighPriority(disableImplicitMult: false))
-                    resultList = try(parserHighPriority(disableImplicitMult: false))
+                    base = try(parserHighPriority(disableImplicitMult: true))
+                    resultList = try(parserHighPriority(disableImplicitMult: true))
                 } catch let error{
                     throw error
                 }
             }
             else{
                 do {
-                    try resultList = parserHighPriority()
+                    try resultList = parserHighPriority(disableImplicitMult: true)
                     
                 } catch let error {
                     throw error
@@ -351,19 +346,19 @@ public class Parser {
                     resultList[i] = logOf(base: 2.7182818284590452353602874713526624977572470936999595749, val: resultList[i])
                 }
             }
-            
+            do {
+                try resultList = parserPower(baseList: resultList)
+                try resultList = parserImplicitMult(leftHand: resultList)
+            } catch let error {
+                throw error
+            }
         }
-        do {
-            try resultList = parserPower(baseList: resultList)
-            try resultList = parserImplicitMult(leftHand: resultList)
-        } catch let error {
-            throw error
-        }
+
         if(indicator == "√"){
             let arrayToRoot : [Float64]
             parserIncrimentCursor()
             do {
-                arrayToRoot = try parserHighPriority()
+                arrayToRoot = try parserHighPriority(disableImplicitMult: true)
                 
             } catch let error {
                 throw error
@@ -371,7 +366,12 @@ public class Parser {
             for number in arrayToRoot{
                 resultList.append(sqrt(number))
             }
-
+            do {
+                try resultList = parserPower(baseList: resultList)
+                try resultList = parserImplicitMult(leftHand: resultList)
+            } catch let error {
+                throw error
+            }
         }
         if(resultList.count == 0){
             //this - symbol is for negation
