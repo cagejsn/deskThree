@@ -155,7 +155,7 @@ public class Parser {
             
             var powArray: [Float64]
             do {
-                try powArray = parserHighPriority(fromPower: true)
+                try powArray = parserHighPriority(disableImplicitMult: true)
             } catch let error {
                 throw error
             }
@@ -189,7 +189,7 @@ public class Parser {
     }
     
     /* parses and calcualtes numbers, x, parenthesis, trig functions */
-    private func parserHighPriority(fromPower: Bool = false) throws -> [Float64] {
+    private func parserHighPriority(disableImplicitMult: Bool = false) throws -> [Float64] {
         
         print("entering high priority")
         if(self.cursor >= self.function.count){
@@ -233,7 +233,7 @@ public class Parser {
             do {
                 try resultList = parserPower(baseList: resultList)
                 
-                if(!fromPower){
+                if(!disableImplicitMult){
                     try resultList = parserImplicitMult(leftHand: resultList)
                 }
             } catch let error {
@@ -247,7 +247,7 @@ public class Parser {
             parserIncrimentCursor()
             do {
                 try resultList = parserPower(baseList: resultList)
-                if(!fromPower){
+                if(!disableImplicitMult){
                     try resultList = parserImplicitMult(leftHand: resultList)
                 }
             } catch let error {
@@ -255,9 +255,6 @@ public class Parser {
             }
             
             return resultList
-        }
-        if(indicator == "√"){
-            
         }
         if(self.cursor < self.function.count && String(describing: function[cursor]) == "π"){
             parserIncrimentCursor()
@@ -300,8 +297,8 @@ public class Parser {
                 hasCustomBase = true
                 //attain the base
                 do{
-                    base = try(parserHighPriority())
-                    resultList = try(parserHighPriority())
+                    base = try(parserHighPriority(disableImplicitMult: false))
+                    resultList = try(parserHighPriority(disableImplicitMult: false))
                 } catch let error{
                     throw error
                 }
