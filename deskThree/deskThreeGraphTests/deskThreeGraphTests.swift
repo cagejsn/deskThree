@@ -136,7 +136,7 @@ class deskThreeGraphTests: XCTestCase {
         let p: Parser = Parser(functionString: "log_[1+1]4")
         p.parserPlot(start: 5.0, end: 10, totalSteps: 100)
         let v: Float64 = p.getY()[0]
-        XCTAssert(v == 4.0)
+        XCTAssert(v == 2.0)
     }
     
     func testPerformanceExample() {
