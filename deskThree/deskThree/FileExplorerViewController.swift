@@ -10,7 +10,7 @@ import Foundation
 import Zip
 
 protocol FileExplorerViewControllerDelegate {
-    func didSelectProject(projectPath: String)
+    func didSelectProject(projectName: String)
     func dismissFileExplorer()
 }
 
@@ -47,7 +47,7 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let name = metaDataFromDisk[indexPath.row].name
-        delegate.didSelectProject(projectPath: PathLocator.getTempFolder()+"/"+name!)
+        delegate.didSelectProject(projectName: name!)
     }
 }
 

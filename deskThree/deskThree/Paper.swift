@@ -254,9 +254,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         let temp = PathLocator.getTempFolder()
         
         jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
-        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)
-        setupDrawingView()
-        
+        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
     }
 
 
