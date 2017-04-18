@@ -104,6 +104,20 @@ class deskThreeGraphTests: XCTestCase {
         XCTAssert(v == 25.0)
     }
     
+    func testParserCoef(){
+        let p: Parser = Parser(functionString: "5(5)")
+        p.parserPlot(start: 5.0, end: 10, totalSteps: 100)
+        let v: Float64 = p.getY()[0]
+        XCTAssert(v == 25.0)
+    }
+    
+    func testParserRootCoef(){
+        let p: Parser = Parser(functionString: "5√(4)")
+        p.parserPlot(start: 5.0, end: 10, totalSteps: 100)
+        let v: Float64 = p.getY()[0]
+        XCTAssert(v == 10.0)
+    }
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {

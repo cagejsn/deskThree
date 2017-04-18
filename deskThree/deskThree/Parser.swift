@@ -23,6 +23,7 @@ public class Parser {
     private var domain: [Float64]
     private var range:  [Float64]
     private var errorMSG = ""
+    private var multipliables = "abcdefghijklmnopqrstuvwxyz({[π√X1234567890"
     
     init(functionString: String) {
         self.function = Array(functionString.characters)
@@ -77,6 +78,15 @@ public class Parser {
     private func isNum() -> Bool{
         return self.cursor < self.function.count && numChars.contains(String(describing: function[cursor]))
     }
+    
+    private func isMultiplyableToken(token: String) -> Bool{
+        
+        if(self.multipliables.contains(token) || self.multipliables.capitalized.contains(token)){
+            return true
+        }
+        return false
+    }
+        
     
     /* obtains value of number starting at function[cursor]. Returns array of len domain.count
       containing only this character */
@@ -145,7 +155,7 @@ public class Parser {
             
             var powArray: [Float64]
             do {
-                try powArray = parserHighPriority()
+                try powArray = parserHighPriority(fromPower: true)
             } catch let error {
                 throw error
             }
@@ -158,8 +168,28 @@ public class Parser {
         return baseList
     }
     
+    func parserImplicitMult (leftHand: [Float64])throws -> [Float64]{
+        
+        
+        if((self.cursor < self.function.count) && isMultiplyableToken(token: String(describing: function[cursor]))){
+            var multArray: [Float64]
+            do {
+                try multArray = try parserHighPriority()
+            } catch let error {
+                throw error
+            }
+            for i in 0..<self.domain.count {
+                multArray[i] = leftHand[i] * multArray[i]
+            }
+            return multArray
+        }
+
+        
+        return leftHand
+    }
+    
     /* parses and calcualtes numbers, x, parenthesis, trig functions */
-    private func parserHighPriority() throws -> [Float64] {
+    private func parserHighPriority(fromPower: Bool = false) throws -> [Float64] {
         
         print("entering high priority")
         if(self.cursor >= self.function.count){
@@ -178,6 +208,7 @@ public class Parser {
             parserIncrimentCursor()
             do {
                 try resultList = parserPower(baseList: resultList)
+                try resultList = parserImplicitMult(leftHand: resultList)
 
             } catch let error {
                 throw error
@@ -196,11 +227,15 @@ public class Parser {
             if(self.cursor >= self.function.count || (String(describing: self.function[self.cursor]) != ")" && String(describing: self.function[self.cursor]) != "]")){
                 throw MathError.unmatchedParenthesis
             }
+            let token = String(describing:self.function[self.cursor])
             parserIncrimentCursor()
-            
+
             do {
                 try resultList = parserPower(baseList: resultList)
                 
+                if(!fromPower){
+                    try resultList = parserImplicitMult(leftHand: resultList)
+                }
             } catch let error {
                 throw error
             }
@@ -212,7 +247,9 @@ public class Parser {
             parserIncrimentCursor()
             do {
                 try resultList = parserPower(baseList: resultList)
-                
+                if(!fromPower){
+                    try resultList = parserImplicitMult(leftHand: resultList)
+                }
             } catch let error {
                 throw error
             }
@@ -230,7 +267,7 @@ public class Parser {
             }
             do {
                 try resultList = parserPower(baseList: resultList)
-                
+                try resultList = parserImplicitMult(leftHand: resultList)
             } catch let error {
                 throw error
             }
@@ -244,7 +281,7 @@ public class Parser {
             }
             do {
                 try resultList = parserPower(baseList: resultList)
-                
+                try resultList = parserImplicitMult(leftHand: resultList)
             } catch let error {
                 throw error
             }
@@ -268,7 +305,6 @@ public class Parser {
                 } catch let error{
                     throw error
                 }
-                
             }
             else{
                 do {
@@ -322,9 +358,9 @@ public class Parser {
         }
         do {
             try resultList = parserPower(baseList: resultList)
-            
-        } catch MathError.missingOperand {
-            throw MathError.missingOperand
+            try resultList = parserImplicitMult(leftHand: resultList)
+        } catch let error {
+            throw error
         }
         if(indicator == "√"){
             let arrayToRoot : [Float64]
