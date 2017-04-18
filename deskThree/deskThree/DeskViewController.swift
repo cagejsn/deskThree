@@ -400,7 +400,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // Mixpanel event
         mixpanel.track(event: "User At Image Picker Screen")
         
-        workView.currentPage.addImageBlock(pickedImage: pickedImage)
+        workView.addImageToPage(pickedImage: pickedImage)
         
         dismiss(animated: true, completion: nil)
     }

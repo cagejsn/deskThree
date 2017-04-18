@@ -31,6 +31,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     private var project: DeskProject!
     private var cornerPageLabel: UILabel!
     
+    private var isInMetaData: Bool!
+    
     var pen: Pen!
     var eraser: Eraser!
     var curPen = Constants.pens.pen
@@ -180,6 +182,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
         activePen().didEndStroke(withCoalescedTouch: coalescedTouch, from: touch)
+        didModifyDocument()
     }
     
     func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
@@ -272,6 +275,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
     }
 
+    func addImageToPage(pickedImage: UIImage){
+        currentPage.addImageBlock(pickedImage: pickedImage)
+        didModifyDocument()
+        archivePageObjects(page: currentPageIndex)
+    }
     
     func didCompleteMove(movedView: UIView){
         //checks if the block's been dropped above any of the dummy views
@@ -374,8 +382,20 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
                 }
             }
         }
-        hideAllSpots()  
+        hideAllSpots()
+        didModifyDocument()
+        archivePageObjects(page: currentPageIndex)
+        print("just saved!")
         
+    }
+    
+    //gets called whenever the user modifies the document to save and save metadata
+    func didModifyDocument(){
+        if !isInMetaData {
+            savePage(page: currentPageIndex)
+            isInMetaData = true
+        }
+        project.modify()
     }
     
     func hideAllSpots() {
@@ -412,6 +432,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         
         currentPage = pages[currentPageIndex]
         currentPage.delegate = self
+        archivePageObjects(page: currentPageIndex)
     }
     
     func moveRight(){
@@ -557,6 +578,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             pageAddr = projectPath+"/page" + String(count) + "/page.desk"
             print(pageAddr)
             page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
+            page.jotViewStateInkPath = PathLocator.getTempFolder()+"/"+projectName+"/page"+String(count)+"/ink.png"
+            page.jotViewStatePlistPath = PathLocator.getTempFolder()+"/"+projectName+"/page"+String(count)+"/state.plist"
+            page.setupDrawingView()
             pages.append(page)
             self.addSubview(page)
             count+=1
@@ -573,32 +597,34 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         initCurPage()
     }
     
+    
+    ///saves metadata of project to meta file. overwrite same name if present
+    func saveMetaData(name: String){
+        
+        //creating metadata class instance and setting modified date to now
+        let project = DeskProject(name: name)
+        project.modify()
+        
+        //saving updated meta data to disk
+        let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
+        var projects = PathLocator.loadMetaData()
+        for i in 0..<projects.count{
+            if projects[i].name == name{
+                //raise dialog asking user confirmation to overwrite
+                projects[i] = project
+                NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
+                return
+            }
+        }
+        projects.append(project)
+        NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
+    }
+    
     ///saves project and metadata to files. Returs true if success
     func savePage(page: Int) -> Bool{
         
         let name = self.project.name
-        
-        ///saves metadata of project to meta file. overwrite same name if present
-        func saveMetaData(name: String){
-            
-            //creating metadata class instance and setting modified date to now
-            let project = DeskProject(name: name)
-            project.modify()
-            
-            //saving updated meta data to disk
-            let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
-            var projects = PathLocator.loadMetaData()
-            for i in 0..<projects.count{
-                if projects[i].name == name{
-                    //raise dialog asking user confirmation to overwrite
-                    projects[i] = project
-                    NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
-                    return
-                }
-            }
-            projects.append(project)
-            NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
-        }
+
         
         saveMetaData(name: name!)
         
@@ -614,26 +640,23 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
                 return false
             }
         }
-        archiveJotView(destinationFolder: destination, page: page)
+        archiveJotView(page: page)
         
         //save the work area into the folder
-        archivePageObjects(destinationFolder: destination, page: page)
+        archivePageObjects(page: page)
         return true
     }
     
-    func archivePageObjects(destinationFolder: String, page: Int){
+    func archivePageObjects(page: Int){
 
-        let pageFolder = PathLocator.getTempFolder() + destinationFolder+"/page"+String(page+1)
+        let pageFolder = PathLocator.getTempFolder() + "/" + project.name + "/page"+String(page+1)
         NSKeyedArchiver.archiveRootObject(pages[page], toFile: pageFolder + "/page.desk")
     }
     
     // Used by saveAsView to save drawingStates
-    func archiveJotView(destinationFolder: String, page: Int){
-        
-
-        let pageFolder = destinationFolder+"/page"+String(page+1)
+    func archiveJotView(page: Int){
+        let pageFolder = "/"+project.name+"/page"+String(page+1)
         pages[page].saveDrawing(at: pageFolder)
-
     }
     
     override func encode(with aCoder: NSCoder){
@@ -663,6 +686,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         self.project = DeskProject(name: getSerializedProjectName())
         setupPageNumberSystem()
         setupJotPens()
+        isInMetaData = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -683,5 +707,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
 
         setupPageNumberSystem()
         setupJotPens()
+        isInMetaData = true
     }
 }
