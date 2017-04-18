@@ -11,7 +11,7 @@ import Foundation
 class DeskProject: NSObject, NSCoding {
     
     var name: String!
-    var modified: Date!
+    private var modified: Date!
     
     ///change name of project
     func rename(name: String){
