@@ -19,6 +19,7 @@ class OCRMathView: MAWMathView {
     var searchWRButton: UIButton!
     var outputAreaForExpressions: UIButton!
     var outputAreaConstraints: [NSLayoutConstraint]!
+    var wolframQueryConstraints: [NSLayoutConstraint]!
     var delegate2: OCRMathViewDelegate!
     
     func clearButtonTapped(){
@@ -45,6 +46,18 @@ class OCRMathView: MAWMathView {
 
     }
     
+    func setupConstraintsForWRQuery(){
+        searchWRButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        let leftConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 10)
+        let bottomConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -10)
+        let widthConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 90)
+        let heightConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40)
+        wolframQueryConstraints = [leftConstraint,bottomConstraint,widthConstraint,heightConstraint]
+        self.addConstraints(wolframQueryConstraints)
+        
+    }
+    
  
     
     
@@ -58,10 +71,21 @@ class OCRMathView: MAWMathView {
         self.addSubview(clearButton)
 
         
-        searchWRButton = UIButton(frame: CGRect(x: 15, y: 75, width: 50, height: 50))
-        searchWRButton.setImage(UIImage(named:"clear"), for: .normal)
-        searchWRButton.addTarget(self, action: #selector(OCRMathView.searchWRButtonTapped), for:.touchUpInside)
+      //  searchWRButton = UIButton(frame: )
+        searchWRButton = UIButton(frame: CGRect(x: 10, y: self.bounds.height - 50, width: 90, height: 40))
+        searchWRButton.setTitle("wolfram", for: .normal)
+        searchWRButton.backgroundColor = UIColor.gray
+        searchWRButton.setTitleColor(UIColor.darkGray, for: .normal)
+        searchWRButton.layer.cornerRadius = 7
+        searchWRButton.layer.borderColor = UIColor.darkGray.cgColor
+        searchWRButton.layer.borderWidth = 2
+        
+        
+
         self.addSubview(searchWRButton)
+        setupConstraintsForWRQuery()
+        searchWRButton.addTarget(self, action: #selector(OCRMathView.searchWRButtonTapped), for:.touchUpInside)
+
 
         self.clipsToBounds = false
         outputAreaForExpressions = UIButton(frame: CGRect(x: self.frame.width - 65, y: 15, width: 50, height: 50))
