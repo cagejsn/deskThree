@@ -418,7 +418,4 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.present(alertController, animated: true, completion: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
 }

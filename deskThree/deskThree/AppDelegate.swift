@@ -8,7 +8,9 @@
 
 import UIKit
 import Mixpanel
-
+import Fabric
+import Crashlytics
+    
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -17,6 +19,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        
+        let dvc = DeskViewController()
+        self.window?.rootViewController = dvc
+        self.window?.makeKeyAndVisible()
+        let isFirstLaunch = UserDefaults.isFirstLaunch()
+        if isFirstLaunch {
+            let tutorialVideoViewController = TutorialVideoViewController()
+            dvc.present(tutorialVideoViewController, animated: true, completion: nil)
+        }
+        
+        Fabric.with([Crashlytics.self])
 
         return true
     }
