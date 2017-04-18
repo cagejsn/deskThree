@@ -183,6 +183,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
         activePen().didEndStroke(withCoalescedTouch: coalescedTouch, from: touch)
         didModifyDocument()
+        archiveJotView(page: currentPageIndex)
     }
     
     func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
