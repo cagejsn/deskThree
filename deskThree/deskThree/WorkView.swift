@@ -31,6 +31,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     private var project: DeskProject!
     private var cornerPageLabel: UILabel!
     
+    //states whether or not current page has been written to disk
+    private var onDisk: Bool
+    
     private var isInMetaData: Bool!
     
     var pen: Pen!
@@ -386,14 +389,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         hideAllSpots()
         didModifyDocument()
         archivePageObjects(page: currentPageIndex)
-        print("just saved!")
-        
     }
     
     //gets called whenever the user modifies the document to save and save metadata
     func didModifyDocument(){
         if !isInMetaData {
-            savePage(page: currentPageIndex)
+            saveMetaData(name: project.name)
             isInMetaData = true
         }
         project.modify()
@@ -434,6 +435,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         currentPage = pages[currentPageIndex]
         currentPage.delegate = self
         archivePageObjects(page: currentPageIndex)
+        archiveJotView(page: currentPageIndex)
     }
     
     func moveRight(){
@@ -472,8 +474,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     func movePage(direction: String) {
         // This line makes sure the jotView and workView zoomscales are in sync
         self.setZoomScale(minimumZoomScale, animated: false)
-        
-        savePage(page: currentPageIndex)
         
         if direction  == "right" {
             currentPage.drawingView.removeFromSuperview()
@@ -558,7 +558,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         for project in projects {
             names.append(project.name)
         }
-        
+
         var i = 1
         while names.contains("Untitled"+String(i)){
             i+=1
@@ -603,8 +603,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     func saveMetaData(name: String){
         
         //creating metadata class instance and setting modified date to now
-        let project = DeskProject(name: name)
-        project.modify()
+        self.project.modify()
         
         //saving updated meta data to disk
         let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
@@ -621,41 +620,33 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
     }
     
-    ///saves project and metadata to files. Returs true if success
-    func savePage(page: Int) -> Bool{
+    func ensurePageDirExists() {
+        let pageDir = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(currentPageIndex+1)
         
-        let name = self.project.name
-
-        
-        saveMetaData(name: name!)
-        
-        let tempFolderPath = PathLocator.getTempFolder()
-        let destination = "/"+name!
-        
-        //create the folder
-        if(!FileManager.default.fileExists(atPath: tempFolderPath+destination)){
-            do {
-                try FileManager.default.createDirectory(atPath: tempFolderPath+destination, withIntermediateDirectories: false, attributes: nil)
-            } catch let error as NSError {
-                print(error.localizedDescription);
-                return false
-            }
+        do {
+            try FileManager.default.createDirectory(atPath: pageDir, withIntermediateDirectories: true, attributes: nil)
+        }catch{
+            print("dir for page already exists")
         }
-        archiveJotView(page: page)
-        
-        //save the work area into the folder
-        archivePageObjects(page: page)
-        return true
     }
     
     func archivePageObjects(page: Int){
-
+        ensurePageDirExists()
+        if(!onDisk){
+            onDisk = true
+            archiveJotView(page: currentPageIndex)
+        }
         let pageFolder = PathLocator.getTempFolder() + "/" + project.name + "/page"+String(page+1)
         NSKeyedArchiver.archiveRootObject(pages[page], toFile: pageFolder + "/page.desk")
     }
     
     // Used by saveAsView to save drawingStates
     func archiveJotView(page: Int){
+        ensurePageDirExists()
+        if(!onDisk){
+            onDisk = true
+            archivePageObjects(page: currentPageIndex)
+        }
         let pageFolder = "/"+project.name+"/page"+String(page+1)
         pages[page].saveDrawing(at: pageFolder)
     }
@@ -675,6 +666,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     init(){
+        self.onDisk = false
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         let pape = Paper()
         pape.delegate = self
@@ -691,23 +683,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        // Initialize the first page & set it as the current page
-        let loadedPaper = aDecoder.decodeObject() as! [Paper]
-        pages = loadedPaper
-        self.currentPage = pages.first
-        
-        for view in self.subviews{
-            view.isHidden = true
-        }
-        
-        self.addSubview(currentPage)
-        currentPage.isHidden = false
-        initCurPage()
-        self.panGestureRecognizer.minimumNumberOfTouches = 2
-
-        setupPageNumberSystem()
-        setupJotPens()
-        isInMetaData = true
+        fatalError("init(coder:) has not been implemented")
     }
+    
 }
