@@ -319,11 +319,11 @@ class GraphView: GLKView {
     func compileShaders() {
         
         // Compile our vertex and fragment shaders.
-        var vertexShader: GLuint = self.compileShader(shaderName: "vertexShader", shaderType: GLenum(GL_VERTEX_SHADER))
-        var fragmentShader: GLuint = self.compileShader(shaderName: "fragmentShader", shaderType: GLenum(GL_FRAGMENT_SHADER))
+        let vertexShader: GLuint = self.compileShader(shaderName: "vertexShader", shaderType: GLenum(GL_VERTEX_SHADER))
+        let fragmentShader: GLuint = self.compileShader(shaderName: "fragmentShader", shaderType: GLenum(GL_FRAGMENT_SHADER))
         
         // Call glCreateProgram, glAttachShader, and glLinkProgram to link the vertex and fragment shaders into a complete program.
-        var programHandle: GLuint = glCreateProgram()
+        let programHandle: GLuint = glCreateProgram()
         glAttachShader(programHandle, vertexShader)
         glAttachShader(programHandle, fragmentShader)
         glLinkProgram(programHandle)

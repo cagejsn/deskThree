@@ -122,7 +122,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     override init(frame: CGRect){
         parser = Parser(functionString: "")
         super.init(frame: frame)
-        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Expression.handleDoubleTap))
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
@@ -136,7 +136,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         super.init(coder: unarchiver)
         amtMoved = unarchiver.decodeObject() as! CGFloat!
         expressionString = unarchiver.decodeObject() as! String!
-        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Expression.handleDoubleTap))
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)

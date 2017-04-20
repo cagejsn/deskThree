@@ -65,7 +65,6 @@
     
     [self.view addSubview:button];
     button.titleLabel.textColor = [UIColor blackColor];
-    button.titleLabel.sizeToFit;
     button.translatesAutoresizingMaskIntoConstraints = false;
     button.backgroundColor = [UIColor whiteColor];
     button.layer.cornerRadius = 15;

@@ -251,7 +251,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         let express = BlockExpression(firstVal: newBlock)
         currentPage.addSubview(express)
         express.tag = -1
-        currentPage.expressions.append(express as! BlockExpression)
+        currentPage.expressions.append(express)
         express.delegate = self.currentPage
         newBlock.frame.origin = CGPoint.zero
         express.addSubview(newBlock)

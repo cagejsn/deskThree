@@ -111,7 +111,7 @@ class BlockExpression: Expression{
     
     func mergeExpressions(incomingExpression: BlockExpression, side: String) {
         
-        var incomingRootBlock = incomingExpression.rootBlock
+        let incomingRootBlock = incomingExpression.rootBlock
         
         switch (side) {
             

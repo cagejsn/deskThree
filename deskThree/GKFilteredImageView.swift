@@ -61,10 +61,10 @@ import Foundation
     
 @objc  func setupFilters(){
     
-        var startingImage = CIImage(cgImage: beginningImage.cgImage!)
+        let startingImage = CIImage(cgImage: beginningImage.cgImage!)
         sourceImageOrientation = beginningImage.imageOrientation
         
-        var gradientImage = CIImage(cgImage: (UIImage(named:"colorMap2")?.cgImage)!)
+        let gradientImage = CIImage(cgImage: (UIImage(named:"colorMap2")?.cgImage)!)
         
         exposureFilter = CIFilter(name: "CIExposureAdjust")
         exposureFilter.setValue(startingImage, forKey: kCIInputImageKey)

@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     #if !DEBUG
         var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
-    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -37,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let tutorialVideoViewController = TutorialVideoViewController()
             dvc.present(tutorialVideoViewController, animated: true, completion: nil)
         }
+        
         
         Fabric.with([Crashlytics.self])
 
