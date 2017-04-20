@@ -205,9 +205,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         }
         
         
-        let inkLocation = path+"/ink"+".png"
-        let stateLocation = path+"/state"+".plist"
-        let thumbLocation = path+"/thumb"+".png"
+        let inkLocation   = path+"/ink.png"
+        let stateLocation = path+"/state.plist"
+        let thumbLocation = path+"/thumb.png"
         
         func doNothing(ink: UIImage? , thumb: UIImage?, state : JotViewImmutableState?) -> Void{
             return;
