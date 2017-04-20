@@ -171,6 +171,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
         // We just load up a whole new state to get a cleared backing texture. I know, it is
         // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself        
+        drawingState.isForgetful = true
         drawingState = JotViewStateProxy()
         drawingState.loadJotStateAsynchronously(false, with: drawingView.bounds.size, andScale: drawingView.scale, andContext: drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
         drawingView.loadState(drawingState)
