@@ -121,25 +121,25 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #endif
 
         //gets rid of old workView
-        eliminateOldWorkView(workViewToElimate: self.workView)
-        setupWorkView()
+//        eliminateOldWorkView(workViewToElimate: self.workView)
+//        setupWorkView()
         
         workView.loadProject(projectName: projectName)
         
         dismissFileExplorer()
         
-        setupDeskView()
-        setupDelegateChain()
-        workView.stylizeViews()
+//        setupDeskView()
+//        setupDelegateChain()
+//        workView.stylizeViews()
     }
     
-    // TODO: Not updating the delagates to new workView did not cause an exception.
+    // NOT USED
     // This means that there may be an extra workView floating around when we load a new one.
-    func setupDelegateChain(){
-        lowerDeskControls.delegate = workView
-        deskControlModule.pageAndDrawingDelegate = workView
-        workView.setupDelegateChain()
-    }
+//    func setupDelegateChain(){
+//        lowerDeskControls.delegate = workView
+//        deskControlModule.pageAndDrawingDelegate = workView
+//        workView.setupDelegateChain()
+//    }
     
     func toggleEraser(_ sender: Any) {
     }

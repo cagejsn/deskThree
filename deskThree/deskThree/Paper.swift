@@ -229,8 +229,8 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         super.encode(with: aCoder)
         aCoder.encode(images)
         aCoder.encode(expressions)
-        aCoder.encode(jotViewStatePlistPath)
-        aCoder.encode(jotViewStateInkPath)
+//        aCoder.encode(jotViewStatePlistPath)
+//        aCoder.encode(jotViewStateInkPath)
     }
     
     //MARK: Initializers
@@ -256,11 +256,11 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         for expression in expressions {
             self.addSubview(expression)
         }
-        
-        let temp = PathLocator.getTempFolder()
-        
-        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
-        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
+       
+//        let temp = PathLocator.getTempFolder()
+//
+//        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
+//        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
     }
 
 
