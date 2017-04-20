@@ -160,11 +160,12 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         drawingView.loadState(drawingState)
         drawingView.isUserInteractionEnabled = true
         drawingView.speedUpFPS()
+        
     }
     
     func subviewDrawingView() {
         superview?.superview?.insertSubview(drawingView, at: 1)
-        drawingView.delegate = self.superview as! WorkView
+        drawingView.delegate = self.superview as! WorkView!
     }
     
     func clearDrawing() {
@@ -229,12 +230,37 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         jotViewStatePlistPath = stateLocation
         
     }
+    
+    func removePage(){
+        super.removeFromSuperview()
+        super.image = nil
+        self.removeFromSuperview()
+        
+        self.drawingView.delegate = nil
+        self.drawingState.delegate = nil
+        
+        for view in self.subviews{
+            view.removeFromSuperview()
+        }
+        self.expressions = nil
+        self.images = nil
+        self.drawingState = nil
+        self.delegate = nil
+        self.drawingView = nil
+        self.jotViewStateInkPath = nil
+        self.jotViewStatePlistPath = nil
+        self.removeFromSuperview()
+    }
 
     // NOTE: we do not encode and decode jotListStatePath and jotListPlistPath
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(images)
         aCoder.encode(expressions)
+    }
+    
+    deinit {
+        print("deinit")
     }
     
     //MARK: Initializers
@@ -261,6 +287,4 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
             self.addSubview(expression)
         }
     }
-
-
 }

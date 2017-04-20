@@ -465,12 +465,13 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     func moveLeft(){
         currentPage.drawingView.removeFromSuperview()
-        // Push back the old view
-        self.sendSubview(toBack: pages[currentPageIndex]!)
-        pages[currentPageIndex]?.isHidden = true
-        
+
         currentPageIndex -= 1
         loadPage(pageNo: currentPageIndex)
+        
+        // Push back the old view
+        self.sendSubview(toBack: pages[currentPageIndex+1]!)
+        pages[currentPageIndex+1]?.isHidden = true
         
         // Bring forward the new view
         self.bringSubview(toFront: pages[currentPageIndex]!)
@@ -500,6 +501,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         } else if direction == "left" {
             // Check if this is the first page
             if currentPageIndex != 0 {
+                loadPage(pageNo: currentPageIndex)
                 moveLeft()
             }
         }
@@ -600,19 +602,13 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             let page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
             page?.jotViewStateInkPath = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(pageNo+1)+"/ink.png"
             page?.jotViewStatePlistPath = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(pageNo+1)+"/state.plist"
-            page?.setupDrawingView()
             pages[pageNo] = page!
             self.addSubview(page!)
+            page?.setupDrawingView()
         }
     }
     
-    func freeInactivePages(){
-        for i in 0 ..< pages.count {
-            if(pages[i] != currentPage){
-                pages[i] = nil
-            }
-        }
-    }
+
     
     func loadProject(projectName: String){
         
@@ -712,6 +708,15 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         pen.shouldUseVelocity = true
         // Setup pen
         curPen = .pen // Points to pen
+    }
+    
+    func freeInactivePages() {
+        for i in 0..<pages.count {
+            if(pages[i] != currentPage ){
+                pages[i]?.removePage()
+                pages[i] = nil
+            }
+        }
     }
     
     init(){
