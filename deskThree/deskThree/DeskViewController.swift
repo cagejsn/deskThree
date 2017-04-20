@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 import SafariServices
-import Mixpanel
+#if !DEBUG
+    import Mixpanel
+#endif
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
 class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
@@ -33,7 +35,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     private var certificateRegistered: Bool!
     
     // Mixpanel initialization
-    private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #if !DEBUG
+        private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #endif
 
     func didLoadState(_ state: JotViewStateProxy!) {
         
@@ -112,10 +116,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func didSelectProject(projectName: String){
-        // Mixpanel event
-        mixpanel.track(event: "Project Selected")
-//
-//        //gets rid of old workView
+        #if !DEBUG
+            mixpanel.track(event: "Project Selected")
+        #endif
+
+        //gets rid of old workView
 //        eliminateOldWorkView(workViewToElimate: self.workView)
 //        setupWorkView()
         
@@ -149,8 +154,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // Mixpanel event
-        mixpanel.track(event: "Gesture: Scroll")
+        #if !DEBUG
+            mixpanel.track(event: "Gesture: Scroll")
+        #endif
 
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
@@ -167,15 +173,17 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     ///expression delegate for trash disappear
     func hideTrash(){
-        // Mixpanel event
-        mixpanel.track(event: "Trash Hidden")
+        #if !DEBUG
+            mixpanel.track(event: "Trash Hidden")
+        #endif
         trashBin.hide()
     }
     
     ///expression delegate for trash appear
     func unhideTrash(){
-        // Mixpanel event
-        mixpanel.track(event: "Trash Unhidden")
+        #if !DEBUG
+            mixpanel.track(event: "Trash Unhidden")
+        #endif
         trashBin.unhide()
     }
     
@@ -327,11 +335,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     ///this function will present a MAWMathView to the User
     func mathFormulaButtonTapped(_ sender: Any) {
         if(mathView.superview == nil){
-            mixpanel.track(event: "Button: MyScript Box: Export")
+            #if !DEBUG
+                mixpanel.track(event: "Button: MyScript Box: Export")
+            #endif
             self.view.addSubview(mathView)
             setupMathViewConstraints()
         } else {
-            mixpanel.track(event: "Button: MyScript Box: Clear")
+            #if !DEBUG
+                mixpanel.track(event: "Button: MyScript Box: Clear")
+            #endif
             mathView.clear(true)
             mathView.removeFromSuperview()
         }
@@ -393,9 +405,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // MARK: GKImagePickerController Delegate
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
-        // Mixpanel event
-        mixpanel.track(event: "User At Image Picker Screen")
-        
+        #if !DEBUG
+            mixpanel.track(event: "User At Image Picker Screen")
+        #endif
+
         workView.addImageToPage(pickedImage: pickedImage)
         
         dismiss(animated: true, completion: nil)

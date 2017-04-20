@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import Mixpanel
 
 protocol WorkViewDelegate {
     func intersectsWithTrash(justMovedBlock: UIView)->Bool
