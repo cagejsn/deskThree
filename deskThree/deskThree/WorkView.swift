@@ -680,9 +680,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func setupJotPens() {
-        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen = Pen(minSize: 3.5, andMaxSize: 1.5, andMinAlpha: 1.0, andMaxAlpha: 1.0)
         pen.color = UIColor.black
-        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        eraser = Eraser(minSize: 12.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
         pen.shouldUseVelocity = true
         // Setup pen
         curPen = .pen // Points to pen
