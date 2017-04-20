@@ -146,7 +146,12 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     func setupDrawingView(){
 
         drawingState = JotViewStateProxy.init(delegate: self)
+        if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
         drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
+        }
+        else {
+            drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width - 44))
+        }
         drawingView.isUserInteractionEnabled = true
         // jotView's currentPage property is set which is used for hitTesting
         drawingView.currentPage = self
