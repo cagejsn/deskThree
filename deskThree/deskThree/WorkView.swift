@@ -223,7 +223,16 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     // MARK: PageAndDrawingDelegate
     func clearButtonTapped(_ sender: AnyObject) {
-        currentPage.clearDrawing()
+        let refreshAlert = UIAlertController(title: "Confirm Clear", message: "Are you sure you want to clear all of your writing? This cannot be undone.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            self.currentPage.clearDrawing()
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            }))
+        
+        UIApplication.shared.keyWindow?.rootViewController?.present(refreshAlert, animated: true, completion: nil)
     }
     
     func undoTapped(_ sender: Any) {
