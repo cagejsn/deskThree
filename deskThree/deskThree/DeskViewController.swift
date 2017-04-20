@@ -414,6 +414,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     override func didReceiveMemoryWarning() {
+        workView.freeInactivePages()
         super.didReceiveMemoryWarning()
     }
     

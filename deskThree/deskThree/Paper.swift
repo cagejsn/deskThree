@@ -229,13 +229,12 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         jotViewStatePlistPath = stateLocation
         
     }
-    
+
+    // NOTE: we do not encode and decode jotListStatePath and jotListPlistPath
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(images)
         aCoder.encode(expressions)
-//        aCoder.encode(jotViewStatePlistPath)
-//        aCoder.encode(jotViewStateInkPath)
     }
     
     //MARK: Initializers
@@ -261,11 +260,6 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         for expression in expressions {
             self.addSubview(expression)
         }
-       
-//        let temp = PathLocator.getTempFolder()
-//
-//        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
-//        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
     }
 
 
