@@ -8,7 +8,9 @@
 
 import Foundation
 import UIKit
-import Mixpanel
+#if !DEBUG
+    import Mixpanel
+#endif
 
 // Figure out why we need this
 protocol PaperDelegate {
@@ -36,8 +38,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     internal var jotViewStatePlistPath: String!
     private var drawingState: JotViewStateProxy!
     
-    // Mixpanel initialization
-    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #if !DEBUG
+        var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #endif
 
     func elementWantsSendToInputObject(element:Any){
         delegate.passHeldBlock(sender: element as! Expression)
@@ -70,8 +73,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     
     func addMathBlockToPage(block: MathBlock){
-        // Mixpanel event
-        mixpanel.track(event: "Math Block Added to Paper")
+        #if !DEBUG
+            mixpanel.track(event: "Math Block Added to Paper")
+        #endif
 
         block.delegate = self
         expressions.append(block)
@@ -104,8 +108,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        // Mixpanel event
-        mixpanel.track(event: "Gesture: Zoom")
+        #if !DEBUG
+            mixpanel.track(event: "Gesture: Zoom")
+        #endif
         
         if(prevScaleFactor != nil){
             drawingView.transform = drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
@@ -115,8 +120,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // Mixpanel event
-        mixpanel.track(event: "Gesture: Scroll")
+        #if !DEBUG
+            mixpanel.track(event: "Gesture: Scroll")
+        #endif
         
         drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
