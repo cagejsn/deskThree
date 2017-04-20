@@ -575,18 +575,31 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         return "Untitled"+String(i)
     }
     
+    private func cleanUpPages() {
+        currentPage.drawingView.removeFromSuperview()
+        for page in pages {
+            page.removeFromSuperview()
+        }
+        pages.removeAll()
+        currentPageIndex = 0
+        print(pages.count)
+    }
+    
     func loadProject(projectName: String){
+        
+        setZoomScale(minimumZoomScale, animated: false)
+        cleanUpPages()
         
         let projectPath = PathLocator.getTempFolder()+"/"+projectName
         
         var count = 1
         var pageAddr = ""
         var page: Paper
-        pages.remove(at: 0)
         
         while(FileManager.default.fileExists(atPath: projectPath + "/page" + String(count))){
             pageAddr = projectPath+"/page" + String(count) + "/page.desk"
-            print(pageAddr)
+            // DEBUG
+            //            print(pageAddr)
             page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
             page.jotViewStateInkPath = PathLocator.getTempFolder()+"/"+projectName+"/page"+String(count)+"/ink.png"
             page.jotViewStatePlistPath = PathLocator.getTempFolder()+"/"+projectName+"/page"+String(count)+"/state.plist"
@@ -594,17 +607,19 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             pages.append(page)
             self.addSubview(page)
             count+=1
-
         }
         
         self.currentPage = pages.first
         
         for view in self.subviews{
-            view.isHidden = true
+            if let paper = view as? Paper {
+                paper.isHidden = true
+            }
         }
         currentPage.isHidden = false
         self.project.name = projectName
         initCurPage()
+        setupDelegateChain()
     }
     
     
