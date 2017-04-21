@@ -18,11 +18,7 @@ class SaveAsView: UIView {
         
         let projectName = projectNameTextField.text
         if(isAcceptableName(name: projectName!)){
-            if(saveProject(name: projectName!)){
-                print("Project saved successfully")
-            } else {
-                print("Project not saved")
-            }
+            saveProject(name: projectName!)
             closeButtonTapped(self)
         }else if(projectName == ""){
             workViewRef.raiseAlert(title: "", alert: "Enter project name.")
@@ -36,92 +32,44 @@ class SaveAsView: UIView {
         return !(name.contains(" ") || name == "")
         
     }
-
-    ///saves project and metadata to files. Returs true if success
-    func saveProject(name: String) -> Bool{
+    
+    //currently just renames current project
+    func saveProject(name: String){
         
-        ///saves metadata of project to meta file. overwrite same name if present
-        func saveMetaData(name: String){
-            let project = DeskProject(name: name)
-            project.modify()
-            
-            let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
-            
-            var projects = PathLocator.loadMetaData()
-            for i in 0..<projects.count{
-                if projects[i].name == name{
-                    //raise dialog asking user confirmation to overwrite
-                    projects[i] = project
-                    NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
-                    return
-                }
-            }
-            projects.append(project)
-            NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
-        }
+        let newName = name
+        let oldName = workViewRef.getDeskProject().name
+        let temp = PathLocator.getTempFolder()
         
-        saveMetaData(name: name)
-        
-        //saves to documents/DeskThree/Projects/name.DESK
-        let tempFolderPath = PathLocator.getTempFolder()
-        let folderToZip = "/"+name
-        
-        //create the folder
-        if(!FileManager.default.fileExists(atPath: tempFolderPath+folderToZip)){
-            
-            do {
-                try FileManager.default.createDirectory(atPath: tempFolderPath+folderToZip, withIntermediateDirectories: false, attributes: nil)
-            } catch let error as NSError {
-                print(error.localizedDescription);
+        var projects = PathLocator.loadMetaData()
+        for i in  0..<projects.count {
+            //in case we caught a file that we want to replace
+            if projects[i].name == newName{
+                projects.remove(at: i)
+                break
             }
         }
-        
-        //save jot ui into the folder, folderToZip
-        
-        
-        
-        workViewRef.customDelegate.archiveJotView(folderToZip: folderToZip)
-        
-        
-        
-        //save the work area into the folder
-        NSKeyedArchiver.archiveRootObject(workViewRef, toFile: tempFolderPath+folderToZip+"/WorkView.Desk")
-        
-        
-        
-        
         do{
-            let destinationFolderURL = NSURL(string: PathLocator.getProjectFolder()) as! URL
-            let zipFilePath = NSURL(string: PathLocator.getProjectFolder() + "/"+name)?.appendingPathExtension("DZIP")
-            print(zipFilePath)
-            if FileManager.default.fileExists(atPath: String(describing: zipFilePath)) {
-                try FileManager.default.removeItem(at: zipFilePath!)
-            }
-
-            /*
-            var thingsToZip = [URL]()
-            for thing in try FileManager.default.contentsOfDirectory(atPath: folderToZip){
-                thingsToZip.append( NSURL(string: folderToZip+"/"+thing) as! URL)
-            }
-            try Zip.zipFiles(paths: thingsToZip, zipFilePath: zipFilePath!, password: "password", progress: { (progress) -> () in
-                print(progress)
-            }) //Zip
-            */
-            Zip.addCustomFileExtension("DZIP")
-            
-            
-            //try FileManager.default.removeItem(atPath: folderToZip)
+            try FileManager.default.removeItem(atPath: temp+"/"+newName)
         }
         catch{
-            print("error when zipping file")
-            return false
+            print("file did not exist")
         }
-        return true
+        //in case we caught the file that we want to change the name of
+        for i in 0..<projects.count {
+            if projects[i].name == oldName{
+                projects[i].name = newName
+            }
+        }
         
+        do{
+            try FileManager.default.moveItem(atPath: temp+"/"+oldName!, toPath: temp+"/"+newName)
+        }
+        catch{
+            print("error, project dir not moved correctly")
+        }
+        NSKeyedArchiver.archiveRootObject(projects, toFile: PathLocator.getMetaFolder()+"/Projects.meta")
+        workViewRef.getDeskProject().name = name
     }
-    
-    
-    
 
     @IBAction func closeButtonTapped(_ sender: Any) {
         self.removeFromSuperview()  

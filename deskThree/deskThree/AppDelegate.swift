@@ -7,25 +7,39 @@
 //
 
 import UIKit
-import Mixpanel
-
+import Fabric
+import Crashlytics
+#if !DEBUG
+    import Mixpanel
+#endif
+    
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    
+    #if !DEBUG
+        var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #endif
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
         // Override point for customization after application launch.
         
-        // Mixpanel initialization
-        Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         
-        let mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+        let dvc = DeskViewController()
+        self.window?.rootViewController = dvc
+        self.window?.makeKeyAndVisible()
+        let isFirstLaunch = UserDefaults.isFirstLaunch()
+        if isFirstLaunch {
+            let tutorialVideoViewController = TutorialVideoViewController()
+            dvc.present(tutorialVideoViewController, animated: true, completion: nil)
+        }
+        
+        Fabric.with([Crashlytics.self])
 
-        // Mixpanel event
-        mixpanel.track(event: "App Started")
-        
         return true
     }
 
@@ -45,10 +59,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
+        #if !DEBUG
+            Mixpanel.mainInstance().people.increment(property: "Times app launched", by: 1)
+        #endif
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+
+        #if !DEBUG
+            Mixpanel.mainInstance().people.increment(property: "Times app terminated", by: 1)
+        #endif
     }
 
 
