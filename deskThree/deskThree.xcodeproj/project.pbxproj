@@ -491,6 +491,7 @@
 		DAFBE3A21DBBDBC20007D249 /* deskThree */ = {
 			isa = PBXGroup;
 			children = (
+				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
 				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
 				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
@@ -507,7 +508,6 @@
 				DA7050E31E25591000079047 /* GraphView.swift */,
 				DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */,
 				5297A22C1E6C993100BFA775 /* BlockExpression.swift */,
-				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
 				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
 				25D1507E1DBC19CF008364EC /* PDFGenerator.swift */,
 				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
