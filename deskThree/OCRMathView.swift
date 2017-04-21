@@ -8,6 +8,10 @@
 
 import Foundation
 import UIKit
+#if !DEBUG
+import Mixpanel
+#endif
+
 
 protocol OCRMathViewDelegate {
     func createMathBlock()
@@ -21,6 +25,11 @@ class OCRMathView: MAWMathView {
     var outputAreaConstraints: [NSLayoutConstraint]!
     var wolframQueryConstraints: [NSLayoutConstraint]!
     var delegate2: OCRMathViewDelegate!
+
+    #if !DEBUG
+    private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #endif
+
     
     func clearButtonTapped(){
         self.clear(false)
@@ -31,6 +40,10 @@ class OCRMathView: MAWMathView {
     }
     
     func searchWRButtonTapped(){
+        #if !DEBUG
+        mixpanel.track(event: "Button: Wolfram Query")
+        #endif
+
         delegate2.didRequestWRDisplay(query: self.resultAsText())
     }
     
