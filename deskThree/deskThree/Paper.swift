@@ -146,7 +146,12 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     func setupDrawingView(){
 
         drawingState = JotViewStateProxy.init(delegate: self)
+        if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
         drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
+        }
+        else {
+            drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width - 44))
+        }
         drawingView.isUserInteractionEnabled = true
         // jotView's currentPage property is set which is used for hitTesting
         drawingView.currentPage = self
@@ -166,6 +171,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
         // We just load up a whole new state to get a cleared backing texture. I know, it is
         // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself        
+        drawingState.isForgetful = true
         drawingState = JotViewStateProxy()
         drawingState.loadJotStateAsynchronously(false, with: drawingView.bounds.size, andScale: drawingView.scale, andContext: drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
         drawingView.loadState(drawingState)
@@ -229,8 +235,8 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         super.encode(with: aCoder)
         aCoder.encode(images)
         aCoder.encode(expressions)
-        aCoder.encode(jotViewStatePlistPath)
-        aCoder.encode(jotViewStateInkPath)
+//        aCoder.encode(jotViewStatePlistPath)
+//        aCoder.encode(jotViewStateInkPath)
     }
     
     //MARK: Initializers
@@ -256,11 +262,11 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         for expression in expressions {
             self.addSubview(expression)
         }
-        
-        let temp = PathLocator.getTempFolder()
-        
-        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
-        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
+       
+//        let temp = PathLocator.getTempFolder()
+//
+//        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
+//        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
     }
 
 

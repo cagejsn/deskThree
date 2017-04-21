@@ -39,6 +39,10 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     var eraser: Eraser!
     var curPen = Constants.pens.pen
     
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        setupPageNumberSystem()
+    }
     
     func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
@@ -51,7 +55,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
     }
     
+    // Do not call this when superview is nill
     func setupPageNumberSystem(){
+        if superview == nil {
+            return
+        }
         cornerPageLabel = UILabel()
         cornerPageLabel.textAlignment = .center
         cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
@@ -63,19 +71,20 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         cornerPageLabel.layer.masksToBounds = true
         self.addSubview(cornerPageLabel)
         // Get margins for constrains
-        let margins = self.layoutMarginsGuide
+        let margins = superview?.layoutMarginsGuide
         // Set constraints for the page nuber notification
         cornerPageLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
         cornerPageLabel.widthAnchor.constraint(equalToConstant: 105).isActive = true
         cornerPageLabel.translatesAutoresizingMaskIntoConstraints = false
-        cornerPageLabel.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -60).isActive = true
-        cornerPageLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        cornerPageLabel.bottomAnchor.constraint(equalTo: (margins?.bottomAnchor)!, constant: -60).isActive = true
+        cornerPageLabel.centerXAnchor.constraint(equalTo: (superview?.centerXAnchor)!).isActive = true
         
         pageNotificationFadeOut()
     }
     
     
     func updatePageNotification() {
+        self.bringSubview(toFront: cornerPageLabel)
         cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
         pageNotificationFadeIn()
         pageNotificationFadeOut()
@@ -214,7 +223,16 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     // MARK: PageAndDrawingDelegate
     func clearButtonTapped(_ sender: AnyObject) {
-        currentPage.clearDrawing()
+        let refreshAlert = UIAlertController(title: "Confirm Clear", message: "Are you sure you want to clear all of your writing? This cannot be undone.", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            self.currentPage.clearDrawing()
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+            }))
+        
+        UIApplication.shared.keyWindow?.rootViewController?.present(refreshAlert, animated: true, completion: nil)
     }
     
     func undoTapped(_ sender: Any) {
@@ -565,18 +583,31 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         return "Untitled"+String(i)
     }
     
+    private func cleanUpPages() {
+        currentPage.drawingView.removeFromSuperview()
+        for page in pages {
+            page.removeFromSuperview()
+        }
+        pages.removeAll()
+        currentPageIndex = 0
+        print(pages.count)
+    }
+    
     func loadProject(projectName: String){
+        
+        setZoomScale(minimumZoomScale, animated: false)
+        cleanUpPages()
         
         let projectPath = PathLocator.getTempFolder()+"/"+projectName
         
         var count = 1
         var pageAddr = ""
         var page: Paper
-        pages.remove(at: 0)
         
         while(FileManager.default.fileExists(atPath: projectPath + "/page" + String(count))){
             pageAddr = projectPath+"/page" + String(count) + "/page.desk"
-            print(pageAddr)
+            // DEBUG
+            //            print(pageAddr)
             page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
             page.jotViewStateInkPath = PathLocator.getTempFolder()+"/"+projectName+"/page"+String(count)+"/ink.png"
             page.jotViewStatePlistPath = PathLocator.getTempFolder()+"/"+projectName+"/page"+String(count)+"/state.plist"
@@ -584,17 +615,19 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             pages.append(page)
             self.addSubview(page)
             count+=1
-
         }
         
         self.currentPage = pages.first
         
         for view in self.subviews{
-            view.isHidden = true
+            if let paper = view as? Paper {
+                paper.isHidden = true
+            }
         }
         currentPage.isHidden = false
         self.project.name = projectName
         initCurPage()
+        setupDelegateChain()
     }
     
     
@@ -656,9 +689,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func setupJotPens() {
-        pen = Pen(minSize: 0.9, andMaxSize: 1.8, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        pen = Pen(minSize: 3.5, andMaxSize: 1.5, andMinAlpha: 1.0, andMaxAlpha: 1.0)
         pen.color = UIColor.black
-        eraser = Eraser(minSize: 8.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
+        eraser = Eraser(minSize: 12.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
         pen.shouldUseVelocity = true
         // Setup pen
         curPen = .pen // Points to pen
@@ -676,7 +709,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         self.sendSubview(toBack: pages[0])
         self.panGestureRecognizer.minimumNumberOfTouches = 2
         self.project = DeskProject(name: getSerializedProjectName())
-        setupPageNumberSystem()
+//        setupPageNumberSystem()
         setupJotPens()
         isInMetaData = false
     }

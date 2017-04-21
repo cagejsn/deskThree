@@ -14,12 +14,10 @@ class Trash: UIImageView {
     //MARK: Initializers
     
     init() {
-        super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        self.image = UIImage(named: "recycle")
+        super.init(frame: CGRect(x: 128, y: 128, width: 128, height: 128))
+        self.image = UIImage(named: "icon-trash-b")
         self.isOpaque = false
     }
-    
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -36,10 +34,10 @@ class Trash: UIImageView {
     }
  
     func open() {
-        self.image = UIImage(named: "recycleGreen")
+        self.image = UIImage(named: "icon-trash-redup")
     }
     func close() {
-        self.image = UIImage(named: "recycle")
+        self.image = UIImage(named: "icon-trash-b")
     }
     
     func unhide() {
