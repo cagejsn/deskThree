@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DeskViewController" customModule="deskThree" customModuleProvider="target">
             <connections>
+                <outlet property="hamburgerMenuButton" destination="ix8-bi-kc9" id="QI6-Fj-Ijb"/>
+                <outlet property="pageLeftButton" destination="Qty-b2-4aJ" id="3U4-rD-Ji5"/>
+                <outlet property="pageNumberLabel" destination="uQW-Lx-Iwl" id="h1s-ue-Tlc"/>
+                <outlet property="pageRightButton" destination="JHQ-t7-d1G" id="daC-Zm-3bS"/>
+                <outlet property="projectNameTextField" destination="qaV-WP-Nda" id="aSE-aq-hp3"/>
+                <outlet property="redoButton" destination="Pca-Gg-mZy" id="mqG-f0-MFX"/>
+                <outlet property="undoButton" destination="LGP-z8-ukl" id="1XR-B2-odg"/>
                 <outlet property="view" destination="AVO-vL-44u" id="ILK-Wq-1Si"/>
             </connections>
         </placeholder>
@@ -18,8 +25,52 @@
         <view contentMode="scaleToFill" id="AVO-vL-44u" customClass="DeskView" customModule="deskThree" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i9E-G4-UOl">
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="66"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="66" id="aBZ-Eb-n0U"/>
+                    </constraints>
+                    <items>
+                        <barButtonItem systemItem="add" id="ix8-bi-kc9"/>
+                        <barButtonItem width="56" style="plain" systemItem="fixedSpace" id="Rzp-OM-Zml"/>
+                        <barButtonItem systemItem="undo" id="LGP-z8-ukl"/>
+                        <barButtonItem systemItem="redo" id="Pca-Gg-mZy"/>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="KTY-la-kv7"/>
+                        <barButtonItem title="Untitled" style="plain" id="jCu-K8-wsz">
+                            <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="18" id="qaV-WP-Nda">
+                                <rect key="frame" x="294" y="18" width="180" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ofh-gk-zI4"/>
+                        <barButtonItem title="page left" id="Qty-b2-4aJ"/>
+                        <barButtonItem width="12" style="plain" systemItem="fixedSpace" id="202-gG-dzD"/>
+                        <barButtonItem style="plain" id="XSD-Zt-EdQ">
+                            <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1 of 1" textAlignment="center" minimumFontSize="17" id="uQW-Lx-Iwl">
+                                <rect key="frame" x="607" y="18" width="42" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </barButtonItem>
+                        <barButtonItem width="11" style="plain" systemItem="fixedSpace" id="pT9-Ha-2T1"/>
+                        <barButtonItem title="page right" id="JHQ-t7-d1G"/>
+                    </items>
+                    <color key="barTintColor" red="0.1630671024" green="0.71859991550000002" blue="0.92298704389999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </toolbar>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="i9E-G4-UOl" firstAttribute="top" secondItem="AVO-vL-44u" secondAttribute="top" id="IC8-Vf-xqC"/>
+                <constraint firstItem="i9E-G4-UOl" firstAttribute="leading" secondItem="AVO-vL-44u" secondAttribute="leading" id="gud-Pl-2Jx"/>
+                <constraint firstAttribute="trailing" secondItem="i9E-G4-UOl" secondAttribute="trailing" id="kCF-q6-s5C"/>
+            </constraints>
             <point key="canvasLocation" x="-323" y="-515"/>
         </view>
     </objects>

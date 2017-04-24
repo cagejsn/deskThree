@@ -23,9 +23,6 @@ class Block: UILabel {
     var innerChild: Block?
     var faceText: String?
 
-    
-  
-    
     func stylizeViews(){
         self.stylize()
         leftChild?.stylizeViews()

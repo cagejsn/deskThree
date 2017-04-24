@@ -14,12 +14,21 @@ import SafariServices
 #endif
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate, UITextFieldDelegate{
 
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
     private var deskControlModule: DeskControlModule!
     private var lowerDeskControls: LowerDeskControls!
+    
+    @IBOutlet var projectNameTextField: UITextField!
+    @IBOutlet var pageRightButton: UIBarButtonItem!
+    @IBOutlet var pageLeftButton: UIBarButtonItem!
+    @IBOutlet var pageNumberLabel: UITextField!
+    @IBOutlet var redoButton: UIBarButtonItem!
+    @IBOutlet var undoButton: UIBarButtonItem!
+    @IBOutlet var hamburgerMenuButton: UIBarButtonItem!
+    
     
 
     private var graphingBlock: GraphingBlock!
@@ -50,6 +59,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        setupToolbar()
         setupWorkView()
         setupGKPicker()
         setupToolDrawer()
@@ -61,7 +71,30 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         // Setup file explorer buttons
     }
     
+    func setupToolbar(){
+        projectNameTextField.delegate = self
+        
+    }
     
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        //validate the text of textField
+        if(textField.text?.contains(" "))!{
+            return false
+        }
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+        let newProjectName = textField.text
+        
+        
+    }
 
     
     func setupLowerControls(){
@@ -393,7 +426,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mathBlock.center = mathBlock.convert(loc, to: workView.currentPage)
             self.workView.currentPage.addSubview(mathBlock)
         }
-       
     }
     
     func printText(){
@@ -405,9 +437,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #if !DEBUG
             mixpanel.track(event: "User At Image Picker Screen")
         #endif
-
         workView.addImageToPage(pickedImage: pickedImage)
-        
         dismiss(animated: true, completion: nil)
     }
     
@@ -418,13 +448,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func feedbackButtonTapped(_ sender: Any) {
         let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link") as! URL)
         self.present(svc, animated: true, completion: nil)
-        
     }
     
     func didRequestWRDisplay(query: String){
-
         let newQuery = query.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
-        
         let svc = SFSafariViewController(url: NSURL(string: "https://www.wolframalpha.com/input/?i=" + newQuery) as! URL)
         self.present(svc, animated: true, completion: nil)
     }

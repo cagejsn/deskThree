@@ -241,9 +241,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     //MARK: Initializers
     init() {
-        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+        super.init(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
         expressions = [BlockExpression]()
-        self.image = UIImage(named: "engineeringPaper2")
+        self.image = UIImage(named: "simpleGraphPaper")
         self.isOpaque = false
         images = [ImageBlock]()
         setupDrawingView()
