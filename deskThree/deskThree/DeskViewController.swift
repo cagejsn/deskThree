@@ -59,7 +59,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        setupToolbar()
         setupWorkView()
         setupGKPicker()
         setupToolDrawer()
@@ -69,11 +68,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupDeskControlModule()
         setupLowerControls()
         // Setup file explorer buttons
+        
+        setupToolbar()
+
     }
     
     func setupToolbar(){
         projectNameTextField.delegate = self
-        
+        projectNameTextField.text = workView.getSerializedProjectName()
     }
     
     
@@ -84,7 +86,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         //validate the text of textField
-        if(textField.text?.contains(" "))!{
+        if(textField.text == "" || (textField.text?.contains(" "))! ){
             return false
         }
         return true
