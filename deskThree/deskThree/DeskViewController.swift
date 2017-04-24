@@ -68,9 +68,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupDeskControlModule()
         setupLowerControls()
         // Setup file explorer buttons
-        
         setupToolbar()
-
     }
     
     func setupToolbar(){
@@ -94,6 +92,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
         let newProjectName = textField.text
+        SaveAsView.saveProject(name: newProjectName!, workViewRef: workView)
         
         
     }
@@ -159,8 +158,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 //        setupWorkView()
         
         workView.loadProject(projectName: projectName)
-        
         dismissFileExplorer()
+        projectNameTextField.text = workView.getDeskProject().name
         
 //        setupDeskView()
 //        setupDelegateChain()

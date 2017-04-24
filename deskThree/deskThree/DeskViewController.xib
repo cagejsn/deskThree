@@ -38,11 +38,11 @@
                         <barButtonItem systemItem="redo" id="Pca-Gg-mZy"/>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="KTY-la-kv7"/>
                         <barButtonItem title="Untitled" style="plain" id="jCu-K8-wsz">
-                            <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="18" id="qaV-WP-Nda">
-                                <rect key="frame" x="294" y="18" width="180" height="30"/>
+                            <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="24" id="qaV-WP-Nda">
+                                <rect key="frame" x="294" y="10" width="180" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-UltraLight" family="Helvetica Neue" pointSize="18"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </barButtonItem>
