@@ -13,7 +13,7 @@ import SlideMenuControllerSwift
 
     
 #if !DEBUG
-    import Mixpanel
+import Mixpanel
 #endif
     
 @UIApplicationMain
@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     #if !DEBUG
-        var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
     
 
