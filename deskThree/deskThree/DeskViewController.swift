@@ -19,7 +19,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
     private var deskControlModule: DeskControlModule!
-    private var lowerDeskControls: LowerDeskControls!
     
     @IBOutlet var projectNameTextField: UITextField!
     @IBOutlet var pageRightButton: UIBarButtonItem!
@@ -66,7 +65,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupDeskView()
         setupMyScript()
         setupDeskControlModule()
-        setupLowerControls()
+        //setupLowerControls()
         // Setup file explorer buttons
         setupToolbar()
     }
@@ -97,22 +96,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
 
-    
-    func setupLowerControls(){
-        lowerDeskControls = Bundle.main.loadNibNamed("LowerDeskControls", owner: nil, options: nil )?.first as!LowerDeskControls!
-       // lowerDeskControls.frame = CGRect(x: 10, y: UIScreen.main.bounds.height - 54, width: 216, height: 44)
-        self.view.addSubview(lowerDeskControls)
-        lowerDeskControls.translatesAutoresizingMaskIntoConstraints = false
-
-        let margins = view.layoutMarginsGuide
-        lowerDeskControls.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        lowerDeskControls.widthAnchor.constraint(equalToConstant: 216).isActive = true
-        lowerDeskControls.leftAnchor.constraint(equalTo: margins.leftAnchor, constant: 0).isActive = true
-        lowerDeskControls.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -10).isActive = true
-        
-        lowerDeskControls.delegate = workView
-        lowerDeskControls.layoutSubviews()
-    }
     
     func setupDeskControlModule(){
         deskControlModule = DeskControlModule(frame: CGRect(x: 10, y: 20, width: 44, height: 44), moduleDelegate: self, pageDelegate: workView)
@@ -156,7 +139,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //gets rid of old workView
 //        eliminateOldWorkView(workViewToElimate: self.workView)
 //        setupWorkView()
-        
         workView.loadProject(projectName: projectName)
         dismissFileExplorer()
         projectNameTextField.text = workView.getDeskProject().name
@@ -169,7 +151,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     // NOT USED
     // This means that there may be an extra workView floating around when we load a new one.
 //    func setupDelegateChain(){
-//        lowerDeskControls.delegate = workView
 //        deskControlModule.pageAndDrawingDelegate = workView
 //        workView.setupDelegateChain()
 //    }
@@ -313,6 +294,35 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
+    }
+    
+    
+    @IBAction func redoTapped(){
+        #if !DEBUG
+            mixpanel.track(event: "Button: Redo")
+        #endif
+        workView.redoTapped()
+    }
+    
+    @IBAction func undoTapped(){
+        #if !DEBUG
+            mixpanel.track(event: "Button: Undo")
+        #endif
+        workView.undoTapped()
+    }
+    
+    @IBAction func lastPageTapped(){
+        #if !DEBUG
+            mixpanel.track(event: "Button: Page Left")
+        #endif
+        workView.movePage(direction: "left")
+    }
+    
+    @IBAction func nextPageTapped(){
+        #if !DEBUG
+            mixpanel.track(event: "Button: Page Right")
+        #endif
+        workView.movePage(direction: "right")
     }
     
     

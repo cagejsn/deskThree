@@ -27,9 +27,7 @@ protocol PageAndDrawingDelegate {
     func togglePenColor()
     
     // These funcs are called by lowerDeskControlModule
-    func movePage(direction: String)
-    func undoTapped(_ sender: Any)
-    func redoTapped(_ sender: Any)
+   
     func getCurPenColor() -> UIColor
 }
 
