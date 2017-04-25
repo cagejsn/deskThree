@@ -44,6 +44,8 @@
 		DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1308DC1E5007F9008EBD14 /* DeskView.swift */; };
 		DA2841081EAFBBD00085112E /* SlideMenuControllerSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; };
 		DA2841091EAFBBD70085112E /* SlideMenuControllerSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DA28410B1EAFC5590085112E /* HamburgerMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */; };
+		DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */; };
 		DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE141E8C966100520FFD /* DeskControlModule.swift */; };
 		DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */; };
 		DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688BE1E414613006A9E1A /* ToolDrawer.swift */; };
@@ -234,6 +236,8 @@
 		DA1308DC1E5007F9008EBD14 /* DeskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskView.swift; sourceTree = "<group>"; };
 		DA2841051EAFBB270085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
 		DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
+		DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HamburgerMenuViewController.xib; sourceTree = "<group>"; };
+		DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerMenuViewController.swift; sourceTree = "<group>"; };
 		DA35EE141E8C966100520FFD /* DeskControlModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskControlModule.swift; sourceTree = "<group>"; };
 		DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBubbleMenuButton.h; sourceTree = "<group>"; };
 		DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWBubbleMenuButton.m; sourceTree = "<group>"; };
@@ -540,6 +544,8 @@
 				DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */,
 				312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */,
 				312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */,
+				DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */,
+				DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -760,6 +766,7 @@
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
 				311C3ABE1E9964F500F61CE4 /* SaveAsView.xib in Resources */,
 				311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */,
+				DA28410B1EAFC5590085112E /* HamburgerMenuViewController.xib in Resources */,
 				DADC7C661DF0F4650086626E /* AllPad.xib in Resources */,
 				25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */,
 				DADC67FC1E27E9F800C14F5B /* GraphingBlock.xib in Resources */,
@@ -871,6 +878,7 @@
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */,
+				DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */,
 				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
 				5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */,

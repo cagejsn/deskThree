@@ -70,6 +70,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //setupLowerControls()
         // Setup file explorer buttons
         setupToolbar()
+        
     }
     
     func setupToolbar(){
@@ -99,7 +100,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     
     func setupDeskControlModule(){
-        deskControlModule = DeskControlModule(frame: CGRect(x: 10, y: 20, width: 44, height: 44), moduleDelegate: self, pageDelegate: workView)
+        deskControlModule = DeskControlModule(frame: CGRect(x: 100, y: 20, width: 44, height: 44), moduleDelegate: self, pageDelegate: workView)
         self.view.addSubview(deskControlModule)
     }
     
@@ -301,7 +302,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         
         
-       // self.slideMenuController()?.openLeft()
+        self.slideMenuController()?.openLeft()
 
         
         
