@@ -296,6 +296,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return self
     }
     
+    @IBAction func hamburgerMenuButtonTapped(_ sender: Any) {
+        
+        
+        
+        
+        
+        
+        
+        
+    }
     
     @IBAction func redoTapped(){
         #if !DEBUG

@@ -34,6 +34,9 @@
                     <items>
                         <barButtonItem systemItem="add" id="ix8-bi-kc9">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="hamburgerMenuButtonTapped:" destination="-1" id="kII-IR-DPr"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem width="56" style="plain" systemItem="fixedSpace" id="Rzp-OM-Zml"/>
                         <barButtonItem systemItem="undo" id="LGP-z8-ukl">
@@ -60,6 +63,7 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Ofh-gk-zI4"/>
                         <barButtonItem image="leftPage" id="Qty-b2-4aJ">
+                            <inset key="imageInsets" minX="0.0" minY="1" maxX="0.0" maxY="1"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="lastPageTapped" destination="-1" id="6oG-RX-rUM"/>
@@ -77,6 +81,7 @@
                         </barButtonItem>
                         <barButtonItem width="11" style="plain" systemItem="fixedSpace" id="pT9-Ha-2T1"/>
                         <barButtonItem image="rightPage" id="JHQ-t7-d1G">
+                            <inset key="imageInsets" minX="0.0" minY="1" maxX="0.0" maxY="1"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="nextPageTapped" destination="-1" id="hH5-6o-Gin"/>
@@ -93,8 +98,24 @@
                 <constraint firstItem="i9E-G4-UOl" firstAttribute="leading" secondItem="AVO-vL-44u" secondAttribute="leading" id="gud-Pl-2Jx"/>
                 <constraint firstAttribute="trailing" secondItem="i9E-G4-UOl" secondAttribute="trailing" id="kCF-q6-s5C"/>
             </constraints>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="FBl-nl-lLW" appends="YES" id="QcJ-3M-UuQ"/>
+                <outletCollection property="gestureRecognizers" destination="Ae7-Dm-hWF" appends="YES" id="dtH-LW-JfP"/>
+            </connections>
             <point key="canvasLocation" x="-323" y="-515"/>
         </view>
+        <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="FBl-nl-lLW">
+            <rectEdge key="edges" right="YES"/>
+            <connections>
+                <action selector="nextPageTapped" destination="-1" id="Bbl-Yh-TRf"/>
+            </connections>
+        </screenEdgePanGestureRecognizer>
+        <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="Ae7-Dm-hWF">
+            <rectEdge key="edges" left="YES"/>
+            <connections>
+                <action selector="lastPageTapped" destination="-1" id="RWS-fb-0EA"/>
+            </connections>
+        </screenEdgePanGestureRecognizer>
     </objects>
     <resources>
         <image name="leftPage" width="66" height="66"/>
