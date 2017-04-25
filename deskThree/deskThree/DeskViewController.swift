@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import SafariServices
 #if !DEBUG
-    import Mixpanel
+import Mixpanel
 #endif
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
@@ -27,7 +27,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var redoButton: UIBarButtonItem!
     @IBOutlet var undoButton: UIBarButtonItem!
     @IBOutlet var hamburgerMenuButton: UIBarButtonItem!
-    
     
 
     private var graphingBlock: GraphingBlock!
@@ -46,6 +45,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     #if !DEBUG
         private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 
     func didLoadState(_ state: JotViewStateProxy!) {
         
