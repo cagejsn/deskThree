@@ -11,7 +11,7 @@ import Foundation
     import Mixpanel
 #endif
 
-protocol DeskControlModuleDelegate {
+protocol DeskControlModuleDelegate: NSObjectProtocol {
     func fileExplorerButtonTapped(_ sender: Any)
     func saveButtonTapped(_ sender: Any)
     func loadImageButtonPushed(_ sender: Any)
@@ -20,7 +20,7 @@ protocol DeskControlModuleDelegate {
     func feedbackButtonTapped(_ sender: Any)
 }
 
-protocol PageAndDrawingDelegate {
+protocol PageAndDrawingDelegate: NSObjectProtocol {
     func clearButtonTapped(_ sender: AnyObject)
     func getCurPen() -> Constants.pens
     func togglePen()
@@ -36,8 +36,8 @@ protocol PageAndDrawingDelegate {
 class DeskControlModule: DWBubbleMenuButton {
     
     var imageView: UIImageView!
-    var deskViewControllerDelegate: DeskControlModuleDelegate!
-    var pageAndDrawingDelegate: PageAndDrawingDelegate!
+    weak var deskViewControllerDelegate: DeskControlModuleDelegate!
+    weak var pageAndDrawingDelegate: PageAndDrawingDelegate!
     var togglePenButton: UIButton!
     var changePenColorButton: UIButton!
 

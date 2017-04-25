@@ -13,7 +13,7 @@ import UIKit
 #endif
 
 // Figure out why we need this
-protocol PaperDelegate {
+protocol PaperDelegate: NSObjectProtocol {
     func passHeldBlock(sender:Expression)
     func didBeginMove(movedView: UIView)
     func didIncrementMove(movedView: UIView)
@@ -24,7 +24,7 @@ protocol PaperDelegate {
 
 class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate, JotViewStateProxyDelegate {
     
-    public var delegate: PaperDelegate!
+    public weak var delegate: PaperDelegate!
     // TODO: MAKE THIS PRIVATE!
     public var expressions: [Expression]!
     
@@ -234,7 +234,6 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     func removePage(){
         super.removeFromSuperview()
         super.image = nil
-        self.removeFromSuperview()
         
         self.drawingView.delegate = nil
         self.drawingState.delegate = nil

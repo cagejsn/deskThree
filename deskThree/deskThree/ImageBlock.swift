@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Mixpanel
 
-protocol ImageBlockDelegate {
+protocol ImageBlockDelegate: NSObjectProtocol {
     func fixImageToPage(image: ImageBlock)
     func freeImageForMovement(image: ImageBlock)
     func helpMove(imageBlock: ImageBlock, dx: CGFloat, dy: CGFloat)
@@ -27,7 +27,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     var zoomGR: UIPinchGestureRecognizer?
     var rotationGestureRecognizer: UIRotationGestureRecognizer!
     var editable: Bool = false
-    var delegate: ImageBlockDelegate! = nil
+    weak var delegate: ImageBlockDelegate! = nil
     var previousRotation: CGFloat = 0
 
     // Mixpanel initialization
