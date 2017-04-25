@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if !DEBUG
 import Mixpanel
+#endif
 
 let toolSelectorHeight = 100
 let toolDrawerCollapsedWidth:CGFloat = 40
@@ -20,11 +22,9 @@ enum DrawerPosition {
 }
 
 class ToolDrawer: UIView {
-    
-    
     var toolIcons: [UIImageView]!
     var calculatorIcon: UIImageView!
-    
+
     var activePad: InputObject!
     var drawerPosition = DrawerPosition.closed
     var panGestureRecognizer: UIPanGestureRecognizer!
@@ -32,7 +32,7 @@ class ToolDrawer: UIView {
     var isActive: Bool = false
     var previousTranslation: CGFloat = 0
     var delegate: InputObjectDelegate!
-    
+
     //view controller for passing errors
     var rightConstaint: NSLayoutConstraint!
     var bottomContraint: NSLayoutConstraint!
@@ -40,7 +40,9 @@ class ToolDrawer: UIView {
     var widthContraint: NSLayoutConstraint!
 
     // Mixpanel initialization
+    #if !DEBUG
     var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #endif
     
     func passElement(_ element: Any){
         if(drawerPosition == .closed){
@@ -60,7 +62,9 @@ class ToolDrawer: UIView {
     }
     
     func handleSingleTap(sender: UITapGestureRecognizer){
+        #if !DEBUG
         mixpanel.track(event: "Gesture: Calculator: Single Touch Open/Close")
+        #endif
 
         let location = sender.location(in: self)
         if (toolIcons[0].frame.contains(location)){
@@ -76,13 +80,17 @@ class ToolDrawer: UIView {
                 
             }
                 if(drawerPosition == DrawerPosition.closed){
+                    #if !DEBUG
                     mixpanel.track(event: "Gesture: Calculator: Open")
+                    #endif
 
                     animateToExpandedPosition()
                     drawerPosition = DrawerPosition.open
                     
                 } else {
+                    #if !DEBUG
                     mixpanel.track(event: "Gesture: Calculator: Close")
+                    #endif
 
                     animateToCollapsedPosition()
                     drawerPosition = DrawerPosition.closed

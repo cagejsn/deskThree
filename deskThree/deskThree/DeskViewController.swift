@@ -46,13 +46,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     // Mixpanel initialization
     #if !DEBUG
-        private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-
     func didLoadState(_ state: JotViewStateProxy!) {
         
     }
@@ -96,11 +92,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return true
     }
     
+    @available(iOS 10.0, *)
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
         let newProjectName = textField.text
         SaveAsView.saveProject(name: newProjectName!, workViewRef: workView)
-        
-        
     }
 
     
