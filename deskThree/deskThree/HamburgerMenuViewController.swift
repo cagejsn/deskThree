@@ -12,17 +12,18 @@ import Foundation
 class HamburgerMenuViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet var scrollView: UIScrollView!
     
+    var insideHamburgerView: InsideHamburgerView!
+    
     
     override func viewDidLoad() {
-        var imageView = UIImageView(image: UIImage(named: "apple"))
-        
-        
-        //scrollView.delegate = self
-        scrollView.addSubview(imageView)
+        scrollView.panGestureRecognizer.minimumNumberOfTouches = 1
+        insideHamburgerView = Bundle.main.loadNibNamed("InsideHamburgerView", owner: self, options: nil)?.first as? InsideHamburgerView
+        scrollView.addSubview(insideHamburgerView)
     }
     
-    
-    
-    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.scrollView.contentSize = insideHamburgerView.bounds.size
+    }
     
 }

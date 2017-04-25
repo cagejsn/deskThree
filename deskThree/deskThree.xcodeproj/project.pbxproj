@@ -44,6 +44,8 @@
 		DA2841091EAFBBD70085112E /* SlideMenuControllerSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA28410B1EAFC5590085112E /* HamburgerMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */; };
 		DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */; };
+		DA2841121EAFD3410085112E /* InsideHamburgerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA2841111EAFD3410085112E /* InsideHamburgerView.xib */; };
+		DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */; };
 		DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE141E8C966100520FFD /* DeskControlModule.swift */; };
 		DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */; };
 		DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688BE1E414613006A9E1A /* ToolDrawer.swift */; };
@@ -234,6 +236,8 @@
 		DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
 		DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HamburgerMenuViewController.xib; sourceTree = "<group>"; };
 		DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerMenuViewController.swift; sourceTree = "<group>"; };
+		DA2841111EAFD3410085112E /* InsideHamburgerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InsideHamburgerView.xib; sourceTree = "<group>"; };
+		DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsideHamburgerView.swift; sourceTree = "<group>"; };
 		DA35EE141E8C966100520FFD /* DeskControlModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskControlModule.swift; sourceTree = "<group>"; };
 		DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBubbleMenuButton.h; sourceTree = "<group>"; };
 		DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWBubbleMenuButton.m; sourceTree = "<group>"; };
@@ -540,6 +544,8 @@
 				DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */,
 				DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */,
 				DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */,
+				DA2841111EAFD3410085112E /* InsideHamburgerView.xib */,
+				DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -755,6 +761,7 @@
 			files = (
 				311C3AC41E9965A000F61CE4 /* ATKMathWidget.bundle in Resources */,
 				311C3ABF1E9964FE00F61CE4 /* resources.bundle in Resources */,
+				DA2841121EAFD3410085112E /* InsideHamburgerView.xib in Resources */,
 				311C3AC01E99650700F61CE4 /* Assets.xcassets in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
@@ -855,6 +862,7 @@
 				DA5464511DBD10A300E644F0 /* Paper.swift in Sources */,
 				DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */,
 				25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */,
+				DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,
 				DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,

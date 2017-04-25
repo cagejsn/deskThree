@@ -22,7 +22,7 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NP3-yQ-VX6">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="66"/>
-                    <color key="backgroundColor" red="0.1630671024" green="0.71859991550000002" blue="0.92298704389999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.28337687253952026" green="0.75053113698959351" blue="0.93012028932571411" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="66" id="Dp3-Y9-7I4"/>
                     </constraints>

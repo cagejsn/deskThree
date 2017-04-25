@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       //  SlideMenuOptions.leftBezelWidth = 100
         SlideMenuOptions.contentViewDrag = true
         SlideMenuOptions.contentViewOpacity = 0.0
+        SlideMenuOptions.panGesturesEnabled = false
         
         
         let slideMenuController = SlideMenuController(mainViewController: dvc, leftMenuViewController: HamburgerMenuViewController(), rightMenuViewController: UIViewController())
