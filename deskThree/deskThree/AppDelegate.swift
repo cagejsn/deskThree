@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         Fabric.with([Crashlytics.self])
-
+        
         return true
     }
 
