@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 import SafariServices
+import SlideMenuControllerSwift
+
+
 #if !DEBUG
     import Mixpanel
 #endif
@@ -300,7 +303,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         
         
-        
+       // self.slideMenuController()?.openLeft()
+
         
         
         

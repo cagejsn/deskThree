@@ -40,6 +40,8 @@
 		DA04D9381EA4560A003C0783 /* TutorialVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */; };
 		DA04D93A1EA4562F003C0783 /* TutorialVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */; };
 		DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1308DC1E5007F9008EBD14 /* DeskView.swift */; };
+		DA2841081EAFBBD00085112E /* SlideMenuControllerSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; };
+		DA2841091EAFBBD70085112E /* SlideMenuControllerSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE141E8C966100520FFD /* DeskControlModule.swift */; };
 		DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */; };
 		DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688BE1E414613006A9E1A /* ToolDrawer.swift */; };
@@ -185,6 +187,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				DA2841091EAFBBD70085112E /* SlideMenuControllerSwift.framework in Embed Frameworks */,
 				DA7E470B1E8DD552007C52C1 /* Mixpanel.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -225,6 +228,8 @@
 		DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialVideoViewController.swift; sourceTree = "<group>"; };
 		DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialVideoViewController.xib; sourceTree = "<group>"; };
 		DA1308DC1E5007F9008EBD14 /* DeskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskView.swift; sourceTree = "<group>"; };
+		DA2841051EAFBB270085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
+		DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
 		DA35EE141E8C966100520FFD /* DeskControlModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskControlModule.swift; sourceTree = "<group>"; };
 		DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBubbleMenuButton.h; sourceTree = "<group>"; };
 		DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWBubbleMenuButton.m; sourceTree = "<group>"; };
@@ -324,6 +329,7 @@
 				DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */,
 				3176D2C91EA478F900866D21 /* Fabric.framework in Frameworks */,
 				314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */,
+				DA2841081EAFBBD00085112E /* SlideMenuControllerSwift.framework in Frameworks */,
 				CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */,
 				CE18D3631E6DCD4600BC54D8 /* ATKCore.framework in Frameworks */,
 			);
@@ -400,6 +406,7 @@
 		DAA494DE1DC2ED5A00C73780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DA2841051EAFBB270085112E /* SlideMenuControllerSwift.framework */,
 				3176D2D51EA47A3900866D21 /* libc++.tbd */,
 				3176D2D31EA47A2D00866D21 /* libz.tbd */,
 				DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */,
@@ -442,6 +449,7 @@
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */,
 				314881561E8DD5770015D095 /* Zip.framework */,
 				528F8B141E8DB57300E75EF4 /* Zip */,
 				DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */,

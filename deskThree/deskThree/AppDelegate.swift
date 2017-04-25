@@ -9,6 +9,9 @@
 import UIKit
 import Fabric
 import Crashlytics
+import SlideMenuControllerSwift
+
+    
 #if !DEBUG
     import Mixpanel
 #endif
@@ -29,8 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
+        
+        
         let dvc = DeskViewController()
-        self.window?.rootViewController = dvc
+        
+        let slideMenuController = SlideMenuController(mainViewController: dvc, leftMenuViewController: UIViewController(), rightMenuViewController: UIViewController())
+        self.window?.rootViewController = slideMenuController
+        
+        
         self.window?.makeKeyAndVisible()
         let isFirstLaunch = UserDefaults.isFirstLaunch()
         if isFirstLaunch {
