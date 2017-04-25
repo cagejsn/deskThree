@@ -36,7 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let dvc = DeskViewController()
         
-        let slideMenuController = SlideMenuController(mainViewController: dvc, leftMenuViewController: UIViewController(), rightMenuViewController: UIViewController())
+        SlideMenuOptions.leftViewWidth = 300
+      //  SlideMenuOptions.leftBezelWidth = 100
+        SlideMenuOptions.contentViewDrag = true
+        SlideMenuOptions.contentViewOpacity = 0.0
+        
+        
+        let slideMenuController = SlideMenuController(mainViewController: dvc, leftMenuViewController: HamburgerMenuViewController(), rightMenuViewController: UIViewController())
         self.window?.rootViewController = slideMenuController
         
         
