@@ -79,6 +79,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
 
         block.delegate = self
         expressions.append(block)
+        self.addSubview(block)
     }
     
     func didHoldBlock(sender: MathBlock) {

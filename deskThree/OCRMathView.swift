@@ -14,7 +14,7 @@ import Mixpanel
 
 
 protocol OCRMathViewDelegate {
-    func createMathBlock()
+    func createMathBlock(for mathView: OCRMathView)
     func didRequestWRDisplay(query: String)
 }
 
@@ -36,7 +36,7 @@ class OCRMathView: MAWMathView {
     }
     
     func addToPageButtonTapped(){
-        delegate2.createMathBlock()
+        delegate2.createMathBlock(for: self)
     }
     
     func searchWRButtonTapped(){

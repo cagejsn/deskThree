@@ -44,9 +44,18 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         setupPageNumberSystem()
     }
     
+    //MARK: Data Flow
+    
     func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
     }
+    
+    func receiveNewMathBlock(_ createdMathBlock: MathBlock){
+        currentPage.addMathBlockToPage(block: createdMathBlock)
+        
+    }
+    
+    
     
     func setupDelegateChain(){
         for page in pages {

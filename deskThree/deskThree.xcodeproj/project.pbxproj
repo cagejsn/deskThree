@@ -48,6 +48,7 @@
 		DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */; };
 		DA2841121EAFD3410085112E /* InsideHamburgerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA2841111EAFD3410085112E /* InsideHamburgerView.xib */; };
 		DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */; };
+		DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2841201EB048B10085112E /* MathViewContainer.swift */; };
 		DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE141E8C966100520FFD /* DeskControlModule.swift */; };
 		DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */; };
 		DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688BE1E414613006A9E1A /* ToolDrawer.swift */; };
@@ -242,6 +243,7 @@
 		DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HamburgerMenuViewController.swift; sourceTree = "<group>"; };
 		DA2841111EAFD3410085112E /* InsideHamburgerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InsideHamburgerView.xib; sourceTree = "<group>"; };
 		DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsideHamburgerView.swift; sourceTree = "<group>"; };
+		DA2841201EB048B10085112E /* MathViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathViewContainer.swift; sourceTree = "<group>"; };
 		DA35EE141E8C966100520FFD /* DeskControlModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskControlModule.swift; sourceTree = "<group>"; };
 		DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBubbleMenuButton.h; sourceTree = "<group>"; };
 		DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWBubbleMenuButton.m; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 				DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */,
 				DA2841111EAFD3410085112E /* InsideHamburgerView.xib */,
 				DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */,
+				DA2841201EB048B10085112E /* MathViewContainer.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -863,6 +866,7 @@
 				526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */,
 				DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */,
 				DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */,
+				DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
 				DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */,
 				DA04D9361EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift in Sources */,

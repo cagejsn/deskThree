@@ -11,18 +11,17 @@ import UIKit
 import SafariServices
 import SlideMenuControllerSwift
 
-
 #if !DEBUG
 import Mixpanel
 #endif
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, FileExplorerViewControllerDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate, MathViewContainerDelegate {
 
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
-    private var deskControlModule: DeskControlModule!
-    
+
+    //MARK: TOOLBAR PROPERTIES
     @IBOutlet var projectNameTextField: UITextField!
     @IBOutlet var pageRightButton: UIBarButtonItem!
     @IBOutlet var pageLeftButton: UIBarButtonItem!
@@ -31,19 +30,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var undoButton: UIBarButtonItem!
     @IBOutlet var hamburgerMenuButton: UIBarButtonItem!
     
-
-    private var graphingBlock: GraphingBlock!
     private var trashBin: Trash!
     private var prevScaleFactor: CGFloat!
-    private var mathView: OCRMathView!
     
+    //Other Views with important Functionality
+    private var mathViewContainer: MathViewContainer!
     private var toolDrawer: ToolDrawer!
+    private var penControls: UIView! //to be used later
     
     private var customContraints: [NSLayoutConstraint]!
     private var myScriptConstraints: [NSLayoutConstraint]!
     
-    private var certificateRegistered: Bool!
-    
+   
     // Mixpanel initialization
     #if !DEBUG
     private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
@@ -57,6 +55,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
     }
     
+    //MARK: Lifecycle functions for DVC
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -65,12 +64,57 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolDrawer()
         setupTrash()
         setupDeskView()
-        setupMyScript()
-       // setupDeskControlModule()
-        //setupLowerControls()
-        // Setup file explorer buttons
         setupToolbar()
-        
+        setupMathViewContainer()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(_: animated)
+        workView.setupForJotView()
+    }
+    
+    //MARK: Setup functions for the various components
+    func setupWorkView(workSpace: WorkView = WorkView()){
+        workView = workSpace
+        if(toolDrawer != nil){
+            toolDrawer.delegate = workView
+        }
+        workView.delegate = self
+        workView.customDelegate = self
+        self.view.sendSubview(toBack: workView)
+        workView.minimumZoomScale = 0.6
+        workView.maximumZoomScale = 2.0
+        self.view.insertSubview(workView, at: 0)
+        workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
+        workView.currentPage.subviewDrawingView()
+    }
+    
+    func setupGKPicker(){
+        gkimagePicker.delegate = self
+        gkimagePicker.cropSize = CGSize(width: 320, height: 320)
+        gkimagePicker.resizeableCropArea = true
+    }
+    
+    func setupToolDrawer(){
+        toolDrawer = ToolDrawer()
+        self.view.addSubview(toolDrawer)
+        toolDrawer.setupConstraints()
+        toolDrawer.delegate = workView
+    }
+
+    func setupTrash(){
+        trashBin = Trash()
+        self.view.addSubview(trashBin)
+        trashBin.setupTrash()
+        trashBin.hide()
+    }
+    
+    func setupDeskView(){
+        if let dView = view as? DeskView {
+            dView.setup()
+            dView.addGestureRecognizer(workView.panGestureRecognizer)
+            dView.addGestureRecognizer(workView.pinchGestureRecognizer!)
+        }
     }
     
     func setupToolbar(){
@@ -78,7 +122,21 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         projectNameTextField.text = workView.getSerializedProjectName()
     }
     
+    func setupMathViewContainer(){
+        mathViewContainer = MathViewContainer(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 300, width: UIScreen.main.bounds.width, height: 300))
+        self.view.addSubview(mathViewContainer)
+        mathViewContainer.delegate = self
+    }
     
+    //MARK: Data flow functions
+    func sendingToInputObject(for element: Any){
+        if let mathElement = element as? MathBlock {
+            mathViewContainer.receiveElement(mathElement)
+        }
+        toolDrawer.receiveElement(element)
+    }
+    
+    //MARK: UITextfieldDelegate functions
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
@@ -97,71 +155,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let newProjectName = textField.text
         SaveAsView.saveProject(name: newProjectName!, workViewRef: workView)
     }
-
-    
-    func setupDeskControlModule(){
-        deskControlModule = DeskControlModule(frame: CGRect(x: 100, y: 20, width: 44, height: 44), moduleDelegate: self, pageDelegate: workView)
-        self.view.addSubview(deskControlModule)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(_: animated)
-        workView.setupForJotView()
-    }
-    
-    func saveButtonTapped(_ sender: Any) {
-        let view = Bundle.main.loadNibNamed("SaveAsView", owner: self, options: nil)?.first as? SaveAsView
-        self.view.addSubview(view!)
-        if(workView != nil){
-        view?.workViewRef = workView
-        }
-        view?.center = self.view.center
-        view?.layer.shadowOffset = CGSize(width: -3, height: 3)
-        view?.layer.shadowRadius = 3
-        view?.layer.shadowOpacity = 0.5
-        view?.layer.cornerRadius = 5
-    }
-    
-    
-    func fileExplorerButtonTapped() {
-        #if !DEBUG
-            mixpanel.track(event: "Button: File Explorer")
-        #endif
-        let fileExplorer = FileExplorerViewController()
-        fileExplorer.delegate = self
-        self.present(fileExplorer, animated: false, completion: nil)
-    }
-    
-    func dismissFileExplorer(){
-        self.dismiss(animated: false, completion: nil)
-    }
-    
-    func didSelectProject(projectName: String){
-        #if !DEBUG
-            mixpanel.track(event: "Project Selected")
-        #endif
-
-        //gets rid of old workView
-//        eliminateOldWorkView(workViewToElimate: self.workView)
-//        setupWorkView()
-        workView.loadProject(projectName: projectName)
-        dismissFileExplorer()
-        projectNameTextField.text = workView.getDeskProject().name
-        
-//        setupDeskView()
-//        setupDelegateChain()
-//        workView.stylizeViews()
-    }
-    
-    // NOT USED
-    // This means that there may be an extra workView floating around when we load a new one.
-//    func setupDelegateChain(){
-//        deskControlModule.pageAndDrawingDelegate = workView
-//        workView.setupDelegateChain()
-//    }
-    
-    func toggleEraser(_ sender: Any) {
-    }
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
@@ -176,7 +169,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #if !DEBUG
             mixpanel.track(event: "Gesture: Scroll")
         #endif
-
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
     
@@ -206,111 +198,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         trashBin.unhide()
     }
     
-    //MARK: Setup Functions called from viewDidLoad
-    func setupTrash(){
-        trashBin = Trash()
-        self.view.addSubview(trashBin)
-        trashBin.setupTrash()
-        trashBin.hide()
-    }
-    
-    func setupWorkView(workSpace: WorkView = WorkView()){
-        workView = workSpace
-        if(toolDrawer != nil){
-            toolDrawer.delegate = workView
-        }
-        workView.delegate = self
-        workView.customDelegate = self
-        self.view.sendSubview(toBack: workView)
-        workView.minimumZoomScale = 0.6
-        workView.maximumZoomScale = 2.0
-        self.view.insertSubview(workView, at: 0)
-        workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
-        workView.currentPage.subviewDrawingView()
-    }
-    
-    //TODO: This should soon go
-    func eliminateOldWorkView(workViewToElimate: WorkView){
-        if (workViewToElimate == self.workView){
-            workViewToElimate.setZoomScale(workViewToElimate.minimumZoomScale, animated: false)
-            workViewToElimate.currentPage.drawingView.removeFromSuperview()
-            workViewToElimate.removeFromSuperview()
-            workView = nil
-        }
-    }
-    
-    func setupGKPicker(){
-        gkimagePicker.delegate = self
-        gkimagePicker.cropSize = CGSize(width: 320, height: 320)
-        gkimagePicker.resizeableCropArea = true
-    }
-    
-    func setupToolDrawer(){
-        toolDrawer = ToolDrawer()
-        self.view.addSubview(toolDrawer)
-        toolDrawer.setupConstraints()
-        toolDrawer.delegate = workView
-    }
-    
-    func setupDeskView(){
-        if let dView = view as? DeskView {
-            dView.setup()
-            dView.addGestureRecognizer(workView.panGestureRecognizer)
-            dView.addGestureRecognizer(workView.pinchGestureRecognizer!)
-        }
-    }
-    
-    // TODO: Should we subclass MAWMathView and push all of this code in there?
-    func setupMyScript(){
-        let certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
-        mathView = OCRMathView(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 500 , width: UIScreen.main.bounds.width - 200, height: 400))
-        
-        certificateRegistered = mathView.registerCertificate(certificate)
-        
-        if(certificateRegistered!){
-            mathView.delegate = self
-            
-            let mainBundle = Bundle.main
-            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
-            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
-            mathView.addSearchDir(bundlePath as String)
-            mathView.configure(withBundle: "math", andConfig: "standard")
-            mathView.paddingRatio = UIEdgeInsetsMake(7, 7, 7, 7)
-            
-        }
-        let doubleTapGR = UITapGestureRecognizer(target: self, action: #selector(DeskViewController.createMathBlock))
-        doubleTapGR.numberOfTapsRequired = 2
-        mathView.layer.cornerRadius = 10
-        mathView.clipsToBounds = true
-        mathView.layer.borderColor = UIColor.gray.cgColor
-        mathView.layer.borderWidth = 2
-        mathView.beautificationOption = MAWBeautifyOption.fontify
-        
-        mathView.delegate2 = self   
-    }
-    
-    func sendingToInputObject(for element: Any){
-        if let mathElement = element as? MathBlock {
-            mathView.clear(true)
-            mathView.addSymbols(mathElement.mathSymbols, allowUndo: true)
-        }
-        toolDrawer.passElement(element)
-    }
-    
-    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
-        return self
-    }
-    
+    // MARK: UITOOLBAR ACTIONS
     @IBAction func hamburgerMenuButtonTapped(_ sender: Any) {
-        
-        
-        
         self.slideMenuController()?.openLeft()
-
-        
-        
-        
-        
     }
     
     @IBAction func redoTapped(){
@@ -341,15 +231,45 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.movePage(direction: "right")
     }
     
-    
-    
     //MARK: - WorkView Delegate
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return workView.currentPage
     }
-
     
-    //MARK: UIToolbar on click methods
+    //MARK: FileExplorerViewControllerDelegate
+    func dismissFileExplorer(){
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    func didSelectProject(projectName: String){
+        #if !DEBUG
+            mixpanel.track(event: "Project Selected")
+        #endif
+        workView.loadProject(projectName: projectName)
+        dismissFileExplorer()
+        projectNameTextField.text = workView.getDeskProject().name
+    }
+    
+    //TODO: This should soon go
+    func eliminateOldWorkView(workViewToElimate: WorkView){
+        if (workViewToElimate == self.workView){
+            workViewToElimate.setZoomScale(workViewToElimate.minimumZoomScale, animated: false)
+            workViewToElimate.currentPage.drawingView.removeFromSuperview()
+            workViewToElimate.removeFromSuperview()
+            workView = nil
+        }
+    }
+
+    //MARK: HamburgerMenuViewControllerDelegate functions
+    func fileExplorerButtonTapped() {
+        #if !DEBUG
+            mixpanel.track(event: "Button: File Explorer")
+        #endif
+        let fileExplorer = FileExplorerViewController()
+        fileExplorer.delegate = self
+        self.present(fileExplorer, animated: false, completion: nil)
+    }
+
     func printButtonPushed() {
         #if !DEBUG
             mixpanel.track(event: "Button: Print")
@@ -362,29 +282,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         pdfShareHelper.presentPreview(animated: false)
     }
     
-    func clearButtonTapped() {
-        #if !DEBUG
-            mixpanel.track(event: "Button: Clear Page")
-        #endif
-        workView.clear()
-    }
-    
-    
-    /**
-     Load Image
-     ----------
-     Allows user to bring an image into the work area
-     */
     func loadImageButtonPushed() {
         #if !DEBUG
             mixpanel.track(event: "Button: Load Image")
         #endif
         if(UIImagePickerController.isSourceTypeAvailable(.camera)){
             let alert = UIAlertController(title: "Choose a Photo", message: nil, preferredStyle: UIAlertControllerStyle.alert)
-            
-//            alert.popoverPresentationController?.sourceView = self.view
-//            alert.popoverPresentationController?.sourceRect = CGRect(x: 0, y: 0, width: 200, height: 200)
-            
             alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
                 action in
                 self.gkimagePicker.imagePickerController.sourceType = .camera
@@ -398,15 +301,31 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
-        
+            
         } else {
             self.present(gkimagePicker.imagePickerController, animated: false, completion: nil)
         }
     }
     
+    func feedbackButtonTapped() {
+        #if !DEBUG
+            mixpanel.track(event: "Button: Feedback")
+        #endif
+        let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link") as! URL)
+        self.present(svc, animated: true, completion: nil)
+    }
+    
+    func clearButtonTapped() {
+        #if !DEBUG
+            mixpanel.track(event: "Button: Clear Page")
+        #endif
+        workView.clear()
+    }
+    
+    /*
     ///this function will present a MAWMathView to the User
-    func mathFormulaButtonTapped(_ sender: Any) {
-        if(mathView.superview == nil){
+    func toggleMathViewContainer(_ sender: MathViewContainer) {
+        if(sender.drawerPosition == .closed){
             #if !DEBUG
                 mixpanel.track(event: "Button: MyScript Box: Export")
             #endif
@@ -421,58 +340,34 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-    }
-    
     func setupMathViewConstraints(){
         mathView.translatesAutoresizingMaskIntoConstraints = false
-        
         let leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
         let rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
         let bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -75)
         let heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 300)
-        
         myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
         self.view.addConstraints(myScriptConstraints)
-        
+    }
+ */
+    
+    func pass(_ createdMathBlock: MathBlock,for mathView: OCRMathView){
+        //this is a bad way to set the position of the mathBlock, in the future, we should make the user drag it out
+        var loc = self.view.center
+        loc = loc - CGPoint(x: 0, y: 200)
+        createdMathBlock.center = createdMathBlock.convert(loc, to: workView.currentPage)
+        workView.receiveNewMathBlock(createdMathBlock)
     }
     
-    func mathViewDidBeginConfiguration(_ mathView: MAWMathView!) {
-        
+    
+    func didRequestWRDisplay(query: String){
+        let newQuery = query.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
+        let svc = SFSafariViewController(url: NSURL(string: "https://www.wolframalpha.com/input/?i=" + newQuery) as! URL)
+        self.present(svc, animated: true, completion: nil)
     }
     
-    func mathView(_ mathView: MAWMathView!, didFailConfigurationWithError error: Error!) {
-        NSLog("unable to config", error.localizedDescription)
-        print(error.localizedDescription)
-    }
-    
-    func mathViewDidBeginRecognition(_ mathView: MAWMathView!) {
-        
-    }
-    
-    func mathViewDidEndRecognition(_ mathView: MAWMathView!) {
 
-    }
-    
-    func createMathBlock(){
-        
-        if let image1 =  mathView.resultAsImage(){
-            let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
-            mathBlock.delegate = workView.currentPage
-            workView.currentPage.addMathBlockToPage(block: mathBlock)
-            var loc = self.view.center
-            loc = loc - CGPoint(x: 0, y: 200)
-            mathBlock.center = mathBlock.convert(loc, to: workView.currentPage)
-            self.workView.currentPage.addSubview(mathBlock)
-        }
-    }
-    
-    func printText(){
-        print(mathView.resultAsLaTeX())
-    }
-
-    // MARK: GKImagePickerController Delegate
+    //MARK: GKImagePickerController Delegate
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
         #if !DEBUG
             mixpanel.track(event: "User At Image Picker Screen")
@@ -481,23 +376,28 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         dismiss(animated: true, completion: nil)
     }
     
+    
+    
+    
+    
+    
+    //MARK: Various Support functions
+    
+    func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
+        return self
+    }
+    
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+    }
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    func feedbackButtonTapped() {
-        #if !DEBUG
-            mixpanel.track(event: "Button: Feedback")
-        #endif
-        let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link") as! URL)
-        self.present(svc, animated: true, completion: nil)
-    }
-    
-    func didRequestWRDisplay(query: String){
-        let newQuery = query.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
-        let svc = SFSafariViewController(url: NSURL(string: "https://www.wolframalpha.com/input/?i=" + newQuery) as! URL)
-        self.present(svc, animated: true, completion: nil)
-    }
     
     public func displayErrorInViewController(title: String, description : String){
         let alertController = UIAlertController(title: title, message:
