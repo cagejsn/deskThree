@@ -520,15 +520,10 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     // Do we even need to do this?
     func initCurPage() {
         currentPage.subviewDrawingView()
-        print("\(CFGetRetainCount(currentPage as CFTypeRef))")
-//        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
-        print("\(CFGetRetainCount(currentPage as CFTypeRef))")
+        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex]?.contentMode = .scaleAspectFit
         currentPage.isUserInteractionEnabled = true
-        print("\(CFGetRetainCount(currentPage as CFTypeRef))")
-//        self.delegate = currentPage
         setupForJotView()
-        print("\(CFGetRetainCount(currentPage as CFTypeRef))")
     }
     
     func setupForJotView() {
@@ -589,7 +584,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     private func cleanUpPages() {
         currentPage.drawingView.removeFromSuperview()
         for page in pages {
-            page?.removeFromSuperview()
+            page?.removePage()
         }
         pages.removeAll()
         currentPageIndex = 0
@@ -717,14 +712,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     func freeInactivePages() {
         for i in 0..<pages.count {
             if(pages[i] != currentPage ){
-                pages[i]?.drawingView = nil
-                pages[i]?.removeFromSuperview()
+                pages[i]?.removePage()
                 pages.remove(at: i)
                 pages.insert(nil, at: i)
-//                print("\(CFGetRetainCount(pages[i] as CFTypeRef))")
-//                pages[i]?.removePage()
-//                print("\(CFGetRetainCount(pages[i] as CFTypeRef))")
-//                pages[i] = nil
             }
         }
     }

@@ -232,22 +232,12 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     }
     
     func removePage(){
-        super.removeFromSuperview()
-        super.image = nil
-        
-        self.drawingView.delegate = nil
-        self.drawingState.delegate = nil
-        
-        for view in self.subviews{
-            view.removeFromSuperview()
-        }
-        self.expressions = nil
-        self.images = nil
-        self.drawingState = nil
-        self.delegate = nil
-        self.drawingView = nil
-        self.jotViewStateInkPath = nil
-        self.jotViewStatePlistPath = nil
+        drawingView.deleteAssets()
+        drawingView.invalidate()
+        drawingView = nil
+        drawingState.isForgetful = true
+        drawingState.unload()
+        drawingState = nil
         self.removeFromSuperview()
     }
 
