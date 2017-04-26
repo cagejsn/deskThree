@@ -9,21 +9,69 @@
 import Foundation
 
 
-class HamburgerMenuViewController: UIViewController, UIScrollViewDelegate {
+protocol HamburgerMenuViewControllerDelegate {
+    func fileExplorerButtonTapped()
+    func loadImageButtonPushed()
+    func printButtonPushed()
+    func clearButtonTapped()
+
+}
+
+class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate{
     @IBOutlet var scrollView: UIScrollView!
+    var insideHamburger: InsideHamburgerView!
     
-    var insideHamburgerView: InsideHamburgerView!
+    var delegate: HamburgerMenuViewControllerDelegate!
     
     
     override func viewDidLoad() {
-        scrollView.panGestureRecognizer.minimumNumberOfTouches = 1
-        insideHamburgerView = Bundle.main.loadNibNamed("InsideHamburgerView", owner: self, options: nil)?.first as? InsideHamburgerView
-        scrollView.addSubview(insideHamburgerView)
-    }
+        insideHamburger = Bundle.main.loadNibNamed("InsideHamburgerView", owner: self, options: nil)?.first as? InsideHamburgerView
+        insideHamburger.delegate = self
+        scrollView.addSubview(insideHamburger)
+        scrollView.delaysContentTouches = false
+      }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.scrollView.contentSize = insideHamburgerView.bounds.size
+        scrollView.contentSize = insideHamburger.bounds.size
     }
     
+    func newButtonTapped(){
+        if let slideMenuController = slideMenuController() {
+            slideMenuController.closeLeft()
+            //slideMenuController.mainViewController
+        }
+    }
+    
+    func openButtonTapped(){
+        slideMenuController()?.closeLeft()
+        delegate.fileExplorerButtonTapped()
+    }
+    
+    func printButtonTapped(){
+        slideMenuController()?.closeLeft()
+        delegate.printButtonPushed()
+    }
+    
+    func penSizeSliderValueChanged(value: Float){
+        
+    }
+    
+    func penColorButtonTapped(index: Int){
+        
+    }
+    
+    func backgroundButtonTapped(index: Int){
+        
+    }
+    
+    func importPhotoButtonTapped(){
+        slideMenuController()?.closeLeft()
+        delegate.loadImageButtonPushed()
+    }
+    
+    func clearButtonTapped(){
+        delegate.clearButtonTapped()
+        
+    }
 }

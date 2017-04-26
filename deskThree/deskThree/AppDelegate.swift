@@ -35,15 +35,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         let dvc = DeskViewController()
+        let hmc = HamburgerMenuViewController()
+        hmc.delegate = dvc  
         
-        SlideMenuOptions.leftViewWidth = 300
+        
+        SlideMenuOptions.leftViewWidth = 367
       //  SlideMenuOptions.leftBezelWidth = 100
         SlideMenuOptions.contentViewDrag = true
         SlideMenuOptions.contentViewOpacity = 0.0
         SlideMenuOptions.panGesturesEnabled = false
         
         
-        let slideMenuController = SlideMenuController(mainViewController: dvc, leftMenuViewController: HamburgerMenuViewController(), rightMenuViewController: UIViewController())
+        
+        let slideMenuController = SlideMenuController(mainViewController: dvc, leftMenuViewController: hmc, rightMenuViewController: UIViewController())
         self.window?.rootViewController = slideMenuController
         
         
@@ -51,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let isFirstLaunch = UserDefaults.isFirstLaunch()
         if isFirstLaunch {
             let tutorialVideoViewController = TutorialVideoViewController()
-            dvc.present(tutorialVideoViewController, animated: true, completion: nil)
+            slideMenuController.present(tutorialVideoViewController, animated: true, completion: nil)
         }
         
         Fabric.with([Crashlytics.self])

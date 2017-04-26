@@ -17,7 +17,7 @@ import Mixpanel
 #endif
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate, UITextFieldDelegate{
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, OCRMathViewDelegate, FileExplorerViewControllerDelegate, DeskControlModuleDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate {
 
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
@@ -123,7 +123,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     
-    func fileExplorerButtonTapped(_ sender: Any) {
+    func fileExplorerButtonTapped() {
+        #if !DEBUG
+            mixpanel.track(event: "Button: File Explorer")
+        #endif
         let fileExplorer = FileExplorerViewController()
         fileExplorer.delegate = self
         self.present(fileExplorer, animated: false, completion: nil)
@@ -347,7 +350,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     
     //MARK: UIToolbar on click methods
-    func printButtonPushed(_ sender: Any) {
+    func printButtonPushed() {
+        #if !DEBUG
+            mixpanel.track(event: "Button: Print")
+        #endif
         let pdfFileName = PDFGenerator.createPdfFromView(workView: workView, saveToDocumentsWithFileName: "Preview")
         let pdfShareHelper:UIDocumentInteractionController = UIDocumentInteractionController(url:URL(fileURLWithPath: pdfFileName))
         pdfShareHelper.delegate = self
@@ -356,13 +362,23 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         pdfShareHelper.presentPreview(animated: false)
     }
     
+    func clearButtonTapped() {
+        #if !DEBUG
+            mixpanel.track(event: "Button: Clear Page")
+        #endif
+        workView.clear()
+    }
+    
     
     /**
      Load Image
      ----------
      Allows user to bring an image into the work area
      */
-    func loadImageButtonPushed(_ sender: Any) {
+    func loadImageButtonPushed() {
+        #if !DEBUG
+            mixpanel.track(event: "Button: Load Image")
+        #endif
         if(UIImagePickerController.isSourceTypeAvailable(.camera)){
             let alert = UIAlertController(title: "Choose a Photo", message: nil, preferredStyle: UIAlertControllerStyle.alert)
             
