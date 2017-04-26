@@ -14,6 +14,7 @@ protocol HamburgerMenuViewControllerDelegate {
     func loadImageButtonPushed()
     func printButtonPushed()
     func clearButtonTapped()
+    func feedbackButtonTapped()
 
 }
 
@@ -68,6 +69,10 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
     func importPhotoButtonTapped(){
         slideMenuController()?.closeLeft()
         delegate.loadImageButtonPushed()
+    }
+    
+    func feedbackButtonTapped() {
+        delegate.feedbackButtonTapped()
     }
     
     func clearButtonTapped(){

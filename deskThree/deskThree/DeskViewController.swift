@@ -66,7 +66,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupTrash()
         setupDeskView()
         setupMyScript()
-        setupDeskControlModule()
+       // setupDeskControlModule()
         //setupLowerControls()
         // Setup file explorer buttons
         setupToolbar()
@@ -485,7 +485,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         super.didReceiveMemoryWarning()
     }
     
-    func feedbackButtonTapped(_ sender: Any) {
+    func feedbackButtonTapped() {
+        #if !DEBUG
+            mixpanel.track(event: "Button: Feedback")
+        #endif
         let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link") as! URL)
         self.present(svc, animated: true, completion: nil)
     }

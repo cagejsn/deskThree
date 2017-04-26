@@ -14,7 +14,6 @@ import Foundation
 protocol DeskControlModuleDelegate {
     func saveButtonTapped(_ sender: Any)
     func mathFormulaButtonTapped(_ sender: Any)
-    func feedbackButtonTapped(_ sender: Any)
 }
 
 protocol PageAndDrawingDelegate {
@@ -236,11 +235,9 @@ class DeskControlModule: DWBubbleMenuButton {
     
 
     func feedbackButtonWasTapped() {
-        #if !DEBUG
-            mixpanel.track(event: "Button: Feedback")
-        #endif
         
-        deskViewControllerDelegate.feedbackButtonTapped(self)
+        
+        //deskViewControllerDelegate.feedbackButtonTapped(self)
     }
 
     init(frame: CGRect, moduleDelegate: DeskControlModuleDelegate, pageDelegate: PageAndDrawingDelegate) {

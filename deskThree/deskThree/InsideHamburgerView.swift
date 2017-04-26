@@ -16,6 +16,7 @@ protocol InsideHamburgerViewDelegate {
     func penColorButtonTapped(index: Int)
     func backgroundButtonTapped(index: Int)
     func importPhotoButtonTapped()
+    func feedbackButtonTapped()
     func clearButtonTapped()
 
 }
@@ -72,6 +73,10 @@ class InsideHamburgerView: UIView {
     
     @IBAction func importPhotoButtonTapped(_ sender: Any) {
         delegate.importPhotoButtonTapped()
+    }
+    
+    @IBAction func feedbackButtonTapped(_ sender: Any) {
+        delegate.feedbackButtonTapped()
     }
     
     @IBAction func clearButtonTapped(_ sender: Any) {
