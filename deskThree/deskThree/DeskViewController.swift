@@ -123,10 +123,45 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupMathViewContainer(){
-        mathViewContainer = MathViewContainer(frame: CGRect(x: 100, y: UIScreen.main.bounds.height - 300, width: UIScreen.main.bounds.width, height: 300))
+        mathViewContainer = MathViewContainer(frame: CGRect(x: 0, y: UIScreen.main.bounds.height - 44, width: UIScreen.main.bounds.width, height: 44))
         self.view.addSubview(mathViewContainer)
+        mathViewContainer.setupConstraints()
         mathViewContainer.delegate = self
     }
+    
+    func adjustMathViewContainerConstraints(){
+        
+        
+    }
+    
+    /*
+     ///this function will present a MAWMathView to the User
+     func toggleMathViewContainer(_ sender: MathViewContainer) {
+     if(sender.drawerPosition == .closed){
+     #if !DEBUG
+     mixpanel.track(event: "Button: MyScript Box: Export")
+     #endif
+     self.view.addSubview(mathView)
+     setupMathViewConstraints()
+     } else {
+     #if !DEBUG
+     mixpanel.track(event: "Button: MyScript Box: Clear")
+     #endif
+     mathView.clear(true)
+     mathView.removeFromSuperview()
+     }
+     }
+     
+     func setupMathViewConstraints(){
+     mathView.translatesAutoresizingMaskIntoConstraints = false
+     let leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
+     let rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
+     let bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -75)
+     let heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 300)
+     myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
+     self.view.addConstraints(myScriptConstraints)
+     }
+     */
     
     //MARK: Data flow functions
     func sendingToInputObject(for element: Any){
@@ -321,35 +356,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #endif
         workView.clear()
     }
-    
-    /*
-    ///this function will present a MAWMathView to the User
-    func toggleMathViewContainer(_ sender: MathViewContainer) {
-        if(sender.drawerPosition == .closed){
-            #if !DEBUG
-                mixpanel.track(event: "Button: MyScript Box: Export")
-            #endif
-            self.view.addSubview(mathView)
-            setupMathViewConstraints()
-        } else {
-            #if !DEBUG
-                mixpanel.track(event: "Button: MyScript Box: Clear")
-            #endif
-            mathView.clear(true)
-            mathView.removeFromSuperview()
-        }
-    }
-    
-    func setupMathViewConstraints(){
-        mathView.translatesAutoresizingMaskIntoConstraints = false
-        let leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
-        let rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
-        let bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -75)
-        let heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 300)
-        myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
-        self.view.addConstraints(myScriptConstraints)
-    }
- */
     
     func pass(_ createdMathBlock: MathBlock,for mathView: OCRMathView){
         //this is a bad way to set the position of the mathBlock, in the future, we should make the user drag it out
