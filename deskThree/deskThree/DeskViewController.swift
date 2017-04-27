@@ -16,7 +16,7 @@ import Mixpanel
 #endif
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, FileExplorerViewControllerDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate, MathViewContainerDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, FileExplorerViewControllerDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate, MathViewContainerDelegate, PencilEraserToggleControlDelegate{
 
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
@@ -29,6 +29,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var redoButton: UIBarButtonItem!
     @IBOutlet var undoButton: UIBarButtonItem!
     @IBOutlet var hamburgerMenuButton: UIBarButtonItem!
+    
+    var pencilEraserToggleControl: PencilEraserToggleControl!
     
     private var trashBin: Trash!
     private var prevScaleFactor: CGFloat!
@@ -66,6 +68,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupDeskView()
         setupToolbar()
         setupMathViewContainer()
+        setupPencilEraserToggleControl()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -138,6 +141,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         return self.toolDrawer
     }
 
+    func setupPencilEraserToggleControl(){
+        pencilEraserToggleControl = PencilEraserToggleControl(frame: CGRect(x: 20, y: 70, width: 170, height: 50))
+        self.view.addSubview(pencilEraserToggleControl)
+        pencilEraserToggleControl.delegate = self
+    }
+
+    func switchTo(_ selected: SelectedWritingInstrument){
+        
+    }
     
     /*
      ///this function will present a MAWMathView to the User

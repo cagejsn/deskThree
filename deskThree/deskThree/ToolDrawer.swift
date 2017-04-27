@@ -70,7 +70,8 @@ class ToolDrawer: UIView {
             if(activePad.frame.contains(point)){
                 return true
             }
-        }        
+        }
+        
         return false
     }
     
