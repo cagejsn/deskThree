@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,25 +27,25 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i9E-G4-UOl">
-                    <rect key="frame" x="0.0" y="0.0" width="768" height="66"/>
+                    <rect key="frame" x="0.0" y="0.0" width="768" height="50"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="66" id="aBZ-Eb-n0U"/>
+                        <constraint firstAttribute="height" constant="50" id="aBZ-Eb-n0U"/>
                     </constraints>
                     <items>
-                        <barButtonItem systemItem="add" id="ix8-bi-kc9">
+                        <barButtonItem image="Menu-25" id="ix8-bi-kc9">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="hamburgerMenuButtonTapped:" destination="-1" id="kII-IR-DPr"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem width="56" style="plain" systemItem="fixedSpace" id="Rzp-OM-Zml"/>
-                        <barButtonItem systemItem="undo" id="LGP-z8-ukl">
+                        <barButtonItem image="Undo-25" id="LGP-z8-ukl">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="undoTapped" destination="-1" id="1oS-EZ-Bkh"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem systemItem="redo" id="Pca-Gg-mZy">
+                        <barButtonItem image="Redo-25" id="Pca-Gg-mZy">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="redoTapped" destination="-1" id="VpX-kk-jAq"/>
@@ -54,7 +54,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="KTY-la-kv7"/>
                         <barButtonItem title="Untitled" style="plain" id="jCu-K8-wsz">
                             <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="24" id="qaV-WP-Nda">
-                                <rect key="frame" x="294" y="10" width="180" height="46"/>
+                                <rect key="frame" x="294" y="2" width="180" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
@@ -62,7 +62,7 @@
                             </textField>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Ofh-gk-zI4"/>
-                        <barButtonItem image="leftPage" id="Qty-b2-4aJ">
+                        <barButtonItem image="Back-25" id="Qty-b2-4aJ">
                             <inset key="imageInsets" minX="0.0" minY="1" maxX="0.0" maxY="1"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -72,7 +72,7 @@
                         <barButtonItem width="12" style="plain" systemItem="fixedSpace" id="202-gG-dzD"/>
                         <barButtonItem style="plain" id="XSD-Zt-EdQ">
                             <textField key="customView" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1 of 1" textAlignment="center" minimumFontSize="17" id="uQW-Lx-Iwl">
-                                <rect key="frame" x="619" y="18" width="42" height="30"/>
+                                <rect key="frame" x="660" y="10" width="42" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -80,7 +80,7 @@
                             </textField>
                         </barButtonItem>
                         <barButtonItem width="11" style="plain" systemItem="fixedSpace" id="pT9-Ha-2T1"/>
-                        <barButtonItem image="rightPage" id="JHQ-t7-d1G">
+                        <barButtonItem image="Forward-25" id="JHQ-t7-d1G">
                             <inset key="imageInsets" minX="0.0" minY="1" maxX="0.0" maxY="1"/>
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -118,7 +118,10 @@
         </screenEdgePanGestureRecognizer>
     </objects>
     <resources>
-        <image name="leftPage" width="66" height="66"/>
-        <image name="rightPage" width="66" height="66"/>
+        <image name="Back-25" width="25" height="25"/>
+        <image name="Forward-25" width="25" height="25"/>
+        <image name="Menu-25" width="25" height="25"/>
+        <image name="Redo-25" width="25" height="25"/>
+        <image name="Undo-25" width="25" height="25"/>
     </resources>
 </document>
