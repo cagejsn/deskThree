@@ -53,11 +53,9 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     }
     
     func getViewForTopConstraint(for mathView: OCRMathView) -> UIView{
-        return tab
+        return tab //will be expanded later
     }
 
-    
-    
     func handleSingleTap(sender: UITapGestureRecognizer){
         #if !DEBUG
             mixpanel.track(event: "Gesture: MathView: Single Touch Open/Close")
@@ -185,7 +183,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         leftConstraint = NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: self.superview, attribute: .leading, multiplier: 1.0, constant: 0)
         bottomContraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: 0)
         heightContraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: containerCollapsedHeight)
-        rightConstraint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: delegate.getItemForMathViewRightConstraint(), attribute: .leading, multiplier: 1.0, constant: 0)
+        rightConstraint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: delegate.getItemForMathViewRightConstraint(), attribute: .leading, multiplier: 1.0, constant: 40)
         superview!.addConstraints([leftConstraint,bottomContraint,heightContraint,rightConstraint])
     }
 

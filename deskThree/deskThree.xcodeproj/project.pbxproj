@@ -49,6 +49,7 @@
 		DA2841121EAFD3410085112E /* InsideHamburgerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA2841111EAFD3410085112E /* InsideHamburgerView.xib */; };
 		DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */; };
 		DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2841201EB048B10085112E /* MathViewContainer.swift */; };
+		DA28412B1EB25EED0085112E /* NewAllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28412A1EB25EED0085112E /* NewAllPad.xib */; };
 		DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE141E8C966100520FFD /* DeskControlModule.swift */; };
 		DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */; };
 		DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688BE1E414613006A9E1A /* ToolDrawer.swift */; };
@@ -244,6 +245,7 @@
 		DA2841111EAFD3410085112E /* InsideHamburgerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InsideHamburgerView.xib; sourceTree = "<group>"; };
 		DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsideHamburgerView.swift; sourceTree = "<group>"; };
 		DA2841201EB048B10085112E /* MathViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathViewContainer.swift; sourceTree = "<group>"; };
+		DA28412A1EB25EED0085112E /* NewAllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewAllPad.xib; sourceTree = "<group>"; };
 		DA35EE141E8C966100520FFD /* DeskControlModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskControlModule.swift; sourceTree = "<group>"; };
 		DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBubbleMenuButton.h; sourceTree = "<group>"; };
 		DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWBubbleMenuButton.m; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 				DA2841111EAFD3410085112E /* InsideHamburgerView.xib */,
 				DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */,
 				DA2841201EB048B10085112E /* MathViewContainer.swift */,
+				DA28412A1EB25EED0085112E /* NewAllPad.xib */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -774,6 +777,7 @@
 				311C3AC01E99650700F61CE4 /* Assets.xcassets in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
+				DA28412B1EB25EED0085112E /* NewAllPad.xib in Resources */,
 				311C3ABE1E9964F500F61CE4 /* SaveAsView.xib in Resources */,
 				311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */,
 				DA28410B1EAFC5590085112E /* HamburgerMenuViewController.xib in Resources */,
