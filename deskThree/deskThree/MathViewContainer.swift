@@ -217,10 +217,13 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     func setupTabConstraints(){
         tab.translatesAutoresizingMaskIntoConstraints = false
         let margins = self.layoutMarginsGuide
-        tab.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
-        tab.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+       // tab.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+       // tab.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        
+        tab.centerXAnchor.constraint(equalTo: margins.centerXAnchor).isActive = true
         tab.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
         tab.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        tab.widthAnchor.constraint(equalToConstant: 100).isActive = true
     }
     
     func setupMyscriptCertificate(for mathView: MAWMathView){
@@ -261,8 +264,9 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        tab = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 44))
+        tab = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 44))
         tab.backgroundColor = UIColor.gray
+        tab.center.x = self.center.x
         self.addSubview(tab)
         setupTabConstraints()
         
