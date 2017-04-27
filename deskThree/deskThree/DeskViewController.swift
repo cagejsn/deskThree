@@ -123,16 +123,21 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func setupMathViewContainer(){
-        mathViewContainer = MathViewContainer(frame: CGRect(x: 0, y: UIScreen.main.bounds.height - 44, width: UIScreen.main.bounds.width, height: 44))
+        mathViewContainer = MathViewContainer(frame: CGRect(x: 0, y: UIScreen.main.bounds.height - 44, width: UIScreen.main.bounds.width - 44, height: 44))
         self.view.addSubview(mathViewContainer)
-        mathViewContainer.setupConstraints()
         mathViewContainer.delegate = self
+        mathViewContainer.setupConstraints()
     }
     
     func adjustMathViewContainerConstraints(){
         
         
     }
+    
+    func getItemForMathViewRightConstraint() -> UIView {
+        return self.toolDrawer
+    }
+
     
     /*
      ///this function will present a MAWMathView to the User

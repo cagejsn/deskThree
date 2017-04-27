@@ -18,6 +18,7 @@ let containerExpandedHeight: CGFloat = 344
 protocol MathViewContainerDelegate {
     func pass(_ createdMathBlock: MathBlock,for mathView: OCRMathView)
     func didRequestWRDisplay(query: String)
+    func getItemForMathViewRightConstraint() -> UIView
 }
 
 class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
@@ -41,7 +42,10 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
 
     
     
-    
+    func getViewForTopConstraint(for mathView: OCRMathView) -> UIView{
+        return tab
+    }
+
     
     
     func handleSingleTap(sender: UITapGestureRecognizer){
@@ -80,7 +84,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
                 self.frame.origin.y += (dy/2)
                 self.frame = self.frame.insetBy(dx: 0, dy: (dy/2))
             }
-        }        
+        }
         if(sender.state == .ended){
             if(self.frame.height >= (containerExpandedHeight/2)){
                 animateToExpandedPosition()
@@ -107,9 +111,9 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         CATransaction.setAnimationDuration(0.4)
         //position animation
         let positionAnimation: CABasicAnimation = CABasicAnimation(keyPath: "position")
-        self.frame = CGRect(x: self.frame.origin.x , y:self.frame.origin.y, width: UIScreen.main.bounds.width, height: containerCollapsedHeight)
+        self.frame = CGRect(x: self.frame.origin.x , y:self.frame.origin.y, width: self.frame.width, height: containerCollapsedHeight)
         let originPosition: CGPoint = self.center
-        let finalPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width/2 , y: UIScreen.main.bounds.height - (containerCollapsedHeight/2))
+        let finalPosition: CGPoint = CGPoint(x: self.frame.width/2 , y: UIScreen.main.bounds.height - (containerCollapsedHeight/2))
         CATransaction.setCompletionBlock({
             self.isUserInteractionEnabled = true
         })
@@ -124,7 +128,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         CATransaction.commit()
         self.setCollapsedHeightConstraint()
         self.center = finalPosition
-        self.frame = CGRect(x:0, y: UIScreen.main.bounds.height - containerCollapsedHeight, width: UIScreen.main.bounds.width, height: containerCollapsedHeight)
+        self.frame = CGRect(x:0, y: UIScreen.main.bounds.height - containerCollapsedHeight, width: self.frame.width, height: containerCollapsedHeight)
     }
     
     func animateToExpandedPosition(){
@@ -134,9 +138,9 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         CATransaction.setAnimationDuration(0.4)
         //position animation
         let positionAnimation: CABasicAnimation = CABasicAnimation(keyPath: "position")
-        self.frame = CGRect(x: self.frame.origin.x , y:self.frame.origin.y, width: UIScreen.main.bounds.width, height: containerExpandedHeight)
+        self.frame = CGRect(x: self.frame.origin.x , y:self.frame.origin.y, width: self.frame.width, height: containerExpandedHeight)
         let originPosition: CGPoint = self.center
-        let finalPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width/2 , y: UIScreen.main.bounds.height - (containerExpandedHeight/2))
+        let finalPosition: CGPoint = CGPoint(x: self.frame.width/2 , y: UIScreen.main.bounds.height - (containerExpandedHeight/2))
         CATransaction.setCompletionBlock({
             self.isUserInteractionEnabled = true
         })
@@ -151,7 +155,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         CATransaction.commit()
         self.setExpandedHeightConstraint()
         self.center = finalPosition
-        self.frame = CGRect(x:0, y: UIScreen.main.bounds.height - containerExpandedHeight, width: UIScreen.main.bounds.width, height: containerExpandedHeight)
+        self.frame = CGRect(x:0, y: UIScreen.main.bounds.height - containerExpandedHeight, width: self.frame.width, height: containerExpandedHeight)
     }
     
     func setCollapsedHeightConstraint(){
@@ -171,13 +175,10 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         leftConstraint = NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: self.superview, attribute: .leading, multiplier: 1.0, constant: 0)
         bottomContraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: 0)
         heightContraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: containerCollapsedHeight)
-        rightConstraint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: self.superview, attribute: .trailing, multiplier: 1.0, constant: 0)
-        //widthContraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: UIScreen.main.bounds.width)
+        rightConstraint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: delegate.getItemForMathViewRightConstraint(), attribute: .leading, multiplier: 1.0, constant: 0)
         superview!.addConstraints([leftConstraint,bottomContraint,heightContraint,rightConstraint])
     }
-    
-    
-    
+
     //MARK: OCRMathViewDelegate Functions
     func createMathBlock(for mathView: OCRMathView){
         
@@ -213,11 +214,14 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         
     }
     
-    
-    
-    
-    
-    
+    func setupTabConstraints(){
+        tab.translatesAutoresizingMaskIntoConstraints = false
+        let margins = self.layoutMarginsGuide
+        tab.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+        tab.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        tab.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        tab.heightAnchor.constraint(equalToConstant: 44).isActive = true
+    }
     
     func setupMyscriptCertificate(for mathView: MAWMathView){
         let certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
@@ -233,7 +237,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     }
     
     func stylize( mathView: OCRMathView){
-        
+        mathView.setupMathViewConstraints()
     }
     
     func setup(mathView: OCRMathView){
@@ -249,9 +253,9 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         var mathView = OCRMathView(frame: CGRect(x: 0, y: (mathViews.count * mathViewHeight) + 44, width: mathViewWidth, height: mathViewHeight))
         setupMyscriptCertificate(for: mathView)
         setup(mathView: mathView)
+        self.addSubview(mathView)
         stylize(mathView: mathView)
         mathViews.append(mathView)
-        self.addSubview(mathView)
         
     }
     
@@ -260,6 +264,8 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         tab = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: 44))
         tab.backgroundColor = UIColor.gray
         self.addSubview(tab)
+        setupTabConstraints()
+        
         mathViews = [OCRMathView]()
         addMathViewToStack()
         
