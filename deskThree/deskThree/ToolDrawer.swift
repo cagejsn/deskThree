@@ -68,16 +68,16 @@ class ToolDrawer: UIView {
 
         let location = sender.location(in: self)
         if (toolIcons[0].frame.contains(location)){
-        
             if (!isActive){
                 activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
                 self.addSubview(activePad)
+                UIApplication.shared.keyWindow!.bringSubview(toFront: activePad)
+                self.bringSubview(toFront: activePad)
+                activePad.layer.zPosition = 1
+                print("1")
                 activePad.delegate = delegate
                 isActive = true
-//                calculatorIcon.layer.borderColor = UIColor.black.cgColor
-//                calculatorIcon.layer.borderWidth = 1
                 calculatorIcon.backgroundColor = Constants.block.colors.gray
-                
             }
                 if(drawerPosition == DrawerPosition.closed){
                     #if !DEBUG
@@ -113,17 +113,16 @@ class ToolDrawer: UIView {
         }
         
         if (!isActive){
-            
             activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
             self.addSubview(activePad)
+            self.bringSubview(toFront: activePad)
+            UIApplication.shared.keyWindow!.bringSubview(toFront: activePad)
+            activePad.layer.zPosition = 1
+            print("2")
             activePad.delegate = delegate
             isActive = true
-//            calculatorIcon.layer.borderColor = UIColor.black.cgColor
-//            calculatorIcon.layer.borderWidth = 1
             calculatorIcon.backgroundColor = Constants.block.colors.gray
-            
         } else {
-   
         }
         
         if(sender.state == .ended){
@@ -150,7 +149,6 @@ class ToolDrawer: UIView {
         for icon in toolIcons {
             icon.backgroundColor = UIColor.clear
         }
-        
     }
     
     func animateToCollapsedPosition(){
@@ -182,8 +180,6 @@ class ToolDrawer: UIView {
         self.setCollapsedWidthConstraint()
         self.center = finalPosition
         self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerCollapsedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight + 44), width: toolDrawerCollapsedWidth, height: toolDrawerHeight)
-        
-        
     }
     
     func animateToExpandedPosition(){
@@ -201,7 +197,6 @@ class ToolDrawer: UIView {
         
         CATransaction.setCompletionBlock({
             self.isUserInteractionEnabled = true
-           
         })
         
         positionAnimation.duration = 0.1
@@ -216,7 +211,6 @@ class ToolDrawer: UIView {
         self.setExpandedWidthConstraint()
         self.center = finalPosition
         self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerExpandedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight + 44), width: toolDrawerExpandedWidth, height: toolDrawerHeight)
-       
     }
     
     func setCollapsedWidthConstraint(){
@@ -253,17 +247,17 @@ class ToolDrawer: UIView {
         self.layer.shadowOpacity = 0.7
         self.layer.shadowRadius = 4.0
         self.layoutIfNeeded()
-        self.layer.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10.0, viewBounds: self.bounds)
+//        self.layer.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10.0, viewBounds: self.bounds)
 //        self.round(corners: [.topLeft, .bottomLeft], radius: 10.0)
         
         // Setup the border view
         let borderView = UIView()
         borderView.frame = self.bounds
         borderView.layoutIfNeeded()
-        borderView.layer.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10.0, viewBounds: borderView.bounds)
         borderView.layer.borderColor = UIColor.black.cgColor
         borderView.layer.borderWidth = 1
         borderView.layer.masksToBounds = true
+//        borderView.layer.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10.0, viewBounds: borderView.bounds)
 //        borderView.round(corners: [.topLeft, .bottomLeft], radius: 10.0)
         self.addSubview(borderView)
         
