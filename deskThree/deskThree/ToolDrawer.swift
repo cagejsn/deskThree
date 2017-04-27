@@ -229,24 +229,12 @@ class ToolDrawer: UIView {
         // Setup the base view, which is transparent and has a shadow
         super.init(frame: CGRect(x: 0, y: 0, width: 40, height: Constants.dimensions.AllPad.height))
         
-        // Make transparent
-//        self.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
-        
         // Add shadow and corners
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize(width: -2, height: 0)
         self.layer.shadowOpacity = 0.7
         self.layer.shadowRadius = 4.0
         self.layoutIfNeeded()
-        
-        // Setup the border view
-        let borderView = UIView()
-        borderView.frame = self.bounds
-        borderView.layoutIfNeeded()
-        borderView.layer.borderColor = UIColor.black.cgColor
-        borderView.layer.borderWidth = 1
-        borderView.layer.masksToBounds = true
-//        self.addSubview(borderView)
         
         // Add the swipe gesture for sliding out
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ToolDrawer.handlePan))
@@ -256,11 +244,14 @@ class ToolDrawer: UIView {
         singleTapGR = UITapGestureRecognizer(target: self, action: #selector(ToolDrawer.handleSingleTap))
         self.addGestureRecognizer(singleTapGR)
 
-        // Add the icon
+        // Add the icon to the icon view
         calculatorIcon = UIImageView(frame:CGRect(x: 0, y: 0, width: Int(toolDrawerCollapsedWidth), height: toolSelectorHeight*2))
         calculatorIcon.image = UIImage(named: "calculator_med")
         calculatorIcon.contentMode = .scaleAspectFit
+        
+        // Change color of the icon view
         calculatorIcon.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
+        // Round the icon view
         calculatorIcon.round(corners: [.topLeft, .bottomLeft], radius: 5.0)
         self.addSubview(calculatorIcon)
         toolIcons = [UIImageView]()
