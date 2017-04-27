@@ -68,16 +68,12 @@ class ToolDrawer: UIView {
 
         let location = sender.location(in: self)
         if (toolIcons[0].frame.contains(location)){
-        
             if (!isActive){
                 activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
                 self.addSubview(activePad)
                 activePad.delegate = delegate
                 isActive = true
-//                calculatorIcon.layer.borderColor = UIColor.black.cgColor
-//                calculatorIcon.layer.borderWidth = 1
-                calculatorIcon.backgroundColor = Constants.block.colors.gray
-                
+                calculatorIcon.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
             }
                 if(drawerPosition == DrawerPosition.closed){
                     #if !DEBUG
@@ -113,17 +109,11 @@ class ToolDrawer: UIView {
         }
         
         if (!isActive){
-            
             activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
             self.addSubview(activePad)
             activePad.delegate = delegate
             isActive = true
-//            calculatorIcon.layer.borderColor = UIColor.black.cgColor
-//            calculatorIcon.layer.borderWidth = 1
-            calculatorIcon.backgroundColor = Constants.block.colors.gray
-            
-        } else {
-   
+            calculatorIcon.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
         }
         
         if(sender.state == .ended){
@@ -148,9 +138,8 @@ class ToolDrawer: UIView {
         isActive = false
         
         for icon in toolIcons {
-            icon.backgroundColor = UIColor.clear
+            icon.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
         }
-        
     }
     
     func animateToCollapsedPosition(){
@@ -182,8 +171,6 @@ class ToolDrawer: UIView {
         self.setCollapsedWidthConstraint()
         self.center = finalPosition
         self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerCollapsedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight + 44), width: toolDrawerCollapsedWidth, height: toolDrawerHeight)
-        
-        
     }
     
     func animateToExpandedPosition(){
@@ -201,7 +188,6 @@ class ToolDrawer: UIView {
         
         CATransaction.setCompletionBlock({
             self.isUserInteractionEnabled = true
-           
         })
         
         positionAnimation.duration = 0.1
@@ -216,7 +202,6 @@ class ToolDrawer: UIView {
         self.setExpandedWidthConstraint()
         self.center = finalPosition
         self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerExpandedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight + 44), width: toolDrawerExpandedWidth, height: toolDrawerHeight)
-       
     }
     
     func setCollapsedWidthConstraint(){
@@ -244,28 +229,12 @@ class ToolDrawer: UIView {
         // Setup the base view, which is transparent and has a shadow
         super.init(frame: CGRect(x: 0, y: 0, width: 40, height: Constants.dimensions.AllPad.height))
         
-        // Make transparent
-        self.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
-        
         // Add shadow and corners
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOffset = CGSize(width: -2, height: 0)
         self.layer.shadowOpacity = 0.7
         self.layer.shadowRadius = 4.0
         self.layoutIfNeeded()
-        self.layer.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10.0, viewBounds: self.bounds)
-//        self.round(corners: [.topLeft, .bottomLeft], radius: 10.0)
-        
-        // Setup the border view
-        let borderView = UIView()
-        borderView.frame = self.bounds
-        borderView.layoutIfNeeded()
-        borderView.layer.roundCorners(corners: [.topLeft, .bottomLeft], radius: 10.0, viewBounds: borderView.bounds)
-        borderView.layer.borderColor = UIColor.black.cgColor
-        borderView.layer.borderWidth = 1
-        borderView.layer.masksToBounds = true
-//        borderView.round(corners: [.topLeft, .bottomLeft], radius: 10.0)
-        self.addSubview(borderView)
         
         // Add the swipe gesture for sliding out
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ToolDrawer.handlePan))
@@ -275,10 +244,15 @@ class ToolDrawer: UIView {
         singleTapGR = UITapGestureRecognizer(target: self, action: #selector(ToolDrawer.handleSingleTap))
         self.addGestureRecognizer(singleTapGR)
 
-        // Add the icon
+        // Add the icon to the icon view
         calculatorIcon = UIImageView(frame:CGRect(x: 0, y: 0, width: Int(toolDrawerCollapsedWidth), height: toolSelectorHeight*2))
         calculatorIcon.image = UIImage(named: "calculator_med")
         calculatorIcon.contentMode = .scaleAspectFit
+        
+        // Change color of the icon view
+        calculatorIcon.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
+        // Round the icon view
+        calculatorIcon.round(corners: [.topLeft, .bottomLeft], radius: 5.0)
         self.addSubview(calculatorIcon)
         toolIcons = [UIImageView]()
         toolIcons.append(calculatorIcon)
