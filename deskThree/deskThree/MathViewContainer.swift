@@ -67,7 +67,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         if (tab.frame.contains(location)){
             if(drawerPosition == DrawerPosition.closed){
                 #if !DEBUG
-                    mixpanel.track(event: "Gesture: Calculator: Open")
+                    mixpanel.track(event: "Gesture: MathView: Open")
                 #endif
                 
                 animateToExpandedPosition()
@@ -75,7 +75,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
                 
             } else {
                 #if !DEBUG
-                    mixpanel.track(event: "Gesture: Calculator: Close")
+                    mixpanel.track(event: "Gesture: MathView: Close")
                 #endif
                 
                 animateToCollapsedPosition()
@@ -185,7 +185,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         leftConstraint = NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: self.superview, attribute: .leading, multiplier: 1.0, constant: 0)
         bottomContraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: 0)
         heightContraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: containerCollapsedHeight)
-        rightConstraint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: delegate.getItemForMathViewRightConstraint(), attribute: .leading, multiplier: 1.0, constant: 0)
+        rightConstraint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: delegate.getItemForMathViewRightConstraint(), attribute: .leading, multiplier: 1.0, constant: 40)
         superview!.addConstraints([leftConstraint,bottomContraint,heightContraint,rightConstraint])
     }
 
@@ -246,6 +246,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
             mathView.addSearchDir(bundlePath as String)
             mathView.configure(withBundle: "math", andConfig: "standard")
             mathView.paddingRatio = UIEdgeInsetsMake(7, 7, 7, 7)
+//            mathView.round(corners: [.topLeft, .topRight], radius: 5.0)
         }
     }
     
@@ -275,8 +276,9 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         tab = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 44))
-        tab.backgroundColor = UIColor.gray
+        tab.backgroundColor = UIColor.init(red: 41.0/255.0, green: 183.0/255.0, blue: 235.0/255.0, alpha: 0.75)
         tab.center.x = self.center.x
+        tab.round(corners: [.topLeft, .topRight], radius: 5.0)
         self.addSubview(tab)
         setupTabConstraints()
         
