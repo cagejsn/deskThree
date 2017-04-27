@@ -14,8 +14,9 @@ import Mixpanel
 
 
 protocol OCRMathViewDelegate {
-    func createMathBlock()
+    func createMathBlock(for mathView: OCRMathView)
     func didRequestWRDisplay(query: String)
+    func getViewForTopConstraint(for mathView: OCRMathView) -> UIView
 }
 
 class OCRMathView: MAWMathView {
@@ -25,6 +26,11 @@ class OCRMathView: MAWMathView {
     var outputAreaConstraints: [NSLayoutConstraint]!
     var wolframQueryConstraints: [NSLayoutConstraint]!
     var delegate2: OCRMathViewDelegate!
+    
+    var leftConstraint: NSLayoutConstraint!
+    var topContraint: NSLayoutConstraint!
+    var heightContraint: NSLayoutConstraint!
+    var rightConstraint: NSLayoutConstraint!
 
     #if !DEBUG
     private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
@@ -36,7 +42,7 @@ class OCRMathView: MAWMathView {
     }
     
     func addToPageButtonTapped(){
-        delegate2.createMathBlock()
+        delegate2.createMathBlock(for: self)
     }
     
     func searchWRButtonTapped(){
@@ -71,7 +77,15 @@ class OCRMathView: MAWMathView {
         
     }
     
- 
+    func setupMathViewConstraints(){
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        leftConstraint = NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: self.superview, attribute: .leading, multiplier: 1.0, constant: 0)
+        topContraint = NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: delegate2.getViewForTopConstraint(for: self), attribute: .bottom, multiplier: 1.0, constant: 0)
+        heightContraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: CGFloat(mathViewHeight))
+        rightConstraint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: self.superview, attribute: .trailing, multiplier: 1.0, constant: 0)
+        superview!.addConstraints([leftConstraint,topContraint,heightContraint,rightConstraint])
+    }
     
     
     override init(frame: CGRect) {

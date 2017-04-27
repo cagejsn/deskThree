@@ -44,7 +44,7 @@ class ToolDrawer: UIView {
         var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
     
-    func passElement(_ element: Any){
+    func receiveElement(_ element: Any){
         if(drawerPosition == .closed){
             return
         }
