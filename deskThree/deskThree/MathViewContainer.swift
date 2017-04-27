@@ -53,11 +53,9 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     }
     
     func getViewForTopConstraint(for mathView: OCRMathView) -> UIView{
-        return tab
+        return tab //will be expanded later
     }
 
-    
-    
     func handleSingleTap(sender: UITapGestureRecognizer){
         #if !DEBUG
             mixpanel.track(event: "Gesture: MathView: Single Touch Open/Close")

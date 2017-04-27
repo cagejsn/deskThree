@@ -60,6 +60,19 @@ class ToolDrawer: UIView {
         if (self.frame.width - dx > toolDrawerCollapsedWidth && self.frame.width - dx < toolDrawerExpandedWidth){return true}
         return false
     }
+
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if(calculatorIcon.frame.contains(point)){
+            return true
+        }
+        
+        if(activePad != nil){
+            if(activePad.frame.contains(point)){
+                return true
+            }
+        }        
+        return false
+    }
     
     func handleSingleTap(sender: UITapGestureRecognizer){
         #if !DEBUG
@@ -219,7 +232,7 @@ class ToolDrawer: UIView {
     func setupConstraints(){
         self.translatesAutoresizingMaskIntoConstraints = false
         rightConstaint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: self.superview, attribute: .trailing, multiplier: 1.0, constant: 0)
-        bottomContraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: -44)
+        bottomContraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: 0)
         heightContraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: Constants.dimensions.AllPad.height)
         widthContraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40)
         superview!.addConstraints([rightConstaint,bottomContraint,heightContraint,widthContraint])
