@@ -40,7 +40,17 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     var rightConstraint: NSLayoutConstraint!
 
 
-    
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        if(tab.frame.contains(point)){
+            return true
+        }
+        for mathView in mathViews {
+            if(mathView.frame.contains(point)){
+                return true
+            }
+        }
+        return false
+    }
     
     func getViewForTopConstraint(for mathView: OCRMathView) -> UIView{
         return tab
