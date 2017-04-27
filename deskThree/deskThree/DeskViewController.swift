@@ -400,8 +400,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         print(mathView.resultAsLaTeX())
     }
 
-    
-    
     // MARK: GKImagePickerController Delegate
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
         #if !DEBUG
@@ -422,6 +420,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link") as! URL)
         self.present(svc, animated: true, completion: nil)
         
+    }
+    
+    func didRequestWRDisplay(query: String){
+
+        let newQuery = query.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
+        
+        let svc = SFSafariViewController(url: NSURL(string: "https://www.wolframalpha.com/input/?i=" + newQuery) as! URL)
+        self.present(svc, animated: true, completion: nil)
     }
     
     public func displayErrorInViewController(title: String, description : String){
