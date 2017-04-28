@@ -79,6 +79,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
 
         block.delegate = self
         expressions.append(block)
+        addSubview(block)
     }
     
     func didHoldBlock(sender: MathBlock) {
@@ -236,9 +237,21 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         drawingView.deleteAssets()
         drawingView.invalidate()
         drawingView = nil
+        
         drawingState.isForgetful = true
         drawingState.unload()
         drawingState = nil
+        
+        for expression in expressions {
+            expression.removeFromSuperview()
+        }
+        expressions.removeAll()
+        
+        for image in images {
+            image.removeFromSuperview()
+        }
+        images.removeAll()
+        
         self.removeFromSuperview()
     }
 

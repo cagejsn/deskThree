@@ -23,12 +23,12 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     //MARK: Variables
     var amtMoved: CGFloat = 0
     var delegate: ExpressionDelegate?
-    weak var parser: Parser?
+    var parser: Parser?
     var expressionString: String = ""
     var longPressGR: UILongPressGestureRecognizer!
     
     //MARK: UIGestureRecognizers
-    weak var doubleTapGestureRecognizer: UITapGestureRecognizer?
+    var doubleTapGestureRecognizer: UITapGestureRecognizer?
 
     #if !DEBUG
         // Mixpanel initialization

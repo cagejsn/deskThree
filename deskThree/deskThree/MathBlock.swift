@@ -11,7 +11,7 @@ import Foundation
 
 
 class MathBlock: Expression{
-    weak private var imageHolder: UIImageView?
+    private var imageHolder: UIImageView?
     var mathSymbols: [Any]!
     
     override func encode(with aCoder: NSCoder) {

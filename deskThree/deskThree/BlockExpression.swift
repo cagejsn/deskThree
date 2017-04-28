@@ -177,6 +177,9 @@ class BlockExpression: Expression{
         aCoder.encode(rootBlock)
     }
 
+    deinit {
+        print("deinit blockExp")
+    }
     
     init(firstVal: Block){
         rootBlock = firstVal

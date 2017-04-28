@@ -535,6 +535,13 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         setupForJotView()
     }
     
+    func addMathBlockToCurPage (mathBlock: MathBlock) {
+        currentPage.addMathBlockToPage(block: mathBlock)
+        didIncrementMove(movedView: mathBlock)
+        didModifyDocument()
+        archivePageObjects(page: currentPageIndex)
+    }
+    
     func setupForJotView() {
         self.setZoomScale(minimumZoomScale, animated: false)
         self.setZoomScale((maximumZoomScale + minimumZoomScale)/2, animated: false)
