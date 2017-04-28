@@ -281,14 +281,14 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         super.init(coder: unarchiver)!
         images = unarchiver.decodeObject() as! [ImageBlock]!
         for image in images! {
-            self.addSubview(image)
             image.delegate = self
+            self.addSubview(image)
         }
         
         expressions = unarchiver.decodeObject() as! [Expression]!
         for expression in expressions {
-            self.addSubview(expression)
             expression.delegate = self
+            self.addSubview(expression)
         }
     }
 }

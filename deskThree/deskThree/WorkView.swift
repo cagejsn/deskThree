@@ -532,6 +532,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex]?.contentMode = .scaleAspectFit
         currentPage.isUserInteractionEnabled = true
+        currentPage.delegate = self
         setupForJotView()
     }
     
@@ -597,15 +598,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         return "Untitled"+String(i)
     }
     
-    private func cleanUpPages() {
-        currentPage.drawingView.removeFromSuperview()
-        for page in pages {
-            page?.removePage()
-        }
-        pages.removeAll()
-        currentPageIndex = 0
-        print(pages.count)
-    }
+
     
     func loadPage(pageNo: Int){
         
@@ -615,12 +608,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         //page existed before, so get it from disk
         if(FileManager.default.fileExists(atPath: pageAddr) && pages[pageNo] == nil){
             let page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
-            page?.jotViewStateInkPath = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(pageNo+1)+"/ink.png"
-            page?.jotViewStatePlistPath = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(pageNo+1)+"/state.plist"
             pages[pageNo] = page!
-            self.addSubview(page!)
-            page?.setupDrawingView()
-            page?.stylizeViews()
+            pages[pageNo]?.jotViewStateInkPath = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(pageNo+1)+"/ink.png"
+            pages[pageNo]?.jotViewStatePlistPath = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(pageNo+1)+"/state.plist"
+            pages[pageNo]?.setupDrawingView()
+            pages[pageNo]?.stylizeViews()
+            addSubview(pages[pageNo]!)
         }
     }
     
@@ -647,6 +640,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         loadPage(pageNo: 0)
         self.currentPage = pages.first!
         
+        // Do we even need this block anymore? All the other pages are nil anyway
         for view in self.subviews{
             if let paper = view as? Paper {
                 paper.isHidden = true
@@ -656,7 +650,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         currentPage.isHidden = false
 
         initCurPage()
-        setupDelegateChain()
     }
     
     
@@ -726,6 +719,18 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         curPen = .pen // Points to pen
     }
     
+    // Called before loading a new project
+    private func cleanUpPages() {
+        currentPage.drawingView.removeFromSuperview()
+        for page in pages {
+            page?.removePage()
+        }
+        pages.removeAll()
+        currentPageIndex = 0
+        print(pages.count)
+    }
+    
+    // Called to free up memory on didRecieveMemoryWarning
     func freeInactivePages() {
         for i in 0..<pages.count {
             if(pages[i] != currentPage ){
