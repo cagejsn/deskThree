@@ -102,11 +102,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
     }
     
-    func stylizeViews(){
-        for page in pages {
-            page?.stylizeViews()
-        }
-    }
+//    func stylizeViews(){
+//        for page in pages {
+//            page?.stylizeViews()
+//        }
+//    }
     
     ///sets workarea's meta data object
     func setDeskProject(project: DeskProject){
@@ -620,6 +620,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             pages[pageNo] = page!
             self.addSubview(page!)
             page?.setupDrawingView()
+            page?.stylizeViews()
         }
     }
     
