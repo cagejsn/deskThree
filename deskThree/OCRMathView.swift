@@ -27,6 +27,8 @@ class OCRMathView: MAWMathView {
     var wolframQueryConstraints: [NSLayoutConstraint]!
     var delegate2: OCRMathViewDelegate!
     
+    var topBorderLayer: CALayer!
+    
     var leftConstraint: NSLayoutConstraint!
     var topContraint: NSLayoutConstraint!
     var heightContraint: NSLayoutConstraint!
@@ -51,6 +53,20 @@ class OCRMathView: MAWMathView {
         #endif
 
         delegate2.didRequestWRDisplay(query: self.resultAsText())
+    }
+    
+    func stylize(){
+        topBorderLayer = self.addAndReturnTopBorder(color: Constants.DesignColors.deskBlue, width: 5)
+        topBorderLayer.opacity = 0.8
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+                
+        topBorderLayer.removeFromSuperlayer()
+        topBorderLayer = nil
+        stylize()
     }
     
     func setupContraintsForOutputArea(){

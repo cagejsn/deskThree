@@ -49,7 +49,7 @@
 		DA2841121EAFD3410085112E /* InsideHamburgerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA2841111EAFD3410085112E /* InsideHamburgerView.xib */; };
 		DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */; };
 		DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2841201EB048B10085112E /* MathViewContainer.swift */; };
-		DA28412B1EB25EED0085112E /* NewAllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28412A1EB25EED0085112E /* NewAllPad.xib */; };
+		DA28412B1EB25EED0085112E /* AllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28412A1EB25EED0085112E /* AllPad.xib */; };
 		DA2841301EB279F50085112E /* PencilEraserToggleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */; };
 		DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE141E8C966100520FFD /* DeskControlModule.swift */; };
 		DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */; };
@@ -84,7 +84,7 @@
 		DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */; };
 		DADC67FC1E27E9F800C14F5B /* GraphingBlock.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */; };
 		DADC7C651DF0F4650086626E /* AllPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C5D1DF0F4650086626E /* AllPad.swift */; };
-		DADC7C661DF0F4650086626E /* AllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADC7C5E1DF0F4650086626E /* AllPad.xib */; };
+		DADC7C661DF0F4650086626E /* OldAllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DADC7C5E1DF0F4650086626E /* OldAllPad.xib */; };
 		DADC7C671DF0F4650086626E /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C5F1DF0F4650086626E /* Block.swift */; };
 		DADC7C681DF0F4650086626E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C601DF0F4650086626E /* Constants.swift */; };
 		DADC7C691DF0F4650086626E /* ETree.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C611DF0F4650086626E /* ETree.swift */; };
@@ -246,7 +246,7 @@
 		DA2841111EAFD3410085112E /* InsideHamburgerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InsideHamburgerView.xib; sourceTree = "<group>"; };
 		DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsideHamburgerView.swift; sourceTree = "<group>"; };
 		DA2841201EB048B10085112E /* MathViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathViewContainer.swift; sourceTree = "<group>"; };
-		DA28412A1EB25EED0085112E /* NewAllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewAllPad.xib; sourceTree = "<group>"; };
+		DA28412A1EB25EED0085112E /* AllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllPad.xib; sourceTree = "<group>"; };
 		DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PencilEraserToggleControl.swift; sourceTree = "<group>"; };
 		DA35EE141E8C966100520FFD /* DeskControlModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskControlModule.swift; sourceTree = "<group>"; };
 		DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBubbleMenuButton.h; sourceTree = "<group>"; };
@@ -297,7 +297,7 @@
 		DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphingBlock.swift; sourceTree = "<group>"; };
 		DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphingBlock.xib; sourceTree = "<group>"; };
 		DADC7C5D1DF0F4650086626E /* AllPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllPad.swift; sourceTree = "<group>"; };
-		DADC7C5E1DF0F4650086626E /* AllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllPad.xib; sourceTree = "<group>"; };
+		DADC7C5E1DF0F4650086626E /* OldAllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OldAllPad.xib; sourceTree = "<group>"; };
 		DADC7C5F1DF0F4650086626E /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		DADC7C601DF0F4650086626E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		DADC7C611DF0F4650086626E /* ETree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ETree.swift; sourceTree = "<group>"; };
@@ -479,7 +479,7 @@
 				DAE5D3271E6233D5007DE25F /* resources.bundle */,
 				DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */,
 				DADC7C5D1DF0F4650086626E /* AllPad.swift */,
-				DADC7C5E1DF0F4650086626E /* AllPad.xib */,
+				DADC7C5E1DF0F4650086626E /* OldAllPad.xib */,
 				DADC7C5F1DF0F4650086626E /* Block.swift */,
 				DADC7C601DF0F4650086626E /* Constants.swift */,
 				DADC7C611DF0F4650086626E /* ETree.swift */,
@@ -559,7 +559,7 @@
 				DA2841111EAFD3410085112E /* InsideHamburgerView.xib */,
 				DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */,
 				DA2841201EB048B10085112E /* MathViewContainer.swift */,
-				DA28412A1EB25EED0085112E /* NewAllPad.xib */,
+				DA28412A1EB25EED0085112E /* AllPad.xib */,
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
 			);
 			path = deskThree;
@@ -780,11 +780,11 @@
 				311C3AC01E99650700F61CE4 /* Assets.xcassets in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
-				DA28412B1EB25EED0085112E /* NewAllPad.xib in Resources */,
+				DA28412B1EB25EED0085112E /* AllPad.xib in Resources */,
 				311C3ABE1E9964F500F61CE4 /* SaveAsView.xib in Resources */,
 				311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */,
 				DA28410B1EAFC5590085112E /* HamburgerMenuViewController.xib in Resources */,
-				DADC7C661DF0F4650086626E /* AllPad.xib in Resources */,
+				DADC7C661DF0F4650086626E /* OldAllPad.xib in Resources */,
 				25FB33351DBCFE5500785111 /* DeskViewController.xib in Resources */,
 				DADC67FC1E27E9F800C14F5B /* GraphingBlock.xib in Resources */,
 				DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */,

@@ -250,7 +250,18 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     
     func stylize( mathView: OCRMathView){
         mathView.setupMathViewConstraints()
+      //  mathView.layer.borderColor = Constants.DesignColors.deskBlue.cgColor
+       // mathView.layer.borderWidth = 5
+
+        mathView.stylize()
+        
+        
+        
+        
+        //mathView.addTopBorder(color: Constants.DesignColors.deskBlue, width: 5)
     }
+    
+    
     
     func setup(mathView: OCRMathView){
         mathView.delegate = self
@@ -279,6 +290,8 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         tab.round(corners: [.topLeft, .topRight], radius: 5.0)
         self.addSubview(tab)
         setupTabConstraints()
+        
+        
         
         mathViews = [OCRMathView]()
         addMathViewToStack()

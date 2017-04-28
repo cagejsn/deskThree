@@ -52,10 +52,15 @@ enum TypeOfBlock: Int {
 }
 
 struct Constants {
+    
+    struct DesignColors {
+        static let deskBlue = UIColor.init(red: 42/255, green: 183/255, blue: 235/255, alpha: 1.0)
+    }
+    
     struct dimensions {
         struct AllPad {
             static let width : CGFloat = 251
-            static let height : CGFloat = 724
+            static let height : CGFloat = 500
         }
         struct Paper {
             static let width : CGFloat = 1275

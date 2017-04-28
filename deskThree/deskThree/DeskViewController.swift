@@ -148,7 +148,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     func switchTo(_ selected: SelectedWritingInstrument){
-        
+        workView.userSelected(writingInstrument: selected)
     }
     
     /*

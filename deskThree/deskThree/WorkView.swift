@@ -155,9 +155,19 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
     }
     
+    func userSelected(writingInstrument: SelectedWritingInstrument){
+        if(writingInstrument == .eraser){
+            setPen(pen: .eraser)
+        }
+        if(writingInstrument == .pencil){
+            setPen(pen: .pen)
+        }
+    }
+    
     func setPen(pen: Constants.pens){
         curPen = pen
     }
+   
     
     func getCurPen() -> Constants.pens {
         return curPen
@@ -167,6 +177,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         curPen.next()
     }
     
+ 
     func textureForStroke() -> JotBrushTexture! {
         return activePen().textureForStroke()
     }

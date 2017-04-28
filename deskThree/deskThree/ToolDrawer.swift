@@ -14,7 +14,7 @@ import Foundation
 let toolSelectorHeight = 100
 let toolDrawerCollapsedWidth:CGFloat = 40
 let toolDrawerExpandedWidth:CGFloat = 291
-let toolDrawerHeight: CGFloat = 724
+
 
 enum DrawerPosition {
     case closed
@@ -32,6 +32,7 @@ class ToolDrawer: UIView {
     var isActive: Bool = false
     var previousTranslation: CGFloat = 0
     var delegate: InputObjectDelegate!
+    let toolDrawerHeight: CGFloat = Constants.dimensions.AllPad.height
 
     //view controller for passing errors
     var rightConstaint: NSLayoutConstraint!
@@ -65,13 +66,11 @@ class ToolDrawer: UIView {
         if(calculatorIcon.frame.contains(point)){
             return true
         }
-        
         if(activePad != nil){
             if(activePad.frame.contains(point)){
                 return true
             }
         }
-        
         return false
     }
     
@@ -131,12 +130,9 @@ class ToolDrawer: UIView {
         }
         
         if(sender.state == .ended){
-            
             if(self.frame.width >= (toolDrawerExpandedWidth/2)){
                 animateToExpandedPosition()
-                
                 drawerPosition = DrawerPosition.open
-
             } else {
                 animateToCollapsedPosition()
                 drawerPosition = DrawerPosition.closed
@@ -167,7 +163,7 @@ class ToolDrawer: UIView {
         let positionAnimation: CABasicAnimation = CABasicAnimation(keyPath: "position")
         self.frame = CGRect(x: self.frame.origin.x , y:self.frame.origin.y, width: toolDrawerCollapsedWidth, height: toolDrawerHeight)
         let originPosition: CGPoint = self.center
-        let finalPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width - toolDrawerCollapsedWidth/2 , y: UIScreen.main.bounds.height - (toolDrawerHeight/2 + 44))
+        let finalPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width - toolDrawerCollapsedWidth/2 , y: UIScreen.main.bounds.height - (toolDrawerHeight/2))
         CATransaction.setCompletionBlock({
             self.isUserInteractionEnabled = true
            self.deactivateActivePad()
@@ -184,7 +180,7 @@ class ToolDrawer: UIView {
         CATransaction.commit()
         self.setCollapsedWidthConstraint()
         self.center = finalPosition
-        self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerCollapsedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight + 44), width: toolDrawerCollapsedWidth, height: toolDrawerHeight)
+        self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerCollapsedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight), width: toolDrawerCollapsedWidth, height: toolDrawerHeight)
     }
     
     func animateToExpandedPosition(){
@@ -198,7 +194,7 @@ class ToolDrawer: UIView {
         let positionAnimation: CABasicAnimation = CABasicAnimation(keyPath: "position")
         self.frame = CGRect(x: self.frame.origin.x , y:self.frame.origin.y, width: toolDrawerExpandedWidth, height: toolDrawerHeight)
         let originPosition: CGPoint = self.center
-        let finalPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width - toolDrawerExpandedWidth/2 , y: UIScreen.main.bounds.height - (toolDrawerHeight/2 + 44))
+        let finalPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width - toolDrawerExpandedWidth/2 , y: UIScreen.main.bounds.height - (toolDrawerHeight/2))
         
         CATransaction.setCompletionBlock({
             self.isUserInteractionEnabled = true
@@ -215,7 +211,7 @@ class ToolDrawer: UIView {
         CATransaction.commit()
         self.setExpandedWidthConstraint()
         self.center = finalPosition
-        self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerExpandedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight + 44), width: toolDrawerExpandedWidth, height: toolDrawerHeight)
+        self.frame = CGRect(x:UIScreen.main.bounds.width - toolDrawerExpandedWidth, y: UIScreen.main.bounds.height - (toolDrawerHeight), width: toolDrawerExpandedWidth, height: toolDrawerHeight)
     }
     
     func setCollapsedWidthConstraint(){
@@ -235,20 +231,13 @@ class ToolDrawer: UIView {
         rightConstaint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: self.superview, attribute: .trailing, multiplier: 1.0, constant: 0)
         bottomContraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: 0)
         heightContraint = NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: Constants.dimensions.AllPad.height)
-        widthContraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40)
+        widthContraint = NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: toolDrawerCollapsedWidth)
         superview!.addConstraints([rightConstaint,bottomContraint,heightContraint,widthContraint])
     }
         
     init(){
         // Setup the base view, which is transparent and has a shadow
-        super.init(frame: CGRect(x: 0, y: 0, width: 40, height: Constants.dimensions.AllPad.height))
-        
-        // Add shadow and corners
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: -2, height: 0)
-        self.layer.shadowOpacity = 0.7
-        self.layer.shadowRadius = 4.0
-        self.layoutIfNeeded()
+        super.init(frame: CGRect(x: 0, y: 0, width: toolDrawerCollapsedWidth, height: Constants.dimensions.AllPad.height))
         
         // Add the swipe gesture for sliding out
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(ToolDrawer.handlePan))
@@ -259,7 +248,7 @@ class ToolDrawer: UIView {
         self.addGestureRecognizer(singleTapGR)
 
         // Add the icon to the icon view
-        calculatorIcon = UIImageView(frame:CGRect(x: 0, y: 0, width: Int(toolDrawerCollapsedWidth), height: toolSelectorHeight*2))
+        calculatorIcon = UIImageView(frame:CGRect(x: 0, y: 0, width: Int(toolDrawerCollapsedWidth), height: toolSelectorHeight))
         calculatorIcon.image = UIImage(named: "calculator_med")
         calculatorIcon.contentMode = .scaleAspectFit
         
