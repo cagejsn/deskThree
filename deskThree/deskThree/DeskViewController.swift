@@ -379,10 +379,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         if let image1 =  mathView.resultAsImage(){
             let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
-            workView.addMathBlockToCurPage(mathBlock: mathBlock)
             var loc = self.view.center
             loc = loc - CGPoint(x: 0, y: 200)
+            print(loc)
             mathBlock.center = mathBlock.convert(loc, to: workView.currentPage)
+            print(mathBlock.frame)
+            workView.addMathBlockToCurPage(mathBlock: mathBlock)
         }
        
     }
