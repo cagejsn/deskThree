@@ -56,6 +56,9 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
             isUserInteractionEnabled = false
             //superview?.sendSubview(toBack: self)
         }
+        // This function is called so that the updated editable value is encoded
+        // Find a better way to do this in the future
+        delegate.didCompleteMove(movedView: self)
     }
     
     func isEditable()->Bool{
