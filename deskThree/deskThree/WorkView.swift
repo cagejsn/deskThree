@@ -266,7 +266,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     // MARK: Expression Delegate
     func didEvaluate(forExpression sender: Expression, result: Float){
-        let newBlock = BlockExpression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
+        let newBlock = BlockExpression.makeBlock(blockLocation: sender.center + CGPoint(x: sender.frame.width/2 + 80, y: 0)
+            , blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
         newBlock.removeFromSuperview()
         let express = BlockExpression(firstVal: newBlock)
         currentPage.addSubview(express)
