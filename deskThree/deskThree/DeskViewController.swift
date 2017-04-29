@@ -142,7 +142,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     func setupPencilEraserToggleControl(){
-        pencilEraserToggleControl = PencilEraserToggleControl(frame: CGRect(x: 20, y: 70, width: 170, height: 50))
+        pencilEraserToggleControl = PencilEraserToggleControl(frame: CGRect(x: 20, y: 70, width: 140, height: 40))
         self.view.addSubview(pencilEraserToggleControl)
         pencilEraserToggleControl.delegate = self
     }

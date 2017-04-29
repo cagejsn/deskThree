@@ -302,7 +302,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         
         // Add the tap gesture for sliding out
         singleTapGR = UITapGestureRecognizer(target: self, action: #selector(ToolDrawer.handleSingleTap))
-        self.addGestureRecognizer(singleTapGR)
+        tab.addGestureRecognizer(singleTapGR)
     }
     
     required init?(coder aDecoder: NSCoder) {
