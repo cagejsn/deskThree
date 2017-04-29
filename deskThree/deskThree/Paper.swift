@@ -290,14 +290,12 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         }
        
         //paperType = unarchiver.decodeData() as! SelectedPaperType
-        
         let int = unarchiver.decodeInteger(forKey: "paperType")
         paperType = SelectedPaperType(rawValue: int)
         setBackground(to: paperType)
         
         
 //        let temp = PathLocator.getTempFolder()
-//
 //        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
 //        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
     }

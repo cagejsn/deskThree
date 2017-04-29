@@ -36,7 +36,7 @@ class PencilEraserToggleControl: UIImageView {
         
         let loc = sender.location(in: self)
         
-        if(pencilView.frame.contains(loc)){
+        if(loc.x <= (self.frame.width/2)){
             if(selected == .pencil){
                 return
             } else {
@@ -44,7 +44,7 @@ class PencilEraserToggleControl: UIImageView {
             }
         }
         
-        if(eraserView.frame.contains(loc)){
+        if(loc.x > (self.frame.width/2)){
             if(selected == .eraser){
                 return
             } else {
@@ -56,10 +56,23 @@ class PencilEraserToggleControl: UIImageView {
     
     
     func handlePan(_ sender: UIPanGestureRecognizer){
-      
+      let loc = sender.location(in: self)
         
+        if(loc.x <= (self.frame.width/2)){
+            if(selected == .pencil){
+                return
+            } else {
+                toggleWritingInstrument()
+            }
+        }
         
-        
+        if(loc.x > (self.frame.width/2)){
+            if(selected == .eraser){
+                return
+            } else {
+                toggleWritingInstrument()
+            }
+        }
         
     }
     
