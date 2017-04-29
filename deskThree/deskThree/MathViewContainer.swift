@@ -280,7 +280,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
 //        tab = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 44))
         // Add the icon to the icon view
         tab = UIImageView(frame:CGRect(x: 0, y: 0, width: 100, height: 44))
-        tab.image = UIImage(named: "curved-arrow-with-broken-line-big")
+        tab.image = UIImage(named: "squiggleFx")
         tab.contentMode = .scaleAspectFit
         tab.isUserInteractionEnabled = true
 
