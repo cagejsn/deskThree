@@ -30,6 +30,8 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
         insideHamburger.delegate = self
         scrollView.addSubview(insideHamburger)
         scrollView.delaysContentTouches = false
+      //  scrollView.scrollIndicatorInsets
+      //  scrollView.showsVerticalScrollIndicator = false
       }
     
     override func viewDidLayoutSubviews() {

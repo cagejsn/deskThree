@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SlideMenuOptions.leftViewWidth = 367
       //  SlideMenuOptions.leftBezelWidth = 100
         SlideMenuOptions.contentViewDrag = true
-        SlideMenuOptions.contentViewOpacity = 0.0
+        SlideMenuOptions.contentViewOpacity = 0.2
         SlideMenuOptions.panGesturesEnabled = false
         
         
