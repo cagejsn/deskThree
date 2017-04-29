@@ -13,7 +13,7 @@ protocol InsideHamburgerViewDelegate {
     func openButtonTapped()
     func printButtonTapped()
     func penSizeSliderValueChanged(value: Float)
-    func penColorButtonTapped(index: Int)
+    func penColorChanged(to: SelectedPenColor)
     func backgroundButtonTapped(index: Int)
     func importPhotoButtonTapped()
     func feedbackButtonTapped()
@@ -21,10 +21,60 @@ protocol InsideHamburgerViewDelegate {
 
 }
 
+enum SelectedPenColor {
+    case black
+    case red
+    case blue
+    case green
+}
 
 class InsideHamburgerView: UIView {
     
+    @IBOutlet var blackPenColorButton: UIButton!
+    @IBOutlet var redPenColorButton: UIButton!
+    @IBOutlet var bluePenColorButton: UIButton!
+    @IBOutlet var greenPenColorButton: UIButton!
+
+    
     var delegate: InsideHamburgerViewDelegate!
+    
+    var selectedPenColor: SelectedPenColor = .black
+    
+    func removeSelectedIcon(from: SelectedPenColor){
+        switch from {
+        case .black:
+            blackPenColorButton.setImage(nil, for: .normal)
+        case .red:
+            redPenColorButton.setImage(nil, for: .normal)
+        case .blue:
+            bluePenColorButton.setImage(nil, for: .normal)
+        case .green:
+            greenPenColorButton.setImage(nil, for: .normal)
+        default:
+            return
+        }
+    }
+    
+    func penColorChanged(to:SelectedPenColor){
+        switch to {
+        case .black:
+            blackPenColorButton.setImage(UIImage(named:"penColorSelected"), for: .normal)
+            selectedPenColor = .black
+        case .red:
+            redPenColorButton.setImage(UIImage(named:"penColorSelected"), for: .normal)
+            selectedPenColor = .red
+        case .blue:
+            bluePenColorButton.setImage(UIImage(named:"penColorSelected"), for: .normal)
+            selectedPenColor = .blue
+        case .green:
+            greenPenColorButton.setImage(UIImage(named:"penColorSelected"), for: .normal)
+            selectedPenColor = .green
+        default:
+            return
+        }
+        delegate.penColorChanged(to: selectedPenColor)
+    }
+    
     
     @IBAction func newButtonTapped(_ sender: Any) {
         delegate.newButtonTapped()
@@ -43,19 +93,31 @@ class InsideHamburgerView: UIView {
     }
     
     @IBAction func firstColorButtonTapped(_ sender: Any) {
-        delegate.penColorButtonTapped(index: 0)
+        if(selectedPenColor != .black){
+        removeSelectedIcon(from: selectedPenColor)
+        penColorChanged(to: .black)
+        }
     }
     
     @IBAction func secondColorButtonTapped(_ sender: Any) {
-        delegate.penColorButtonTapped(index: 1)
+        if(selectedPenColor != .red){
+        removeSelectedIcon(from: selectedPenColor)
+        penColorChanged(to: .red)
+        }
     }
     
     @IBAction func thirdColorButtonTapped(_ sender: Any) {
-        delegate.penColorButtonTapped(index: 2)
+        if(selectedPenColor != .blue){
+        removeSelectedIcon(from: selectedPenColor)
+        penColorChanged(to: .blue)
+        }
     }
     
     @IBAction func fourthColorButtonTapped(_ sender: Any) {
-        delegate.penColorButtonTapped(index: 3)
+        if(selectedPenColor != .green){
+        removeSelectedIcon(from: selectedPenColor)
+        penColorChanged(to: .green)
+        }
     }
     
     @IBAction func firstBackgroundButtonTapped(_ sender: Any) {
@@ -83,6 +145,13 @@ class InsideHamburgerView: UIView {
         delegate.clearButtonTapped()    
     }
     
+    func setup(){
+        penColorChanged(to: selectedPenColor)
+
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
 }

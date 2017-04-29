@@ -15,7 +15,7 @@ protocol HamburgerMenuViewControllerDelegate {
     func printButtonPushed()
     func clearButtonTapped()
     func feedbackButtonTapped()
-
+    func penColorChanged(to: SelectedPenColor)
 }
 
 class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate{
@@ -32,6 +32,7 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
         scrollView.delaysContentTouches = false
       //  scrollView.scrollIndicatorInsets
       //  scrollView.showsVerticalScrollIndicator = false
+        insideHamburger.setup()
       }
     
     override func viewDidLayoutSubviews() {
@@ -60,8 +61,8 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
         
     }
     
-    func penColorButtonTapped(index: Int){
-        
+    func penColorChanged(to: SelectedPenColor){
+        delegate.penColorChanged(to: to)
     }
     
     func backgroundButtonTapped(index: Int){

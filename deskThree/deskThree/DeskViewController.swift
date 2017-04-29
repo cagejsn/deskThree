@@ -156,6 +156,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.userSelected(writingInstrument: selected)
     }
     
+    func penColorChanged(to: SelectedPenColor) {
+        workView.changePenColor(to: to)
+    }
+    
     /*
      ///this function will present a MAWMathView to the User
      func toggleMathViewContainer(_ sender: MathViewContainer) {

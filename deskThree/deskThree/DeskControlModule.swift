@@ -19,7 +19,7 @@ protocol DeskControlModuleDelegate {
 protocol PageAndDrawingDelegate {
     func getCurPen() -> Constants.pens
     func togglePen()
-    func togglePenColor()
+    //func togglePenColor()
     // These funcs are called by lowerDeskControlModule
     func getCurPenColor() -> UIColor
 }
@@ -200,7 +200,7 @@ class DeskControlModule: DWBubbleMenuButton {
             mixpanel.track(event: "Button: Pen Color Toggle")
         #endif
 
-        pageAndDrawingDelegate.togglePenColor()
+      //  pageAndDrawingDelegate.togglePenColor()
         // Get the current pen color
         let curColor = pageAndDrawingDelegate.getCurPenColor()
         
