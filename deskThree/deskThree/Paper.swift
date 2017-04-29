@@ -30,6 +30,8 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     private var prevScaleFactor: CGFloat!
     private var images: [ImageBlock]!
+    
+    private var paperType: SelectedPaperType!
     //JotUI Properties
     var drawingView: JotView!
     
@@ -47,10 +49,13 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         switch to {
         case .graph:
             image = UIImage(named: "simpleGraphPaper")
+            paperType = .graph
         case .engineering:
             image = UIImage(named: "engineeringPaper")
+            paperType = .engineering
         case .lined:
             image = UIImage(named: "linedPaper")
+            paperType = .lined  
         default:
             image = UIImage(named: "apple")
         }
@@ -252,12 +257,14 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         super.encode(with: aCoder)
         aCoder.encode(images)
         aCoder.encode(expressions)
+        aCoder.encode(paperType.rawValue, forKey: "paperType")
 //        aCoder.encode(jotViewStatePlistPath)
 //        aCoder.encode(jotViewStateInkPath)
     }
     
     //MARK: Initializers
     init() {
+        
         super.init(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
         expressions = [BlockExpression]()
         //self.image = UIImage(named: "simpleGraphPaper")
@@ -265,6 +272,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         self.isOpaque = false
         images = [ImageBlock]()
         setupDrawingView()
+        paperType = .graph
     }
     
     //MARK: setup for loading
@@ -281,6 +289,13 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
             self.addSubview(expression)
         }
        
+        //paperType = unarchiver.decodeData() as! SelectedPaperType
+        
+        let int = unarchiver.decodeInteger(forKey: "paperType")
+        paperType = SelectedPaperType(rawValue: int)
+        setBackground(to: paperType)
+        
+        
 //        let temp = PathLocator.getTempFolder()
 //
 //        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
