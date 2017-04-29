@@ -16,6 +16,7 @@ protocol HamburgerMenuViewControllerDelegate {
     func clearButtonTapped()
     func feedbackButtonTapped()
     func penColorChanged(to: SelectedPenColor)
+    func penSizeChanged(to: CGFloat)
     func changePaper(to: SelectedPaperType)
 }
 
@@ -59,7 +60,7 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
     }
     
     func penSizeSliderValueChanged(value: Float){
-        
+        delegate.penSizeChanged(to: CGFloat(value))
     }
     
     func penColorChanged(to: SelectedPenColor){

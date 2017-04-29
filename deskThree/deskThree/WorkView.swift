@@ -35,10 +35,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     private var isInMetaData: Bool!
     
-    var pen: Pen!
-    var eraser: Eraser!
-    var curPen = Constants.pens.pen
-    var selectedPaperType: SelectedPaperType = .graph
+    private var pen: Pen!
+    private var originalMinSize: CGFloat = 1.5
+    private var originalMaxSize: CGFloat = 3.5
+    private var eraser: Eraser!
+    private var curPen = Constants.pens.pen
+    private var selectedPaperType: SelectedPaperType = .graph
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
@@ -137,6 +139,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     // MARK - JotViewDelegate functions
     // pragma mark - JotViewDelagate and other JotView stuff
+    func changePenSize(to: CGFloat) {
+        pen.maxSize = originalMinSize * to
+        pen.minSize = originalMaxSize * to
+    }
+    
     func changePenColor(to: SelectedPenColor) {
         
         switch to {
@@ -736,7 +743,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func setupJotPens() {
-        pen = Pen(minSize: 1.5, andMaxSize: 3.5, andMinAlpha: 1.0, andMaxAlpha: 1.0)
+        pen = Pen(minSize: originalMinSize, andMaxSize: originalMaxSize, andMinAlpha: 1.0, andMaxAlpha: 1.0)
         pen.color = UIColor.black
         eraser = Eraser(minSize: 12.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
         pen.shouldUseVelocity = true

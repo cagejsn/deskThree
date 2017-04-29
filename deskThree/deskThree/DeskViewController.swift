@@ -156,6 +156,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.userSelected(writingInstrument: selected)
     }
     
+    func penSizeChanged(to: CGFloat) {
+        workView.changePenSize(to: to)
+    }
+    
     func penColorChanged(to: SelectedPenColor) {
         workView.changePenColor(to: to)
     }
