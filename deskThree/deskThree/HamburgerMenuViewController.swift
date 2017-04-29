@@ -10,6 +10,7 @@ import Foundation
 
 
 protocol HamburgerMenuViewControllerDelegate {
+    func newProjectRequested()
     func fileExplorerButtonTapped()
     func loadImageButtonPushed()
     func printButtonPushed()
@@ -43,6 +44,7 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
     }
     
     func newButtonTapped(){
+        delegate.newProjectRequested()
         if let slideMenuController = slideMenuController() {
             slideMenuController.closeLeft()
             //slideMenuController.mainViewController

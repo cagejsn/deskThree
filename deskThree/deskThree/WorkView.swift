@@ -647,6 +647,25 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         print(pages.count)
     }
     
+    // Cleans up the current project. Loads a new one and returns its name
+    func newProject() -> String {
+        cleanUpPages()
+        
+        // Now initialize a new page
+        let paper = Paper()
+        paper.setBackground(to: selectedPaperType)
+        paper.delegate = self
+        pages.append(paper)
+        self.addSubview(pages[0])
+        currentPage = pages[0]
+        initCurPage()
+        self.sendSubview(toBack: pages[0])
+        
+        let name = getSerializedProjectName()
+        self.project = DeskProject(name: name)
+        return name
+    }
+    
     func loadProject(projectName: String){
         
         setZoomScale(minimumZoomScale, animated: false)

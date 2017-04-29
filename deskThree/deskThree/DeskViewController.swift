@@ -158,18 +158,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.userSelected(writingInstrument: selected)
     }
     
-    func penSizeChanged(to: CGFloat) {
-        workView.changePenSize(to: to)
-    }
-    
-    func penColorChanged(to: SelectedPenColor) {
-        workView.changePenColor(to: to)
-    }
-    
-    func changePaper(to: SelectedPaperType){
-        workView.changePaper(to: to)
-    }
-
+   
     
     /*
      ///this function will present a MAWMathView to the User
@@ -342,6 +331,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
 
     //MARK: HamburgerMenuViewControllerDelegate functions
+    func newProjectRequested() {
+        projectNameTextField.text = workView.newProject()
+    }
+    
     func fileExplorerButtonTapped() {
         #if !DEBUG
             mixpanel.track(event: "Button: File Explorer")
@@ -402,6 +395,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #endif
         workView.clear()
     }
+    
+    func penSizeChanged(to: CGFloat) {
+        workView.changePenSize(to: to)
+    }
+    
+    func penColorChanged(to: SelectedPenColor) {
+        workView.changePenColor(to: to)
+    }
+    
+    func changePaper(to: SelectedPaperType){
+        workView.changePaper(to: to)
+    }
+
     
     func pass(_ createdMathBlock: MathBlock,for mathView: OCRMathView){
         //this is a bad way to set the position of the mathBlock, in the future, we should make the user drag it out
