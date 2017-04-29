@@ -55,7 +55,14 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         
     }
     
+    func getTotalNumberPages() -> Int {
+        let totalPages = self.pages.count
+        return totalPages
+    }
     
+    func getCurrentPageIndex() -> Int {
+        return self.currentPageIndex + 1
+    }
     
     func setupDelegateChain(){
         for page in pages {
