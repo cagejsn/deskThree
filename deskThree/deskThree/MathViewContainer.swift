@@ -250,8 +250,6 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     
     func stylize( mathView: OCRMathView){
         mathView.setupMathViewConstraints()
-      //  mathView.layer.borderColor = Constants.DesignColors.deskBlue.cgColor
-       // mathView.layer.borderWidth = 5
 
         mathView.stylize()
         

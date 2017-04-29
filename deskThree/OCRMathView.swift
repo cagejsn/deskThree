@@ -84,10 +84,10 @@ class OCRMathView: MAWMathView {
     func setupConstraintsForWRQuery(){
         searchWRButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let leftConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 10)
-        let bottomConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -10)
-        let widthConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 90)
-        let heightConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 40)
+        let leftConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 15)
+        let bottomConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -15)
+        let widthConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50)
+        let heightConstraint = NSLayoutConstraint(item: searchWRButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50)
         wolframQueryConstraints = [leftConstraint,bottomConstraint,widthConstraint,heightConstraint]
         self.addConstraints(wolframQueryConstraints)
         
@@ -107,27 +107,20 @@ class OCRMathView: MAWMathView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        //add buttons
+        // Add buttons
+
         clearButton = UIButton(frame: CGRect(x: 15, y: 15, width: 50, height: 50))
         clearButton.setImage(UIImage(named:"clear"), for: .normal)
         clearButton.addTarget(self, action: #selector(OCRMathView.clearButtonTapped), for:.touchUpInside)
         self.addSubview(clearButton)
 
         
-      //  searchWRButton = UIButton(frame: )
-        searchWRButton = UIButton(frame: CGRect(x: 10, y: self.bounds.height - 50, width: 90, height: 40))
+        searchWRButton = UIButton(frame: CGRect(x:15, y: 90, width: 50, height: 50))
+        searchWRButton.setImage(UIImage(named: "Wolfram-Logo-Blue"), for: .normal)
         searchWRButton.setTitle("wolfram", for: .normal)
-        searchWRButton.backgroundColor = UIColor.gray
-        searchWRButton.setTitleColor(UIColor.darkGray, for: .normal)
-        searchWRButton.layer.cornerRadius = 7
-        searchWRButton.layer.borderColor = UIColor.darkGray.cgColor
-        searchWRButton.layer.borderWidth = 2
-        
-        
-
+        searchWRButton.addTarget(self, action: #selector(OCRMathView.searchWRButtonTapped), for:.touchUpInside)
         self.addSubview(searchWRButton)
         setupConstraintsForWRQuery()
-        searchWRButton.addTarget(self, action: #selector(OCRMathView.searchWRButtonTapped), for:.touchUpInside)
 
 
         self.clipsToBounds = false
@@ -141,7 +134,6 @@ class OCRMathView: MAWMathView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        
         fatalError("init(coder:) has not been implemented")
     }
     
