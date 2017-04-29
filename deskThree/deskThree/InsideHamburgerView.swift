@@ -28,10 +28,12 @@ enum SelectedPenColor {
     case green
 }
 
-enum SelectedPaperType {
+enum SelectedPaperType: Int{
     case graph
     case engineering
     case lined
+    
+    
 }
 
 class InsideHamburgerView: UIView {
