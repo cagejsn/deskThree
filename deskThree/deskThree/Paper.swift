@@ -42,6 +42,22 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
 
+    func setBackground(to: SelectedPaperType){
+        let image: UIImage!
+        switch to {
+        case .graph:
+            image = UIImage(named: "simpleGraphPaper")
+        case .engineering:
+            image = UIImage(named: "engineeringPaper")
+        case .lined:
+            image = UIImage(named: "linedPaper")
+        default:
+            image = UIImage(named: "apple")
+        }
+        self.image = image
+    }
+    
+    
     func elementWantsSendToInputObject(element:Any){
         delegate.passHeldBlock(sender: element as! Expression)
     }
@@ -244,7 +260,8 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     init() {
         super.init(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
         expressions = [BlockExpression]()
-        self.image = UIImage(named: "simpleGraphPaper")
+        //self.image = UIImage(named: "simpleGraphPaper")
+      //  self.contentMode = .scaleToFill
         self.isOpaque = false
         images = [ImageBlock]()
         setupDrawingView()

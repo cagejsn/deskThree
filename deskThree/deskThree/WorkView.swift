@@ -38,6 +38,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     var pen: Pen!
     var eraser: Eraser!
     var curPen = Constants.pens.pen
+    var selectedPaperType: SelectedPaperType = .graph
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
@@ -45,7 +46,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     //MARK: Data Flow
-    
     func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
     }
@@ -54,8 +54,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         currentPage.addMathBlockToPage(block: createdMathBlock)
         
     }
-    
-    
     
     func setupDelegateChain(){
         for page in pages {
@@ -183,6 +181,14 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     func togglePen() {
         curPen.next()
+    }
+    
+    
+    func changePaper(to: SelectedPaperType){
+        selectedPaperType = to
+        for page in pages {
+            page.setBackground(to: selectedPaperType)
+        }
     }
     
  
@@ -467,7 +473,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         currentPageIndex += 1
         
         // Add a new page
-        pages.append(Paper())
+        let paper = Paper()
+        pages.append(paper)
+        paper.setBackground(to: selectedPaperType)
         self.addSubview(pages[currentPageIndex])
         
         // Push back the old view
@@ -730,6 +738,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         self.onDisk = false
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         let pape = Paper()
+        pape.setBackground(to: selectedPaperType)
         pape.delegate = self
         pages.append(pape)
         self.addSubview(pages[0])

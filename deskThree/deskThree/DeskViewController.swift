@@ -155,6 +155,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.changePenColor(to: to)
     }
     
+    func changePaper(to: SelectedPaperType){
+        workView.changePaper(to: to)
+    }
+
+    
     /*
      ///this function will present a MAWMathView to the User
      func toggleMathViewContainer(_ sender: MathViewContainer) {

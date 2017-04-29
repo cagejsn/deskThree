@@ -245,7 +245,8 @@
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uv9-6i-ktp">
                             <rect key="frame" x="8" y="60" width="101" height="162"/>
-                            <state key="normal" image="engineeringPadSmall"/>
+                            <color key="backgroundColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <state key="normal" image="simpleGraphPaperSmall"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
                             </userDefinedRuntimeAttributes>
@@ -255,6 +256,7 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzp-Th-v7F">
                             <rect key="frame" x="117" y="60" width="101" height="162"/>
+                            <color key="backgroundColor" red="0.098039217289999994" green="0.098039217289999994" blue="0.098039217289999994" alpha="1" colorSpace="calibratedRGB"/>
                             <state key="normal" title="Button" image="engineeringPadSmall"/>
                             <connections>
                                 <action selector="secondBackgroundButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="rFc-TR-xYM"/>
@@ -262,7 +264,8 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLR-n7-7uR">
                             <rect key="frame" x="226" y="60" width="101" height="162"/>
-                            <state key="normal" title="Button" image="engineeringPadSmall"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <state key="normal" title="Button" image="linedPaperSmall"/>
                             <connections>
                                 <action selector="thirdBackgroundButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="7Ng-Ws-4CY"/>
                             </connections>
@@ -422,7 +425,10 @@
             <connections>
                 <outlet property="blackPenColorButton" destination="uD8-J5-gzA" id="6qD-vF-vQW"/>
                 <outlet property="bluePenColorButton" destination="1C7-43-OJ6" id="j4N-DQ-tOC"/>
+                <outlet property="engineeringPaperButton" destination="kzp-Th-v7F" id="mGV-Ee-wi1"/>
+                <outlet property="graphPaperButton" destination="Uv9-6i-ktp" id="JZQ-u0-ifz"/>
                 <outlet property="greenPenColorButton" destination="Sti-HB-LPj" id="hx2-rq-gcm"/>
+                <outlet property="linedPaperButton" destination="uLR-n7-7uR" id="wba-8t-YPH"/>
                 <outlet property="redPenColorButton" destination="f3o-zx-grS" id="kYy-zh-K7p"/>
             </connections>
             <point key="canvasLocation" x="94.5" y="82"/>
@@ -430,5 +436,7 @@
     </objects>
     <resources>
         <image name="engineeringPadSmall" width="285" height="494"/>
+        <image name="linedPaperSmall" width="101" height="162"/>
+        <image name="simpleGraphPaperSmall" width="101" height="162"/>
     </resources>
 </document>

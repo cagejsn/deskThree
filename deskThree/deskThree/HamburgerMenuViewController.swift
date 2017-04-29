@@ -16,6 +16,7 @@ protocol HamburgerMenuViewControllerDelegate {
     func clearButtonTapped()
     func feedbackButtonTapped()
     func penColorChanged(to: SelectedPenColor)
+    func changePaper(to: SelectedPaperType)
 }
 
 class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate{
@@ -65,9 +66,12 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
         delegate.penColorChanged(to: to)
     }
     
-    func backgroundButtonTapped(index: Int){
-        
+    
+    
+    func changePaper(to: SelectedPaperType){
+        delegate.changePaper(to: to)
     }
+
     
     func importPhotoButtonTapped(){
         slideMenuController()?.closeLeft()

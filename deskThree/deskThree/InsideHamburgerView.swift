@@ -14,7 +14,7 @@ protocol InsideHamburgerViewDelegate {
     func printButtonTapped()
     func penSizeSliderValueChanged(value: Float)
     func penColorChanged(to: SelectedPenColor)
-    func backgroundButtonTapped(index: Int)
+    func changePaper(to: SelectedPaperType)
     func importPhotoButtonTapped()
     func feedbackButtonTapped()
     func clearButtonTapped()
@@ -28,6 +28,12 @@ enum SelectedPenColor {
     case green
 }
 
+enum SelectedPaperType {
+    case graph
+    case engineering
+    case lined
+}
+
 class InsideHamburgerView: UIView {
     
     @IBOutlet var blackPenColorButton: UIButton!
@@ -35,10 +41,51 @@ class InsideHamburgerView: UIView {
     @IBOutlet var bluePenColorButton: UIButton!
     @IBOutlet var greenPenColorButton: UIButton!
 
+    @IBOutlet var graphPaperButton: UIButton!
+    @IBOutlet var engineeringPaperButton: UIButton!
+    @IBOutlet var linedPaperButton: UIButton!
+    
     
     var delegate: InsideHamburgerViewDelegate!
     
     var selectedPenColor: SelectedPenColor = .black
+    var selectedPaperType: SelectedPaperType = .graph
+    
+    func unselect(_ previous: SelectedPaperType){
+        switch previous {
+        case .graph:
+            graphPaperButton.layer.borderWidth = 0
+        case .engineering:
+            engineeringPaperButton.layer.borderWidth = 0
+        case .lined:
+            linedPaperButton.layer.borderWidth = 0
+        default:
+            return
+        }
+
+    }
+    
+    func changePaper(to: SelectedPaperType){
+        
+        
+        switch to {
+        case .graph:
+            graphPaperButton.layer.borderWidth = 2
+            graphPaperButton.layer.borderColor = Constants.DesignColors.deskBlue.cgColor
+            selectedPaperType = .graph
+        case .engineering:
+            engineeringPaperButton.layer.borderWidth = 2
+            engineeringPaperButton.layer.borderColor = Constants.DesignColors.deskBlue.cgColor
+            selectedPaperType = .engineering
+        case .lined:
+            linedPaperButton.layer.borderWidth = 2
+            linedPaperButton.layer.borderColor = Constants.DesignColors.deskBlue.cgColor
+            selectedPaperType = .lined
+        default:
+            return
+        }
+        delegate.changePaper(to: selectedPaperType)
+    }
     
     func removeSelectedIcon(from: SelectedPenColor){
         switch from {
@@ -101,35 +148,45 @@ class InsideHamburgerView: UIView {
     
     @IBAction func secondColorButtonTapped(_ sender: Any) {
         if(selectedPenColor != .red){
-        removeSelectedIcon(from: selectedPenColor)
-        penColorChanged(to: .red)
+            removeSelectedIcon(from: selectedPenColor)
+            penColorChanged(to: .red)
         }
     }
     
     @IBAction func thirdColorButtonTapped(_ sender: Any) {
         if(selectedPenColor != .blue){
-        removeSelectedIcon(from: selectedPenColor)
-        penColorChanged(to: .blue)
+            removeSelectedIcon(from: selectedPenColor)
+            penColorChanged(to: .blue)
         }
     }
     
     @IBAction func fourthColorButtonTapped(_ sender: Any) {
         if(selectedPenColor != .green){
-        removeSelectedIcon(from: selectedPenColor)
-        penColorChanged(to: .green)
+            removeSelectedIcon(from: selectedPenColor)
+            penColorChanged(to: .green)
         }
     }
     
     @IBAction func firstBackgroundButtonTapped(_ sender: Any) {
-        delegate.backgroundButtonTapped(index: 0)
+        if(selectedPaperType != .graph){
+            unselect(selectedPaperType)
+            changePaper(to: .graph)
+            
+        }
     }
     
     @IBAction func secondBackgroundButtonTapped(_ sender: Any) {
-        delegate.backgroundButtonTapped(index: 1)
+        if(selectedPaperType != .engineering){
+            unselect(selectedPaperType)
+            changePaper(to: .engineering)
+        }
     }
     
     @IBAction func thirdBackgroundButtonTapped(_ sender: Any) {
-        delegate.backgroundButtonTapped(index: 2)
+        if(selectedPaperType != .lined){
+            unselect(selectedPaperType)
+            changePaper(to: .lined)
+        }
     }
     
     
@@ -147,6 +204,7 @@ class InsideHamburgerView: UIView {
     
     func setup(){
         penColorChanged(to: selectedPenColor)
+        changePaper(to: selectedPaperType)
 
     }
     
