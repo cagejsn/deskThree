@@ -64,10 +64,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupWorkView()
         setupGKPicker()
         setupToolDrawer()
-        setupTrash()
         setupDeskView()
         setupToolbar()
         setupMathViewContainer()
+        setupTrash()
+
         setupPencilEraserToggleControl()
         setupPageNumberLabel()
     }
@@ -110,13 +111,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         toolDrawer.delegate = workView
     }
 
-    func setupTrash(){
-        trashBin = Trash()
-        self.view.addSubview(trashBin)
-        trashBin.setupTrash()
-        trashBin.hide()
-    }
-    
     func setupDeskView(){
         if let dView = view as? DeskView {
             dView.setup()
@@ -141,6 +135,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         
         
     }
+    
+    func setupTrash(){
+        trashBin = Trash()
+        self.view.addSubview(trashBin)
+        trashBin.setupTrash(lowerView: mathViewContainer)
+        trashBin.hide()
+    }
+
     
     func getItemForMathViewRightConstraint() -> UIView {
         return self.toolDrawer

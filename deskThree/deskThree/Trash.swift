@@ -23,11 +23,11 @@ class Trash: UIImageView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupTrash(){
+    func setupTrash(lowerView: UIView){
         
         self.translatesAutoresizingMaskIntoConstraints = false
         superview!.addConstraint(NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: self.superview, attribute: .leading, multiplier: 1.0, constant: 0))
-        superview!.addConstraint(NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: self.superview, attribute: .bottom, multiplier: 1.0, constant: -44))
+        superview!.addConstraint(NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: lowerView, attribute: .top, multiplier: 1.0, constant: 0))
     }
     func devourExpressionEffects(){
         
