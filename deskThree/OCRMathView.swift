@@ -119,6 +119,10 @@ class OCRMathView: MAWMathView {
         searchWRButton.setImage(UIImage(named: "Wolfram-Logo-Blue"), for: .normal)
         searchWRButton.setTitle("wolfram", for: .normal)
         searchWRButton.addTarget(self, action: #selector(OCRMathView.searchWRButtonTapped), for:.touchUpInside)
+        searchWRButton.layer.shadowColor = UIColor.black.cgColor
+        searchWRButton.layer.shadowOffset = CGSize(width: -2, height: 0)
+        searchWRButton.layer.shadowOpacity = 0.7
+        searchWRButton.layer.shadowRadius = 1.0
         self.addSubview(searchWRButton)
         setupConstraintsForWRQuery()
 
