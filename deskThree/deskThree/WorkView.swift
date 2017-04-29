@@ -129,11 +129,19 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     // MARK - JotViewDelegate functions
     // pragma mark - JotViewDelagate and other JotView stuff
-    func togglePenColor() {
-        if pen.color == UIColor.black {
-            pen.color = UIColor.red
-        }else{
-            pen.color = UIColor.black
+    func changePenColor(to: SelectedPenColor) {
+        
+        switch to {
+            case .black:
+                setPenColor(color: Constants.penColors.black)
+            case .red:
+                setPenColor(color: Constants.penColors.red)
+            case .blue:
+                setPenColor(color: Constants.penColors.blue)
+            case .green:
+                setPenColor(color: Constants.penColors.green)
+        default:
+            return
         }
     }
     

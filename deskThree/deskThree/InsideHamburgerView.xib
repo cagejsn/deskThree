@@ -111,6 +111,7 @@
                         <slider opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="h1C-XM-Uey">
                             <rect key="frame" x="6" y="60" width="323" height="45"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" red="0.28337687249999999" green="0.75053113699999996" blue="0.93012028930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="N7f-Vz-4xW"/>
                                 <constraint firstAttribute="height" constant="44" id="zh9-ld-Rpa"/>
@@ -134,42 +135,62 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sti-HB-LPj">
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sti-HB-LPj">
                             <rect key="frame" x="253.5" y="164" width="73.5" height="44"/>
                             <color key="backgroundColor" red="0.0" green="0.47007590532302856" blue="0.28451821208000183" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="vXm-fk-5d1"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="fourthColorButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="zjX-HE-STV"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uD8-J5-gzA">
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uD8-J5-gzA">
                             <rect key="frame" x="8" y="164" width="74" height="44"/>
                             <color key="backgroundColor" red="0.14932310581207275" green="0.13280031085014343" blue="0.15756574273109436" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="ivc-vG-uOn"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="firstColorButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="Ykm-W7-2RX"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f3o-zx-grS">
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f3o-zx-grS">
                             <rect key="frame" x="90" y="164" width="73.5" height="44"/>
                             <color key="backgroundColor" red="0.70616799592971802" green="0.0" blue="0.15099993348121643" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="oRM-3D-YQT"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="secondColorButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="w3p-f5-8R2"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1C7-43-OJ6">
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1C7-43-OJ6">
                             <rect key="frame" x="171.5" y="164" width="74" height="44"/>
                             <color key="backgroundColor" red="0.013496985659003258" green="0.45773249864578247" blue="0.70699161291122437" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="MTT-jv-Y4B"/>
                             </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="5"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="thirdColorButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="z1c-gH-I8Z"/>
                             </connections>
@@ -206,7 +227,7 @@
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="5"/>
+                            <integer key="value" value="7"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
@@ -269,7 +290,7 @@
                     </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="5"/>
+                            <integer key="value" value="7"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
@@ -315,6 +336,11 @@
                     <state key="normal" title="Clear">
                         <color key="titleColor" red="0.95341525046875442" green="0.97937456241051835" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="clearButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="qCr-EX-2pj"/>
                     </connections>
@@ -328,6 +354,11 @@
                     <state key="normal" title="Send Feedback">
                         <color key="titleColor" red="0.95341525046875442" green="0.97937456241051835" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <action selector="feedbackButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="LNk-zz-dXN"/>
                     </connections>
@@ -388,6 +419,12 @@
                 <constraint firstItem="dCm-kw-h13" firstAttribute="top" secondItem="2iC-Ep-f9p" secondAttribute="bottom" constant="20" id="y2r-Yh-XMK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="blackPenColorButton" destination="uD8-J5-gzA" id="6qD-vF-vQW"/>
+                <outlet property="bluePenColorButton" destination="1C7-43-OJ6" id="j4N-DQ-tOC"/>
+                <outlet property="greenPenColorButton" destination="Sti-HB-LPj" id="hx2-rq-gcm"/>
+                <outlet property="redPenColorButton" destination="f3o-zx-grS" id="kYy-zh-K7p"/>
+            </connections>
             <point key="canvasLocation" x="94.5" y="82"/>
         </view>
     </objects>
