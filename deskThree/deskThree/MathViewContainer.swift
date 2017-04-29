@@ -23,7 +23,7 @@ protocol MathViewContainerDelegate {
 
 class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     
-    var tab: UIView!
+    var tab: UIImageView!
     var mathViews: [OCRMathView]!
     private var certificateRegistered: Bool!
     var drawerPosition: DrawerPosition = .closed
@@ -250,15 +250,8 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     
     func stylize( mathView: OCRMathView){
         mathView.setupMathViewConstraints()
-      //  mathView.layer.borderColor = Constants.DesignColors.deskBlue.cgColor
-       // mathView.layer.borderWidth = 5
 
         mathView.stylize()
-        
-        
-        
-        
-        //mathView.addTopBorder(color: Constants.DesignColors.deskBlue, width: 5)
     }
     
     
@@ -273,7 +266,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     }
     
     func addMathViewToStack(){
-        var mathView = OCRMathView(frame: CGRect(x: 0, y: (mathViews.count * mathViewHeight) + 44, width: mathViewWidth, height: mathViewHeight))
+        let mathView = OCRMathView(frame: CGRect(x: 0, y: (mathViews.count * mathViewHeight) + 44, width: mathViewWidth, height: mathViewHeight))
         setupMyscriptCertificate(for: mathView)
         setup(mathView: mathView)
         self.addSubview(mathView)
@@ -284,13 +277,18 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        tab = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 44))
+//        tab = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 44))
+        // Add the icon to the icon view
+        tab = UIImageView(frame:CGRect(x: 0, y: 0, width: 100, height: 44))
+        tab.image = UIImage(named: "squiggleFx")
+        tab.contentMode = .scaleAspectFit
+        tab.isUserInteractionEnabled = true
+
         tab.backgroundColor = UIColor.init(red: 41.0/255.0, green: 183.0/255.0, blue: 235.0/255.0, alpha: 0.75)
         tab.center.x = self.center.x
         tab.round(corners: [.topLeft, .topRight], radius: 5.0)
         self.addSubview(tab)
         setupTabConstraints()
-        
         
         
         mathViews = [OCRMathView]()

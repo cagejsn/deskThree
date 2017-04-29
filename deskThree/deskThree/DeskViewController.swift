@@ -25,10 +25,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var projectNameTextField: UITextField!
     @IBOutlet var pageRightButton: UIBarButtonItem!
     @IBOutlet var pageLeftButton: UIBarButtonItem!
-    @IBOutlet var pageNumberLabel: UITextField!
     @IBOutlet var redoButton: UIBarButtonItem!
     @IBOutlet var undoButton: UIBarButtonItem!
     @IBOutlet var hamburgerMenuButton: UIBarButtonItem!
+    @IBOutlet var pageNumberLabel: UIBarButtonItem!
     
     var pencilEraserToggleControl: PencilEraserToggleControl!
     
@@ -69,11 +69,16 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolbar()
         setupMathViewContainer()
         setupPencilEraserToggleControl()
+        setupPageNumberLabel()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(_: animated)
         workView.setupForJotView()
+    }
+    
+    func setupPageNumberLabel() {
+        self.pageNumberLabel.title = "1 of 1"
     }
     
     //MARK: Setup functions for the various components
@@ -283,6 +288,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mixpanel.track(event: "Button: Page Left")
         #endif
         workView.movePage(direction: "left")
+        updatePageNumberLabel()
     }
     
     @IBAction func nextPageTapped(){
@@ -290,6 +296,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mixpanel.track(event: "Button: Page Right")
         #endif
         workView.movePage(direction: "right")
+        updatePageNumberLabel()
+    }
+    
+    func updatePageNumberLabel() {
+        let totalNumberPages = workView.getTotalNumberPages()
+        let currentPageIndex = workView.getCurrentPageIndex()
+        
+        self.pageNumberLabel.title = "\(String(currentPageIndex)) of \(String(totalNumberPages))"
     }
     
     //MARK: - WorkView Delegate

@@ -249,7 +249,7 @@ class ToolDrawer: UIView {
 
         // Add the icon to the icon view
         calculatorIcon = UIImageView(frame:CGRect(x: 0, y: 0, width: Int(toolDrawerCollapsedWidth), height: toolSelectorHeight))
-        calculatorIcon.image = UIImage(named: "calculator_med")
+        calculatorIcon.image = UIImage(named: "calculator_med_white")
         calculatorIcon.contentMode = .scaleAspectFit
         
         // Change color of the icon view
