@@ -23,7 +23,7 @@ public class Parser {
     private var domain: [Float64]
     private var range:  [Float64]
     private var errorMSG = ""
-    private var multipliables = "abcdefghijklmnopqrstuvwxyz({[π√X1234567890"
+    private var multipliables = "abcdefghijklmnopqrstuvwxyz\\(\\{\\[π√X1234567890"
     
     init(functionString: String) {
         self.function = Array(functionString.characters)
@@ -79,14 +79,40 @@ public class Parser {
         return self.cursor < self.function.count && numChars.contains(String(describing: function[cursor]))
     }
     
-    private func isMultiplyableToken(token: String) -> Bool{
+    private func isMultiplyableToken() -> Bool{
         
+        var token = String(describing: self.function[cursor])
+        if(token == "\\"){
+            token = token+String(describing: self.function[cursor+1])
+        }
         if(self.multipliables.contains(token) || self.multipliables.capitalized.contains(token)){
             return true
         }
         return false
     }
-        
+    
+    //return len of left string
+    private func isLeft() -> Int{
+        if(self.cursor < self.function.count && ("[(".contains(String(describing:self.function[cursor])))){
+            return 1
+        }
+        if(self.cursor+1 < self.function.count && String(describing: self.function[cursor]) == "\\" && "[(".contains(String(describing: self.function[cursor+1]))){
+            return 2
+        }
+        return 0
+    }
+    
+    //return len of right string
+    private func isRight() -> Int{
+        if(self.cursor < self.function.count && ("])".contains(String(describing: self.function[cursor])))){
+            return 1
+        }
+        if(self.cursor+1 < self.function.count && String(describing: self.function[cursor]) == "\\" && "])".contains(String(describing: self.function[cursor+1] ))){
+            return 2
+        }
+        return 0
+    }
+    
     
     /* obtains value of number starting at function[cursor]. Returns array of len domain.count
       containing only this character */
@@ -123,6 +149,11 @@ public class Parser {
             self.cursor += 5
         }else if(getWord().characters.count == 6){
             self.cursor += 6
+        }else if(isLeft() != 0 || isRight() != 0){
+            //had to add this in case of variable len priority tokens
+            let leftJustification = isLeft()
+            let rightJustification = isRight()
+            self.cursor += leftJustification+rightJustification
         }else{
             self.cursor += 1
             
@@ -170,7 +201,7 @@ public class Parser {
     func parserImplicitMult (leftHand: [Float64])throws -> [Float64]{
         
         
-        if((self.cursor < self.function.count) && isMultiplyableToken(token: String(describing: function[cursor]))){
+        if((self.cursor < self.function.count) && isMultiplyableToken()){
             var multArray: [Float64]
             do {
                 multArray = try parserHighPriority()
@@ -213,7 +244,7 @@ public class Parser {
             }
             return resultList
         }
-        if(indicator == "(" || indicator == "["){
+        if(isLeft() != 0){
             parserIncrimentCursor()
             do {
                 try resultList = parserExpression()
@@ -221,11 +252,9 @@ public class Parser {
             } catch let error {
                 throw error
             }
-            print(String(describing: self.function[self.cursor]))
-            if(self.cursor >= self.function.count || (String(describing: self.function[self.cursor]) != ")" && String(describing: self.function[self.cursor]) != "]")){
+            if(isRight() == 0){
                 throw MathError.unmatchedParenthesis
             }
-            let token = String(describing:self.function[self.cursor])
             parserIncrimentCursor()
 
             do {
