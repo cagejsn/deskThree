@@ -49,7 +49,6 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     @IBOutlet weak var buttonX: OutputArea!
     @IBOutlet weak var buttonRightParen: OutputArea!
     @IBOutlet weak var buttonLeftParen: OutputArea!
-    @IBOutlet weak var buttonSum: OutputArea!
     @IBOutlet weak var buttonZ: OutputArea!
     
     @IBOutlet weak var buttonArccos: OutputArea!
@@ -157,8 +156,6 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         buttonLeftParen.delegate = self
         buttonLeftParen.typeOfOutputArea = 3
         
-        buttonSum.delegate = self
-        buttonSum.typeOfOutputArea = 3
         
         buttonZ.delegate = self
         buttonZ.typeOfOutputArea = 3
@@ -264,8 +261,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         buttonLeftParen.delegate = self
         buttonLeftParen.typeOfOutputArea = 3
         
-        buttonSum.delegate = self
-        buttonSum.typeOfOutputArea = 3
+      
         
         buttonZ.delegate = self
         buttonZ.typeOfOutputArea = 3
@@ -334,7 +330,6 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         
         buttonLeftParen.delegate = delegate
         
-        buttonSum.delegate = delegate
         
         buttonZ.delegate = delegate
         
@@ -357,7 +352,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     
     func xibSetup() {
         view = loadViewFromNib()
-        view.backgroundColor = UIColor.gray
+        //view.backgroundColor = UIColor.gray
         // use bounds not frame or it'll be offset
         view.frame = bounds
         // Make the view stretch with containing view
@@ -367,10 +362,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         numEntryArea.titleLabel!.numberOfLines = 1
         numEntryArea.titleLabel!.adjustsFontSizeToFitWidth = true
         numEntryArea.titleLabel!.lineBreakMode = NSLineBreakMode.byClipping
-     //   view.layer.cornerRadius = 15;
-        for element in view.subviews {
-            element.layer.cornerRadius = 10;
-        }
+        
     }
     
     func loadViewFromNib() -> UIView {
@@ -446,6 +438,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
             self.numEntryArea.layoutIfNeeded()
         })
     }
+    
     @IBAction func equalsButtonPushed( _ sender: UIButton){
         mixpanel.track(event: "Button: Calculator: Equals")
         

@@ -29,11 +29,11 @@ class BlockExpression: Expression{
         var newBlock: Block!
         switch blockType {
         case 1:
-            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - (Constants.block.height/2), width:blockWidth, height: Constants.block.height))
             newBlock?.setColor(color: Constants.block.colors.green)
             newBlock?.precedence = Precedence.Number.rawValue
         case 2:
-            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - 50, width:blockWidth, height:Constants.block.height))
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2), y:blockLocation.y - (Constants.block.height/2), width:blockWidth, height:Constants.block.height))
             newBlock?.setColor(color: Constants.block.colors.blue)
             
             switch blockData {
@@ -59,7 +59,7 @@ class BlockExpression: Expression{
                 break
             }
         case 3:
-            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2),y:blockLocation.y - 50, width:blockWidth, height: Constants.block.height))
+            newBlock = Block(frame: CGRect(x:blockLocation.x - (blockWidth/2),y:blockLocation.y - (Constants.block.height/2), width:blockWidth, height: Constants.block.height))
             newBlock?.setColor(color: Constants.block.colors.gray)
         default:
             newBlock = Block()

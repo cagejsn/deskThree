@@ -35,17 +35,38 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     private var isInMetaData: Bool!
     
-    var pen: Pen!
-    var eraser: Eraser!
-    var curPen = Constants.pens.pen
+    private var pen: Pen!
+    private var originalMinSize: CGFloat = 1.5
+    private var originalMaxSize: CGFloat = 3.5
+    private var eraser: Eraser!
+    private var curPen = Constants.pens.pen
+    private var selectedPaperType: SelectedPaperType = .graph
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
         setupPageNumberSystem()
     }
     
+    //MARK: Data Flow
     func passHeldBlock(sender: Expression) {
         customDelegate.sendingToInputObject(for: sender)
+    }
+    
+    func receiveNewMathBlock(_ createdMathBlock: MathBlock){
+        currentPage.addMathBlockToPage(block: createdMathBlock)
+        didIncrementMove(movedView: createdMathBlock)
+        didModifyDocument()
+        archivePageObjects(page: currentPageIndex)
+    }
+    
+
+    func getTotalNumberPages() -> Int {
+        let totalPages = self.pages.count
+        return totalPages
+    }
+    
+    func getCurrentPageIndex() -> Int {
+        return self.currentPageIndex + 1
     }
     
     func setupDelegateChain(){
@@ -120,11 +141,24 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     // MARK - JotViewDelegate functions
     // pragma mark - JotViewDelagate and other JotView stuff
-    func togglePenColor() {
-        if pen.color == UIColor.black {
-            pen.color = UIColor.red
-        }else{
-            pen.color = UIColor.black
+    func changePenSize(to: CGFloat) {
+        pen.maxSize = originalMinSize * to
+        pen.minSize = originalMaxSize * to
+    }
+    
+    func changePenColor(to: SelectedPenColor) {
+        
+        switch to {
+            case .black:
+                setPenColor(color: Constants.penColors.black)
+            case .red:
+                setPenColor(color: Constants.penColors.red)
+            case .blue:
+                setPenColor(color: Constants.penColors.blue)
+            case .green:
+                setPenColor(color: Constants.penColors.green)
+        default:
+            return
         }
     }
     
@@ -146,9 +180,19 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
     }
     
+    func userSelected(writingInstrument: SelectedWritingInstrument){
+        if(writingInstrument == .eraser){
+            setPen(pen: .eraser)
+        }
+        if(writingInstrument == .pencil){
+            setPen(pen: .pen)
+        }
+    }
+    
     func setPen(pen: Constants.pens){
         curPen = pen
     }
+   
     
     func getCurPen() -> Constants.pens {
         return curPen
@@ -158,6 +202,15 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         curPen.next()
     }
     
+    
+    func changePaper(to: SelectedPaperType){
+        selectedPaperType = to
+        for page in pages {
+            page?.setBackground(to: selectedPaperType)
+        }
+    }
+    
+ 
     func textureForStroke() -> JotBrushTexture! {
         return activePen().textureForStroke()
     }
@@ -222,7 +275,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     
     // MARK: PageAndDrawingDelegate
-    func clearButtonTapped(_ sender: AnyObject) {
+    func clear() {
         let refreshAlert = UIAlertController(title: "Confirm Clear", message: "Are you sure you want to clear all of your writing? This cannot be undone.", preferredStyle: UIAlertControllerStyle.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
@@ -235,18 +288,19 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         UIApplication.shared.keyWindow?.rootViewController?.present(refreshAlert, animated: true, completion: nil)
     }
     
-    func undoTapped(_ sender: Any) {
+    func undoTapped() {
         currentPage.drawingView.undo()
     }
     
-    func redoTapped(_ sender: Any) {
+    func redoTapped() {
         currentPage.drawingView.redo()
     }
 
     
     // MARK: Expression Delegate
     func didEvaluate(forExpression sender: Expression, result: Float){
-        let newBlock = BlockExpression.makeBlock(blockLocation: CGPoint(x: sender.frame.origin.x + (sender.frame.width / 2) , y: sender.frame.origin.y + (3 * sender.frame.height)), blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
+        let newBlock = BlockExpression.makeBlock(blockLocation: sender.center + CGPoint(x: sender.frame.width/2 + 80, y: 0)
+            , blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
         newBlock.removeFromSuperview()
         let express = BlockExpression(firstVal: newBlock)
         currentPage.addSubview(express)
@@ -438,7 +492,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         currentPageIndex += 1
         
         // Add a new page
-        pages.append(Paper())
+        let paper = Paper()
+        pages.append(paper)
+        paper.setBackground(to: selectedPaperType)
         self.addSubview(pages[currentPageIndex]!)
         
         // Push back the old view
@@ -529,18 +585,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     // Do we even need to do this?
     func initCurPage() {
         currentPage.subviewDrawingView()
-        currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
+        //currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
         pages[currentPageIndex]?.contentMode = .scaleAspectFit
         currentPage.isUserInteractionEnabled = true
         currentPage.delegate = self
         setupForJotView()
-    }
-    
-    func addMathBlockToCurPage (mathBlock: MathBlock) {
-        currentPage.addMathBlockToPage(block: mathBlock)
-        didIncrementMove(movedView: mathBlock)
-        didModifyDocument()
-        archivePageObjects(page: currentPageIndex)
     }
     
     func setupForJotView() {
@@ -617,7 +666,24 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
     }
     
-
+    // Cleans up the current project. Loads a new one and returns its name
+    func newProject() -> String {
+        cleanUpPages()
+        
+        // Now initialize a new page
+        let paper = Paper()
+        paper.setBackground(to: selectedPaperType)
+        paper.delegate = self
+        pages.append(paper)
+        self.addSubview(pages[0]!)
+        currentPage = pages[0]
+        initCurPage()
+        self.sendSubview(toBack: pages[0]!)
+        
+        let name = getSerializedProjectName()
+        self.project = DeskProject(name: name)
+        return name
+    }
     
     func loadProject(projectName: String){
         
@@ -711,7 +777,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func setupJotPens() {
-        pen = Pen(minSize: 3.5, andMaxSize: 1.5, andMinAlpha: 1.0, andMaxAlpha: 1.0)
+        pen = Pen(minSize: originalMinSize, andMaxSize: originalMaxSize, andMinAlpha: 1.0, andMaxAlpha: 1.0)
         pen.color = UIColor.black
         eraser = Eraser(minSize: 12.0, andMaxSize: 10.0, andMinAlpha: 0.6, andMaxAlpha: 0.8)
         pen.shouldUseVelocity = true
@@ -745,6 +811,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         self.onDisk = false
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         let pape = Paper()
+        pape.setBackground(to: selectedPaperType)
         pape.delegate = self
         pages.append(pape)
         self.addSubview(pages[0]!)
@@ -761,7 +828,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
     
 }

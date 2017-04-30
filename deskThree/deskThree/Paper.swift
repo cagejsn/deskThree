@@ -30,6 +30,8 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     private var prevScaleFactor: CGFloat!
     private var images: [ImageBlock]!
+    
+    private var paperType: SelectedPaperType!
     //JotUI Properties
     var drawingView: JotView!
     
@@ -42,6 +44,25 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
 
+    func setBackground(to: SelectedPaperType){
+        let image: UIImage!
+        switch to {
+        case .graph:
+            image = UIImage(named: "simpleGraphPaper")
+            paperType = .graph
+        case .engineering:
+            image = UIImage(named: "engineeringPaper")
+            paperType = .engineering
+        case .lined:
+            image = UIImage(named: "linedPaper")
+            paperType = .lined  
+        default:
+            image = UIImage(named: "apple")
+        }
+        self.image = image
+    }
+    
+    
     func elementWantsSendToInputObject(element:Any){
         delegate.passHeldBlock(sender: element as! Expression)
     }
@@ -79,8 +100,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
 
         block.delegate = self
         expressions.append(block)
-        addSubview(block)
-        print(block.frame)
+        self.addSubview(block)
     }
     
     func didHoldBlock(sender: MathBlock) {
@@ -261,6 +281,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         super.encode(with: aCoder)
         aCoder.encode(images)
         aCoder.encode(expressions)
+        aCoder.encode(paperType.rawValue, forKey: "paperType")
     }
     
     deinit {
@@ -269,12 +290,15 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     //MARK: Initializers
     init() {
-        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+        
+        super.init(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
         expressions = [BlockExpression]()
-        self.image = UIImage(named: "engineeringPaper2")
+        //self.image = UIImage(named: "simpleGraphPaper")
+      //  self.contentMode = .scaleToFill
         self.isOpaque = false
         images = [ImageBlock]()
         setupDrawingView()
+        paperType = .graph
     }
     
     //MARK: setup for loading
@@ -291,5 +315,15 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
             expression.delegate = self
             self.addSubview(expression)
         }
+       
+        //paperType = unarchiver.decodeData() as! SelectedPaperType
+        let int = unarchiver.decodeInteger(forKey: "paperType")
+        paperType = SelectedPaperType(rawValue: int)
+        setBackground(to: paperType)
+        
+        
+//        let temp = PathLocator.getTempFolder()
+//        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
+//        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
     }
 }
