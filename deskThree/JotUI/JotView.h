@@ -35,7 +35,7 @@
 // the pixel size of a page
 @property(readonly) CGSize pagePtSize;
 @property(readonly) CGFloat scale;
-@property UIView* currentPage;
+@property(nonatomic, weak) UIView* currentPage;
 
 
 // erase the screen

@@ -133,7 +133,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func adjustMathViewContainerConstraints(){
         
-        
     }
     
     func setupTrash(){
@@ -408,7 +407,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.changePaper(to: to)
     }
 
-    
+    // TODO: make sure we autosave (archivePageObjects is called) when we create a new MathBlock
     func pass(_ createdMathBlock: MathBlock,for mathView: OCRMathView){
         //this is a bad way to set the position of the mathBlock, in the future, we should make the user drag it out
         var loc = self.view.center
@@ -417,6 +416,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.receiveNewMathBlock(createdMathBlock)
     }
     
+    
+//    func createMathBlock(){
+//        
+//        if let image1 =  mathView.resultAsImage(){
+//            let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
+//            var loc = self.view.center
+//            loc = loc - CGPoint(x: 0, y: 200)
+//            print(loc)
+//            mathBlock.center = mathBlock.convert(loc, to: workView.currentPage)
+//            print(mathBlock.frame)
+//            workView.addMathBlockToCurPage(mathBlock: mathBlock)
+//        }
+//    }
     
     func didRequestWRDisplay(query: String){
         let newQuery = query.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
@@ -434,13 +446,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         dismiss(animated: true, completion: nil)
     }
     
-    
-    
-    
-    
+    override func didReceiveMemoryWarning() {
+        workView.freeInactivePages()
+        super.didReceiveMemoryWarning()
+    }
     
     //MARK: Various Support functions
-    
+
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
     }
@@ -448,12 +460,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-    }
-    
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     

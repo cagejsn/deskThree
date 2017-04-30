@@ -30,7 +30,7 @@ class Block: UILabel {
     }
 
     func stylize(){
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = 7
     }
     
 

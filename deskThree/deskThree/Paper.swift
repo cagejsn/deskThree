@@ -13,7 +13,7 @@ import UIKit
 #endif
 
 // Figure out why we need this
-protocol PaperDelegate {
+protocol PaperDelegate: NSObjectProtocol {
     func passHeldBlock(sender:Expression)
     func didBeginMove(movedView: UIView)
     func didIncrementMove(movedView: UIView)
@@ -24,7 +24,7 @@ protocol PaperDelegate {
 
 class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate, JotViewStateProxyDelegate {
     
-    public var delegate: PaperDelegate!
+    public weak var delegate: PaperDelegate!
     // TODO: MAKE THIS PRIVATE!
     public var expressions: [Expression]!
     
@@ -182,11 +182,12 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         drawingView.loadState(drawingState)
         drawingView.isUserInteractionEnabled = true
         drawingView.speedUpFPS()
+        
     }
     
     func subviewDrawingView() {
         superview?.superview?.insertSubview(drawingView, at: 1)
-        drawingView.delegate = self.superview as! WorkView
+        drawingView.delegate = self.superview as! WorkView!
     }
     
     func clearDrawing() {
@@ -253,13 +254,38 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         
     }
     
+    func removePage(){
+        drawingView.deleteAssets()
+        drawingView.invalidate()
+        drawingView = nil
+        
+        drawingState.isForgetful = true
+        drawingState.unload()
+        drawingState = nil
+        
+        for expression in expressions {
+            expression.removeFromSuperview()
+        }
+        expressions.removeAll()
+        
+        for image in images {
+            image.removeFromSuperview()
+        }
+        images.removeAll()
+        
+        self.removeFromSuperview()
+    }
+
+    // NOTE: we do not encode and decode jotListStatePath and jotListPlistPath
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(images)
         aCoder.encode(expressions)
         aCoder.encode(paperType.rawValue, forKey: "paperType")
-//        aCoder.encode(jotViewStatePlistPath)
-//        aCoder.encode(jotViewStateInkPath)
+    }
+    
+    deinit {
+        print("deinit")
     }
     
     //MARK: Initializers
@@ -280,12 +306,13 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         super.init(coder: unarchiver)!
         images = unarchiver.decodeObject() as! [ImageBlock]!
         for image in images! {
-            self.addSubview(image)
             image.delegate = self
+            self.addSubview(image)
         }
         
         expressions = unarchiver.decodeObject() as! [Expression]!
         for expression in expressions {
+            expression.delegate = self
             self.addSubview(expression)
         }
        
@@ -299,6 +326,4 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
 //        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
 //        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
     }
-
-
 }
