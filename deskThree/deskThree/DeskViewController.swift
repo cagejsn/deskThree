@@ -449,8 +449,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #if !DEBUG
             mixpanel.track(event: "User At Image Picker Screen")
         #endif
-        workView.addImageToPage(pickedImage: pickedImage)
         dismiss(animated: true, completion: nil)
+        workView.addImageToPage(pickedImage: pickedImage)
     }
     
     override func didReceiveMemoryWarning() {

@@ -686,6 +686,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         
         let name = getSerializedProjectName()
         self.project = DeskProject(name: name)
+        self.onDisk = false
+        self.isInMetaData = false
         return name
     }
     
