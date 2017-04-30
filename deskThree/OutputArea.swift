@@ -57,7 +57,7 @@ class OutputArea: UIButton {
             case "-":
                 newBlock.precedence = Precedence.Minus.rawValue
                 break
-            case "✕":
+            case "×":
                 newBlock.precedence = Precedence.Multiply.rawValue
                 break
             case "÷":
