@@ -254,6 +254,20 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         
     }
     
+    // Method to remove an expression or image. Can be extended to support any uiview sitting
+    // on top of paper
+    func removeObject(object: UIView) {
+        object.removeFromSuperview()
+        if expressions.removeObject(object: object) {
+            return
+        }
+        
+        else if images.removeObject(object: object) {
+            return
+        }
+        // Should not get here
+    }
+    
     func removePage(){
         drawingView.deleteAssets()
         drawingView.invalidate()

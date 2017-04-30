@@ -364,8 +364,10 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         
         /*check if expression overlaps with trash bin*/
         if(customDelegate.intersectsWithTrash(justMovedBlock: movedView)){
-            currentPage.expressions.removeObject(object: movedView)
-            movedView.isHidden = true
+            currentPage.removeObject(object: movedView)
+            
+            didModifyDocument()
+            archivePageObjects(page: currentPageIndex)
             return
         }
         
