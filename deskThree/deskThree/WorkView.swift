@@ -651,8 +651,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         return "Untitled"+String(i)
     }
     
-
-    
     func loadPage(pageNo: Int){
         
         let projectPath = PathLocator.getTempFolder() + "/" + project.name

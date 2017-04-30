@@ -33,7 +33,7 @@ class SaveAsView: UIView {
     }
     
     //currently just renames current project
-    static func saveProject(name: String, workViewRef: WorkView){
+    static func renameProject(name: String, workViewRef: WorkView){
         
         let newName = name
         let oldName = workViewRef.getDeskProject().name

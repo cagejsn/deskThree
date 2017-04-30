@@ -209,12 +209,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         return true
     }
-    
-    @available(iOS 10.0, *)
-    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-        let newProjectName = textField.text
-        SaveAsView.saveProject(name: newProjectName!, workViewRef: workView)
-    }
+
+    // func NEVER CALLED
+//    @available(iOS 10.0, *)
+//    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+//        let newProjectName = textField.text
+//        SaveAsView.renameProject(name: newProjectName!, workViewRef: workView)
+//    }
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
@@ -276,6 +277,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #endif
         workView.undoTapped()
     }
+    
+    @IBAction func projectNameChanged(_ sender: Any) {
+        SaveAsView.renameProject(name: projectNameTextField.text!, workViewRef: workView)
+    }
+    
     
     @IBAction func lastPageTapped(){
         #if !DEBUG
