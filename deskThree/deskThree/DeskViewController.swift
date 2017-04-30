@@ -323,6 +323,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.loadProject(projectName: projectName)
         dismissFileExplorer()
         projectNameTextField.text = workView.getDeskProject().name
+        updatePageNumberLabel()
     }
     
     //TODO: This should soon go
