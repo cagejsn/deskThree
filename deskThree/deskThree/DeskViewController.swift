@@ -332,6 +332,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     //MARK: HamburgerMenuViewControllerDelegate functions
     func newProjectRequested() {
         projectNameTextField.text = workView.newProject()
+        setupPageNumberLabel()
     }
     
     func fileExplorerButtonTapped() {

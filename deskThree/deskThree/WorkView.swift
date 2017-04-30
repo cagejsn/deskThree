@@ -488,7 +488,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func moveToNewPage(){
-        
+        // Tackles the edge case where first page is not saved
+        if currentPageIndex == 0 {
+            archivePageObjects(page: currentPageIndex)
+            archiveJotView(page: currentPageIndex)
+        }
         currentPageIndex += 1
         
         // Add a new page
