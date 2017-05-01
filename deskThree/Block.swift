@@ -23,9 +23,6 @@ class Block: UILabel {
     var innerChild: Block?
     var faceText: String?
 
-    
-  
-    
     func stylizeViews(){
         self.stylize()
         leftChild?.stylizeViews()
@@ -33,7 +30,7 @@ class Block: UILabel {
     }
 
     func stylize(){
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = 7
     }
     
 

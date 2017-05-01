@@ -9,8 +9,11 @@
 import UIKit
 import Fabric
 import Crashlytics
+import SlideMenuControllerSwift
+
+    
 #if !DEBUG
-    import Mixpanel
+import Mixpanel
 #endif
     
 @UIApplicationMain
@@ -19,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     #if !DEBUG
-        var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
     
 
@@ -29,17 +32,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         
+        
+        
         let dvc = DeskViewController()
-        self.window?.rootViewController = dvc
+        let hmc = HamburgerMenuViewController()
+        hmc.delegate = dvc  
+        
+        
+        SlideMenuOptions.leftViewWidth = 367
+      //  SlideMenuOptions.leftBezelWidth = 100
+        SlideMenuOptions.contentViewDrag = true
+        SlideMenuOptions.contentViewOpacity = 0.2
+        SlideMenuOptions.panGesturesEnabled = false
+        
+        
+        
+        let slideMenuController = SlideMenuController(mainViewController: dvc, leftMenuViewController: hmc, rightMenuViewController: UIViewController())
+        self.window?.rootViewController = slideMenuController
+        
+        
         self.window?.makeKeyAndVisible()
         let isFirstLaunch = UserDefaults.isFirstLaunch()
         if isFirstLaunch {
             let tutorialVideoViewController = TutorialVideoViewController()
-            dvc.present(tutorialVideoViewController, animated: true, completion: nil)
+            slideMenuController.present(tutorialVideoViewController, animated: true, completion: nil)
         }
         
         Fabric.with([Crashlytics.self])
-
+        
         return true
     }
 

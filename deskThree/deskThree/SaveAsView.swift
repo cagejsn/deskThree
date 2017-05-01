@@ -18,14 +18,13 @@ class SaveAsView: UIView {
         
         let projectName = projectNameTextField.text
         if(isAcceptableName(name: projectName!)){
-            saveProject(name: projectName!)
+            //saveProject(name: projectName!)
             closeButtonTapped(self)
         }else if(projectName == ""){
             workViewRef.raiseAlert(title: "", alert: "Enter project name.")
         }else if(projectName?.contains(" "))!{
             workViewRef.raiseAlert(title: "", alert: "Project name cannot contain spaces.")
         }
-        
     }
     
     func isAcceptableName(name: String) -> Bool{
@@ -34,7 +33,7 @@ class SaveAsView: UIView {
     }
     
     //currently just renames current project
-    func saveProject(name: String){
+    static func renameProject(name: String, workViewRef: WorkView){
         
         let newName = name
         let oldName = workViewRef.getDeskProject().name
@@ -75,12 +74,7 @@ class SaveAsView: UIView {
         self.removeFromSuperview()  
     }
     
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
-    
-    
-
 }

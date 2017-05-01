@@ -57,7 +57,7 @@ class OutputArea: UIButton {
             case "-":
                 newBlock.precedence = Precedence.Minus.rawValue
                 break
-            case "✕":
+            case "×":
                 newBlock.precedence = Precedence.Multiply.rawValue
                 break
             case "÷":
@@ -120,6 +120,6 @@ class OutputArea: UIButton {
         super.init(coder: aDecoder)!
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "scootBlock:")
         self.addGestureRecognizer(panGestureRecognizer!)
-        self.layer.cornerRadius = 10
+       // self.layer.cornerRadius = 10
     }
 }

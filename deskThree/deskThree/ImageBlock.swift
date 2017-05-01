@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Mixpanel
 
-protocol ImageBlockDelegate {
+protocol ImageBlockDelegate: NSObjectProtocol {
     func fixImageToPage(image: ImageBlock)
     func freeImageForMovement(image: ImageBlock)
     func helpMove(imageBlock: ImageBlock, dx: CGFloat, dy: CGFloat)
@@ -27,7 +27,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     var zoomGR: UIPinchGestureRecognizer?
     var rotationGestureRecognizer: UIRotationGestureRecognizer!
     var editable: Bool = false
-    var delegate: ImageBlockDelegate! = nil
+    weak var delegate: ImageBlockDelegate! = nil
     var previousRotation: CGFloat = 0
 
     // Mixpanel initialization
@@ -56,6 +56,9 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
             isUserInteractionEnabled = false
             //superview?.sendSubview(toBack: self)
         }
+        // This function is called so that the updated editable value is encoded
+        // Find a better way to do this in the future
+        delegate.didCompleteMove(movedView: self)
     }
     
     func isEditable()->Bool{

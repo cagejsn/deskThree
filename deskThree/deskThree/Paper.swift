@@ -13,7 +13,7 @@ import UIKit
 #endif
 
 // Figure out why we need this
-protocol PaperDelegate {
+protocol PaperDelegate: NSObjectProtocol {
     func passHeldBlock(sender:Expression)
     func didBeginMove(movedView: UIView)
     func didIncrementMove(movedView: UIView)
@@ -24,12 +24,14 @@ protocol PaperDelegate {
 
 class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate, JotViewStateProxyDelegate {
     
-    public var delegate: PaperDelegate!
+    public weak var delegate: PaperDelegate!
     // TODO: MAKE THIS PRIVATE!
     public var expressions: [Expression]!
     
     private var prevScaleFactor: CGFloat!
     private var images: [ImageBlock]!
+    
+    private var paperType: SelectedPaperType!
     //JotUI Properties
     var drawingView: JotView!
     
@@ -42,6 +44,25 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
 
+    func setBackground(to: SelectedPaperType){
+        let image: UIImage!
+        switch to {
+        case .graph:
+            image = UIImage(named: "simpleGraphPaper")
+            paperType = .graph
+        case .engineering:
+            image = UIImage(named: "engineeringPaper")
+            paperType = .engineering
+        case .lined:
+            image = UIImage(named: "linedPaper")
+            paperType = .lined  
+        default:
+            image = UIImage(named: "apple")
+        }
+        self.image = image
+    }
+    
+    
     func elementWantsSendToInputObject(element:Any){
         delegate.passHeldBlock(sender: element as! Expression)
     }
@@ -79,6 +100,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
 
         block.delegate = self
         expressions.append(block)
+        self.addSubview(block)
     }
     
     func didHoldBlock(sender: MathBlock) {
@@ -160,11 +182,12 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         drawingView.loadState(drawingState)
         drawingView.isUserInteractionEnabled = true
         drawingView.speedUpFPS()
+        
     }
     
     func subviewDrawingView() {
         superview?.superview?.insertSubview(drawingView, at: 1)
-        drawingView.delegate = self.superview as! WorkView
+        drawingView.delegate = self.superview as! WorkView!
     }
     
     func clearDrawing() {
@@ -231,22 +254,65 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         
     }
     
+    // Method to remove an expression or image. Can be extended to support any uiview sitting
+    // on top of paper
+    func removeObject(object: UIView) {
+        object.removeFromSuperview()
+        if expressions.removeObject(object: object) {
+            return
+        }
+        
+        else if images.removeObject(object: object) {
+            return
+        }
+        // Should not get here
+    }
+    
+    func removePage(){
+        drawingView.deleteAssets()
+        drawingView.invalidate()
+        drawingView = nil
+        
+        drawingState.isForgetful = true
+        drawingState.unload()
+        drawingState = nil
+        
+        for expression in expressions {
+            expression.removeFromSuperview()
+        }
+        expressions.removeAll()
+        
+        for image in images {
+            image.removeFromSuperview()
+        }
+        images.removeAll()
+        
+        self.removeFromSuperview()
+    }
+
+    // NOTE: we do not encode and decode jotListStatePath and jotListPlistPath
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(images)
         aCoder.encode(expressions)
-//        aCoder.encode(jotViewStatePlistPath)
-//        aCoder.encode(jotViewStateInkPath)
+        aCoder.encode(paperType.rawValue, forKey: "paperType")
+    }
+    
+    deinit {
+        print("deinit")
     }
     
     //MARK: Initializers
     init() {
-        super.init(frame: CGRect(x: 10, y: 10, width: 400, height: 400))
+        
+        super.init(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
         expressions = [BlockExpression]()
-        self.image = UIImage(named: "engineeringPaper2")
+        //self.image = UIImage(named: "simpleGraphPaper")
+      //  self.contentMode = .scaleToFill
         self.isOpaque = false
         images = [ImageBlock]()
         setupDrawingView()
+        paperType = .graph
     }
     
     //MARK: setup for loading
@@ -254,20 +320,24 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         super.init(coder: unarchiver)!
         images = unarchiver.decodeObject() as! [ImageBlock]!
         for image in images! {
-            self.addSubview(image)
             image.delegate = self
+            self.addSubview(image)
         }
         
         expressions = unarchiver.decodeObject() as! [Expression]!
         for expression in expressions {
+            expression.delegate = self
             self.addSubview(expression)
         }
        
+        //paperType = unarchiver.decodeData() as! SelectedPaperType
+        let int = unarchiver.decodeInteger(forKey: "paperType")
+        paperType = SelectedPaperType(rawValue: int)
+        setBackground(to: paperType)
+        
+        
 //        let temp = PathLocator.getTempFolder()
-//
 //        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
 //        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
     }
-
-
 }
