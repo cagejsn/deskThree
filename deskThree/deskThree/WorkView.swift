@@ -291,10 +291,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     func undoTapped() {
         currentPage.drawingView.undo()
+        archiveJotView(page: currentPageIndex)
     }
     
     func redoTapped() {
         currentPage.drawingView.redo()
+        archiveJotView(page: currentPageIndex)
     }
 
     
