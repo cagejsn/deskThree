@@ -24,6 +24,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     private var pages: [Paper?] = [Paper]()
     private var currentPageIndex = 0
+    private var totalPages = 0
+    
     private var longPressGR: UILongPressGestureRecognizer!
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
@@ -106,7 +108,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     func updatePageNotification() {
         self.bringSubview(toFront: cornerPageLabel)
-        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
+        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.totalPages))"
         pageNotificationFadeIn()
         pageNotificationFadeOut()
     }
@@ -711,7 +713,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             pages.append(nil)
             count+=1
         }
-        print(pages)
+
+        self.totalPages = count
         
         //after this is called, the first page should be in memory
         loadPage(pageNo: 0)
