@@ -142,8 +142,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     // MARK - JotViewDelegate functions
     // pragma mark - JotViewDelagate and other JotView stuff
     func changePenSize(to: CGFloat) {
-        pen.maxSize = originalMinSize * to
-        pen.minSize = originalMaxSize * to
+        pen.maxSize = originalMaxSize * to
+        pen.minSize = originalMinSize * to
     }
     
     func changePenColor(to: SelectedPenColor) {
