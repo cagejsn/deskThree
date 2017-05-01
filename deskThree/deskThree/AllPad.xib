@@ -451,6 +451,7 @@
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xzO-Vr-CWZ">
                     <rect key="frame" x="229" y="1" width="76" height="64"/>
                     <color key="backgroundColor" red="0.50190365309999996" green="0.50199371579999996" blue="0.50189799069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="201" id="gXx-8W-1LQ"/>
                     </constraints>
@@ -459,6 +460,7 @@
                     </state>
                     <connections>
                         <action selector="deleteTextFromEntryArea:" destination="-1" eventType="touchUpInside" id="tVI-xB-rGw"/>
+                        <outletCollection property="gestureRecognizers" destination="hQK-mb-VUB" appends="YES" id="FLv-Fb-H0N"/>
                     </connections>
                 </button>
             </subviews>
@@ -622,5 +624,10 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-11" y="-122.5"/>
         </view>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="hQK-mb-VUB">
+            <connections>
+                <action selector="deleteTextFromEntryAreaLongPressed:" destination="-1" id="7z4-PP-uJf"/>
+            </connections>
+        </pongPressGestureRecognizer>
     </objects>
 </document>

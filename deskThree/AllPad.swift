@@ -391,7 +391,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         }
     }
     
-    func deleteTextFromEntryAreaLongPressed(_ sender: AnyObject) {
+    @IBAction func deleteTextFromEntryAreaLongPressed(_ sender: AnyObject) {
         mixpanel.track(event: "Button: Calculator: Backspace Long Press")
 
         if (numEntryAreaText.characters.count > 0) {

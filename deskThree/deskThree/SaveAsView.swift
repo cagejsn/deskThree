@@ -61,6 +61,7 @@ class SaveAsView: UIView {
         }
         
         do{
+            if(oldName == newName){return}
             try FileManager.default.moveItem(atPath: temp+"/"+oldName!, toPath: temp+"/"+newName)
         }
         catch{
