@@ -35,6 +35,11 @@ class SaveAsView: UIView {
     //currently just renames current project
     static func renameProject(name: String, workViewRef: WorkView){
         
+        //return if they want to rename the project to its current name
+        if(name == workViewRef.getDeskProject().name){
+            return
+        }
+        
         let newName = name
         let oldName = workViewRef.getDeskProject().name
         let temp = PathLocator.getTempFolder()
