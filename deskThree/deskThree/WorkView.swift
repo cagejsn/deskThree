@@ -280,6 +280,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
             self.currentPage.clearDrawing()
+            self.archiveJotView(page: self.currentPageIndex)
         }))
         
         refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -309,6 +310,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         express.delegate = self.currentPage
         newBlock.frame.origin = CGPoint.zero
         express.addSubview(newBlock)
+        didModifyDocument()
+        archivePageObjects(page: currentPageIndex)
     }
     
     func elementWantsSendToInputObject(element:Any){
