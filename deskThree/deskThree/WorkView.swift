@@ -24,6 +24,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     private var pages: [Paper?] = [Paper]()
     private var currentPageIndex = 0
+    private var totalPages = 0
+    
     private var longPressGR: UILongPressGestureRecognizer!
     // stores metadata of this workspace. Initialized to untitled. can be
     // replaced with setDeskProject
@@ -106,7 +108,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     func updatePageNotification() {
         self.bringSubview(toFront: cornerPageLabel)
-        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
+        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.totalPages))"
         pageNotificationFadeIn()
         pageNotificationFadeOut()
     }
@@ -142,8 +144,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     // MARK - JotViewDelegate functions
     // pragma mark - JotViewDelagate and other JotView stuff
     func changePenSize(to: CGFloat) {
-        pen.maxSize = originalMinSize * to
-        pen.minSize = originalMaxSize * to
+        pen.maxSize = originalMaxSize * to
+        pen.minSize = originalMinSize * to
     }
     
     func changePenColor(to: SelectedPenColor) {
@@ -280,6 +282,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
             self.currentPage.clearDrawing()
+            self.archiveJotView(page: self.currentPageIndex)
         }))
         
         refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -290,10 +293,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     func undoTapped() {
         currentPage.drawingView.undo()
+        archiveJotView(page: currentPageIndex)
     }
     
     func redoTapped() {
         currentPage.drawingView.redo()
+        archiveJotView(page: currentPageIndex)
     }
 
     
@@ -309,6 +314,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         express.delegate = self.currentPage
         newBlock.frame.origin = CGPoint.zero
         express.addSubview(newBlock)
+        didModifyDocument()
+        archivePageObjects(page: currentPageIndex)
     }
     
     func elementWantsSendToInputObject(element:Any){
@@ -706,7 +713,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             pages.append(nil)
             count+=1
         }
-        print(pages)
+
+        self.totalPages = count
         
         //after this is called, the first page should be in memory
         loadPage(pageNo: 0)
