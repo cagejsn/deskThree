@@ -7,6 +7,10 @@
 //
 
 import Foundation
+#if !DEBUG
+import Mixpanel
+#endif
+
 
 let mathViewHeight: Int = 300
 let mathViewWidth: Int = 600
@@ -38,6 +42,11 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     var bottomContraint: NSLayoutConstraint!
     var heightContraint: NSLayoutConstraint!
     var rightConstraint: NSLayoutConstraint!
+
+    // Mixpanel initialization
+    #if !DEBUG
+    private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #endif
 
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
