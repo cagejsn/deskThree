@@ -16,6 +16,12 @@
 		311C3ACD1E99664500F61CE4 /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
 		311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */; };
 		311C3AE81E996FD700F61CE4 /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A91DE75AAA00E3AA1D /* colorlesspoint.vsh */; };
+		312A5CC11EB9419300C39C46 /* YTNavViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 312A5CC01EB9419300C39C46 /* YTNavViewController.xib */; };
+		312A5CCB1EB9437E00C39C46 /* PlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CCA1EB9437E00C39C46 /* PlayerVC.swift */; };
+		312A5CCD1EB943B600C39C46 /* SuggestedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CCC1EB943B600C39C46 /* SuggestedVideo.swift */; };
+		312A5CCF1EB943DF00C39C46 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CCE1EB943DF00C39C46 /* Video.swift */; };
+		312A5CD11EB9444200C39C46 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CD01EB9444200C39C46 /* extensions.swift */; };
+		312A5CD31EB944B000C39C46 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CD21EB944B000C39C46 /* GlobalVariables.swift */; };
 		312A8B7C1EAFCD8000940FA7 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */; };
 		312A8B7E1EAFCF6D00940FA7 /* CALayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */; };
 		314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
@@ -207,6 +213,12 @@
 /* Begin PBXFileReference section */
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
+		312A5CC01EB9419300C39C46 /* YTNavViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTNavViewController.xib; sourceTree = "<group>"; };
+		312A5CCA1EB9437E00C39C46 /* PlayerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerVC.swift; sourceTree = "<group>"; };
+		312A5CCC1EB943B600C39C46 /* SuggestedVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedVideo.swift; sourceTree = "<group>"; };
+		312A5CCE1EB943DF00C39C46 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		312A5CD01EB9444200C39C46 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		312A5CD21EB944B000C39C46 /* GlobalVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayerExtension.swift; sourceTree = "<group>"; };
 		314881561E8DD5770015D095 /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Zip.framework; path = Carthage/Build/iOS/Zip.framework; sourceTree = "<group>"; };
@@ -561,6 +573,12 @@
 				DA2841201EB048B10085112E /* MathViewContainer.swift */,
 				DA28412A1EB25EED0085112E /* AllPad.xib */,
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
+				312A5CC01EB9419300C39C46 /* YTNavViewController.xib */,
+				312A5CCA1EB9437E00C39C46 /* PlayerVC.swift */,
+				312A5CCC1EB943B600C39C46 /* SuggestedVideo.swift */,
+				312A5CCE1EB943DF00C39C46 /* Video.swift */,
+				312A5CD01EB9444200C39C46 /* extensions.swift */,
+				312A5CD21EB944B000C39C46 /* GlobalVariables.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -793,6 +811,7 @@
 				311C3ACD1E99664500F61CE4 /* quad.vsh in Resources */,
 				DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */,
 				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
+				312A5CC11EB9419300C39C46 /* YTNavViewController.xib in Resources */,
 				311C3AE81E996FD700F61CE4 /* colorlesspoint.vsh in Resources */,
 				DA04D93A1EA4562F003C0783 /* TutorialVideoViewController.xib in Resources */,
 				DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */,
@@ -857,6 +876,7 @@
 				CE3E876C1E354D640076DA3A /* Parser.swift in Sources */,
 				DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */,
 				DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */,
+				312A5CD11EB9444200C39C46 /* extensions.swift in Sources */,
 				DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */,
 				DA04D9381EA4560A003C0783 /* TutorialVideoViewController.swift in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
@@ -885,6 +905,7 @@
 				DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,
 				DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */,
+				312A5CCD1EB943B600C39C46 /* SuggestedVideo.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
 				DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
@@ -895,6 +916,8 @@
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,
 				DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */,
+				312A5CD31EB944B000C39C46 /* GlobalVariables.swift in Sources */,
+				312A5CCB1EB9437E00C39C46 /* PlayerVC.swift in Sources */,
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */,
@@ -905,6 +928,7 @@
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,
 				DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */,
+				312A5CCF1EB943DF00C39C46 /* Video.swift in Sources */,
 				DADC7C691DF0F4650086626E /* ETree.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
