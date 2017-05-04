@@ -375,6 +375,98 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3130F7DF1EBBB926001A24E9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
+				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
+				312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */,
+				DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */,
+				DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */,
+				312A5CCA1EB9437E00C39C46 /* PlayerVC.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3130F7E81EBBBA0B001A24E9 /* Nibs */ = {
+			isa = PBXGroup;
+			children = (
+				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
+				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
+				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
+				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
+				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
+				DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */,
+				DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */,
+				DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */,
+				DA2841111EAFD3410085112E /* InsideHamburgerView.xib */,
+				DA28412A1EB25EED0085112E /* AllPad.xib */,
+				312A5CC01EB9419300C39C46 /* YTNavViewController.xib */,
+			);
+			name = Nibs;
+			sourceTree = "<group>";
+		};
+		3130F7E91EBBBA44001A24E9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
+				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
+				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
+				DA5464501DBD10A300E644F0 /* Paper.swift */,
+				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
+				DA7050E31E25591000079047 /* GraphView.swift */,
+				DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */,
+				52A662A21E32B1C8008E088A /* Trash.swift */,
+				DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */,
+				DA2841201EB048B10085112E /* MathViewContainer.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		3130F7EA1EBBBA55001A24E9 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
+				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
+			);
+			name = Modules;
+			sourceTree = "<group>";
+		};
+		3130F7EB1EBBBA65001A24E9 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
+				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
+				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
+				5297A22C1E6C993100BFA775 /* BlockExpression.swift */,
+				25D1507E1DBC19CF008364EC /* PDFGenerator.swift */,
+				DA67005B1E3EDD1C00A6179A /* GKContext.swift */,
+				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
+				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
+				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
+				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
+				DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */,
+				DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */,
+				312A5CCC1EB943B600C39C46 /* SuggestedVideo.swift */,
+				312A5CCE1EB943DF00C39C46 /* Video.swift */,
+				312A5CD21EB944B000C39C46 /* GlobalVariables.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		3130F7EC1EBBBAC6001A24E9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				312A5CD01EB9444200C39C46 /* extensions.swift */,
+				312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */,
+				DA04D9351EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift */,
+				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
+				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
+				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		528F8AF41E8D9C3600E75EF4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -527,58 +619,14 @@
 		DAFBE3A21DBBDBC20007D249 /* deskThree */ = {
 			isa = PBXGroup;
 			children = (
-				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
-				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
-				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
+				3130F7EC1EBBBAC6001A24E9 /* Extensions */,
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
-				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
-				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
-				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
-				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
-				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
-				DA5464501DBD10A300E644F0 /* Paper.swift */,
-				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
-				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
-				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
-				DA7050E31E25591000079047 /* GraphView.swift */,
-				DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */,
-				5297A22C1E6C993100BFA775 /* BlockExpression.swift */,
 				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
-				25D1507E1DBC19CF008364EC /* PDFGenerator.swift */,
-				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
-				52A662A21E32B1C8008E088A /* Trash.swift */,
-				DA67005B1E3EDD1C00A6179A /* GKContext.swift */,
-				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
-				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
-				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
-				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
-				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
-				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
-				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
-				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
-				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
-				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
-				DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */,
-				DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */,
-				DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */,
-				DA04D9351EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift */,
-				DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */,
-				DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */,
-				312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */,
-				312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */,
-				DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */,
-				DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */,
-				DA2841111EAFD3410085112E /* InsideHamburgerView.xib */,
-				DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */,
-				DA2841201EB048B10085112E /* MathViewContainer.swift */,
-				DA28412A1EB25EED0085112E /* AllPad.xib */,
-				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
-				312A5CC01EB9419300C39C46 /* YTNavViewController.xib */,
-				312A5CCA1EB9437E00C39C46 /* PlayerVC.swift */,
-				312A5CCC1EB943B600C39C46 /* SuggestedVideo.swift */,
-				312A5CCE1EB943DF00C39C46 /* Video.swift */,
-				312A5CD01EB9444200C39C46 /* extensions.swift */,
-				312A5CD21EB944B000C39C46 /* GlobalVariables.swift */,
+				3130F7EB1EBBBA65001A24E9 /* Helpers */,
+				3130F7EA1EBBBA55001A24E9 /* Modules */,
+				3130F7E91EBBBA44001A24E9 /* Views */,
+				3130F7E81EBBBA0B001A24E9 /* Nibs */,
+				3130F7DF1EBBB926001A24E9 /* Controllers */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
