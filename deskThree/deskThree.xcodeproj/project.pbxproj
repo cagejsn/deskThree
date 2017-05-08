@@ -222,7 +222,7 @@
 		312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayerExtension.swift; sourceTree = "<group>"; };
 		314881561E8DD5770015D095 /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Zip.framework; path = Carthage/Build/iOS/Zip.framework; sourceTree = "<group>"; };
-		3148815D1E8DDCDA0015D095 /* com.desk.education.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = com.desk.education.c; sourceTree = "<group>"; };
+		3148815D1E8DDCDA0015D095 /* com.desk.education.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = com.desk.education.c; path = ../com.desk.education.c; sourceTree = "<group>"; };
 		3176D2C61EA478F900866D21 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3176D2C71EA478F900866D21 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		3176D2D31EA47A2D00866D21 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -281,14 +281,14 @@
 		DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LowerDeskControls.xib; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
 		DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKFilteredImageView.swift; sourceTree = "<group>"; };
-		DA57475F1E7491E50010F754 /* OCRMathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRMathView.swift; sourceTree = "<group>"; };
+		DA57475F1E7491E50010F754 /* OCRMathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OCRMathView.swift; path = ../OCRMathView.swift; sourceTree = "<group>"; };
 		DA5747641E74983E0010F754 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = deskThree/Assets.xcassets; sourceTree = "<group>"; };
 		DA67005B1E3EDD1C00A6179A /* GKContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKContext.swift; sourceTree = "<group>"; };
 		DA7050E31E25591000079047 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		DA7050F11E25EFD100079047 /* vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vertexShader.glsl; path = ../vertexShader.glsl; sourceTree = "<group>"; };
 		DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
+		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MathEntryArea.swift; path = ../MathEntryArea.swift; sourceTree = "<group>"; };
 		DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "deskThree-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAA494DF1DC2ED5A00C73780 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAA494E11DC3A0D600C73780 /* GKCropBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCropBorderView.h; sourceTree = "<group>"; };
@@ -308,14 +308,14 @@
 		DADC67F51E26A89500C14F5B /* fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragmentShader.glsl; sourceTree = "<group>"; };
 		DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphingBlock.swift; sourceTree = "<group>"; };
 		DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphingBlock.xib; sourceTree = "<group>"; };
-		DADC7C5D1DF0F4650086626E /* AllPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllPad.swift; sourceTree = "<group>"; };
-		DADC7C5E1DF0F4650086626E /* OldAllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OldAllPad.xib; sourceTree = "<group>"; };
-		DADC7C5F1DF0F4650086626E /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
-		DADC7C601DF0F4650086626E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		DADC7C611DF0F4650086626E /* ETree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ETree.swift; sourceTree = "<group>"; };
-		DADC7C621DF0F4650086626E /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
-		DADC7C631DF0F4650086626E /* InputObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputObject.swift; sourceTree = "<group>"; };
-		DADC7C641DF0F4650086626E /* OutputArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputArea.swift; sourceTree = "<group>"; };
+		DADC7C5D1DF0F4650086626E /* AllPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllPad.swift; path = ../AllPad.swift; sourceTree = "<group>"; };
+		DADC7C5E1DF0F4650086626E /* OldAllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OldAllPad.xib; path = ../OldAllPad.xib; sourceTree = "<group>"; };
+		DADC7C5F1DF0F4650086626E /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Block.swift; path = ../Block.swift; sourceTree = "<group>"; };
+		DADC7C601DF0F4650086626E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../Constants.swift; sourceTree = "<group>"; };
+		DADC7C611DF0F4650086626E /* ETree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ETree.swift; path = ../ETree.swift; sourceTree = "<group>"; };
+		DADC7C621DF0F4650086626E /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Expression.swift; path = ../Expression.swift; sourceTree = "<group>"; };
+		DADC7C631DF0F4650086626E /* InputObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputObject.swift; path = ../InputObject.swift; sourceTree = "<group>"; };
+		DADC7C641DF0F4650086626E /* OutputArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutputArea.swift; path = ../OutputArea.swift; sourceTree = "<group>"; };
 		DAE5D31D1E623337007DE25F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DAE5D31F1E62335A007DE25F /* ATKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKCore.framework; path = "../../MyScript_ATK-ios-2.2/Frameworks/ATKCore.framework"; sourceTree = "<group>"; };
 		DAE5D3201E62335A007DE25F /* ATKMath.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKMath.framework; path = "../../MyScript_ATK-ios-2.2/Frameworks/ATKMath.framework"; sourceTree = "<group>"; };
@@ -391,6 +391,7 @@
 		3130F7E81EBBBA0B001A24E9 /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				DADC7C5E1DF0F4650086626E /* OldAllPad.xib */,
 				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
 				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
@@ -409,6 +410,9 @@
 		3130F7E91EBBBA44001A24E9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DADC7C631DF0F4650086626E /* InputObject.swift */,
+				DADC7C621DF0F4650086626E /* Expression.swift */,
+				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
 				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
 				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
@@ -426,8 +430,13 @@
 		3130F7EA1EBBBA55001A24E9 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				DADC7C611DF0F4650086626E /* ETree.swift */,
+				DA93BC681E08744800CC2130 /* MathEntryArea.swift */,
+				DADC7C5D1DF0F4650086626E /* AllPad.swift */,
 				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
+				DADC7C5F1DF0F4650086626E /* Block.swift */,
+				DADC7C641DF0F4650086626E /* OutputArea.swift */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -435,6 +444,7 @@
 		3130F7EB1EBBBA65001A24E9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				DADC7C601DF0F4650086626E /* Constants.swift */,
 				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
 				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
 				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
@@ -450,6 +460,7 @@
 				312A5CCC1EB943B600C39C46 /* SuggestedVideo.swift */,
 				312A5CCE1EB943DF00C39C46 /* Video.swift */,
 				312A5CD21EB944B000C39C46 /* GlobalVariables.swift */,
+				3148815D1E8DDCDA0015D095 /* com.desk.education.c */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -465,6 +476,15 @@
 				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		3130F7FB1EC01E7D001A24E9 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
+				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
+			);
+			name = Application;
 			sourceTree = "<group>";
 		};
 		528F8AF41E8D9C3600E75EF4 /* Products */ = {
@@ -579,17 +599,6 @@
 				3176D2C71EA478F900866D21 /* Fabric.framework */,
 				DA5747641E74983E0010F754 /* Assets.xcassets */,
 				DAFBE3A21DBBDBC20007D249 /* deskThree */,
-				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
-				DADC7C5D1DF0F4650086626E /* AllPad.swift */,
-				DADC7C5E1DF0F4650086626E /* OldAllPad.xib */,
-				DADC7C5F1DF0F4650086626E /* Block.swift */,
-				DADC7C601DF0F4650086626E /* Constants.swift */,
-				DADC7C611DF0F4650086626E /* ETree.swift */,
-				DADC7C621DF0F4650086626E /* Expression.swift */,
-				DADC7C631DF0F4650086626E /* InputObject.swift */,
-				DADC7C641DF0F4650086626E /* OutputArea.swift */,
-				DA93BC681E08744800CC2130 /* MathEntryArea.swift */,
-				3148815D1E8DDCDA0015D095 /* com.desk.education.c */,
 				DAE5D3271E6233D5007DE25F /* resources.bundle */,
 				DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */,
 				CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */,
@@ -619,9 +628,8 @@
 		DAFBE3A21DBBDBC20007D249 /* deskThree */ = {
 			isa = PBXGroup;
 			children = (
+				3130F7FB1EC01E7D001A24E9 /* Application */,
 				3130F7EC1EBBBAC6001A24E9 /* Extensions */,
-				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
-				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
 				3130F7EB1EBBBA65001A24E9 /* Helpers */,
 				3130F7EA1EBBBA55001A24E9 /* Modules */,
 				3130F7E91EBBBA44001A24E9 /* Views */,
