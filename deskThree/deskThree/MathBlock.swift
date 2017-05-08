@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 class MathBlock: Expression{
     private var imageHolder: UIImageView?
     var mathSymbols: [Any]!

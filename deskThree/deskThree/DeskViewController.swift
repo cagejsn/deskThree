@@ -390,15 +390,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func feedbackButtonTapped() {
         #if !DEBUG
-            mixpanel.track(event: "Button: Feedback")
+        mixpanel.track(event: "Button: Feedback")
         #endif
-        let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link") as! URL)
+        let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link")! as URL)
         self.present(svc, animated: true, completion: nil)
     }
     
     func clearButtonTapped() {
         #if !DEBUG
-            mixpanel.track(event: "Button: Clear Page")
+        mixpanel.track(event: "Button: Clear Page")
         #endif
         workView.clear()
     }

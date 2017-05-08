@@ -16,6 +16,12 @@
 		311C3ACD1E99664500F61CE4 /* quad.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AC1DE75AAA00E3AA1D /* quad.vsh */; };
 		311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */; };
 		311C3AE81E996FD700F61CE4 /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918A91DE75AAA00E3AA1D /* colorlesspoint.vsh */; };
+		312A5CC11EB9419300C39C46 /* YTNavViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 312A5CC01EB9419300C39C46 /* YTNavViewController.xib */; };
+		312A5CCB1EB9437E00C39C46 /* PlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CCA1EB9437E00C39C46 /* PlayerVC.swift */; };
+		312A5CCD1EB943B600C39C46 /* SuggestedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CCC1EB943B600C39C46 /* SuggestedVideo.swift */; };
+		312A5CCF1EB943DF00C39C46 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CCE1EB943DF00C39C46 /* Video.swift */; };
+		312A5CD11EB9444200C39C46 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CD01EB9444200C39C46 /* extensions.swift */; };
+		312A5CD31EB944B000C39C46 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A5CD21EB944B000C39C46 /* GlobalVariables.swift */; };
 		312A8B7C1EAFCD8000940FA7 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */; };
 		312A8B7E1EAFCF6D00940FA7 /* CALayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */; };
 		314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; };
@@ -207,10 +213,16 @@
 /* Begin PBXFileReference section */
 		25D1507E1DBC19CF008364EC /* PDFGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFGenerator.swift; sourceTree = "<group>"; };
 		25FB33341DBCFE5500785111 /* DeskViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskViewController.xib; sourceTree = "<group>"; };
+		312A5CC01EB9419300C39C46 /* YTNavViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YTNavViewController.xib; sourceTree = "<group>"; };
+		312A5CCA1EB9437E00C39C46 /* PlayerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerVC.swift; sourceTree = "<group>"; };
+		312A5CCC1EB943B600C39C46 /* SuggestedVideo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedVideo.swift; sourceTree = "<group>"; };
+		312A5CCE1EB943DF00C39C46 /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		312A5CD01EB9444200C39C46 /* extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
+		312A5CD21EB944B000C39C46 /* GlobalVariables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CALayerExtension.swift; sourceTree = "<group>"; };
 		314881561E8DD5770015D095 /* Zip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Zip.framework; path = Carthage/Build/iOS/Zip.framework; sourceTree = "<group>"; };
-		3148815D1E8DDCDA0015D095 /* com.desk.education.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = com.desk.education.c; sourceTree = "<group>"; };
+		3148815D1E8DDCDA0015D095 /* com.desk.education.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = com.desk.education.c; path = ../com.desk.education.c; sourceTree = "<group>"; };
 		3176D2C61EA478F900866D21 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		3176D2C71EA478F900866D21 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		3176D2D31EA47A2D00866D21 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -269,14 +281,14 @@
 		DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LowerDeskControls.xib; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
 		DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKFilteredImageView.swift; sourceTree = "<group>"; };
-		DA57475F1E7491E50010F754 /* OCRMathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRMathView.swift; sourceTree = "<group>"; };
+		DA57475F1E7491E50010F754 /* OCRMathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OCRMathView.swift; path = ../OCRMathView.swift; sourceTree = "<group>"; };
 		DA5747641E74983E0010F754 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = deskThree/Assets.xcassets; sourceTree = "<group>"; };
 		DA67005B1E3EDD1C00A6179A /* GKContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKContext.swift; sourceTree = "<group>"; };
 		DA7050E31E25591000079047 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		DA7050F11E25EFD100079047 /* vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vertexShader.glsl; path = ../vertexShader.glsl; sourceTree = "<group>"; };
 		DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
+		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MathEntryArea.swift; path = ../MathEntryArea.swift; sourceTree = "<group>"; };
 		DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "deskThree-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAA494DF1DC2ED5A00C73780 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAA494E11DC3A0D600C73780 /* GKCropBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCropBorderView.h; sourceTree = "<group>"; };
@@ -296,14 +308,14 @@
 		DADC67F51E26A89500C14F5B /* fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragmentShader.glsl; sourceTree = "<group>"; };
 		DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphingBlock.swift; sourceTree = "<group>"; };
 		DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GraphingBlock.xib; sourceTree = "<group>"; };
-		DADC7C5D1DF0F4650086626E /* AllPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllPad.swift; sourceTree = "<group>"; };
-		DADC7C5E1DF0F4650086626E /* OldAllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OldAllPad.xib; sourceTree = "<group>"; };
-		DADC7C5F1DF0F4650086626E /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
-		DADC7C601DF0F4650086626E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		DADC7C611DF0F4650086626E /* ETree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ETree.swift; sourceTree = "<group>"; };
-		DADC7C621DF0F4650086626E /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expression.swift; sourceTree = "<group>"; };
-		DADC7C631DF0F4650086626E /* InputObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputObject.swift; sourceTree = "<group>"; };
-		DADC7C641DF0F4650086626E /* OutputArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputArea.swift; sourceTree = "<group>"; };
+		DADC7C5D1DF0F4650086626E /* AllPad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AllPad.swift; path = ../AllPad.swift; sourceTree = "<group>"; };
+		DADC7C5E1DF0F4650086626E /* OldAllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OldAllPad.xib; path = ../OldAllPad.xib; sourceTree = "<group>"; };
+		DADC7C5F1DF0F4650086626E /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Block.swift; path = ../Block.swift; sourceTree = "<group>"; };
+		DADC7C601DF0F4650086626E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Constants.swift; path = ../Constants.swift; sourceTree = "<group>"; };
+		DADC7C611DF0F4650086626E /* ETree.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ETree.swift; path = ../ETree.swift; sourceTree = "<group>"; };
+		DADC7C621DF0F4650086626E /* Expression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Expression.swift; path = ../Expression.swift; sourceTree = "<group>"; };
+		DADC7C631DF0F4650086626E /* InputObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InputObject.swift; path = ../InputObject.swift; sourceTree = "<group>"; };
+		DADC7C641DF0F4650086626E /* OutputArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutputArea.swift; path = ../OutputArea.swift; sourceTree = "<group>"; };
 		DAE5D31D1E623337007DE25F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DAE5D31F1E62335A007DE25F /* ATKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKCore.framework; path = "../../MyScript_ATK-ios-2.2/Frameworks/ATKCore.framework"; sourceTree = "<group>"; };
 		DAE5D3201E62335A007DE25F /* ATKMath.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ATKMath.framework; path = "../../MyScript_ATK-ios-2.2/Frameworks/ATKMath.framework"; sourceTree = "<group>"; };
@@ -363,6 +375,118 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3130F7DF1EBBB926001A24E9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
+				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
+				312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */,
+				DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */,
+				DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */,
+				312A5CCA1EB9437E00C39C46 /* PlayerVC.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		3130F7E81EBBBA0B001A24E9 /* Nibs */ = {
+			isa = PBXGroup;
+			children = (
+				DADC7C5E1DF0F4650086626E /* OldAllPad.xib */,
+				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
+				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
+				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
+				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
+				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
+				DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */,
+				DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */,
+				DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */,
+				DA2841111EAFD3410085112E /* InsideHamburgerView.xib */,
+				DA28412A1EB25EED0085112E /* AllPad.xib */,
+				312A5CC01EB9419300C39C46 /* YTNavViewController.xib */,
+			);
+			name = Nibs;
+			sourceTree = "<group>";
+		};
+		3130F7E91EBBBA44001A24E9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DADC7C631DF0F4650086626E /* InputObject.swift */,
+				DADC7C621DF0F4650086626E /* Expression.swift */,
+				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
+				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
+				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
+				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
+				DA5464501DBD10A300E644F0 /* Paper.swift */,
+				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
+				DA7050E31E25591000079047 /* GraphView.swift */,
+				DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */,
+				52A662A21E32B1C8008E088A /* Trash.swift */,
+				DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */,
+				DA2841201EB048B10085112E /* MathViewContainer.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		3130F7EA1EBBBA55001A24E9 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				DADC7C611DF0F4650086626E /* ETree.swift */,
+				DA93BC681E08744800CC2130 /* MathEntryArea.swift */,
+				DADC7C5D1DF0F4650086626E /* AllPad.swift */,
+				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
+				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
+				DADC7C5F1DF0F4650086626E /* Block.swift */,
+				DADC7C641DF0F4650086626E /* OutputArea.swift */,
+			);
+			name = Modules;
+			sourceTree = "<group>";
+		};
+		3130F7EB1EBBBA65001A24E9 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DADC7C601DF0F4650086626E /* Constants.swift */,
+				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
+				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
+				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
+				5297A22C1E6C993100BFA775 /* BlockExpression.swift */,
+				25D1507E1DBC19CF008364EC /* PDFGenerator.swift */,
+				DA67005B1E3EDD1C00A6179A /* GKContext.swift */,
+				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
+				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
+				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
+				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
+				DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */,
+				DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */,
+				312A5CCC1EB943B600C39C46 /* SuggestedVideo.swift */,
+				312A5CCE1EB943DF00C39C46 /* Video.swift */,
+				312A5CD21EB944B000C39C46 /* GlobalVariables.swift */,
+				3148815D1E8DDCDA0015D095 /* com.desk.education.c */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		3130F7EC1EBBBAC6001A24E9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				312A5CD01EB9444200C39C46 /* extensions.swift */,
+				312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */,
+				DA04D9351EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift */,
+				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
+				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
+				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		3130F7FB1EC01E7D001A24E9 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
+				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
+			);
+			name = Application;
+			sourceTree = "<group>";
+		};
 		528F8AF41E8D9C3600E75EF4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -475,17 +599,6 @@
 				3176D2C71EA478F900866D21 /* Fabric.framework */,
 				DA5747641E74983E0010F754 /* Assets.xcassets */,
 				DAFBE3A21DBBDBC20007D249 /* deskThree */,
-				DA57475F1E7491E50010F754 /* OCRMathView.swift */,
-				DADC7C5D1DF0F4650086626E /* AllPad.swift */,
-				DADC7C5E1DF0F4650086626E /* OldAllPad.xib */,
-				DADC7C5F1DF0F4650086626E /* Block.swift */,
-				DADC7C601DF0F4650086626E /* Constants.swift */,
-				DADC7C611DF0F4650086626E /* ETree.swift */,
-				DADC7C621DF0F4650086626E /* Expression.swift */,
-				DADC7C631DF0F4650086626E /* InputObject.swift */,
-				DADC7C641DF0F4650086626E /* OutputArea.swift */,
-				DA93BC681E08744800CC2130 /* MathEntryArea.swift */,
-				3148815D1E8DDCDA0015D095 /* com.desk.education.c */,
 				DAE5D3271E6233D5007DE25F /* resources.bundle */,
 				DAE5D3251E6233A8007DE25F /* ATKMathWidget.bundle */,
 				CEC6DD0D1DEE8D14002A2460 /* JotUI.xcodeproj */,
@@ -515,52 +628,13 @@
 		DAFBE3A21DBBDBC20007D249 /* deskThree */ = {
 			isa = PBXGroup;
 			children = (
-				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
-				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
-				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
-				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
-				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
-				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
-				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
-				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
-				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
-				DA5464501DBD10A300E644F0 /* Paper.swift */,
-				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
-				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
-				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
-				DA7050E31E25591000079047 /* GraphView.swift */,
-				DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */,
-				5297A22C1E6C993100BFA775 /* BlockExpression.swift */,
-				DAFBE3AF1DBBDBC20007D249 /* Info.plist */,
-				25D1507E1DBC19CF008364EC /* PDFGenerator.swift */,
-				52C9BB2F1E2D6D0F005DA9C2 /* Parser.swift */,
-				52A662A21E32B1C8008E088A /* Trash.swift */,
-				DA67005B1E3EDD1C00A6179A /* GKContext.swift */,
-				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
-				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
-				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
-				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
-				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
-				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
-				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
-				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
-				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
-				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
-				DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */,
-				DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */,
-				DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */,
-				DA04D9351EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift */,
-				DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */,
-				DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */,
-				312A8B7B1EAFCD8000940FA7 /* UIViewExtension.swift */,
-				312A8B7D1EAFCF6D00940FA7 /* CALayerExtension.swift */,
-				DA28410C1EAFC56B0085112E /* HamburgerMenuViewController.swift */,
-				DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */,
-				DA2841111EAFD3410085112E /* InsideHamburgerView.xib */,
-				DA28411B1EAFD8DD0085112E /* InsideHamburgerView.swift */,
-				DA2841201EB048B10085112E /* MathViewContainer.swift */,
-				DA28412A1EB25EED0085112E /* AllPad.xib */,
-				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
+				3130F7FB1EC01E7D001A24E9 /* Application */,
+				3130F7EC1EBBBAC6001A24E9 /* Extensions */,
+				3130F7EB1EBBBA65001A24E9 /* Helpers */,
+				3130F7EA1EBBBA55001A24E9 /* Modules */,
+				3130F7E91EBBBA44001A24E9 /* Views */,
+				3130F7E81EBBBA0B001A24E9 /* Nibs */,
+				3130F7DF1EBBB926001A24E9 /* Controllers */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -793,6 +867,7 @@
 				311C3ACD1E99664500F61CE4 /* quad.vsh in Resources */,
 				DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */,
 				DA4918AE1DE75AAA00E3AA1D /* coloredpoint.vsh in Resources */,
+				312A5CC11EB9419300C39C46 /* YTNavViewController.xib in Resources */,
 				311C3AE81E996FD700F61CE4 /* colorlesspoint.vsh in Resources */,
 				DA04D93A1EA4562F003C0783 /* TutorialVideoViewController.xib in Resources */,
 				DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */,
@@ -857,6 +932,7 @@
 				CE3E876C1E354D640076DA3A /* Parser.swift in Sources */,
 				DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */,
 				DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */,
+				312A5CD11EB9444200C39C46 /* extensions.swift in Sources */,
 				DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */,
 				DA04D9381EA4560A003C0783 /* TutorialVideoViewController.swift in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
@@ -885,6 +961,7 @@
 				DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,
 				DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */,
+				312A5CCD1EB943B600C39C46 /* SuggestedVideo.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
 				DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
@@ -895,6 +972,8 @@
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,
 				DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */,
+				312A5CD31EB944B000C39C46 /* GlobalVariables.swift in Sources */,
+				312A5CCB1EB9437E00C39C46 /* PlayerVC.swift in Sources */,
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */,
@@ -905,6 +984,7 @@
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,
 				DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */,
+				312A5CCF1EB943DF00C39C46 /* Video.swift in Sources */,
 				DADC7C691DF0F4650086626E /* ETree.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

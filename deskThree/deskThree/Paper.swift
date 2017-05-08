@@ -41,7 +41,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     private var drawingState: JotViewStateProxy!
     
     #if !DEBUG
-        var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
 
     func setBackground(to: SelectedPaperType){
