@@ -9,7 +9,7 @@
 import Foundation
 import Zip
 
-protocol FileExplorerViewControllerDelegate {
+protocol FileExplorerViewControllerDelegate: NSObjectProtocol {
     func didSelectProject(projectName: String)
     func dismissFileExplorer()
 }
@@ -18,7 +18,7 @@ protocol FileExplorerViewControllerDelegate {
 class FileExplorerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var tableView: UITableView!
-    var delegate: FileExplorerViewControllerDelegate!
+    weak var delegate: FileExplorerViewControllerDelegate!
     var metaDataFromDisk: [DeskProject]!
     
     

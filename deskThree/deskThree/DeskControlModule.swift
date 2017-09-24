@@ -11,33 +11,24 @@ import Foundation
     import Mixpanel
 #endif
 
-protocol DeskControlModuleDelegate {
-    func fileExplorerButtonTapped(_ sender: Any)
+protocol DeskControlModuleDelegate: NSObjectProtocol {
     func saveButtonTapped(_ sender: Any)
-    func loadImageButtonPushed(_ sender: Any)
     func mathFormulaButtonTapped(_ sender: Any)
-    func printButtonPushed(_ sender: Any)
-    func feedbackButtonTapped(_ sender: Any)
 }
 
-protocol PageAndDrawingDelegate {
-    func clearButtonTapped(_ sender: AnyObject)
+protocol PageAndDrawingDelegate: NSObjectProtocol {
     func getCurPen() -> Constants.pens
     func togglePen()
-    func togglePenColor()
-    
+    //func togglePenColor()
     // These funcs are called by lowerDeskControlModule
-    func movePage(direction: String)
-    func undoTapped(_ sender: Any)
-    func redoTapped(_ sender: Any)
     func getCurPenColor() -> UIColor
 }
 
 class DeskControlModule: DWBubbleMenuButton {
     
     var imageView: UIImageView!
-    var deskViewControllerDelegate: DeskControlModuleDelegate!
-    var pageAndDrawingDelegate: PageAndDrawingDelegate!
+    weak var deskViewControllerDelegate: DeskControlModuleDelegate!
+    weak var pageAndDrawingDelegate: PageAndDrawingDelegate!
     var togglePenButton: UIButton!
     var changePenColorButton: UIButton!
 
@@ -149,7 +140,7 @@ class DeskControlModule: DWBubbleMenuButton {
             mixpanel.track(event: "Button: File Explorer")
         #endif
 
-        deskViewControllerDelegate.fileExplorerButtonTapped(self)
+        //deskViewControllerDelegate.fileExplorerButtonTapped(self)
     }
     
     func saveButtonWasTapped(){
@@ -185,7 +176,7 @@ class DeskControlModule: DWBubbleMenuButton {
             mixpanel.track(event: "Button: Load Image")
         #endif
 
-        deskViewControllerDelegate.loadImageButtonPushed(self)
+       // deskViewControllerDelegate.loadImageButtonPushed(self)
     }
     
     func toggleMyScriptViewButtonWasTapped() {
@@ -201,7 +192,7 @@ class DeskControlModule: DWBubbleMenuButton {
             mixpanel.track(event: "Button: Print")
         #endif
 
-        deskViewControllerDelegate.printButtonPushed(self)
+        //deskViewControllerDelegate.printButtonPushed(self)
     }
     
     func changePenColorButtonWasTapped(){
@@ -209,7 +200,7 @@ class DeskControlModule: DWBubbleMenuButton {
             mixpanel.track(event: "Button: Pen Color Toggle")
         #endif
 
-        pageAndDrawingDelegate.togglePenColor()
+      //  pageAndDrawingDelegate.togglePenColor()
         // Get the current pen color
         let curColor = pageAndDrawingDelegate.getCurPenColor()
         
@@ -239,16 +230,14 @@ class DeskControlModule: DWBubbleMenuButton {
             mixpanel.track(event: "Button: Clear Page")
         #endif
 
-        pageAndDrawingDelegate.clearButtonTapped(self)
+       // pageAndDrawingDelegate.clearButtonTapped(self)
     }
     
 
     func feedbackButtonWasTapped() {
-        #if !DEBUG
-            mixpanel.track(event: "Button: Feedback")
-        #endif
         
-        deskViewControllerDelegate.feedbackButtonTapped(self)
+        
+        //deskViewControllerDelegate.feedbackButtonTapped(self)
     }
 
     init(frame: CGRect, moduleDelegate: DeskControlModuleDelegate, pageDelegate: PageAndDrawingDelegate) {

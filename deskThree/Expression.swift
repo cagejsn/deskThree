@@ -23,15 +23,17 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     //MARK: Variables
     var amtMoved: CGFloat = 0
     var delegate: ExpressionDelegate?
-    var parser: Parser
+    var parser: Parser?
     var expressionString: String = ""
     var longPressGR: UILongPressGestureRecognizer!
     
     //MARK: UIGestureRecognizers
     var doubleTapGestureRecognizer: UITapGestureRecognizer?
 
-    // Mixpanel initialization
-    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #if !DEBUG
+        // Mixpanel initialization
+        var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
+    #endif
 
     /* MARK: Touch Events */
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -66,27 +68,27 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     //MARK: Gesture Recognizer Methods
     func handleDoubleTap() {
-        mixpanel.track(event: "Gesture: Block: Double Tap")
+        //mixpanel?.track(event: "Gesture: Block: Double Tap")
         
         print(self.expressionString)
-        parser.parserSetFunction(functionString: expressionString)
+        parser?.parserSetFunction(functionString: expressionString)
         do {
-            try parser.parserPlot(start: 1, end: 2, totalSteps: 1)
+            try parser?.parserPlot(start: 1, end: 2, totalSteps: 1)
 
         } catch MathError.missingOperand {
-            print(parser.getError())
+            print(parser?.getError())
             
         } catch let error {
             print(error.localizedDescription)
         }
-        if parser.getError() == "" {
-            delegate!.didEvaluate(forExpression: self, result: Float(parser.getY()[0]))
+        if parser?.getError() == "" {
+            delegate!.didEvaluate(forExpression: self, result: Float((parser?.getY()[0])!))
 
         }
     }
     
     func handleLongPress(){
-        mixpanel.track(event: "Gesture: Block: Long Press")
+        //mixpanel.track(event: "Gesture: Block: Long Press")
         delegate?.elementWantsSendToInputObject(element: self)
     }
     
@@ -112,17 +114,26 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         return sizeOfText.width + Constants.block.fontWidthPadding;
     }
     
+    func freeFromMemory(){
+        self.delegate = nil
+        
+    }
+    
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
         aCoder.encode(amtMoved)
         aCoder.encode(expressionString)
     }
     
+    deinit {
+        print("deinit exp")
+    }
+    
     //MARK: Initialization
     override init(frame: CGRect){
         parser = Parser(functionString: "")
         super.init(frame: frame)
-        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Expression.handleDoubleTap))
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)
@@ -136,7 +147,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         super.init(coder: unarchiver)
         amtMoved = unarchiver.decodeObject() as! CGFloat!
         expressionString = unarchiver.decodeObject() as! String!
-        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: "handleDoubleTap")
+        doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(Expression.handleDoubleTap))
         doubleTapGestureRecognizer!.numberOfTapsRequired = 2
         doubleTapGestureRecognizer?.delegate = self
         self.addGestureRecognizer(doubleTapGestureRecognizer!)

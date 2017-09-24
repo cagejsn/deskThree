@@ -11,7 +11,7 @@ import Foundation
 
 
 class MathBlock: Expression{
-    private var imageHolder: UIImageView!
+    private var imageHolder: UIImageView?
     var mathSymbols: [Any]!
     
     override func encode(with aCoder: NSCoder) {
@@ -20,6 +20,14 @@ class MathBlock: Expression{
         aCoder.encode(mathSymbols)
     }
     
+    override func freeFromMemory(){
+        super.freeFromMemory()
+        
+    }
+    
+    deinit {
+        print("deinit mblock")
+    }
         
     init(image: UIImage, symbols: [Any], text: String){
         let frame = image.size
@@ -27,9 +35,9 @@ class MathBlock: Expression{
         print(image.size)
         // Image setup
         imageHolder = UIImageView(frame: CGRect(x:0, y:0, width: frame.width/2.5, height: frame.height/2.5));
-        imageHolder.contentMode = .scaleAspectFit
-        imageHolder.image = image
-        self.addSubview(imageHolder)
+        imageHolder?.contentMode = .scaleAspectFit
+        imageHolder?.image = image
+        self.addSubview(imageHolder!)
         
         mathSymbols = symbols
         print(mathSymbols.count)
