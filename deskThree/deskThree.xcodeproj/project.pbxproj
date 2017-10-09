@@ -72,6 +72,11 @@
 		DA7E470B1E8DD552007C52C1 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA7E470F1E8DF1AB007C52C1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
+		DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */; };
+		DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */; };
+		DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */; };
+		DA9E8C891F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */; };
+		DA9E8C8C1F8AAF1700D6D8AD /* DeskFileCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA9E8C8B1F8AAF1700D6D8AD /* DeskFileCellView.xib */; };
 		DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E21DC3A0D600C73780 /* GKCropBorderView.m */; };
 		DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E41DC3A0D600C73780 /* GKImageCropOverlayView.m */; };
 		DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E61DC3A0D600C73780 /* GKImageCropView.m */; };
@@ -277,6 +282,11 @@
 		DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
+		DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableView.swift; sourceTree = "<group>"; };
+		DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableViewCell.swift; sourceTree = "<group>"; };
+		DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionView.swift; sourceTree = "<group>"; };
+		DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionViewCell.swift; sourceTree = "<group>"; };
+		DA9E8C8B1F8AAF1700D6D8AD /* DeskFileCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskFileCellView.xib; sourceTree = "<group>"; };
 		DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "deskThree-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAA494DF1DC2ED5A00C73780 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAA494E11DC3A0D600C73780 /* GKCropBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCropBorderView.h; sourceTree = "<group>"; };
@@ -421,6 +431,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DA9E8C8A1F8A94A000D6D8AD /* File Explorer */ = {
+			isa = PBXGroup;
+			children = (
+				DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */,
+				DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */,
+				DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */,
+				DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */,
+				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
+				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
+				DA9E8C8B1F8AAF1700D6D8AD /* DeskFileCellView.xib */,
+			);
+			name = "File Explorer";
+			sourceTree = "<group>";
+		};
 		DAA494DE1DC2ED5A00C73780 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -540,8 +564,7 @@
 				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
 				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
 				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
-				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
-				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
+				DA9E8C8A1F8A94A000D6D8AD /* File Explorer */,
 				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
 				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
 				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
@@ -774,6 +797,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA9E8C8C1F8AAF1700D6D8AD /* DeskFileCellView.xib in Resources */,
 				311C3AC41E9965A000F61CE4 /* ATKMathWidget.bundle in Resources */,
 				311C3ABF1E9964FE00F61CE4 /* resources.bundle in Resources */,
 				DA2841121EAFD3410085112E /* InsideHamburgerView.xib in Resources */,
@@ -884,6 +908,7 @@
 				25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */,
 				DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,
+				DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */,
 				DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
 				DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */,
@@ -892,9 +917,11 @@
 				DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */,
 				52A662A31E32B1C8008E088A /* Trash.swift in Sources */,
 				DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */,
+				DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */,
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,
 				DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */,
+				DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */,
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */,
@@ -906,6 +933,7 @@
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,
 				DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */,
 				DADC7C691DF0F4650086626E /* ETree.swift in Sources */,
+				DA9E8C891F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

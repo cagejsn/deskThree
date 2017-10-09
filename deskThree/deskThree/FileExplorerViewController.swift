@@ -14,30 +14,52 @@ protocol FileExplorerViewControllerDelegate: NSObjectProtocol {
     func dismissFileExplorer()
 }
 
+fileprivate let itemsPerRow: CGFloat = 2
 
-class FileExplorerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FileExplorerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    @IBOutlet var tableView: UITableView!
+    fileprivate let reuseIdentifier = "DeskCell"
+    fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+    
+    @IBOutlet var tableView: GroupingTableView!
+    @IBOutlet var collectionView: FileExplorerCollectionView!
     weak var delegate: FileExplorerViewControllerDelegate!
     var metaDataFromDisk: [DeskProject]!
-    
     
     override func viewDidLoad() {
         tableView.delegate = self
         tableView.dataSource = self
+        collectionView.delegate = self
+        collectionView.dataSource = self
         metaDataFromDisk = PathLocator.loadMetaData()
+       // collectionView.register(FileExplorerCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(UINib(nibName: "DeskFileCellView", bundle: Bundle.main), forCellWithReuseIdentifier: reuseIdentifier)
+        
+        
     }
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
         delegate.dismissFileExplorer()
     }
     
+    
+    
+    
+    
+    
+}
+
+
+
+// MARK: Table View Methods
+extension FileExplorerViewController {
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60))
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 60))
         label.text = metaDataFromDisk[indexPath.row].name
         cell.addSubview(label)
-        cell.backgroundColor = UIColor.lightGray
+        cell.backgroundColor = UIColor.clear
         return cell
     }
     
@@ -52,5 +74,43 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
 }
 
 
+
+
+// MARK: Collection View Methods
+extension FileExplorerViewController {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 30
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,                                                      for: indexPath)
+        return cell
+    }
+
+}
+
+extension FileExplorerViewController : UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        //2
+        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
+        let availableWidth = view.frame.width - paddingSpace
+        let widthPerItem = availableWidth / itemsPerRow
+        
+        return CGSize(width: widthPerItem, height: widthPerItem)
+    }
+    
+    
+   
+    
+    
+}
 
 
