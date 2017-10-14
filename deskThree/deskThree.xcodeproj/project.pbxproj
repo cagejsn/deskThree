@@ -76,7 +76,7 @@
 		DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */; };
 		DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */; };
 		DA9E8C891F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */; };
-		DA9E8C8C1F8AAF1700D6D8AD /* DeskFileCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA9E8C8B1F8AAF1700D6D8AD /* DeskFileCellView.xib */; };
+		DA9E8C8C1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */; };
 		DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E21DC3A0D600C73780 /* GKCropBorderView.m */; };
 		DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E41DC3A0D600C73780 /* GKImageCropOverlayView.m */; };
 		DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E61DC3A0D600C73780 /* GKImageCropView.m */; };
@@ -286,7 +286,7 @@
 		DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableViewCell.swift; sourceTree = "<group>"; };
 		DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionView.swift; sourceTree = "<group>"; };
 		DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionViewCell.swift; sourceTree = "<group>"; };
-		DA9E8C8B1F8AAF1700D6D8AD /* DeskFileCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DeskFileCellView.xib; sourceTree = "<group>"; };
+		DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileExplorerCollectionViewCell.xib; sourceTree = "<group>"; };
 		DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "deskThree-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAA494DF1DC2ED5A00C73780 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAA494E11DC3A0D600C73780 /* GKCropBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCropBorderView.h; sourceTree = "<group>"; };
@@ -434,13 +434,13 @@
 		DA9E8C8A1F8A94A000D6D8AD /* File Explorer */ = {
 			isa = PBXGroup;
 			children = (
-				DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */,
 				DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */,
+				DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */,
+				DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */,
 				DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */,
 				DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */,
 				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
 				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
-				DA9E8C8B1F8AAF1700D6D8AD /* DeskFileCellView.xib */,
 			);
 			name = "File Explorer";
 			sourceTree = "<group>";
@@ -797,7 +797,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA9E8C8C1F8AAF1700D6D8AD /* DeskFileCellView.xib in Resources */,
+				DA9E8C8C1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib in Resources */,
 				311C3AC41E9965A000F61CE4 /* ATKMathWidget.bundle in Resources */,
 				311C3ABF1E9964FE00F61CE4 /* resources.bundle in Resources */,
 				DA2841121EAFD3410085112E /* InsideHamburgerView.xib in Resources */,

@@ -14,7 +14,7 @@ protocol FileExplorerViewControllerDelegate: NSObjectProtocol {
     func dismissFileExplorer()
 }
 
-fileprivate let itemsPerRow: CGFloat = 2
+fileprivate let itemsPerRow: CGFloat = 4
 
 class FileExplorerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -33,7 +33,7 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         collectionView.dataSource = self
         metaDataFromDisk = PathLocator.loadMetaData()
        // collectionView.register(FileExplorerCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        collectionView.register(UINib(nibName: "DeskFileCellView", bundle: Bundle.main), forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(UINib(nibName: "FileExplorerCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: reuseIdentifier)
         
         
     }
