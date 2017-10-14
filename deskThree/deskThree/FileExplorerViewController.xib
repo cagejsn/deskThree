@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FileExplorerViewController" customModule="deskThree" customModuleProvider="target">
             <connections>
+                <outlet property="cellSizeSlider" destination="RTl-rK-K1c" id="cIP-Id-Bdo"/>
                 <outlet property="collectionView" destination="hok-zJ-2XS" id="l1S-zo-NSJ"/>
                 <outlet property="tableView" destination="Af2-EA-YxK" id="ZOD-Zg-cGr"/>
                 <outlet property="view" destination="iN0-l3-epB" id="QYb-ng-KFW"/>
@@ -63,7 +64,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5xX-0b-dph">
-                    <rect key="frame" x="397.5" y="89" width="182" height="29"/>
+                    <rect key="frame" x="290" y="89" width="182" height="29"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="182" id="A81-cx-kah"/>
                     </constraints>
@@ -85,17 +86,28 @@
                         <segment title=""/>
                     </segments>
                 </segmentedControl>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="RTl-rK-K1c">
+                    <rect key="frame" x="541" y="87" width="148" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="144" id="YSE-lx-2ZB"/>
+                    </constraints>
+                    <connections>
+                        <action selector="cellSizeSliderValueChanged:" destination="-1" eventType="valueChanged" id="cNA-pC-uii"/>
+                    </connections>
+                </slider>
             </subviews>
             <color key="backgroundColor" red="0.72463911771774292" green="0.74840539693832397" blue="0.78995406627655029" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="wTe-P7-hau" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="2m6-kn-GdG"/>
-                <constraint firstItem="5xX-0b-dph" firstAttribute="centerX" secondItem="hok-zJ-2XS" secondAttribute="centerX" id="GtS-e0-EfI"/>
+                <constraint firstItem="hok-zJ-2XS" firstAttribute="top" secondItem="RTl-rK-K1c" secondAttribute="bottom" constant="8" id="HSK-kg-7si"/>
+                <constraint firstItem="hok-zJ-2XS" firstAttribute="leading" secondItem="5xX-0b-dph" secondAttribute="leading" id="I4f-Xd-X7S"/>
                 <constraint firstItem="hok-zJ-2XS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="125" id="PZa-mN-gh6"/>
                 <constraint firstAttribute="trailing" secondItem="hok-zJ-2XS" secondAttribute="trailing" constant="20" id="QJ2-dv-wZF"/>
                 <constraint firstItem="wTe-P7-hau" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="SNP-fy-L4f"/>
                 <constraint firstItem="Af2-EA-YxK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="200" id="SZk-9Q-Tho"/>
                 <constraint firstItem="Af2-EA-YxK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="TGO-HP-qr3"/>
                 <constraint firstItem="Af2-EA-YxK" firstAttribute="leading" secondItem="RgV-Id-Pev" secondAttribute="leading" id="WWg-dE-VvH"/>
+                <constraint firstItem="RTl-rK-K1c" firstAttribute="trailing" secondItem="hok-zJ-2XS" secondAttribute="trailing" id="dyt-1i-TUy"/>
                 <constraint firstItem="Af2-EA-YxK" firstAttribute="trailing" secondItem="RgV-Id-Pev" secondAttribute="trailing" id="lT1-W7-2CN"/>
                 <constraint firstAttribute="bottom" secondItem="hok-zJ-2XS" secondAttribute="bottom" constant="20" id="n9h-Er-tR6"/>
                 <constraint firstAttribute="bottom" secondItem="Af2-EA-YxK" secondAttribute="bottom" constant="20" id="ndg-nI-xvc"/>

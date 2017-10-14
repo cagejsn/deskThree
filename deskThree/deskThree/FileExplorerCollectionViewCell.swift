@@ -54,27 +54,17 @@ class FileExplorerCollectionViewCell: UICollectionViewCell{
     
     func stylizeNewIconView(){
         newIconView.backgroundColor = UIColor.clear
-        
         let margins = newIconView.layoutMarginsGuide
-        
         var newIcon = UIView()
         newIcon.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        newIcon.backgroundColor = UIColor.green
+        newIcon.backgroundColor = UIColor.cyan
         newIconView.addSubview(newIcon)
-        
-        //newIconView.translatesAutoresizingMaskIntoConstraints = false
         newIcon.translatesAutoresizingMaskIntoConstraints = false
         newIcon.centerXAnchor.constraint(equalTo: margins.centerXAnchor).isActive = true
         newIcon.centerYAnchor.constraint(equalTo: margins.centerYAnchor).isActive = true
         newIcon.widthAnchor.constraint(equalToConstant: 10).isActive = true
         newIcon.heightAnchor.constraint(equalToConstant: 10).isActive = true
         newIcon.layer.cornerRadius = 5
-        
-        //centerX.isActive = true
-       // centerY.isActive = true
-        
-       // newIconView.addConstraints([centerX,centerY])
-        
     }
     
     override func layoutSubviews() {

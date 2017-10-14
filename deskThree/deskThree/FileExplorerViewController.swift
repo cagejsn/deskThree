@@ -14,17 +14,20 @@ protocol FileExplorerViewControllerDelegate: NSObjectProtocol {
     func dismissFileExplorer()
 }
 
-fileprivate let itemsPerRow: CGFloat = 4
 
 class FileExplorerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate {
     
     fileprivate let reuseIdentifier = "DeskCell"
     fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
     
+    @IBOutlet var cellSizeSlider: UISlider!
     @IBOutlet var tableView: GroupingTableView!
     @IBOutlet var collectionView: FileExplorerCollectionView!
     weak var delegate: FileExplorerViewControllerDelegate!
     var metaDataFromDisk: [DeskProject]!
+    
+    fileprivate var itemsPerRow: CGFloat = 4
+
     
     override func viewDidLoad() {
         tableView.delegate = self
@@ -43,6 +46,32 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     
+    @IBAction func cellSizeSliderValueChanged(_ sender: UISlider) {
+        var oldItemsPerRow = itemsPerRow
+        
+        itemsPerRow = { () -> CGFloat in
+                switch CGFloat(sender.value) {
+                    
+                case 0..<0.25:
+                    return 4
+                case 0.25..<0.5:
+                    return 3
+                case 0.5..<0.75:
+                    return 2
+                case 0.75..<1:
+                    return 1
+                default:
+                    return 4
+                }
+        }()
+        
+      
+        if(oldItemsPerRow != itemsPerRow){
+            collectionView.reloadData()
+        }
+        
+        
+    }
     
     
     
