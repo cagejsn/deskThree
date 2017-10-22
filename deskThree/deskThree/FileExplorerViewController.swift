@@ -17,9 +17,14 @@ protocol FileExplorerViewControllerDelegate: NSObjectProtocol {
 
 class FileExplorerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate {
     
+    let tableViewCellHeight: CGFloat = 50
+    
     fileprivate let reuseIdentifier = "DeskCell"
     fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
     
+    @IBOutlet var userView: UserView!
+    @IBOutlet var groupingsLabel: GroupingsLabel!
+    @IBOutlet var selectGroupSegmentedControl: SelectGroupingSegmentedControl!
     @IBOutlet var cellSizeSlider: UISlider!
     @IBOutlet var tableView: GroupingTableView!
     @IBOutlet var collectionView: FileExplorerCollectionView!
@@ -28,20 +33,27 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     
     fileprivate var itemsPerRow: CGFloat = 4
 
-    
     override func viewDidLoad() {
         tableView.delegate = self
         tableView.dataSource = self
         collectionView.delegate = self
         collectionView.dataSource = self
         metaDataFromDisk = PathLocator.loadMetaData()
-       // collectionView.register(FileExplorerCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.register(UINib(nibName: "FileExplorerCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: reuseIdentifier)
         
+        //function pointer is passed
+        selectGroupSegmentedControl.segmentDidChange = { [weak self] in self?.segmentsWantsGroupingChange()}
+          
+    }
+    
+    //handle the change of the grouping
+    func segmentsWantsGroupingChange(){
+        let num = selectGroupSegmentedControl.selectedSegmentIndex
+        groupingsLabel.updateText(for: num)
         
     }
     
-    @IBAction func cancelButtonTapped(_ sender: Any) {
+    func cancelButtonTapped(_ sender: Any) {
         delegate.dismissFileExplorer()
     }
     
@@ -53,43 +65,41 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
                 switch CGFloat(sender.value) {
                     
                 case 0..<0.25:
-                    return 4
+                    return 7
                 case 0.25..<0.5:
-                    return 3
+                    return 6
                 case 0.5..<0.75:
-                    return 2
+                    return 5
                 case 0.75..<1:
-                    return 1
-                default:
                     return 4
+                default:
+                    return 3
                 }
         }()
         
-      
         if(oldItemsPerRow != itemsPerRow){
+            collectionView.invalidateIntrinsicContentSize()
             collectionView.reloadData()
         }
-        
-        
     }
-    
-    
-    
-    
 }
-
-
 
 // MARK: Table View Methods
 extension FileExplorerViewController {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableViewCellHeight
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60))
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 200, height: 60))
-        label.text = metaDataFromDisk[indexPath.row].name
-        cell.addSubview(label)
-        cell.backgroundColor = UIColor.clear
+        let cell = GroupingTableViewCell(frame: CGRect(x:0,y:0,width:200,height:tableViewCellHeight), text: metaDataFromDisk[indexPath.row].name , color: UIColor(colorLiteralRed: Float(drand48()), green: Float(drand48()), blue: Float(drand48()), alpha: 1.0).cgColor)
         return cell
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -101,9 +111,6 @@ extension FileExplorerViewController {
         delegate.didSelectProject(projectName: name!)
     }
 }
-
-
-
 
 // MARK: Collection View Methods
 extension FileExplorerViewController {
@@ -120,7 +127,6 @@ extension FileExplorerViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,                                                      for: indexPath)
         return cell
     }
-
 }
 
 extension FileExplorerViewController : UICollectionViewDelegateFlowLayout {
@@ -128,18 +134,11 @@ extension FileExplorerViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        //2
         let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
         let availableWidth = view.frame.width - paddingSpace
         let widthPerItem = availableWidth / itemsPerRow
-        
         return CGSize(width: widthPerItem, height: widthPerItem)
     }
-    
-    
-   
-    
-    
 }
 
 

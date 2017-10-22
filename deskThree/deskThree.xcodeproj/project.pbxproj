@@ -51,6 +51,10 @@
 		DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2841201EB048B10085112E /* MathViewContainer.swift */; };
 		DA28412B1EB25EED0085112E /* AllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28412A1EB25EED0085112E /* AllPad.xib */; };
 		DA2841301EB279F50085112E /* PencilEraserToggleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */; };
+		DA2B7CA61F9BB43400496BEC /* GroupingsLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CA51F9BB43400496BEC /* GroupingsLabel.swift */; };
+		DA2B7CB01F9BD60400496BEC /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CAF1F9BD60400496BEC /* UserView.swift */; };
+		DA2B7CB21F9BDD4B00496BEC /* FileExplorerColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */; };
+		DA2B7CB41F9C26D600496BEC /* FileExplorerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */; };
 		DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE141E8C966100520FFD /* DeskControlModule.swift */; };
 		DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */; };
 		DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3688BE1E414613006A9E1A /* ToolDrawer.swift */; };
@@ -77,6 +81,7 @@
 		DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */; };
 		DA9E8C891F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */; };
 		DA9E8C8C1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */; };
+		DA9E8C901F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C8F1F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift */; };
 		DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E21DC3A0D600C73780 /* GKCropBorderView.m */; };
 		DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E41DC3A0D600C73780 /* GKImageCropOverlayView.m */; };
 		DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E61DC3A0D600C73780 /* GKImageCropView.m */; };
@@ -253,6 +258,10 @@
 		DA2841201EB048B10085112E /* MathViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathViewContainer.swift; sourceTree = "<group>"; };
 		DA28412A1EB25EED0085112E /* AllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllPad.xib; sourceTree = "<group>"; };
 		DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PencilEraserToggleControl.swift; sourceTree = "<group>"; };
+		DA2B7CA51F9BB43400496BEC /* GroupingsLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingsLabel.swift; sourceTree = "<group>"; };
+		DA2B7CAF1F9BD60400496BEC /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerColors.swift; sourceTree = "<group>"; };
+		DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerHeaderView.swift; sourceTree = "<group>"; };
 		DA35EE141E8C966100520FFD /* DeskControlModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskControlModule.swift; sourceTree = "<group>"; };
 		DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWBubbleMenuButton.h; sourceTree = "<group>"; };
 		DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWBubbleMenuButton.m; sourceTree = "<group>"; };
@@ -287,6 +296,7 @@
 		DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionView.swift; sourceTree = "<group>"; };
 		DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionViewCell.swift; sourceTree = "<group>"; };
 		DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileExplorerCollectionViewCell.xib; sourceTree = "<group>"; };
+		DA9E8C8F1F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectGroupingSegmentedControl.swift; sourceTree = "<group>"; };
 		DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "deskThree-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAA494DF1DC2ED5A00C73780 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAA494E11DC3A0D600C73780 /* GKCropBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCropBorderView.h; sourceTree = "<group>"; };
@@ -441,6 +451,11 @@
 				DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */,
 				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
 				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
+				DA9E8C8F1F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift */,
+				DA2B7CA51F9BB43400496BEC /* GroupingsLabel.swift */,
+				DA2B7CAF1F9BD60400496BEC /* UserView.swift */,
+				DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */,
+				DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */,
 			);
 			name = "File Explorer";
 			sourceTree = "<group>";
@@ -884,6 +899,7 @@
 				DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */,
 				DA04D9381EA4560A003C0783 /* TutorialVideoViewController.swift in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
+				DA9E8C901F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift in Sources */,
 				312A8B7C1EAFCD8000940FA7 /* UIViewExtension.swift in Sources */,
 				DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */,
 				DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */,
@@ -911,7 +927,10 @@
 				DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */,
 				DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
+				DA2B7CB21F9BDD4B00496BEC /* FileExplorerColors.swift in Sources */,
+				DA2B7CB41F9C26D600496BEC /* FileExplorerHeaderView.swift in Sources */,
 				DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */,
+				DA2B7CA61F9BB43400496BEC /* GroupingsLabel.swift in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
 				DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */,
 				DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */,
@@ -928,6 +947,7 @@
 				DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */,
 				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
+				DA2B7CB01F9BD60400496BEC /* UserView.swift in Sources */,
 				5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */,
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,

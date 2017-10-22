@@ -16,7 +16,7 @@ class FileExplorerCollectionView: UICollectionView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        //stylize()
+        stylize()
         
     }
     

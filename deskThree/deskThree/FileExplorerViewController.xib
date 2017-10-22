@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -13,6 +14,8 @@
             <connections>
                 <outlet property="cellSizeSlider" destination="RTl-rK-K1c" id="cIP-Id-Bdo"/>
                 <outlet property="collectionView" destination="hok-zJ-2XS" id="l1S-zo-NSJ"/>
+                <outlet property="groupingsLabel" destination="4Kt-Qb-Sbf" id="UuW-4d-dzf"/>
+                <outlet property="selectGroupSegmentedControl" destination="RgV-Id-Pev" id="Yij-BQ-ZeP"/>
                 <outlet property="tableView" destination="Af2-EA-YxK" id="ZOD-Zg-cGr"/>
                 <outlet property="view" destination="iN0-l3-epB" id="QYb-ng-KFW"/>
             </connections>
@@ -23,38 +26,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Af2-EA-YxK" customClass="GroupingTableView" customModule="deskThree" customModuleProvider="target">
-                    <rect key="frame" x="20" y="200" width="250" height="519"/>
+                    <rect key="frame" x="20" y="215" width="250" height="504"/>
                     <color key="backgroundColor" red="0.63735383749008179" green="0.69305288791656494" blue="0.76381891965866089" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="250" id="UHR-Dm-cEF"/>
                     </constraints>
                 </tableView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Desk v2.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wTe-P7-hau">
-                    <rect key="frame" x="20" y="20" width="300" height="41"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="253" id="ZCn-YO-lMT"/>
-                        <constraint firstAttribute="height" constant="41" id="em7-Jm-cfP"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="51"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ExS-Jm-Y5T">
-                    <rect key="frame" x="20" y="69" width="250" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="250" id="HzM-0X-dxE"/>
-                        <constraint firstAttribute="height" constant="30" id="T1P-FD-BTY"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                    <state key="normal" title="cancel">
-                        <color key="titleColor" red="1" green="0.074608796134975508" blue="0.03455146427119693" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="cancelButtonTapped:" destination="-1" eventType="touchUpInside" id="hMV-T9-5Jj"/>
-                    </connections>
-                </button>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hok-zJ-2XS" customClass="FileExplorerCollectionView" customModule="deskThree" customModuleProvider="target">
-                    <rect key="frame" x="290" y="125" width="397" height="594"/>
+                    <rect key="frame" x="290" y="145" width="397" height="574"/>
                     <color key="backgroundColor" red="0.63735383749008179" green="0.69305288791656494" blue="0.76381891965866089" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Nan-MK-r2d">
                         <size key="itemSize" width="50" height="50"/>
@@ -64,7 +43,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="5xX-0b-dph">
-                    <rect key="frame" x="290" y="89" width="182" height="29"/>
+                    <rect key="frame" x="290" y="109" width="182" height="29"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="182" id="A81-cx-kah"/>
                     </constraints>
@@ -74,20 +53,38 @@
                         <segment title=""/>
                     </segments>
                 </segmentedControl>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RgV-Id-Pev">
-                    <rect key="frame" x="20" y="137.5" width="250" height="63.5"/>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RgV-Id-Pev" customClass="SelectGroupingSegmentedControl" customModule="deskThree" customModuleProvider="target">
+                    <rect key="frame" x="20" y="82" width="250" height="64"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="62.5" id="fsI-qi-Nej"/>
+                        <constraint firstAttribute="width" secondItem="RgV-Id-Pev" secondAttribute="height" multiplier="4:1" id="9EN-4C-HZ2"/>
                     </constraints>
                     <segments>
-                        <segment title="First"/>
+                        <segment title="" image="undo icon"/>
                         <segment title="Second"/>
                         <segment title=""/>
-                        <segment title=""/>
+                        <segment title="" image="fOfX"/>
                     </segments>
+                    <color key="tintColor" red="0.28337687249999999" green="0.75053113699999996" blue="0.93012028930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </segmentedControl>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Kt-Qb-Sbf" customClass="GroupingsLabel" customModule="deskThree" customModuleProvider="target">
+                    <rect key="frame" x="20" y="145" width="250" height="50"/>
+                    <color key="backgroundColor" red="0.63735383749999996" green="0.69305288789999997" blue="0.76381891970000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="VCC-a6-fdn"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBi-ss-8NY" customClass="FileExplorerHeaderView" customModule="deskThree" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="707" height="62"/>
+                    <color key="backgroundColor" red="0.63735383749999996" green="0.69305288789999997" blue="0.76381891970000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="62" id="APz-OB-8po"/>
+                    </constraints>
+                </view>
                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="RTl-rK-K1c">
-                    <rect key="frame" x="541" y="87" width="148" height="31"/>
+                    <rect key="frame" x="541" y="107" width="148" height="31"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="144" id="YSE-lx-2ZB"/>
                     </constraints>
@@ -96,29 +93,35 @@
                     </connections>
                 </slider>
             </subviews>
-            <color key="backgroundColor" red="0.72463911771774292" green="0.74840539693832397" blue="0.78995406627655029" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.99195677042007446" green="0.99622899293899536" blue="0.99192315340042114" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="wTe-P7-hau" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="2m6-kn-GdG"/>
+                <constraint firstItem="hok-zJ-2XS" firstAttribute="top" secondItem="4Kt-Qb-Sbf" secondAttribute="top" id="7aJ-lS-2G3"/>
+                <constraint firstItem="gBi-ss-8NY" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="8hd-Sr-zyI"/>
+                <constraint firstItem="4Kt-Qb-Sbf" firstAttribute="leading" secondItem="RgV-Id-Pev" secondAttribute="leading" id="Bi5-Ff-lws"/>
                 <constraint firstItem="hok-zJ-2XS" firstAttribute="top" secondItem="RTl-rK-K1c" secondAttribute="bottom" constant="8" id="HSK-kg-7si"/>
                 <constraint firstItem="hok-zJ-2XS" firstAttribute="leading" secondItem="5xX-0b-dph" secondAttribute="leading" id="I4f-Xd-X7S"/>
-                <constraint firstItem="hok-zJ-2XS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="125" id="PZa-mN-gh6"/>
+                <constraint firstItem="4Kt-Qb-Sbf" firstAttribute="trailing" secondItem="RgV-Id-Pev" secondAttribute="trailing" id="M0g-aq-iST"/>
+                <constraint firstItem="Af2-EA-YxK" firstAttribute="top" secondItem="4Kt-Qb-Sbf" secondAttribute="bottom" constant="20" id="Oh0-gB-fxt"/>
                 <constraint firstAttribute="trailing" secondItem="hok-zJ-2XS" secondAttribute="trailing" constant="20" id="QJ2-dv-wZF"/>
-                <constraint firstItem="wTe-P7-hau" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="SNP-fy-L4f"/>
-                <constraint firstItem="Af2-EA-YxK" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="200" id="SZk-9Q-Tho"/>
                 <constraint firstItem="Af2-EA-YxK" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="TGO-HP-qr3"/>
-                <constraint firstItem="Af2-EA-YxK" firstAttribute="leading" secondItem="RgV-Id-Pev" secondAttribute="leading" id="WWg-dE-VvH"/>
+                <constraint firstItem="RgV-Id-Pev" firstAttribute="top" secondItem="gBi-ss-8NY" secondAttribute="bottom" constant="20" id="YYa-62-YQ0"/>
                 <constraint firstItem="RTl-rK-K1c" firstAttribute="trailing" secondItem="hok-zJ-2XS" secondAttribute="trailing" id="dyt-1i-TUy"/>
-                <constraint firstItem="Af2-EA-YxK" firstAttribute="trailing" secondItem="RgV-Id-Pev" secondAttribute="trailing" id="lT1-W7-2CN"/>
+                <constraint firstItem="Af2-EA-YxK" firstAttribute="trailing" secondItem="RgV-Id-Pev" secondAttribute="trailing" id="fxH-qa-Fjc"/>
+                <constraint firstItem="hok-zJ-2XS" firstAttribute="leading" secondItem="4Kt-Qb-Sbf" secondAttribute="trailing" constant="20" id="gWL-1x-fxU"/>
+                <constraint firstItem="Af2-EA-YxK" firstAttribute="leading" secondItem="RgV-Id-Pev" secondAttribute="leading" id="i5F-bT-rdK"/>
                 <constraint firstAttribute="bottom" secondItem="hok-zJ-2XS" secondAttribute="bottom" constant="20" id="n9h-Er-tR6"/>
+                <constraint firstAttribute="trailing" secondItem="gBi-ss-8NY" secondAttribute="trailing" id="nPZ-bS-izp"/>
                 <constraint firstAttribute="bottom" secondItem="Af2-EA-YxK" secondAttribute="bottom" constant="20" id="ndg-nI-xvc"/>
-                <constraint firstItem="ExS-Jm-Y5T" firstAttribute="top" secondItem="wTe-P7-hau" secondAttribute="bottom" constant="8" id="p41-5N-6eT"/>
+                <constraint firstItem="4Kt-Qb-Sbf" firstAttribute="top" secondItem="RgV-Id-Pev" secondAttribute="bottom" id="o41-S2-g6f"/>
                 <constraint firstItem="hok-zJ-2XS" firstAttribute="top" secondItem="5xX-0b-dph" secondAttribute="bottom" constant="8" id="pu3-a0-wuU"/>
-                <constraint firstItem="Af2-EA-YxK" firstAttribute="top" secondItem="RgV-Id-Pev" secondAttribute="bottom" id="q9K-RH-6YK"/>
-                <constraint firstItem="hok-zJ-2XS" firstAttribute="leading" secondItem="ExS-Jm-Y5T" secondAttribute="trailing" constant="20" id="rN2-TD-xaI"/>
-                <constraint firstItem="ExS-Jm-Y5T" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="sDl-6V-Nmz"/>
+                <constraint firstItem="gBi-ss-8NY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ues-CG-p9b"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="210.5" y="101.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="fOfX" width="50" height="25"/>
+        <image name="undo icon" width="32" height="32"/>
+    </resources>
 </document>
