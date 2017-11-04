@@ -34,6 +34,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     private var paperType: SelectedPaperType!
     //JotUI Properties
     var drawingView: JotView!
+    var clipper: Clipper?
     
     // JotViewStateProxy Properties
     internal var jotViewStateInkPath: String!
@@ -136,8 +137,10 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         
         if(prevScaleFactor != nil){
             drawingView.transform = drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
+            clipper?.transform = (clipper?.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor))!
         }
         drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+       // clipper?.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
         prevScaleFactor = scrollView.zoomScale
     }
     
@@ -147,6 +150,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         #endif
         
         drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+        //clipper?.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
 
 
@@ -193,15 +197,61 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     func clearDrawing() {
         // The backing texture does not get updated when we clear the JotViewGLContext. Hence,
         // We just load up a whole new state to get a cleared backing texture. I know, it is
-        // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself        
+        // hacky. I challenge you to find a cleaner way to do it in JotViewState's background Texture itself
+      /*
         drawingState.isForgetful = true
         drawingState = JotViewStateProxy()
         drawingState.loadJotStateAsynchronously(false, with: drawingView.bounds.size, andScale: drawingView.scale, andContext: drawingView.context, andBufferManager: JotBufferManager.sharedInstance())
         drawingView.loadState(drawingState)
         drawingView.clear(true)
+        
+        */
+        clipper = Clipper(overSubview: drawingView)
+        clipper?.setCompletionFunction(functionToCall: clipperDidSelectMath)
     }
     
     
+    
+    func clipperDidSelectMath(selection: CGPath){
+        
+        var maw = MAWMathView()
+                
+        let data = self.drawingView.state.everyVisibleStroke()
+        
+        if let strokes = data as! [JotStroke]?{
+            for strokeData in strokes {
+                
+                if let stroke = strokeData as JotStroke?{
+                    var strokeForInput = [MAWCaptureInfo]()
+                    if let segments = stroke.segments as! [AbstractBezierPathElement]?{
+                        
+                        for segment in segments {
+                            if let segment = segment as! AbstractBezierPathElement?{
+                                
+                                var point = segment.startPoint
+                                
+                                
+                               
+                                
+                                point.x = point.x * (1275 / drawingView.pagePtSize.width)
+                                point.y = (point.y * -(1650 / drawingView.pagePtSize.height)) + 1650
+                                
+                                
+                                if(selection.contains(point)){
+                                    var captured = MAWCaptureInfo()
+                                    captured.x = Float(point.x)
+                                    captured.y = Float(point.y)
+                                    strokeForInput.append(captured)
+                                }
+                            }
+                        }
+                    }
+                    
+                    maw.addStroke(strokeForInput)
+                }
+            }
+        }
+    }
     
     
     //pragma mark - JotViewStateProxyDelegate

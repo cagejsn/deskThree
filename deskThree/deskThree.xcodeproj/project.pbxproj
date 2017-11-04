@@ -76,6 +76,8 @@
 		DA7E470B1E8DD552007C52C1 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA7E470F1E8DF1AB007C52C1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
+		DA9703641FAD5D4D00E94125 /* Clipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9703631FAD5D4D00E94125 /* Clipper.swift */; };
+		DA97036E1FAD5F1100E94125 /* LassoToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA97036D1FAD5F1100E94125 /* LassoToggleButton.swift */; };
 		DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */; };
 		DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */; };
 		DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */; };
@@ -291,6 +293,8 @@
 		DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
+		DA9703631FAD5D4D00E94125 /* Clipper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipper.swift; sourceTree = "<group>"; };
+		DA97036D1FAD5F1100E94125 /* LassoToggleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LassoToggleButton.swift; sourceTree = "<group>"; };
 		DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableView.swift; sourceTree = "<group>"; };
 		DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableViewCell.swift; sourceTree = "<group>"; };
 		DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionView.swift; sourceTree = "<group>"; };
@@ -576,6 +580,7 @@
 				52A662A21E32B1C8008E088A /* Trash.swift */,
 				DA67005B1E3EDD1C00A6179A /* GKContext.swift */,
 				DA3688F81E47B970006A9E1A /* CGRect+.swift */,
+				DA9703631FAD5D4D00E94125 /* Clipper.swift */,
 				DA3688C11E43F98A006A9E1A /* CGPoint+.swift */,
 				DAFCF32E1E4EAAFF00B3F78E /* UIView+.swift */,
 				CE18D3671E6E08E700BC54D8 /* MathBlock.swift */,
@@ -599,6 +604,7 @@
 				DA2841201EB048B10085112E /* MathViewContainer.swift */,
 				DA28412A1EB25EED0085112E /* AllPad.xib */,
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
+				DA97036D1FAD5F1100E94125 /* LassoToggleButton.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -926,6 +932,7 @@
 				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,
 				DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */,
 				DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */,
+				DA97036E1FAD5F1100E94125 /* LassoToggleButton.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
 				DA2B7CB21F9BDD4B00496BEC /* FileExplorerColors.swift in Sources */,
 				DA2B7CB41F9C26D600496BEC /* FileExplorerHeaderView.swift in Sources */,
@@ -936,6 +943,7 @@
 				DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */,
 				52A662A31E32B1C8008E088A /* Trash.swift in Sources */,
 				DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */,
+				DA9703641FAD5D4D00E94125 /* Clipper.swift in Sources */,
 				DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */,
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,

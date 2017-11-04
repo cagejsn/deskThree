@@ -31,6 +31,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var pageNumberLabel: UIBarButtonItem!
     
     var pencilEraserToggleControl: PencilEraserToggleControl!
+    var lassoToggle: LassoToggleButton!
     
     private var trashBin: Trash!
     private var prevScaleFactor: CGFloat!
@@ -96,6 +97,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.insertSubview(workView, at: 0)
         workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
         workView.currentPage.subviewDrawingView()
+        
     }
     
     func setupGKPicker(){
@@ -117,6 +119,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             dView.addGestureRecognizer(workView.panGestureRecognizer)
             dView.addGestureRecognizer(workView.pinchGestureRecognizer!)
         }
+        
+        
     }
     
     func setupToolbar(){
@@ -221,9 +225,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         if(prevScaleFactor != nil){
             workView.currentPage.drawingView.transform = workView.currentPage.drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
+            workView.currentPage.clipper?.transform = (workView.currentPage.clipper?.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor))!
         }
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
-        prevScaleFactor = scrollView.zoomScale        
+        workView.currentPage.clipper?.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+        prevScaleFactor = scrollView.zoomScale
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -231,6 +237,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mixpanel.track(event: "Gesture: Scroll")
         #endif
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+        workView.currentPage.clipper?.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
     
     //incoming view does intersect with Trash?
