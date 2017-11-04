@@ -211,6 +211,70 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     }
     
     
+    func something(){
+        
+        jotToMath = JotToMath()
+        jotToMath.setCompletionBlock(codeToRun: {[weak self] in return self?.aFunction()})
+        //var tempMathView = OCRMathView(frame: CGRect(x:0, y: 100, width: UIScreen.main.bounds.width / 2  , height: UIScreen.main.bounds.height / 2))
+        self.addSubview(jotToMath)
+        
+        let certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
+        let certificateRegistered = jotToMath.registerCertificate(certificate)
+        if(certificateRegistered){
+            let mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            jotToMath.addSearchDir(bundlePath as String)
+            jotToMath.configure(withBundle: "math", andConfig: "standard")
+        }
+        
+        
+        var strokePoints = [MAWCaptureInfo]()
+        var arrayForAdding = [MAWCaptureInfo]()
+        var p2 = MAWCaptureInfo()
+        
+        let strokes = drawingState.everyVisibleStroke()
+        for stroke in strokes! {
+            var i:Int64 = 0
+            if let strokeData = stroke as? JotStroke {
+                
+                let points = strokeData.segments
+                for point in points! {
+                    
+                    var s = CGPoint()
+                    
+                    if let pointData = point as? AbstractBezierPathElement {
+                        
+                        //let p1 = self.convert(CGPoint(x:pointData.startPoint.x,y:-pointData.startPoint.y), to: tempMathView  )
+                        let p1 = CGPoint(x:pointData.startPoint.x,y:-pointData.startPoint.y)
+                        
+                        p2.x = Float(p1.x)
+                        p2.y = Float(p1.y)// + 200
+                        // p.w = Float(pointData.lengthOfElement())
+                        //p2.w = Float(pointData.width)
+                        
+                        p2.t = i
+                        i += 1
+                    }
+                    strokePoints.append(p2)
+                    p2 = MAWCaptureInfo()
+                }
+            }
+            arrayForAdding = strokePoints
+            strokePoints = [MAWCaptureInfo]()
+            
+            jotToMath.addStroke(arrayForAdding)
+        }
+        
+        
+        
+        
+        jotToMath.solve()
+        
+        
+        
+    }
+    
     
     func clipperDidSelectMath(selection: CGPath){
         
