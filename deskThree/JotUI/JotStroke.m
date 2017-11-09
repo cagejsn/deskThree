@@ -168,6 +168,28 @@
     return self;
 }
 
+- (id)initLightFromDict:(NSDictionary*)dictionary {
+    if (self = [super init]) {
+       // hashCache = 1;
+       // segmentSmoother = [[SegmentSmoother alloc] initFromDictionary:[dictionary objectForKey:@"segmentSmoother"]];
+       // bufferManager = [dictionary objectForKey:@"bufferManager"];
+        __block AbstractBezierPathElement* previousElement = nil;
+        segments = [NSMutableArray arrayWithArray:[[dictionary objectForKey:@"segments"] jotMap:^id(id obj, NSUInteger index) {
+            NSString* className = [obj objectForKey:@"class"];
+            Class class = NSClassFromString(className);
+            AbstractBezierPathElement* segment = [[class alloc] initFromDictionary:obj];
+           // [segment setBufferManager:bufferManager];
+         //   [self updateHashWithObject:segment];
+          //  totalNumberOfBytes += [segment numberOfBytesGivenPreviousElement:previousElement];
+            [segment validateDataGivenPreviousElement:previousElement]; // nil out our dictionary loaded data if it's the wrong size
+          //  [segment loadDataIntoVBOIfNeeded]; // generate if if needed
+            previousElement = segment;
+            return segment;
+        }]];
+       // texture = [[JotBrushTexture alloc] initFromDictionary:[dictionary objectForKey:@"texture"]];
+    }
+    return self;
+}
 
 #pragma mark - hashing and equality
 

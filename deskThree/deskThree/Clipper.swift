@@ -116,7 +116,16 @@ class Clipper: UIView {
     }
     
     func wordsButtonTapped(){
+        
+        let cartesianDifference = activePath.cgPath.boundingBox.origin - self.convert(activePath.cgPath.boundingBox, to: superview).origin
+        let scaleDifference = activePath.cgPath.boundingBox.width / self.convert(activePath.cgPath.boundingBox, to: superview).width
+        
+        //activePath.apply(CGAffineTransform.init(translationX: cartesianDifference.x, y: cartesianDifference.y))
+        //activePath.apply(CGAffineTransform.init(scaleX: scaleDifference, y: scaleDifference))
+        
+       print(self.frame)
         completionBlock(activePath.cgPath)
+       // print(frame)
        self.removeFromSuperview()
     }
     
@@ -174,9 +183,13 @@ class Clipper: UIView {
     
     init(overSubview view: UIView){
         //how to handle constraints and the ability to rotate?
-        super.init(frame:view.frame)
+        print(view.bounds)
+        print(view.frame)
+        
+        super.init(frame:CGRect(x: 0, y: 0, width: 1275, height: 1650))
+        //self.transform = view.transform
         viewToClipFrom = view
-        attemptToConstraint(withView:view)
+        //attemptToConstraint(withView:view)
     }
 
     required init?(coder aDecoder: NSCoder) {

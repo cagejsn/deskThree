@@ -225,10 +225,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         if(prevScaleFactor != nil){
             workView.currentPage.drawingView.transform = workView.currentPage.drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
-            workView.currentPage.clipper?.transform = (workView.currentPage.clipper?.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor))!
+            
         }
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
-        workView.currentPage.clipper?.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
         prevScaleFactor = scrollView.zoomScale
     }
     
@@ -237,7 +236,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mixpanel.track(event: "Gesture: Scroll")
         #endif
         workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
-        workView.currentPage.clipper?.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+      
     }
     
     //incoming view does intersect with Trash?

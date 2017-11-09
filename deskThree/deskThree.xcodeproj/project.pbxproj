@@ -78,6 +78,7 @@
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
 		DA9703641FAD5D4D00E94125 /* Clipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9703631FAD5D4D00E94125 /* Clipper.swift */; };
 		DA97036E1FAD5F1100E94125 /* LassoToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA97036D1FAD5F1100E94125 /* LassoToggleButton.swift */; };
+		DA9703821FAE814F00E94125 /* JotToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9703811FAE814F00E94125 /* JotToMath.swift */; };
 		DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */; };
 		DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */; };
 		DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */; };
@@ -295,6 +296,7 @@
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
 		DA9703631FAD5D4D00E94125 /* Clipper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipper.swift; sourceTree = "<group>"; };
 		DA97036D1FAD5F1100E94125 /* LassoToggleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LassoToggleButton.swift; sourceTree = "<group>"; };
+		DA9703811FAE814F00E94125 /* JotToMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JotToMath.swift; sourceTree = "<group>"; };
 		DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableView.swift; sourceTree = "<group>"; };
 		DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableViewCell.swift; sourceTree = "<group>"; };
 		DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionView.swift; sourceTree = "<group>"; };
@@ -605,6 +607,7 @@
 				DA28412A1EB25EED0085112E /* AllPad.xib */,
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
 				DA97036D1FAD5F1100E94125 /* LassoToggleButton.swift */,
+				DA9703811FAE814F00E94125 /* JotToMath.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -935,6 +938,7 @@
 				DA97036E1FAD5F1100E94125 /* LassoToggleButton.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
 				DA2B7CB21F9BDD4B00496BEC /* FileExplorerColors.swift in Sources */,
+				DA9703821FAE814F00E94125 /* JotToMath.swift in Sources */,
 				DA2B7CB41F9C26D600496BEC /* FileExplorerHeaderView.swift in Sources */,
 				DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */,
 				DA2B7CA61F9BB43400496BEC /* GroupingsLabel.swift in Sources */,

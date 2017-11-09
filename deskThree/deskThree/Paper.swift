@@ -35,6 +35,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     //JotUI Properties
     var drawingView: JotView!
     var clipper: Clipper?
+    var jotToMath: JotToMath!
     
     // JotViewStateProxy Properties
     internal var jotViewStateInkPath: String!
@@ -172,12 +173,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     func setupDrawingView(){
 
         drawingState = JotViewStateProxy.init(delegate: self)
-        if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
-        drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
-        }
-        else {
-            drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width - 44))
-        }
+        
+        drawingView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
+        drawingView.transform = drawingView.transform.scaledBy(x: CGFloat(1/1.666), y: (1/1.666))
         drawingView.isUserInteractionEnabled = true
         // jotView's currentPage property is set which is used for hitTesting
         drawingView.currentPage = self
@@ -207,16 +205,31 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         
         */
         clipper = Clipper(overSubview: drawingView)
+        self.addSubview(clipper!)
+        //clipper?.transform = self.transform
         clipper?.setCompletionFunction(functionToCall: clipperDidSelectMath)
+        
+        
     }
     
-    
-    func something(){
+    func aFunction(){
+        var txt = jotToMath.resultAsText()
+        if(txt == ""){ return }
+        let mathimg1 = jotToMath.resultAsImage()
+        if let mathimg2 = mathimg1 as? UIImage{
+        let mathBlock = MathBlock(image: mathimg2, symbols: jotToMath.resultAsSymbolList(), text: jotToMath.resultAsText())
+       // mathBlock.frame = CGRect(x: 100, y: 100, width: 200, height: 100)
+        mathBlock.center = CGPoint(x: 200, y: 200)
+        self.addMathBlockToPage(block: mathBlock)
         
+        }
+    }
+    
+    func setUpJotToMath(pathFrame: CGRect){
         jotToMath = JotToMath()
+        jotToMath.frame = pathFrame
+       // self.addSubview(jotToMath)
         jotToMath.setCompletionBlock(codeToRun: {[weak self] in return self?.aFunction()})
-        //var tempMathView = OCRMathView(frame: CGRect(x:0, y: 100, width: UIScreen.main.bounds.width / 2  , height: UIScreen.main.bounds.height / 2))
-        self.addSubview(jotToMath)
         
         let certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
         let certificateRegistered = jotToMath.registerCertificate(certificate)
@@ -227,64 +240,66 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
             jotToMath.addSearchDir(bundlePath as String)
             jotToMath.configure(withBundle: "math", andConfig: "standard")
         }
-        
-        
-        var strokePoints = [MAWCaptureInfo]()
-        var arrayForAdding = [MAWCaptureInfo]()
-        var p2 = MAWCaptureInfo()
-        
-        let strokes = drawingState.everyVisibleStroke()
-        for stroke in strokes! {
-            var i:Int64 = 0
-            if let strokeData = stroke as? JotStroke {
-                
-                let points = strokeData.segments
-                for point in points! {
-                    
-                    var s = CGPoint()
-                    
-                    if let pointData = point as? AbstractBezierPathElement {
-                        
-                        //let p1 = self.convert(CGPoint(x:pointData.startPoint.x,y:-pointData.startPoint.y), to: tempMathView  )
-                        let p1 = CGPoint(x:pointData.startPoint.x,y:-pointData.startPoint.y)
-                        
-                        p2.x = Float(p1.x)
-                        p2.y = Float(p1.y)// + 200
-                        // p.w = Float(pointData.lengthOfElement())
-                        //p2.w = Float(pointData.width)
-                        
-                        p2.t = i
-                        i += 1
-                    }
-                    strokePoints.append(p2)
-                    p2 = MAWCaptureInfo()
-                }
-            }
-            arrayForAdding = strokePoints
-            strokePoints = [MAWCaptureInfo]()
-            
-            jotToMath.addStroke(arrayForAdding)
+    }
+    
+    func acceptClippedStrokes(strokes: [[MAWCaptureInfo]]){
+       // setUpJotToMath(pathFrame: <#CGRect#>)
+        for stroke in strokes {
+        jotToMath.addStroke(stroke)
         }
-        
-        
-        
-        
         jotToMath.solve()
-        
-        
-        
     }
     
     
+   
+    
     func clipperDidSelectMath(selection: CGPath){
+       
+
+        setUpJotToMath(pathFrame: selection.boundingBox)
+    
+        print(clipper?.bounds)
+        //let c  = self.convert(selection.boundingBox.origin, to: self)
+     //   let relevantX = selection.boundingBox.origin.x  //* (1275/drawingView.pagePtSize.width)
+    //    let relevantY = selection.boundingBox.origin.y// * (1650 / drawingView.pagePtSize.height)
+       
+      //  let view = UIView(frame: CGRect(x: relevantX, y: relevantY, width: selection.boundingBox.width, height: selection.boundingBox.height))
+      //  view.backgroundColor = UIColor.blue
+       // self.addSubview(view)
+        //let i =  drawingState
+       // let j = drawingView.state.isForgetful = false
+        //let data = self.drawingView.state.everyVisibleStroke()
+       // let data2 = self.drawingView.state.immutableState()
+       // let data3 = self.drawingState.strokesBeingWrittenToBackingTexture
+        let temp = PathLocator.getTempFolder()
+       // let file = FileManager.default.contents(atPath: temp+jotViewStatePlistPath)
+        let dict = NSDictionary(contentsOfFile: temp+jotViewStatePlistPath)
         
-        var maw = MAWMathView()
-                
-        let data = self.drawingView.state.everyVisibleStroke()
+        let importantPath = (temp+jotViewStatePlistPath).replacingOccurrences(of: "state.plist", with: "")
         
-        if let strokes = data as! [JotStroke]?{
+        let folder = try? FileManager.default.contentsOfDirectory(atPath: importantPath)
+
+        var arrayOfStrokes = [JotStroke]()
+        
+        for string in folder! {
+            if let string = string as? String {
+                if string.contains(".strokedata") {
+               // arrayOfStrokes.append()
+                let s = JotStroke(lightFromDict: NSDictionary(contentsOfFile: importantPath+string) as! [AnyHashable : Any])
+               // let f = JotStroke(from: NSDictionary(contentsOfFile: importantPath+string) as! [AnyHashable : Any])
+                arrayOfStrokes.append(s!)
+                }
+            }
+        }
+      
+            
+        
+        
+        var output = [[MAWCaptureInfo]]()
+        
+        
+        if let strokes = arrayOfStrokes as! [JotStroke]?{
             for strokeData in strokes {
-                
                 if let stroke = strokeData as JotStroke?{
                     var strokeForInput = [MAWCaptureInfo]()
                     if let segments = stroke.segments as! [AbstractBezierPathElement]?{
@@ -294,27 +309,43 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
                                 
                                 var point = segment.startPoint
                                 
-                                
-                               
-                                
+ 
+                                //let relevantPoint = self.convert(point, to: self)
+
+                                let drawSize = drawingView.pagePtSize
+                               // let pointB = point.applying(drawingView.transform)
+                               // point = pointB
                                 point.x = point.x * (1275 / drawingView.pagePtSize.width)
                                 point.y = (point.y * -(1650 / drawingView.pagePtSize.height)) + 1650
+                                print(drawingView.frame)
+                                print(drawingView.bounds)
+                                print(self.frame)
+                                print(self.bounds   )
                                 
-                                
-                                if(selection.contains(point)){
+                                if(!selection.contains(point)){
+                                    continue
+                                } else {
+ 
+                                    point = point - jotToMath.frame.origin
                                     var captured = MAWCaptureInfo()
                                     captured.x = Float(point.x)
                                     captured.y = Float(point.y)
+                                
                                     strokeForInput.append(captured)
-                                }
+                               }
                             }
                         }
+                        output.append(strokeForInput)
+                        
                     }
                     
-                    maw.addStroke(strokeForInput)
+                    
                 }
             }
+            
         }
+        acceptClippedStrokes(strokes: output)
+ 
     }
     
     
