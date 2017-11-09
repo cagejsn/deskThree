@@ -15,4 +15,5 @@ struct FileExplorerColors {
     static let MidDarkDeskBlue = UIColor(colorLiteralRed: 33/255, green: 141/255, blue: 205/255, alpha: 1.0)
     static let LightGrey = UIColor(colorLiteralRed: 238/255, green: 238/255, blue: 238/255, alpha: 1.0)
     static let DarkTextColor = UIColor(colorLiteralRed: 72/255, green: 72/255, blue: 72/255, alpha: 1.0)
+    static let CancelRed = UIColor(colorLiteralRed: 214/255, green: 69/255, blue: 65/255, alpha: 1.0)
 }

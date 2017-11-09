@@ -6,7 +6,7 @@
 //  Copyright © 2017 desk. All rights reserved.
 //
 
-let groupingTableViewCellHeight = 60
+let groupingTableViewCellHeight = 80
 
 import Foundation
 import UIKit
@@ -33,7 +33,7 @@ class GroupingTableViewCell: UITableViewCell {
         
         let radius = self.frame.height/2
         
-        groupingColorDot.path = UIBezierPath(ovalIn: groupingColorDot.frame.insetBy(dx: 7, dy: 7)).cgPath
+        groupingColorDot.path = UIBezierPath(ovalIn: groupingColorDot.frame.insetBy(dx: 25, dy: 25)).cgPath
         
         groupingColorDot.fillColor = color
         
@@ -41,7 +41,7 @@ class GroupingTableViewCell: UITableViewCell {
         stylizeText()
         self.addSubview(label)
         self.layer.addSublayer(groupingColorDot)        
-        self.backgroundColor = FileExplorerColors.LightGrey
+        self.backgroundColor = FileExplorerColors.DarkGrey
         
         self.selectedBackgroundView = { () -> UIView in let v = UIView(); v.backgroundColor = FileExplorerColors.MidDarkDeskBlue; return v}()
     }

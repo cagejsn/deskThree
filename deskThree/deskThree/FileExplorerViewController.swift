@@ -17,11 +17,12 @@ protocol FileExplorerViewControllerDelegate: NSObjectProtocol {
 
 class FileExplorerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    let tableViewCellHeight: CGFloat = 50
+    let tableViewCellHeight: CGFloat = 80
     
     fileprivate let reuseIdentifier = "DeskCell"
     fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
     
+    @IBOutlet var fileExplorerHeaderView: FileExplorerHeaderView!
     @IBOutlet var userView: UserView!
     @IBOutlet var groupingsLabel: GroupingsLabel!
     @IBOutlet var selectGroupSegmentedControl: SelectGroupingSegmentedControl!
@@ -42,8 +43,8 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         collectionView.register(UINib(nibName: "FileExplorerCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: reuseIdentifier)
         
         //function pointer is passed
-        selectGroupSegmentedControl.segmentDidChange = { [weak self] in self?.segmentsWantsGroupingChange()}
-          
+       // selectGroupSegmentedControl.segmentDidChange = { [weak self] in self?.segmentsWantsGroupingChange()}
+        fileExplorerHeaderView.passCancel = { [weak self] in self?.cancelButtonTapped()}
     }
     
     //handle the change of the grouping
@@ -53,7 +54,7 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         
     }
     
-    func cancelButtonTapped(_ sender: Any) {
+    func cancelButtonTapped() {
         delegate.dismissFileExplorer()
     }
     

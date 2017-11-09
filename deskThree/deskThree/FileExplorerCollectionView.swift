@@ -22,8 +22,9 @@ class FileExplorerCollectionView: UICollectionView {
     
     
     func stylize(){
-        self.layer.cornerRadius = 10
+       // self.layer.cornerRadius = 10
         //self.backgroundColor = UIColor.darkGray
+        backgroundColor = FileExplorerColors.LightGrey
     }
     
     

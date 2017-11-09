@@ -103,6 +103,7 @@
 		DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC7C641DF0F4650086626E /* OutputArea.swift */; };
 		DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE5D31D1E623337007DE25F /* SystemConfiguration.framework */; };
 		DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE7CE821E7D70480050A543 /* SaveAsView.swift */; };
+		DAEE9E8B1FB5046C007426BD /* FileExplorerCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE9E8A1FB5046C007426BD /* FileExplorerCollectionViewHeader.swift */; };
 		DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */; };
 		DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */; };
 		DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */; };
@@ -332,6 +333,7 @@
 		DAE5D3271E6233D5007DE25F /* resources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = resources.bundle; sourceTree = "<group>"; };
 		DAE5D32B1E6235D5007DE25F /* MyCertificate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyCertificate.h; path = deskThree/MyCertificate.h; sourceTree = "<group>"; };
 		DAE7CE821E7D70480050A543 /* SaveAsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveAsView.swift; sourceTree = "<group>"; };
+		DAEE9E8A1FB5046C007426BD /* FileExplorerCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionViewHeader.swift; sourceTree = "<group>"; };
 		DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerViewController.swift; sourceTree = "<group>"; };
 		DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileExplorerViewController.xib; sourceTree = "<group>"; };
 		DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaveAsView.xib; sourceTree = "<group>"; };
@@ -444,18 +446,19 @@
 		DA9E8C8A1F8A94A000D6D8AD /* File Explorer */ = {
 			isa = PBXGroup;
 			children = (
+				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
+				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
+				DA2B7CA51F9BB43400496BEC /* GroupingsLabel.swift */,
+				DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */,
+				DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */,
+				DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */,
+				DAEE9E8A1FB5046C007426BD /* FileExplorerCollectionViewHeader.swift */,
 				DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */,
 				DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */,
 				DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */,
-				DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */,
-				DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */,
-				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
-				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
 				DA9E8C8F1F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift */,
-				DA2B7CA51F9BB43400496BEC /* GroupingsLabel.swift */,
 				DA2B7CAF1F9BD60400496BEC /* UserView.swift */,
 				DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */,
-				DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */,
 			);
 			name = "File Explorer";
 			sourceTree = "<group>";
@@ -921,6 +924,7 @@
 				DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */,
 				DA5464511DBD10A300E644F0 /* Paper.swift in Sources */,
 				DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */,
+				DAEE9E8B1FB5046C007426BD /* FileExplorerCollectionViewHeader.swift in Sources */,
 				25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */,
 				DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,

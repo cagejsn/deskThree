@@ -8,12 +8,15 @@
 
 import Foundation
 
+typealias Action = ()->()
 
 class FileExplorerHeaderView: UIView {
     
     var bottomBorder: CALayer?
-    var userView: UserView!
+   // var userView: UserView!
     var cancelButton: UIButton!
+    
+    var passCancel: Action!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,11 +30,18 @@ class FileExplorerHeaderView: UIView {
         stylize()
     }
     
-    func makeCancelButton(){
-        
+    func handleExitButton(){
+        passCancel()
+    }
+    
+    func makeCancelButton(){        
         cancelButton = UIButton(type: .custom)
         cancelButton.frame = CGRect(x:1,y:1,width:1,height:1)
-        cancelButton.backgroundColor = UIColor.blue
+        cancelButton.backgroundColor = FileExplorerColors.LightGrey
+        cancelButton.setTitle("X", for: .normal)
+        cancelButton.addTarget(self, action: #selector(handleExitButton), for: .touchUpInside  )
+        cancelButton.setTitleColor(FileExplorerColors.DarkGrey, for: .normal)
+        
         self.addSubview(cancelButton)
         //self.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
@@ -56,8 +66,8 @@ class FileExplorerHeaderView: UIView {
     }
    
     func stylize(){
-        bottomBorder = addAndReturnBottomBorder(color: FileExplorerColors.DarkGrey, width: 2)
-        backgroundColor = FileExplorerColors.LightGrey
+        bottomBorder = addAndReturnBottomBorder(color: FileExplorerColors.DarkGrey, width: 1)
+        backgroundColor = UIColor.white
     }
     
     func removeBorders(){

@@ -26,10 +26,10 @@ class GroupingsLabel: UILabel {
     func stylize(){
         //self.round(corners: [.allCorners], radius: 10)
         self.font = UIFont(name: "HelveticaNeue-Bold", size: 30)
-        self.textColor = FileExplorerColors.DarkTextColor
-        self.backgroundColor = FileExplorerColors.LightGrey
-        bottomBorder = addAndReturnBottomBorder(color: FileExplorerColors.DeskBlue, width: 5)
-        leftBorder = addAndReturnLeftBorder(color: FileExplorerColors.DeskBlue, width: 5)
+        self.textColor = UIColor.white
+        self.backgroundColor = FileExplorerColors.DarkGrey
+       // bottomBorder = addAndReturnBottomBorder(color: FileExplorerColors.DeskBlue, width: 5)
+      //  leftBorder = addAndReturnLeftBorder(color: FileExplorerColors.DeskBlue, width: 5)
     }
     
 
