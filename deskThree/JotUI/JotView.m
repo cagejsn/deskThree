@@ -838,6 +838,10 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
                 maxTextureSize.width *= [UIScreen mainScreen].scale;
                 maxTextureSize.height *= [UIScreen mainScreen].scale;
                 JotGLTexture* canvasTexture = [[JotTextureCache sharedManager] generateTextureForContext:secondSubContext ofSize:maxTextureSize];
+                if(canvasTexture.pixelSize.height == maxTextureSize.height && canvasTexture.pixelSize.width == maxTextureSize.width){
+                    int s = 1;
+                }
+                
                 [canvasTexture bind];
 
                 GLuint exportFramebuffer = [secondSubContext generateFramebufferWithTextureBacking:canvasTexture];
