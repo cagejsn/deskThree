@@ -168,12 +168,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     func setupDrawingView(){
 
         drawingState = JotViewStateProxy.init(delegate: self)
-        if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
-        drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 44))
-        }
-        else {
-            drawingView = JotView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width - 44))
-        }
+        drawingView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
         drawingView.isUserInteractionEnabled = true
         // jotView's currentPage property is set which is used for hitTesting
         drawingView.currentPage = self
@@ -182,7 +177,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         drawingView.loadState(drawingState)
         drawingView.isUserInteractionEnabled = true
         drawingView.speedUpFPS()
+       
         
+        drawingView.transform = drawingView.transform.scaledBy(x: 0.6, y: 0.6)
     }
     
     func subviewDrawingView() {
