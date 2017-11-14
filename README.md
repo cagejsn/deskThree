@@ -1,5 +1,12 @@
 
 # Desk
+Welcome to Desk. Desk is a connected Learning Environment for STEM students. The idea is to make Homework better by integrating tools and learning insights.
+
+Desk was born out in a dorm room on UT Austin campus.
+
+## Built With
+* [JotUI](https://github.com/adamwulf/JotUI) - Drawing Algorihtm for iOS
+
 
 ## Installation
 
