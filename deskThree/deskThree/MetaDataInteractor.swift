@@ -137,6 +137,20 @@ class MetaDataInteractor: NSObject {
         NSKeyedArchiver.archiveRootObject(grouping, toFile: filePath)
     }
     
+    static func getGrouping(withName groupingName:String) -> Grouping? {
+        let fileManager = FileManager.default
+        let metaFolderPath = PathLocator.getMetaFolder()
+        let proposedGroupingPath = metaFolderPath + "/" + groupingName + ".meta"
+        if !fileManager.fileExists(atPath: proposedGroupingPath){
+            abort()
+        }
+        let data = NSKeyedUnarchiver.unarchiveObject(withFile: proposedGroupingPath)
+        if let grouping = data as! Grouping! {
+            return grouping
+        }
+        return nil
+    }
+    
     
     static func retrieveAllGroupingMetaData() -> [Grouping] {
         let fileManager = FileManager.default

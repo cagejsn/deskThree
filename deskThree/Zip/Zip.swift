@@ -54,7 +54,7 @@ public class Zip {
     /**
      Set of vaild file extensions
      */
-    internal static var customFileExtensions: Set<String> = ["DZIP"]
+    internal static var customFileExtensions: Set<String> = [".DZIP"]
     
     // MARK: Lifecycle
     

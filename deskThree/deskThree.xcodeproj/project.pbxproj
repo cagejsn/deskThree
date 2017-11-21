@@ -41,6 +41,13 @@
 		DA04D9361EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04D9351EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift */; };
 		DA04D9381EA4560A003C0783 /* TutorialVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */; };
 		DA04D93A1EA4562F003C0783 /* TutorialVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */; };
+		DA04E3FC1FC0B1FF00900588 /* Grouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E3FB1FC0B1FF00900588 /* Grouping.swift */; };
+		DA04E4061FC0B35400900588 /* FileSystemInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E4051FC0B35400900588 /* FileSystemInteractor.swift */; };
+		DA04E4081FC0B3F900900588 /* MetaDataInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E4071FC0B3F900900588 /* MetaDataInteractor.swift */; };
+		DA04E40A1FC0BC1700900588 /* JotFilesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */; };
+		DA04E40C1FC0CB9200900588 /* PaperInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */; };
+		DA04E40E1FC0CC0800900588 /* ProjectFileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E40D1FC0CC0800900588 /* ProjectFileInteractor.swift */; };
+		DA04E4101FC0CCD400900588 /* WorkViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */; };
 		DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1308DC1E5007F9008EBD14 /* DeskView.swift */; };
 		DA2841081EAFBBD00085112E /* SlideMenuControllerSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; };
 		DA2841091EAFBBD70085112E /* SlideMenuControllerSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -249,6 +256,13 @@
 		DA04D9351EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+isFirstLaunch.swift"; sourceTree = "<group>"; };
 		DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialVideoViewController.swift; sourceTree = "<group>"; };
 		DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialVideoViewController.xib; sourceTree = "<group>"; };
+		DA04E3FB1FC0B1FF00900588 /* Grouping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grouping.swift; sourceTree = "<group>"; };
+		DA04E4051FC0B35400900588 /* FileSystemInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemInteractor.swift; sourceTree = "<group>"; };
+		DA04E4071FC0B3F900900588 /* MetaDataInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataInteractor.swift; sourceTree = "<group>"; };
+		DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotFilesInteractor.swift; sourceTree = "<group>"; };
+		DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperInteractor.swift; sourceTree = "<group>"; };
+		DA04E40D1FC0CC0800900588 /* ProjectFileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectFileInteractor.swift; sourceTree = "<group>"; };
+		DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkViewPresenter.swift; sourceTree = "<group>"; };
 		DA1308DC1E5007F9008EBD14 /* DeskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskView.swift; sourceTree = "<group>"; };
 		DA2841051EAFBB270085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
 		DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
@@ -562,6 +576,14 @@
 				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
+				DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */,
+				DA04E4051FC0B35400900588 /* FileSystemInteractor.swift */,
+				DA04E4071FC0B3F900900588 /* MetaDataInteractor.swift */,
+				DA04E40D1FC0CC0800900588 /* ProjectFileInteractor.swift */,
+				DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */,
+				DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */,
+				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
+				DA04E3FB1FC0B1FF00900588 /* Grouping.swift */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
 				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
@@ -585,7 +607,6 @@
 				DA9E8C8A1F8A94A000D6D8AD /* File Explorer */,
 				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
 				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
-				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
 				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
 				DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */,
 				DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */,
@@ -910,12 +931,15 @@
 				DADC7C681DF0F4650086626E /* Constants.swift in Sources */,
 				DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */,
 				DA5747601E7491E50010F754 /* OCRMathView.swift in Sources */,
+				DA04E3FC1FC0B1FF00900588 /* Grouping.swift in Sources */,
 				DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */,
+				DA04E40C1FC0CB9200900588 /* PaperInteractor.swift in Sources */,
 				DA2841301EB279F50085112E /* PencilEraserToggleControl.swift in Sources */,
 				DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */,
 				312A8B7E1EAFCF6D00940FA7 /* CALayerExtension.swift in Sources */,
 				526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */,
 				DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */,
+				DA04E4061FC0B35400900588 /* FileSystemInteractor.swift in Sources */,
 				DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */,
 				DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
@@ -937,11 +961,13 @@
 				DA2B7CA61F9BB43400496BEC /* GroupingsLabel.swift in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
 				DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */,
+				DA04E4101FC0CCD400900588 /* WorkViewPresenter.swift in Sources */,
 				DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */,
 				52A662A31E32B1C8008E088A /* Trash.swift in Sources */,
 				DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */,
 				DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */,
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
+				DA04E40A1FC0BC1700900588 /* JotFilesInteractor.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,
 				DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */,
 				DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */,
@@ -949,8 +975,10 @@
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */,
 				DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */,
+				DA04E4081FC0B3F900900588 /* MetaDataInteractor.swift in Sources */,
 				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
+				DA04E40E1FC0CC0800900588 /* ProjectFileInteractor.swift in Sources */,
 				DA2B7CB01F9BD60400496BEC /* UserView.swift in Sources */,
 				5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */,
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,

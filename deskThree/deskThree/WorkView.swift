@@ -78,7 +78,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
     }
     
-    // Do not call this when superview is nill
+    // Do not call this when superview is nil
     func setupPageNumberSystem(){
         if superview == nil {
             return
@@ -249,6 +249,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
         activePen().didEndStroke(withCoalescedTouch: coalescedTouch, from: touch)
         didModifyDocument()
+       // FileSystemInteractor.archiveJotView(for: pages[currentPageIndex]!, project: project)
+        
         archiveJotView(page: currentPageIndex)
     }
     
@@ -283,6 +285,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
             self.currentPage.clearDrawing()
             self.archiveJotView(page: self.currentPageIndex)
+            let workViewPresenter = WorkViewPresenter()
+            workViewPresenter.somethingChanged()
         }))
         
         refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -699,21 +703,17 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func loadProject(projectName: String){
-        
         setZoomScale(minimumZoomScale, animated: false)
         cleanUpPages()
+       
         
         let projectPath = PathLocator.getTempFolder()+"/"+projectName
-
         self.project.name = projectName
-        
         var count = 1
-        
         while(FileManager.default.fileExists(atPath: projectPath + "/page" + String(count))){
             pages.append(nil)
             count+=1
         }
-
         self.totalPages = count
         
         //after this is called, the first page should be in memory
@@ -726,16 +726,13 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
                 paper.isHidden = true
             }
         }
-        
         currentPage.isHidden = false
-
         initCurPage()
     }
     
     
     ///saves metadata of project to meta file. overwrite same name if present
     func saveMetaData(name: String){
-        
         //creating metadata class instance and setting modified date to now
         self.project.modify()
         
@@ -821,10 +818,15 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
     }
     
+    
+    
+    
+    
     init(){
         self.onDisk = false
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         let pape = Paper()
+        pape.setPageNumber(number: 1)
         pape.setBackground(to: selectedPaperType)
         pape.delegate = self
         pages.append(pape)

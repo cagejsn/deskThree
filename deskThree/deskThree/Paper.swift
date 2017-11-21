@@ -24,6 +24,8 @@ protocol PaperDelegate: NSObjectProtocol {
 
 class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate, JotViewStateProxyDelegate {
     
+    
+    
     public weak var delegate: PaperDelegate!
     // TODO: MAKE THIS PRIVATE!
     public var expressions: [Expression]!
@@ -40,9 +42,23 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     internal var jotViewStatePlistPath: String!
     private var drawingState: JotViewStateProxy!
     
+    private var pageNumber: Int?
+    
     #if !DEBUG
         var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
+    
+    func getPageNumber() -> Int{
+        return pageNumber!
+    }
+    
+    func setPageNumber(number: Int){
+        pageNumber = number
+    }
+    
+    func getDrawingState() -> JotViewStateProxy{
+        return drawingState
+    }
 
     func setBackground(to: SelectedPaperType){
         let image: UIImage!
@@ -231,14 +247,15 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     func saveDrawing(at path: String){
         
-        let temp = PathLocator.getTempFolder()
+       let temp = PathLocator.getTempFolder()
+        
         
         do {
             try FileManager.default.createDirectory(atPath: temp+path, withIntermediateDirectories: true, attributes: nil)
         } catch let error as NSError {
             print(error.localizedDescription);
         }
-        
+ 
         
         let inkLocation   = path+"/ink.png"
         let stateLocation = path+"/state.plist"

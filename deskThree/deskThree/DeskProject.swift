@@ -18,6 +18,10 @@ class DeskProject: NSObject, NSCoding {
         self.name = name
     }
     
+    func getName()-> String {
+        return name
+    }
+    
     ///update modified date to today
     func modify(){
         modified = Date()

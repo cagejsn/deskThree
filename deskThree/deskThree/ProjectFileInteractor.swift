@@ -23,4 +23,23 @@ class ProjectFileInteractor: NSObject {
     }
     
     
+    static func makeProjectDirectoryInTemp(withName: String) throws -> String {
+        
+        let tempFolderPath = PathLocator.getTempFolder()
+        let proposedProjectFolderPathInTemp = tempFolderPath + "/" + withName
+        let fileManager = FileManager.default
+        
+        var isDirectoryBool: ObjCBool = ObjCBool(false)
+        
+        if( fileManager.fileExists(atPath: proposedProjectFolderPathInTemp, isDirectory: &isDirectoryBool)){
+//            throw DeskFileSystemError.ProjectDirectoryAlreadyExistsInTemp
+            return proposedProjectFolderPathInTemp
+
+        }
+        
+        try! fileManager.createDirectory(atPath: proposedProjectFolderPathInTemp, withIntermediateDirectories: false, attributes: nil)
+        
+        return proposedProjectFolderPathInTemp
+    }
+    
 }

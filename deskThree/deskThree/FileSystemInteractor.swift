@@ -28,6 +28,8 @@ enum DeskFileSystemError: Error {
     case ProjectNameTakenInGrouping(String)
     case NoGroupingMetaFileWithName(String)
     case NeededDirectoryIsMissing
+    case MissingDZIPFileWithProjectContents
+    case ProjectDirectoryAlreadyExistsInTemp
 }
 
 
@@ -37,43 +39,26 @@ class FileSystemInteractor: NSObject {
     var projectFileInteractor: ProjectFileInteractor?
     
     
-    func handle( _ change: Change, page: inout Paper){
+    func handle( _ change: Change, grouping: inout Grouping, project: inout DeskProject, page: inout Paper){
         switch (change){
         
         case .MovedBlock:
-            
+            FileSystemInteractor.archivePageObjectsIntoTempFolder(for: page, project: project)
             break
             
-            
         case .AddedStroke:
-            
+            FileSystemInteractor.archiveJotView(for: page, project: project)
             break
             
             
         case .AddedImage:
-            
+            FileSystemInteractor.archivePageObjectsIntoTempFolder(for: page, project: project)
             break
-            
-            
-        default:
-            abort()
-            break
-        }
-        
-    }
-    
-    func handle( _ change: Change, project: inout DeskProject , page: inout Paper){
-        
-    }
-
-    
-    
-    func handle(_ change: Change, grouping: inout Grouping, project: inout DeskProject, page: inout Paper){
-        
-        switch(change){
             
         case .CreatedNewPage(let atIndex):
-            
+            //TODO add logic for inserting a page in the middle of a document
+            //
+            FileSystemInteractor.getPageDirectoryInTempFor(pageNo: atIndex, in: project)
             
             break
             
@@ -82,6 +67,10 @@ class FileSystemInteractor: NSObject {
      
         
         case .MovedProject(let destinationGroupingName):
+            
+            //TODO go find the .zip file of the project and literally put it somewhere
+            
+            //now the meta data change
             do{
                 try MetaDataInteractor.save(project: &project, intoGroupingWithName: destinationGroupingName)
                 try MetaDataInteractor.remove(project: project, from: &grouping)
@@ -92,26 +81,19 @@ class FileSystemInteractor: NSObject {
             
             
         case .DeletedProject:
+            
+            //TODO: remove the .zip file from the Grouping's folder
             try! MetaDataInteractor.remove(project: project, from: &grouping)
 
             break
             
             
-      
-        
-        default:
-            abort()
-            break
-            
-        }
-        
-        
-    }
-    
-    func handle( _ change: Change, grouping: inout Grouping, project: inout DeskProject){
-        switch change {
+   
             
         case .CreatedProject:
+            
+            //TODO: hmm should we add a .zip into
+            
             MetaDataInteractor.save(project: &project, into: &grouping)
             break
             
@@ -124,15 +106,6 @@ class FileSystemInteractor: NSObject {
             }
             break
             
-        default:
-            abort()
-            break
-        }
-    }
-    
-    func handle( _ change: Change, grouping: inout Grouping){
-        
-        switch (change){
         case .DeletedGrouping:
             MetaDataInteractor.remove(grouping: grouping)
             break
@@ -162,6 +135,40 @@ class FileSystemInteractor: NSObject {
             break
         }
     } //end of function
+    /*
+    static func findAndLoad(project: String,in grouping: String, to page: Int, ){
+        
+        
+    }
+*/
+    
+    static func afterLoading(pageNo: Int, inProject: String, fromGrouping: String, run loadingCompletionBlock: (inout Grouping,inout DeskProject,inout Paper) -> ()){
+        
+        var grouping = MetaDataInteractor.getGrouping(withName: fromGrouping)
+        let groupingProjects = grouping!.projects!
+        
+        var seekForProject: DeskProject?
+        for project in groupingProjects {
+            if project.getName() == inProject{
+            seekForProject = project
+            break
+            }
+        }
+        
+        //go get the zipped file of the same name as the DeskProject which will be in this Grouping's folder, load that thing in to the Temp Folder
+        try! getProjectFilesFromGroupingAndThenUnzipIntoTemp(project: seekForProject!, grouping: grouping!)
+        
+        //now we can look for the specified PageNo and return the unarchived Paper if we find it
+        
+        let pathToDesiredPageFolder = getPageDirectoryInTempFor(pageNo: pageNo, in: seekForProject!)
+        
+        let pathToArchivedPaperObject = pathToDesiredPageFolder + "/page.desk"
+        var data = NSKeyedUnarchiver.unarchiveObject(withFile: pathToArchivedPaperObject)
+        
+        if var paper = data as! Paper! {
+            loadingCompletionBlock(&grouping!, &seekForProject!, &paper)
+        }
+    }
     
     
     static func getMetaData() -> [Grouping] {
@@ -170,7 +177,55 @@ class FileSystemInteractor: NSObject {
         return groupings
     }
     
-    /// dont call this yet
+    static func getProjectDirectoryInTemp(project: DeskProject) -> String {
+        
+        let path = try! ProjectFileInteractor.makeProjectDirectoryInTemp(withName: project.getName())
+        return path
+    }
+    
+    static func getPageDirectoryInTempFor(pageNo: Int, in project: DeskProject)-> String {
+        let fileManager = FileManager.default
+        let projectDirInTemp = getProjectDirectoryInTemp(project: project)
+        let proposedPageDir = projectDirInTemp + "/page" + String(pageNo)
+        
+        var isDirBool: ObjCBool = ObjCBool(false)
+        
+        if(fileManager.fileExists(atPath: proposedPageDir, isDirectory: &isDirBool)){
+            return proposedPageDir
+        }
+        
+        //going to make a new directory for the proposed page        
+        //first we will use a while loop to get the lowest pageNo. that isn't taken
+        var i = 1
+        while(fileManager.fileExists(atPath: projectDirInTemp + "/page" + String(i))){
+            i += 1
+        }
+        let calculatedPageDir = projectDirInTemp + "/page" + String(i)
+        //check to make sure that the proposedPage Number Is the next available one
+        if(proposedPageDir != calculatedPageDir){
+//            we have a problem
+            abort()
+        }
+            
+        try! fileManager.createDirectory(atPath: proposedPageDir, withIntermediateDirectories: false, attributes: nil)
+        
+        return proposedPageDir
+    }
+    
+    static func archivePageObjectsIntoTempFolder(for page: Paper, project: DeskProject){
+        let pageDirectory = getPageDirectoryInTempFor(pageNo: page.getPageNumber(), in: project)
+        NSKeyedArchiver.archiveRootObject(page, toFile: pageDirectory + "/page.desk")
+    }
+    
+    static func archiveJotView(for page: Paper, project: DeskProject){
+        let pageDirectory = getPageDirectoryInTempFor(pageNo: page.getPageNumber(), in: project)
+        JotFilesInteractor.archiveJotView(forPage: page, in: project)
+        
+       // page.saveDrawing(at: pageDirectory)
+        
+    }
+    
+    
     static func zipProjectFromTempFolderAndPlaceInGroupingFolder(project: DeskProject, grouping: Grouping) throws -> String  {
         let tempFolderPath = PathLocator.getTempFolder()
         let fileManager = FileManager.default
@@ -192,59 +247,41 @@ class FileSystemInteractor: NSObject {
         // now we know that there are two DIRECTORIES, one is the project Folder in TEMP
         // which we will zip and the other is the Grouping's Folder where the zipped projects live
         
+        let zipFilePath =  URL(fileURLWithPath: groupingFolder).appendingPathComponent(project.getName()+".zip")
+      
+        try! Zip.zipFiles(paths: [URL(fileURLWithPath:projectFolderPathInTemp)], zipFilePath: zipFilePath, password: nil, progress: nil)
         
+        //what about overwrites?
+        return groupingFolder + "/" + project.getName()
+    }
+    
+    static func getProjectFilesFromGroupingAndThenUnzipIntoTemp(project: DeskProject, grouping: Grouping) throws {
         
-      //  let documentPath2 = tempFolderPath + "/" + "UntitledCAGE"
-
+        let tempFolderPath = PathLocator.getTempFolder()
+        let fileManager = FileManager.default
+       // let projectFolderPathInTemp = tempFolderPath + "/" + project.getName()
+        var isDirectoryBool: ObjCBool = ObjCBool(false)
         
-//        var directoryBool: ObjCBool = ObjCBool(false)
-
-       
-        let zipFilePath =  URL(fileURLWithPath: groupingFolder).appendingPathComponent("archive.zip")
+        let groupingFolder = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
+        let projectFilePath = groupingFolder + "/" + project.getName() + ".zip"
         
-        
-        if (fileManager.fileExists(atPath: documentPath, isDirectory: &directoryBool)){
-            try! Zip.zipFiles(paths: [URL(fileURLWithPath:documentPath)], zipFilePath: zipFilePath , password: nil, progress: nil)
+        if(!fileManager.fileExists(atPath: groupingFolder, isDirectory: &isDirectoryBool)){
+            throw DeskFileSystemError.NeededDirectoryIsMissing
+        }
+        if (!isDirectoryBool.boolValue){
+            throw DeskFileSystemError.NeededDirectoryIsMissing
+        }
+        if (!fileManager.fileExists(atPath:projectFilePath)){
+            throw DeskFileSystemError.MissingDZIPFileWithProjectContents
         }
         
-        
-        
-        try! Zip.unzipFile(zipFilePath, destination: URL(fileURLWithPath:documentPath2), overwrite: true, password: nil, progress: nil)
-        
-        
-        return documentPath
-        
-    }
-    
-    /*
-    //needs to which project is in temp and  also which grouping we are talking about
-    static func takeTempAndStoreProjectinitpersistentfolder(){
-        //this shouldn't be a meta data operation , i think
-        //is this project in the Temp Folder?
-       
-        let isinTemp: Bool = ProjectFileInteractor.isInTemp(project: DeskProject)
-        
-        if(!isInTemp){
-            abort()
+     //   Zip.un
+        //all good, lets unzip into a directory
+        do {
+             try Zip.unzipFile(URL(fileURLWithPath: projectFilePath), destination: URL(fileURLWithPath:tempFolderPath), overwrite: true, password: nil)
+        } catch let error {
+            print(error.localizedDescription)
         }
-        
-        //project is in temp
-        ProjectFileInteractor.zipAndPlaceInGroupingProjectFolder(project)
-
     }
-    
-    static func getProjectAndOpenIntoTemp(project: DeskProject, grouping: Grouping){
-        
-        
-        //1. find the project in the grouping folder
-        ProjectFileInteractor.load(project)
-    
-    }
-    
-    //should this have the capacity to ccreate a Page if the desired PageNo doesn't exist?
-    static func getMeThePageWhichIwantWhichIsinTemp(Grouping, Project, PageNo)-> Paper
-    */
-    
-    
     
 }
