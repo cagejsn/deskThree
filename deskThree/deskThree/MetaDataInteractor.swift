@@ -52,6 +52,7 @@ class MetaDataInteractor: NSObject {
                 return
             }
         }
+        abort() //invalid state
         //failure
     }
     
@@ -137,18 +138,76 @@ class MetaDataInteractor: NSObject {
         NSKeyedArchiver.archiveRootObject(grouping, toFile: filePath)
     }
     
-    static func getGrouping(withName groupingName:String) -> Grouping? {
+    static func getGrouping(withName groupingName:String) throws -> Grouping? {
         let fileManager = FileManager.default
         let metaFolderPath = PathLocator.getMetaFolder()
         let proposedGroupingPath = metaFolderPath + "/" + groupingName + ".meta"
         if !fileManager.fileExists(atPath: proposedGroupingPath){
-            abort()
+            throw DeskFileSystemError.NoGroupingMetaFileWithName(groupingName)
         }
         let data = NSKeyedUnarchiver.unarchiveObject(withFile: proposedGroupingPath)
         if let grouping = data as! Grouping! {
             return grouping
         }
         return nil
+    }
+    
+    static func getDefaultGrouping() -> Grouping{
+        var defaultGrouping: String = "default"
+
+//        defaultGrouping = UserDefaults.getDefaultGroupingName
+        var grouping: Grouping
+        do {
+            grouping = try getGrouping(withName: defaultGrouping) as! Grouping!
+        } catch let e {
+            print(e.localizedDescription)
+            grouping = Grouping(name: "default")
+        }
+        
+        //set the user defaults defaultGrouping Name
+//        UserDefaults.setDefaultGrouping
+        
+        return grouping
+    }
+    
+    static func makeNewProjectOfFirstAvailableName(in grouping: inout Grouping) -> DeskProject {
+        
+        let projectsInGrouping = grouping.projects!
+        let numberOfProjects = projectsInGrouping.count
+        var storedNamesWithUntitled = [String]()
+        var storedNumbersWhichAreTaken = [Int]()
+        
+        for project in projectsInGrouping {
+            let projectName = project.getName()
+            if (projectName.contains("Untitled")){
+                storedNamesWithUntitled.append(projectName)
+            }
+        }
+        
+        for takenName in storedNamesWithUntitled {
+            var numberInName = takenName.replacingOccurrences(of: "Untitled", with: "")
+            var numOrNil =  Int(numberInName)
+            if let num = numOrNil as! Int!{
+                storedNumbersWhichAreTaken.append(num)
+            }
+        }
+        
+        var i: Int = 1
+        for num in storedNumbersWhichAreTaken {
+            if ( i == num){
+                i+=1
+            }
+        }
+        
+        let projectWithProperName = DeskProject(name: "Untitled"+String(i))
+        
+        
+        //takoing these out because the project should get saved to the grouping until the first stroke is written or other modification is made
+     //   grouping.projects?.append(projectWithProperName)
+     //   saveMetaData(of: grouping)
+        
+        return projectWithProperName
+        
     }
     
     

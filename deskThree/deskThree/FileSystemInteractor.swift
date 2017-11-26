@@ -9,11 +9,14 @@
 import Foundation
 import Zip
 
-enum Change {
+enum PaperChange {
     case MovedBlock
     case AddedStroke
     case AddedImage
     case CreatedNewPage(atIndex: Int)
+}
+
+enum MetaChange {
     case DeletedGrouping
     case RenamedGrouping(newName: String)
     case CreatedGrouping
@@ -38,16 +41,17 @@ class FileSystemInteractor: NSObject {
     var metaDataInteractor: MetaDataInteractor?
     var projectFileInteractor: ProjectFileInteractor?
     
-    
-    func handle( _ change: Change, grouping: inout Grouping, project: inout DeskProject, page: inout Paper){
+    //should only be available when open
+    static func handlePaper(change: PaperChange, grouping: inout Grouping, project: inout DeskProject, page: inout Paper){
         switch (change){
-        
+            
         case .MovedBlock:
             FileSystemInteractor.archivePageObjectsIntoTempFolder(for: page, project: project)
             break
             
         case .AddedStroke:
-            FileSystemInteractor.archiveJotView(for: page, project: project)
+            PaperInteractor.save(paper: &page, in: &project, in: &grouping)
+//            FileSystemInteractor.archiveJotView(for: page, project: project)
             break
             
             
@@ -62,8 +66,18 @@ class FileSystemInteractor: NSObject {
             
             break
             
+        default:
+            //not found
+            //mix of overloaded parameters and cases
+            abort()
+            break
+        }
+    }
     
-        
+    //can also be reached from the fileExplorer
+    static func handleMeta( _ change: MetaChange, grouping: inout Grouping, project: inout DeskProject){
+        switch (change){
+            
      
         
         case .MovedProject(let destinationGroupingName):
@@ -99,6 +113,26 @@ class FileSystemInteractor: NSObject {
             
          
         case .RenamedProject(let newName):
+            let oldName = project.getName()
+            //first let's find out if the project in question is the opened project
+            let projectIsOpen: Bool = ProjectFileInteractor.isOpenInTemp(project: oldName)
+            //second let's find out if there is a file open with our desired Name, I'm not sure how this would happen, but it is possible
+            let newProjectNameIsTakeInTemp: Bool = ProjectFileInteractor.isOpenInTemp(project: newName)
+            
+            if(newProjectNameIsTakeInTemp){
+                abort() // nameTaken, invalid state
+            }
+            
+            if (projectIsOpen) {
+                //here we will change the name of the directory in Temp
+                ProjectFileInteractor.renameProjectDirectoryInTemp(oldName: oldName, newName: newName)
+                
+                //TODO add the capability to change the name of the project's zip while it is open, or not saved yet
+            } else {
+                //project isn't open, find it in grouping folder, and change the name of the .zip
+                ProjectFileInteractor.renameProjectZipInGroupingFolder(oldProjectName: oldName, newProjectName: newName, in: grouping.getName())
+            }
+            
             do{
                 try MetaDataInteractor.rename(project: &project, to: newName, in: &grouping)
             } catch let error {
@@ -142,9 +176,11 @@ class FileSystemInteractor: NSObject {
     }
 */
     
-    static func afterLoading(pageNo: Int, inProject: String, fromGrouping: String, run loadingCompletionBlock: (inout Grouping,inout DeskProject,inout Paper) -> ()){
+    static func afterLoading(pageNo: Int, inProject: String, fromGrouping: String, run loadingCompletionBlock: (inout Grouping,inout DeskProject,inout Paper, inout [Paper]) -> ()){
         
-        var grouping = MetaDataInteractor.getGrouping(withName: fromGrouping)
+        let fileManager = FileManager.default
+        
+        var grouping = try! MetaDataInteractor.getGrouping(withName: fromGrouping)
         let groupingProjects = grouping!.projects!
         
         var seekForProject: DeskProject?
@@ -158,16 +194,26 @@ class FileSystemInteractor: NSObject {
         //go get the zipped file of the same name as the DeskProject which will be in this Grouping's folder, load that thing in to the Temp Folder
         try! getProjectFilesFromGroupingAndThenUnzipIntoTemp(project: seekForProject!, grouping: grouping!)
         
-        //now we can look for the specified PageNo and return the unarchived Paper if we find it
+        let projectPagesDirInTemp = getProjectDirectoryInTemp(project: seekForProject!)
+        let pagesAsStrings = try! fileManager.contentsOfDirectory(atPath: projectPagesDirInTemp)
         
-        let pathToDesiredPageFolder = getPageDirectoryInTempFor(pageNo: pageNo, in: seekForProject!)
+        var pages = [Paper]()
         
-        let pathToArchivedPaperObject = pathToDesiredPageFolder + "/page.desk"
-        var data = NSKeyedUnarchiver.unarchiveObject(withFile: pathToArchivedPaperObject)
-        
-        if var paper = data as! Paper! {
-            loadingCompletionBlock(&grouping!, &seekForProject!, &paper)
+        var i: Int = 1
+        for page in pagesAsStrings {
+            
+            let pathToDesiredPageFolder = getPageDirectoryInTempFor(pageNo: i, in: seekForProject!)
+            
+            let pathToArchivedPaperObject = pathToDesiredPageFolder + "/page.desk"
+            var data = NSKeyedUnarchiver.unarchiveObject(withFile: pathToArchivedPaperObject)
+            
+            if var paper = data as! Paper! {
+                pages.append(paper)
+            }
+            i += 1
         }
+        loadingCompletionBlock(&grouping!, &seekForProject!, &pages[pageNo], &pages)
+
     }
     
     
@@ -219,8 +265,7 @@ class FileSystemInteractor: NSObject {
     
     static func archiveJotView(for page: Paper, project: DeskProject){
         let pageDirectory = getPageDirectoryInTempFor(pageNo: page.getPageNumber(), in: project)
-        JotFilesInteractor.archiveJotView(forPage: page, in: project)
-        
+        JotFilesInteractor.saveDrawing(for: page, in: project)
        // page.saveDrawing(at: pageDirectory)
         
     }
@@ -282,6 +327,33 @@ class FileSystemInteractor: NSObject {
         } catch let error {
             print(error.localizedDescription)
         }
+    }
+    
+    
+    ///this function is only concerned with the Meta Data
+    static func handleFirstProjectEdit(grouping: inout Grouping, project: inout DeskProject, page: inout Paper){
+        let change = MetaChange.CreatedProject
+        //1. add the project to the grouping
+        FileSystemInteractor.handleMeta(change, grouping: &grouping, project: &project)
+        //2. write the grouping's meta file to the Meta Folder
+        
+        //3. 
+        
+        //TODO: in this function we are going to make the temp folder and also the grouping if it hasn't been saved yet
+        
+    }
+    
+    /// only is concerned with Temp folder
+    static func handleFirstPageEdit(project: inout DeskProject, page: inout Paper){
+        getPageDirectoryInTempFor(pageNo: page.getPageNumber(), in: project)
+        
+        
+    }
+    
+    static func removeProjectFromTemp(project: DeskProject){
+        let tempFolderPath = PathLocator.getTempFolder()
+        let fileManager = FileManager.default
+        try! fileManager.removeItem(atPath: tempFolderPath + "/" + project.getName())
     }
     
 }

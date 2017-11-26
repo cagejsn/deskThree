@@ -10,17 +10,11 @@ import Foundation
 
 class JotFilesInteractor: NSObject {
     
-    // Used by saveAsView to save drawingStates
-    static func archiveJotView(forPage page: Paper, in project: DeskProject){
-        let projectName = project.getName()
-        let pageFolder = "/"+projectName+"/page"+String(page.getPageNumber())
-        page.saveDrawing(at: pageFolder)
-    }
     
     static func saveDrawing(for page: Paper, in project: DeskProject){
         let temp = PathLocator.getTempFolder()
-        let projectFolderPath = temp + "/" + project.getName()
-        let pageFolderPath = projectFolderPath + "/page" + String(page.getPageNumber())
+        let projectFolderPath = "/" + project.getName()
+        let pageFolderPath = "/page" + String(page.getPageNumber())
         
         let inkLocation   = pageFolderPath+"/ink.png"
         let stateLocation = pageFolderPath+"/state.plist"
@@ -30,10 +24,10 @@ class JotFilesInteractor: NSObject {
             return;
         }
         
-        let drawingState = page
-        page.drawingView.exportImage(to: inkLocation, andThumbnailTo: thumbLocation, andStateTo: stateLocation, andJotState: page.getDrawingState(), withThumbnailScale: 1.0, onComplete: doNothing)
-   //     jotViewStateInkPath = inkLocation
-   //     jotViewStatePlistPath = stateLocation
+        let drawingState = page.getDrawingState()
+        page.drawingView.exportImage(to: temp+projectFolderPath+inkLocation, andThumbnailTo: temp+projectFolderPath+thumbLocation, andStateTo: temp+projectFolderPath+stateLocation, andJotState: drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
+        //page.jotViewStateInkPath = inkLocation
+       // page.jotViewStatePlistPath = stateLocation
     }
  
 }
