@@ -25,8 +25,9 @@ class DeskProject: NSObject, NSCoding {
     ///update modified date to today
     func modify(){
         modified = Date()
-        
     }
+    
+    
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.name)

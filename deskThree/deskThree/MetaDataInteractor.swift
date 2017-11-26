@@ -31,29 +31,26 @@ class MetaDataInteractor: NSObject {
         try! fileManager.copyItem(atPath: currentPathOfGroupingMetaData, toPath: newPathForGroupingMetaData)
         
         try! fileManager.removeItem(atPath: currentPathOfGroupingMetaData)
-        
     }
    
     
+    //
     static func rename(project: inout DeskProject, to newName: String, in grouping: inout Grouping) throws {
         let projectName = project.getName()
         let groupingName = grouping.getName()
         var projects = grouping.getProjects()!
         let filePath = PathLocator.getMetaFolder()+"/"+groupingName+".meta"
         
+        var desiredProjectNameIsTaken: Bool = false
         for i in 0..<projects.count{
-            if (projects[i].getName() == projectName) {
-                //raise dialog asking user confirmation to overwrite
-                //throw DeskFileSystemError.ProjectWouldBeOverwritten(projectName)
-                project.rename(name: newName)
-             //   projects[i] = project
-             //   grouping.projects = projects
-                try! saveMetaData(of: grouping)
-                return
+            if (projects[i].getName() == newName) {
+                desiredProjectNameIsTaken = true
             }
         }
-        abort() //invalid state
-        //failure
+        
+        if(desiredProjectNameIsTaken){throw DeskFileSystemError.ProjectNameTakenInGrouping(newName)}
+        project.rename(name: newName)
+        try! saveMetaData(of: grouping)
     }
     
     static func remove(grouping: Grouping){
@@ -110,15 +107,22 @@ class MetaDataInteractor: NSObject {
         var projects = grouping.getProjects()!
         let filePath = PathLocator.getMetaFolder()+"/"+groupingName+".meta"
         
-        for i in 0..<projects.count{
-            if (projects[i].getName() == projectName) {
-                //raise dialog asking user confirmation to overwrite
-                projects[i] = project
-                grouping.projects = projects
-                try! saveMetaData(of: grouping)
-                return
+        var projectNameIsTaken = true
+        var attemptsToRename: Int = 0
+        while(projectNameIsTaken){
+            var i = 0
+            while (i < projects.count){
+                if (projects[i].getName() == project.getName()) {
+                    attemptsToRename += 1
+                    project.rename(name: projectName+"("+String(attemptsToRename)+")")
+                    i = 0
+                    continue
+                }
+                i += 1
             }
+            projectNameIsTaken = false
         }
+        
         projects.append(project)
         grouping.projects = projects
         try? saveMetaData(of: grouping)

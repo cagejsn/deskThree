@@ -51,6 +51,11 @@ class FileExplorerCollectionViewCell: UICollectionViewCell{
         
     }
     
+    func readInData( projectName: String){
+        self.dueDateView?.text = projectName
+        
+    }
+    
     
     func stylizeNewIconView(){
         newIconView.backgroundColor = UIColor.clear

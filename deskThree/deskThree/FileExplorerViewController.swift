@@ -10,7 +10,7 @@ import Foundation
 import Zip
 
 protocol FileExplorerViewControllerDelegate: NSObjectProtocol {
-    func didSelectProject(projectName: String)
+    func didSelectProject(grouping: Grouping, project: DeskProject)
     func dismissFileExplorer()
 }
 
@@ -30,7 +30,9 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet var tableView: GroupingTableView!
     @IBOutlet var collectionView: FileExplorerCollectionView!
     weak var delegate: FileExplorerViewControllerDelegate!
-    var metaDataFromDisk: [DeskProject]!
+    var groupings: [Grouping]!
+    
+    var selectedGrouping: Grouping! = nil
     
     fileprivate var itemsPerRow: CGFloat = 4
 
@@ -39,7 +41,9 @@ class FileExplorerViewController: UIViewController, UITableViewDelegate, UITable
         tableView.dataSource = self
         collectionView.delegate = self
         collectionView.dataSource = self
-        metaDataFromDisk = PathLocator.loadMetaData()
+        
+        groupings = FileSystemInteractor.getMetaData()
+        
         collectionView.register(UINib(nibName: "FileExplorerCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: reuseIdentifier)
         
         //function pointer is passed
@@ -98,26 +102,34 @@ extension FileExplorerViewController {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = GroupingTableViewCell(frame: CGRect(x:0,y:0,width:200,height:tableViewCellHeight), text: metaDataFromDisk[indexPath.row].name , color: UIColor(colorLiteralRed: Float(drand48()), green: Float(drand48()), blue: Float(drand48()), alpha: 1.0).cgColor)
+        var groupingForCell = groupings[indexPath.row]
+        let cell = GroupingTableViewCell(frame: CGRect(x:0,y:0,width:200,height:tableViewCellHeight), text: groupingForCell.getName() , color: groupingForCell.getColor().cgColor)
         return cell
         
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return metaDataFromDisk.count
+        return groupings.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let name = metaDataFromDisk[indexPath.row].name
-        delegate.didSelectProject(projectName: name!)
+        selectedGrouping = groupings[indexPath.row]
+        collectionView.reloadData()
     }
 }
 
 // MARK: Collection View Methods
 extension FileExplorerViewController {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let projects = selectedGrouping.projects!
+        delegate.didSelectProject(grouping: selectedGrouping, project: projects[indexPath.row])
+        
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        let count = ( selectedGrouping == nil ) ? 0 : selectedGrouping.projects?.count
+        return count!
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -125,7 +137,13 @@ extension FileExplorerViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+       
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,                                                      for: indexPath)
+        
+        if let fecve = cell as? FileExplorerCollectionViewCell {
+            fecve.readInData(projectName: selectedGrouping.projects![indexPath.row].getName())
+        }
         return cell
     }
 }

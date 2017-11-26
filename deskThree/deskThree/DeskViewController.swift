@@ -284,9 +284,35 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 //        workViewPresenter.undoTapped()
     }
     
+    var tempStorageForOldProjectNameTextField: String?
+    
     /// called when the project name textField returns
+    @IBAction func editingDidBeginInProjectNameField(_ sender: Any) {
+        tempStorageForOldProjectNameTextField = projectNameTextField.text!
+    }
     @IBAction func projectNameChanged(_ sender: Any) {
-        workViewPresenter.renameProject(projectNameTextField.text!)
+        if(tempStorageForOldProjectNameTextField == projectNameTextField.text!){return}
+        
+        
+        //TODO: what if someone changes the name of a project before it is ever written to disk
+        do{
+            try workViewPresenter.renameProject(projectNameTextField.text!)
+        } catch DeskFileSystemError.ProjectNameTakenInGrouping(let desiredName) {
+            
+            let refreshAlert = UIAlertController(title: "Project Name Taken", message: "the rename operation failed.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            }))
+            
+            UIApplication.shared.keyWindow?.rootViewController?.present(refreshAlert, animated: true, completion: nil)
+            
+            projectNameTextField.text = tempStorageForOldProjectNameTextField
+            tempStorageForOldProjectNameTextField = nil
+        } catch let e {
+            print(e.localizedDescription)
+        }
+        
+        
     }
     
     
@@ -318,14 +344,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.dismiss(animated: false, completion: nil)
     }
     
-    func didSelectProject(projectName: String){
+    func didSelectProject(grouping: Grouping, project: DeskProject){
         #if !DEBUG
             mixpanel.track(event: "Project Selected")
         #endif
         //TODO: fix this
 //        workView.loadProject(projectName: projectName)
         dismissFileExplorer()
-//        projectNameTextField.text = workView.getDeskProject().name
+        workViewPresenter.openProject(project: project, grouping: grouping)
+        projectNameTextField.text = project.getName()
         //updatePageNumberLabel()
     }
 

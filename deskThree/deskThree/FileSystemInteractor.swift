@@ -75,7 +75,7 @@ class FileSystemInteractor: NSObject {
     }
     
     //can also be reached from the fileExplorer
-    static func handleMeta( _ change: MetaChange, grouping: inout Grouping, project: inout DeskProject){
+    static func handleMeta( _ change: MetaChange, grouping: inout Grouping, project: inout DeskProject) throws {
         switch (change){
             
      
@@ -119,10 +119,18 @@ class FileSystemInteractor: NSObject {
             //second let's find out if there is a file open with our desired Name, I'm not sure how this would happen, but it is possible
             let newProjectNameIsTakeInTemp: Bool = ProjectFileInteractor.isOpenInTemp(project: newName)
             
+            do{
+                try MetaDataInteractor.rename(project: &project, to: newName, in: &grouping)
+            } catch let error {
+                throw error
+            }
+            
+            
             if(newProjectNameIsTakeInTemp){
                 abort() // nameTaken, invalid state
             }
             
+            //TODO: Fix this project open vs. zipped rename
             if (projectIsOpen) {
                 //here we will change the name of the directory in Temp
                 ProjectFileInteractor.renameProjectDirectoryInTemp(oldName: oldName, newName: newName)
@@ -132,13 +140,8 @@ class FileSystemInteractor: NSObject {
                 //project isn't open, find it in grouping folder, and change the name of the .zip
                 ProjectFileInteractor.renameProjectZipInGroupingFolder(oldProjectName: oldName, newProjectName: newName, in: grouping.getName())
             }
-            
-            do{
-                try MetaDataInteractor.rename(project: &project, to: newName, in: &grouping)
-            } catch let error {
-                print(error.localizedDescription)
-            }
             break
+            
             
         case .DeletedGrouping:
             MetaDataInteractor.remove(grouping: grouping)
@@ -194,6 +197,7 @@ class FileSystemInteractor: NSObject {
         //go get the zipped file of the same name as the DeskProject which will be in this Grouping's folder, load that thing in to the Temp Folder
         try! getProjectFilesFromGroupingAndThenUnzipIntoTemp(project: seekForProject!, grouping: grouping!)
         
+        
         let projectPagesDirInTemp = getProjectDirectoryInTemp(project: seekForProject!)
         let pagesAsStrings = try! fileManager.contentsOfDirectory(atPath: projectPagesDirInTemp)
         
@@ -212,7 +216,7 @@ class FileSystemInteractor: NSObject {
             }
             i += 1
         }
-        loadingCompletionBlock(&grouping!, &seekForProject!, &pages[pageNo], &pages)
+        loadingCompletionBlock(&grouping!, &seekForProject!, &pages[pageNo - 1], &pages)
 
     }
     
@@ -334,7 +338,7 @@ class FileSystemInteractor: NSObject {
     static func handleFirstProjectEdit(grouping: inout Grouping, project: inout DeskProject, page: inout Paper){
         let change = MetaChange.CreatedProject
         //1. add the project to the grouping
-        FileSystemInteractor.handleMeta(change, grouping: &grouping, project: &project)
+        try! FileSystemInteractor.handleMeta(change, grouping: &grouping, project: &project)
         //2. write the grouping's meta file to the Meta Folder
         
         //3. 
@@ -354,6 +358,27 @@ class FileSystemInteractor: NSObject {
         let tempFolderPath = PathLocator.getTempFolder()
         let fileManager = FileManager.default
         try! fileManager.removeItem(atPath: tempFolderPath + "/" + project.getName())
+    }
+    
+    static func emptyTempByZippingOpenProjects(into grouping: inout Grouping){
+        let tempFolderPath = PathLocator.getTempFolder()
+        let fileManager = FileManager.default
+        let namesOfProjects = try! fileManager.contentsOfDirectory(atPath: tempFolderPath)
+        
+        
+        //TODO: fix the bug where someone kills Desk with a project open, and that project hasn't been written to zip
+        // upon re-open, Desk takes all the temp folders and zips them, storing them in the default grouping, if it encounters a folder with the same name as a project in the Grouping it appends the (#) to the folder name and creates a project with that new name
+        for name in namesOfProjects {
+            var project = DeskProject(name: name)
+            let change = MetaChange.CreatedProject
+            try! handleMeta(change, grouping: &grouping, project: &project)
+            if (name != project.getName()){
+                try! fileManager.moveItem(atPath: tempFolderPath + "/" + name, toPath: tempFolderPath + "/" + project.getName())
+            }
+            try! zipProjectFromTempFolderAndPlaceInGroupingFolder(project: project, grouping: grouping)
+            removeProjectFromTemp(project: project)
+        }
+        
     }
     
 }

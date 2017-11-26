@@ -13,6 +13,7 @@ class Grouping: NSObject, NSCoding {
     
     var name: String?
     var projects: [DeskProject]?
+    var color: UIColor = UIColor.gray
     
     ///change name of grouping
     func rename(name: String){
@@ -31,16 +32,27 @@ class Grouping: NSObject, NSCoding {
         self.projects!.append(project)
     }
     
+    func setColor(color:UIColor){
+        self.color = color
+    }
+    
+    func getColor() -> UIColor {
+        return self.color
+    }
+    
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.name)
         aCoder.encode(self.projects)
+        aCoder.encode(self.color)
     }
+    
     
     required init?(coder aDecoder: NSCoder) {
         super.init()
         // Initialize the first page & set it as the current page
         let loadedName = aDecoder.decodeObject() as! String
         let loadedProjects = aDecoder.decodeObject() as? [DeskProject]
+        let loadedColor = aDecoder.decodeObject() as? UIColor
         self.name = loadedName
         self.projects = loadedProjects
     }
@@ -48,5 +60,6 @@ class Grouping: NSObject, NSCoding {
     init(name: String = "default"){
         self.name = name
         self.projects = [DeskProject]()
+//        self.color = UIColor.gray
     }
 }

@@ -97,10 +97,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             self.cornerPageLabel.alpha = 1.0
         }
     }
-    
-    
-  
-    
+       
     // MARK - JotViewDelegate functions
     // pragma mark - JotViewDelagate and other JotView stuff
     func changePenSize(to: CGFloat) {
@@ -478,7 +475,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         UIGraphicsEndPDFContext()
  */
         return true
- 
     }
     
     func prepareForAnIncomingPage(){
@@ -495,7 +491,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func acceptAndConfigure(page: inout Paper){
-        page.setBackground(to: selectedPaperType)
         page.delegate = self
         self.addSubview(page)
         self.sendSubview(toBack: page)
@@ -516,5 +511,4 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
-    
 }

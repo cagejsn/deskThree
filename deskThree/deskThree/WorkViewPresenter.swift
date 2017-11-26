@@ -41,8 +41,6 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
         
     }
     
-    
-    
     //TODO: implement
     /**
      Move to a page to the right
@@ -78,6 +76,11 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
       //  currentPage.subviewDrawingView()
         //        configurePage(page: &currentPage)
         
+       updatePageLabels()
+        
+    }
+    
+    func updatePageLabels(){
         let currentPageNo = currentPage.getPageNumber()
         let totalPageNo = pages.count
         workView.updatePageNotification(onPage: currentPageNo, ofTotalPages: totalPageNo)
@@ -115,27 +118,22 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
     // 1. the pages object has been loaded from disk
     // 2. the Project is in
     func loadExistingPageAt(pageNo: Int){
-
         currentPage = pages[pageNo - 1]!
         currentPage.isHidden = false
         makePathsForJVSPD_Duties()
         currentPage.setupDrawingView(withStateDelegate: self)
         workView.acceptAndConfigure(page: &currentPage)
-        
     }
     
-    func renameProject(_ newName: String){
-        
-        if(!projectIsEdited){handleFirstProjectEdit(); projectIsEdited = true}
-        //crazy corner case is that the project's name is changed before the project is used in any way?
-        
-        //TODO ^ should be handled in the above function
-        
-        
+    func renameProject(_ newName: String) throws {
+        if(!projectIsEdited){currentProject.rename(name: newName);return}
         if(newName == currentProject.getName()){return}
-    
         let change = MetaChange.RenamedProject(newName: newName)
-        FileSystemInteractor.handleMeta(change, grouping: &currentGrouping, project: &currentProject)
+        do {
+         try FileSystemInteractor.handleMeta(change, grouping: &currentGrouping, project: &currentProject)
+        } catch let error {
+            throw error
+        }
     }
     
     func addImageToCurrentPageInWorkView(_ image: UIImage){
@@ -145,7 +143,6 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
         let change = PaperChange.AddedImage
         FileSystemInteractor.handlePaper(change: change, grouping: &currentGrouping, project: &currentProject, page: &currentPage)
     }
-
     
     func strokeWasAdded(_ change: PaperChange){
         if(!projectIsEdited){handleFirstProjectEdit(); projectIsEdited = true}
@@ -172,6 +169,8 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
         super.init()
         self.currentPage = Paper(pageNo: 1, workViewPresenter: self )
         self.pages.append(currentPage)
+        
+        FileSystemInteractor.emptyTempByZippingOpenProjects(into: &currentGrouping)
     }
     
     func handleFirstProjectEdit(){
@@ -211,6 +210,7 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
         pageIsEdited = true
         
         loadExistingPageAt(pageNo: toPage)
+        updatePageLabels()
     }
     
     func makePathsForJVSPD_Duties(){
@@ -238,10 +238,9 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
         closeProject()
         self.currentProject = MetaDataInteractor.makeNewProjectOfFirstAvailableName(in: &currentGrouping)
         currentPage = Paper(pageNo: 1, workViewPresenter: self)
+        currentPage.setBackground(to: selectedPaperType)
         workView.acceptAndConfigure(page: &currentPage)
-        
     }
-    
     
     func freeInactivePages() {
         for i in 0..<pages.count {
