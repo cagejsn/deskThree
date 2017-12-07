@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="XjI-uh-0Jz" customClass="NewCollectionViewCell" customModule="deskThree" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="402" height="402"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="97e-5n-aqq">
+                    <rect key="frame" x="0.0" y="0.0" width="402" height="402"/>
+                    <accessibility key="accessibilityConfiguration">
+                        <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                    </accessibility>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="97e-5n-aqq" secondAttribute="height" multiplier="1:1" id="Bzh-Ky-K6R"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1m5-xl-z74" customClass="ILTranslucentView">
+                    <rect key="frame" x="0.0" y="321.5" width="402" height="80.5"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Project" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Po5-UE-R2G" customClass="ProjectNameLabel" customModule="deskThree" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="402" height="81"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Po5-UE-R2G" secondAttribute="bottom" id="3Mk-aV-F0O"/>
+                        <constraint firstItem="Po5-UE-R2G" firstAttribute="leading" secondItem="1m5-xl-z74" secondAttribute="leading" id="55T-0S-VVX"/>
+                        <constraint firstAttribute="width" secondItem="1m5-xl-z74" secondAttribute="height" multiplier="5:1" id="Zvd-fN-0Kh"/>
+                        <constraint firstItem="Po5-UE-R2G" firstAttribute="top" secondItem="1m5-xl-z74" secondAttribute="top" id="kXo-UR-JTG"/>
+                        <constraint firstAttribute="trailing" secondItem="Po5-UE-R2G" secondAttribute="trailing" id="n41-NH-wUr"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FVg-96-4gl">
+                    <rect key="frame" x="0.0" y="0.0" width="402" height="321.5"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="1m5-xl-z74" secondAttribute="trailing" id="28F-bH-Uxy"/>
+                <constraint firstItem="FVg-96-4gl" firstAttribute="top" secondItem="XjI-uh-0Jz" secondAttribute="top" id="Pbk-jV-PdG"/>
+                <constraint firstAttribute="trailing" secondItem="FVg-96-4gl" secondAttribute="trailing" id="RlW-B9-tUT"/>
+                <constraint firstAttribute="bottom" secondItem="97e-5n-aqq" secondAttribute="bottom" id="TDQ-EG-1In"/>
+                <constraint firstAttribute="trailing" secondItem="97e-5n-aqq" secondAttribute="trailing" id="Uec-6d-g2f"/>
+                <constraint firstItem="1m5-xl-z74" firstAttribute="leading" secondItem="XjI-uh-0Jz" secondAttribute="leading" id="ajV-oW-fyl"/>
+                <constraint firstItem="1m5-xl-z74" firstAttribute="top" secondItem="FVg-96-4gl" secondAttribute="bottom" id="cIF-bu-ejv"/>
+                <constraint firstItem="97e-5n-aqq" firstAttribute="top" secondItem="XjI-uh-0Jz" secondAttribute="top" id="ekQ-RC-C7O"/>
+                <constraint firstItem="97e-5n-aqq" firstAttribute="leading" secondItem="XjI-uh-0Jz" secondAttribute="leading" id="fQD-ss-zOe"/>
+                <constraint firstAttribute="bottom" secondItem="1m5-xl-z74" secondAttribute="bottom" id="iru-HT-xJj"/>
+                <constraint firstItem="FVg-96-4gl" firstAttribute="leading" secondItem="XjI-uh-0Jz" secondAttribute="leading" id="xuU-WI-HNg"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="marchingAntsOnBorderView" destination="FVg-96-4gl" id="CyX-C2-e9K"/>
+                <outlet property="translucentView" destination="1m5-xl-z74" id="L6R-Y2-ubY"/>
+            </connections>
+            <point key="canvasLocation" x="50" y="3"/>
+        </view>
+    </objects>
+</document>

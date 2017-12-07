@@ -19,7 +19,8 @@ class FileExplorerViewController: UIViewController, GroupingSelectedListener, Pr
   
     let tableViewCellHeight: CGFloat = 80
     
-    fileprivate let reuseIdentifier = "DeskCell"
+    static public let reuseIdentifier = "DeskCell"
+    static public let reuseIdentifier2 = "NewCell"
     fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
     
     @IBOutlet var fileExplorerHeaderView: FileExplorerHeaderView!
@@ -42,7 +43,9 @@ class FileExplorerViewController: UIViewController, GroupingSelectedListener, Pr
         tableView.dataSource = groupingsDataSource
         collectionView.delegate = projectsDataSource
         collectionView.dataSource = projectsDataSource
-        collectionView.register(UINib(nibName: "FileExplorerCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(UINib(nibName: "FileExplorerCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: FileExplorerViewController.reuseIdentifier)
+        collectionView.register(UINib(nibName: "NewCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: FileExplorerViewController.reuseIdentifier2)
+        
         collectionView.delaysContentTouches = false
         //function pointer is passed
         fileExplorerHeaderView.passCancel = { [weak self] in self?.cancelButtonTapped()}
@@ -158,7 +161,7 @@ extension FileExplorerViewController {
         
         var string = projectCell.project.getName()
         var url = ProjectFileInteractor.getURLofZippedProjectFolder(in: projectsDataSource.selectedGrouping, project: projectCell.project)
-        let email = ShareSummary(title: string, data: url.dataRepresentation)
+        let email = ShareSummary(title: string, url: url)
         
         var vc = UIActivityViewController(activityItems: [email], applicationActivities: nil )
         vc.popoverPresentationController?.sourceView = projectCell.projectOptionsMenu
@@ -174,19 +177,19 @@ extension FileExplorerViewController {
 
 class ShareSummary: NSObject, UIActivityItemSource {
     var title: String
-    var data: Data
+    var url: URL
     
     func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
-        return Data()
+        return URL(fileURLWithPath: "")
     }
     
     func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivityType) -> Any? {
-        return data
+        return url
     }
     
-    init(title: String , data: Data){
+    init(title: String , url: URL){
         self.title = title
-        self.data = data
+        self.url = url
     }
     
     

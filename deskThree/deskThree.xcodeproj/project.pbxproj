@@ -58,6 +58,8 @@
 		DA233AA81FD4C2560099FC74 /* ProjectNameLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233AA71FD4C2560099FC74 /* ProjectNameLabel.swift */; };
 		DA233AAA1FD4C2750099FC74 /* LastModifiedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233AA91FD4C2750099FC74 /* LastModifiedLabel.swift */; };
 		DA233AAD1FD505FF0099FC74 /* ProjectOptionsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233AAC1FD505FF0099FC74 /* ProjectOptionsMenu.swift */; };
+		DA233AAF1FD8FC0E0099FC74 /* NewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233AAE1FD8FC0E0099FC74 /* NewCollectionViewCell.swift */; };
+		DA233AB11FD8FC300099FC74 /* NewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA233AB01FD8FC300099FC74 /* NewCollectionViewCell.xib */; };
 		DA2841081EAFBBD00085112E /* SlideMenuControllerSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; };
 		DA2841091EAFBBD70085112E /* SlideMenuControllerSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA28410B1EAFC5590085112E /* HamburgerMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */; };
@@ -285,6 +287,8 @@
 		DA233AA71FD4C2560099FC74 /* ProjectNameLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNameLabel.swift; sourceTree = "<group>"; };
 		DA233AA91FD4C2750099FC74 /* LastModifiedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastModifiedLabel.swift; sourceTree = "<group>"; };
 		DA233AAC1FD505FF0099FC74 /* ProjectOptionsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOptionsMenu.swift; sourceTree = "<group>"; };
+		DA233AAE1FD8FC0E0099FC74 /* NewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCollectionViewCell.swift; sourceTree = "<group>"; };
+		DA233AB01FD8FC300099FC74 /* NewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewCollectionViewCell.xib; sourceTree = "<group>"; };
 		DA2841051EAFBB270085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
 		DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
 		DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HamburgerMenuViewController.xib; sourceTree = "<group>"; };
@@ -459,6 +463,8 @@
 				DA233AA91FD4C2750099FC74 /* LastModifiedLabel.swift */,
 				DA233AA31FD4C1350099FC74 /* ProjectOptionsButton.swift */,
 				DA233AAC1FD505FF0099FC74 /* ProjectOptionsMenu.swift */,
+				DA233AAE1FD8FC0E0099FC74 /* NewCollectionViewCell.swift */,
+				DA233AB01FD8FC300099FC74 /* NewCollectionViewCell.xib */,
 			);
 			name = CollectionViewCell;
 			sourceTree = "<group>";
@@ -886,6 +892,7 @@
 				311C3AC01E99650700F61CE4 /* Assets.xcassets in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
+				DA233AB11FD8FC300099FC74 /* NewCollectionViewCell.xib in Resources */,
 				DA28412B1EB25EED0085112E /* AllPad.xib in Resources */,
 				311C3ABE1E9964F500F61CE4 /* SaveAsView.xib in Resources */,
 				311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */,
@@ -1026,6 +1033,7 @@
 				526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */,
 				DA233AAA1FD4C2750099FC74 /* LastModifiedLabel.swift in Sources */,
 				DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */,
+				DA233AAF1FD8FC0E0099FC74 /* NewCollectionViewCell.swift in Sources */,
 				DA233A9A1FD4BB8B0099FC74 /* AddGroupingsButton.swift in Sources */,
 				DA04E4081FC0B3F900900588 /* MetaDataInteractor.swift in Sources */,
 				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,

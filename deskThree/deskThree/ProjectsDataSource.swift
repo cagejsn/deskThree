@@ -24,7 +24,7 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
     fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
 
     
-    fileprivate let reuseIdentifier = "DeskCell"
+    
     var projectInteractionListener: ProjectInteractionListener
     var selectedGrouping: Grouping!
     
@@ -45,7 +45,7 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = ( selectedGrouping == nil ) ? 0 : selectedGrouping.projects?.count
-        return count!
+        return count! + 1
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -54,8 +54,15 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        var newProjectSpot: Int = 0
+        if selectedGrouping != nil { newProjectSpot = (selectedGrouping?.projects?.count)! }
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,                                                      for: indexPath)
+        if(indexPath.row == newProjectSpot){
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FileExplorerViewController.reuseIdentifier2, for: indexPath)
+            return cell
+        }
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FileExplorerViewController.reuseIdentifier,                                                      for: indexPath)
         
         if let fecve = cell as? FileExplorerCollectionViewCell {
             print(fecve.isUserInteractionEnabled)
