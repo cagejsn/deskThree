@@ -174,6 +174,24 @@ class MetaDataInteractor: NSObject {
         return grouping
     }
     
+    static func getSharedWithMeGrouping() -> Grouping{
+        var defaultGrouping: String = "shared"
+        
+        var grouping: Grouping
+        do {
+            //grouping already exists
+            grouping = try getGrouping(withName: defaultGrouping) as! Grouping!
+        } catch let e {
+            print(e.localizedDescription)
+            grouping = Grouping(name: "shared")
+        }
+        
+        //set the user defaults defaultGrouping Name
+        //        UserDefaults.setDefaultGrouping
+        
+        return grouping
+    }
+    
     static func makeNewProjectOfFirstAvailableName(in grouping: inout Grouping) -> DeskProject {
         
         let projectsInGrouping = grouping.projects!

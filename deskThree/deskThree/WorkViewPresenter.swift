@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
+class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggleControlDelegate {
     
     var jotViewStateInkPath: String!
     var jotViewStatePlistPath: String!
@@ -39,6 +39,10 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
     
     func didUnloadState(_ state: JotViewStateProxy!) {
         
+    }
+    
+    func switchTo(_ selected: SelectedWritingInstrument){
+        workView.userSelected(writingInstrument: selected)
     }
     
     //TODO: implement
@@ -238,9 +242,16 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate {
         closeProject()
         self.currentProject = MetaDataInteractor.makeNewProjectOfFirstAvailableName(in: &currentGrouping)
         currentPage = Paper(pageNo: 1, workViewPresenter: self)
+        replacePagesWithEmptyArray()
+        pages.append(currentPage)
         currentPage.setBackground(to: selectedPaperType)
         workView.acceptAndConfigure(page: &currentPage)
     }
+    
+    func replacePagesWithEmptyArray(){
+        pages.removeAll()
+    }
+    
     
     func freeInactivePages() {
         for i in 0..<pages.count {

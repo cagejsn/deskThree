@@ -16,7 +16,7 @@ import Mixpanel
 #endif
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, FileExplorerViewControllerDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate, MathViewContainerDelegate, PencilEraserToggleControlDelegate{
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, FileExplorerViewControllerDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate, MathViewContainerDelegate {
 
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
@@ -85,11 +85,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     //MARK: Setup functions for the various components
     func setupWorkView(){
-        
         workViewPresenter = WorkViewPresenter()
         workViewPresenter.updateDVCPageLabelHandler = self.recievePageNumberLabelUpdate(onPage:ofTotalPages:)
         workView = WorkView(workViewPresenter)
-        
         if(toolDrawer != nil){
             toolDrawer.delegate = workView
         }
@@ -101,7 +99,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.insertSubview(workView, at: 0)
         workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
         workViewPresenter.loadNewProject()
-        //workViewPresenter.currentPage.subviewDrawingView()
     }
     
     func setupGKPicker(){
@@ -137,17 +134,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         mathViewContainer.setupConstraints()
     }
     
-    func adjustMathViewContainerConstraints(){
-        
-    }
-    
     func setupTrash(){
         trashBin = Trash()
         self.view.addSubview(trashBin)
         trashBin.setupTrash(lowerView: mathViewContainer)
         trashBin.hide()
     }
-
     
     func getItemForMathViewRightConstraint() -> UIView {
         return self.toolDrawer
@@ -156,44 +148,9 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func setupPencilEraserToggleControl(){
         pencilEraserToggleControl = PencilEraserToggleControl(frame: CGRect(x: 20, y: 70, width: 140, height: 40))
         self.view.addSubview(pencilEraserToggleControl)
-        pencilEraserToggleControl.delegate = self
+        pencilEraserToggleControl.delegate = workViewPresenter
     }
 
-    func switchTo(_ selected: SelectedWritingInstrument){
-        workView.userSelected(writingInstrument: selected)
-    }
-    
-   
-    
-    /*
-     ///this function will present a MAWMathView to the User
-     func toggleMathViewContainer(_ sender: MathViewContainer) {
-     if(sender.drawerPosition == .closed){
-     #if !DEBUG
-     mixpanel.track(event: "Button: MyScript Box: Export")
-     #endif
-     self.view.addSubview(mathView)
-     setupMathViewConstraints()
-     } else {
-     #if !DEBUG
-     mixpanel.track(event: "Button: MyScript Box: Clear")
-     #endif
-     mathView.clear(true)
-     mathView.removeFromSuperview()
-     }
-     }
-     
-     func setupMathViewConstraints(){
-     mathView.translatesAutoresizingMaskIntoConstraints = false
-     let leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
-     let rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
-     let bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -75)
-     let heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 300)
-     myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
-     self.view.addConstraints(myScriptConstraints)
-     }
-     */
-    
     //MARK: Data flow functions
     func sendingToInputObject(for element: Any){
         if let mathElement = element as? MathBlock {
@@ -215,13 +172,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         return true
     }
-
-    // func NEVER CALLED
-//    @available(iOS 10.0, *)
-//    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-//        let newProjectName = textField.text
-//        SaveAsView.renameProject(name: newProjectName!, workViewRef: workView)
-//    }
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
@@ -499,5 +449,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
+    
     
 }

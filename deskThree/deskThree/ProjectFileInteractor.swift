@@ -39,8 +39,8 @@ class ProjectFileInteractor: NSObject {
     static func renameProjectZipInGroupingFolder(oldProjectName: String, newProjectName: String, in groupingName: String) {
         let fileManager = FileManager.default
         let pathToGroupingProjects = PathLocator.getProjectsFolderFor(groupingName: groupingName)
-        let proposedNewPathToProject = pathToGroupingProjects + "/" + newProjectName + ".zip"
-        let pathToSpecificProject = pathToGroupingProjects + "/" + oldProjectName + ".zip"
+        let proposedNewPathToProject = pathToGroupingProjects + "/" + newProjectName + ".edf"
+        let pathToSpecificProject = pathToGroupingProjects + "/" + oldProjectName + ".edf"
         if(!fileManager.fileExists(atPath: pathToSpecificProject)){
             abort() //invalid state
         }
@@ -68,6 +68,17 @@ class ProjectFileInteractor: NSObject {
         return proposedProjectFolderPathInTemp
     }
     
-    
+    static func getURLofZippedProjectFolder(in grouping: Grouping, project: DeskProject) -> URL {
+        let fileManager = FileManager.default
+        let projectsFolderPath = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
+        let proposedProjectFilePath = projectsFolderPath + "/" + project.getName() + ".edf"
+        
+        if(!fileManager.fileExists(atPath: proposedProjectFilePath)){
+            abort()
+        }
+        
+        return URL(fileURLWithPath: proposedProjectFilePath)
+        
+    }
     
 }

@@ -195,8 +195,11 @@ class FileSystemInteractor: NSObject {
         }
         
         //go get the zipped file of the same name as the DeskProject which will be in this Grouping's folder, load that thing in to the Temp Folder
-        try! getProjectFilesFromGroupingAndThenUnzipIntoTemp(project: seekForProject!, grouping: grouping!)
-        
+        do {
+        try getProjectFilesFromGroupingAndThenUnzipIntoTemp(project: seekForProject!, grouping: grouping!)
+        } catch let e {
+            print( e.localizedDescription )
+        }
         
         let projectPagesDirInTemp = getProjectDirectoryInTemp(project: seekForProject!)
         let pagesAsStrings = try! fileManager.contentsOfDirectory(atPath: projectPagesDirInTemp)
@@ -208,6 +211,7 @@ class FileSystemInteractor: NSObject {
             
             let pathToDesiredPageFolder = getPageDirectoryInTempFor(pageNo: i, in: seekForProject!)
             
+            //TODO: bug when there is no page.desk
             let pathToArchivedPaperObject = pathToDesiredPageFolder + "/page.desk"
             var data = NSKeyedUnarchiver.unarchiveObject(withFile: pathToArchivedPaperObject)
             
@@ -296,7 +300,7 @@ class FileSystemInteractor: NSObject {
         // now we know that there are two DIRECTORIES, one is the project Folder in TEMP
         // which we will zip and the other is the Grouping's Folder where the zipped projects live
         
-        let zipFilePath =  URL(fileURLWithPath: groupingFolder).appendingPathComponent(project.getName()+".zip")
+        let zipFilePath =  URL(fileURLWithPath: groupingFolder).appendingPathComponent(project.getName()+".edf")
       
         try! Zip.zipFiles(paths: [URL(fileURLWithPath:projectFolderPathInTemp)], zipFilePath: zipFilePath, password: nil, progress: nil)
         
@@ -312,7 +316,7 @@ class FileSystemInteractor: NSObject {
         var isDirectoryBool: ObjCBool = ObjCBool(false)
         
         let groupingFolder = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
-        let projectFilePath = groupingFolder + "/" + project.getName() + ".zip"
+        let projectFilePath = groupingFolder + "/" + project.getName() + ".edf"
         
         if(!fileManager.fileExists(atPath: groupingFolder, isDirectory: &isDirectoryBool)){
             throw DeskFileSystemError.NeededDirectoryIsMissing

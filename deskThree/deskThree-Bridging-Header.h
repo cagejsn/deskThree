@@ -11,3 +11,4 @@
 #import <ATKMathWidget/MAWMathWidget.h>
 #import "MyCertificate.h"
 #import "DWBubbleMenuButton.h"
+#import "ILTranslucentView.h"

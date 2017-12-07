@@ -8,85 +8,122 @@
 
 import Foundation
 
-class FileExplorerCollectionViewCell: UICollectionViewCell{
+protocol FECVEDelegate {
+    func renameTappedForCell(_ cell: FileExplorerCollectionViewCell)
+    func onMoveTapped(_ cell: FileExplorerCollectionViewCell)
+    func onDeleteTapped(_ cell: FileExplorerCollectionViewCell)
+    func onShareTapped(_ cell: FileExplorerCollectionViewCell)
+}
+
+class FileExplorerCollectionViewCell: UICollectionViewCell, ProjectOptionsMenuDelegate{
     
-    @IBOutlet  fileprivate var fileImage: UIImageView?
-    @IBOutlet   fileprivate var fileName: UILabel!
-    @IBOutlet  fileprivate var newIconView: UIView!
-    @IBOutlet  fileprivate var gradeLabel: UILabel!
-    @IBOutlet   fileprivate var dueDateView: UILabel?
+    var project: DeskProject!
     
-    @IBOutlet var infoContainerView: UIView!
+    @IBOutlet  fileprivate var fileThumbnail: UIImageView?
+    
+    @IBOutlet var projectNameLabel: UILabel!
+    
+    @IBOutlet var lastModifiedLabel: UILabel!
+    
+    @IBOutlet var projectOptionsButton: ProjectOptionsButton!
+    
+    @IBOutlet var fauxToolbarView: ILTranslucentView!
+    
+    @IBOutlet var projectOptionsMenu: ProjectOptionsMenu!
+    
+    var delegate: FECVEDelegate!
+    
+    var projectOptionsVisible: Bool = false
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-     
         
+    
         
         
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        fileThumbnail?.image = #imageLiteral(resourceName: "deskLogo")
+        fileThumbnail?.contentMode = .scaleAspectFill
         
-        self.backgroundColor = UIColor.clear
-        fileImage?.image = #imageLiteral(resourceName: "docsIcon")
-        fileImage?.contentMode = .scaleAspectFit
+        self.backgroundColor = FileExplorerColors.LightGrey
         
-        dueDateView?.backgroundColor = UIColor.clear
-        dueDateView?.text = "09/10/18"
-        dueDateView?.textColor = UIColor.white
+        fauxToolbarView.translucentAlpha = 0.8;
+        fauxToolbarView.translucentStyle = .default
+        fauxToolbarView.translucentTintColor = DeskColors.DeskBlueBarColor
+        fauxToolbarView.backgroundColor = UIColor.clear
         
-        
-        //newIconView.backgroundColor = UIColor.lightGray
-       // newIconView?.layer.cornerRadius = newIconView/2
-        stylizeNewIconView()
-        
-        //info container view
-        infoContainerView.layer.backgroundColor = UIColor.darkGray.cgColor
-        infoContainerView.alpha = 0.4
-        infoContainerView.layer.cornerRadius = infoContainerView.frame.height / 6
-        
-        
-        
+        projectOptionsMenu.delegate = self
         
     }
     
-    func readInData( projectName: String){
-        self.dueDateView?.text = projectName
-        
+    func readInData( project: DeskProject){
+        self.project = project
+        projectNameLabel.text = project.getName()
+        lastModifiedLabel.text = project.getName()
     }
     
     
     func stylizeNewIconView(){
-        newIconView.backgroundColor = UIColor.clear
-        let margins = newIconView.layoutMarginsGuide
-        var newIcon = UIView()
-        newIcon.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        newIcon.backgroundColor = UIColor.cyan
-        newIconView.addSubview(newIcon)
-        newIcon.translatesAutoresizingMaskIntoConstraints = false
-        newIcon.centerXAnchor.constraint(equalTo: margins.centerXAnchor).isActive = true
-        newIcon.centerYAnchor.constraint(equalTo: margins.centerYAnchor).isActive = true
-        newIcon.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        newIcon.heightAnchor.constraint(equalToConstant: 10).isActive = true
-        newIcon.layer.cornerRadius = 5
+
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()  
-        infoContainerView.layer.cornerRadius = infoContainerView.frame.height / 2
-
-    
     
     }
     
-   
+    
+    func onRenameTapped() {
+        delegate.renameTappedForCell(self)
+    }
+    
+    func onMoveTapped() {
+        delegate.onMoveTapped(self)
+    }
+    
+    func onDeleteTapped() {
+        delegate.onDeleteTapped(self)
+    }
+    
+    func onShareTapped() {
+        delegate.onShareTapped(self)
+    }
+    
+    @IBAction func onProjectOptionsTapped(_ sender: Any) {
+        
+        !projectOptionsVisible ? {
+            self.bringSubview(toFront: projectOptionsMenu)
+            UIView.animate(withDuration: 0.7, delay: 0.0, animations: {
+            self.projectOptionsMenu.alpha = 1.0 })
+            projectOptionsVisible = true
+            }() :
+            {
+            UIView.animate(withDuration: 0.7, delay: 0.0, animations: {
+                self.projectOptionsMenu.alpha = 0.0
+            })
+        projectOptionsVisible = false
+        }()
+    }
+    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-      
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        var convertedPointForOptionsMenu = self.convert(point, to: projectOptionsMenu)
+        if(projectOptionsMenu.point(inside: convertedPointForOptionsMenu, with: event)){
+            return projectOptionsMenu.hitTest(convertedPointForOptionsMenu,with:event)
+        }
         
-       // fatalError("init(coder:) has not been implemented")
+        var convertedPointForOptionsButton = self.convert(point, to: projectOptionsButton)
+        if(projectOptionsButton.point(inside: convertedPointForOptionsButton, with: event)){
+            return projectOptionsButton
+        }
+        return super.hitTest(point, with: event)
     }
 }

@@ -26,6 +26,8 @@ class GroupingTableView: UITableView {
     }
     
     func stylize(){
+        self.contentInset = UIEdgeInsetsMake(20, 0, 0, 0)
+        
      //   self.layer.cornerRadius = 10
        // bottomBorder = addAndReturnBottomBorder(color: FileExplorerColors.DeskBlue, width: 5)
       //  leftBorder = addAndReturnLeftBorder(color: FileExplorerColors.DeskBlue, width: 5)
@@ -34,7 +36,7 @@ class GroupingTableView: UITableView {
       
         //self.round(corners: [.bottomLeft,.bottomRight], radius: 10)
        // self.layer.cornerRadius = 10
-        self.backgroundColor = FileExplorerColors.DarkGrey
+        self.backgroundColor = FileExplorerColors.LightGrey
     }
     
     override func layoutSubviews() {
@@ -47,5 +49,7 @@ class GroupingTableView: UITableView {
         
         
     }
+    
+    
     
 }
