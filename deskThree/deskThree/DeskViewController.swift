@@ -16,7 +16,7 @@ import Mixpanel
 #endif
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, FileExplorerViewControllerDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate, MathViewContainerDelegate {
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, FileExplorerViewControllerDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate, MathViewContainerDelegate, StrokeToMathToggleControlDelegate {
 
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
@@ -31,6 +31,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var pageNumberLabel: UIBarButtonItem!
     
     var pencilEraserToggleControl: PencilEraserToggleControl!
+    var strokeToMathToggleControl: StrokeToMathToggleControl!
     
     private var trashBin: Trash!
     private var prevScaleFactor: CGFloat!
@@ -71,6 +72,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupMathViewContainer()
         setupTrash()
         setupPencilEraserToggleControl()
+        setupStrokeToMathToggleControl()
         setupPageNumberLabel()
     }
     
@@ -149,6 +151,15 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         pencilEraserToggleControl = PencilEraserToggleControl(frame: CGRect(x: 20, y: 70, width: 140, height: 40))
         self.view.addSubview(pencilEraserToggleControl)
         pencilEraserToggleControl.delegate = workViewPresenter
+    }
+    
+    func setupStrokeToMathToggleControl(){
+        strokeToMathToggleControl = StrokeToMathToggleControl(type: .custom)
+        strokeToMathToggleControl.frame = CGRect(x: 170, y: 70, width: 70, height: 40)
+        self.view.addSubview(strokeToMathToggleControl)
+        strokeToMathToggleControl.delegate = self
+//        strokeToMathToggleControl.addTarget(work, action: <#T##Selector#>, for: <#T##UIControlEvents#>)
+        strokeToMathToggleControl.setImage(#imageLiteral(resourceName: "apple"), for: .normal)
     }
 
     //MARK: Data flow functions

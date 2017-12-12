@@ -93,6 +93,7 @@
 		DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DA7050F11E25EFD100079047 /* vertexShader.glsl */; };
 		DA7685041FD262A500FACA0B /* GroupingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7685031FD262A500FACA0B /* GroupingsDataSource.swift */; };
 		DA76850E1FD262B400FACA0B /* ProjectsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA76850D1FD262B400FACA0B /* ProjectsDataSource.swift */; };
+		DA7CB1FF1FDF8E1500568507 /* StrokeToMathToggleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */; };
 		DA7E470B1E8DD552007C52C1 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA7E470F1E8DF1AB007C52C1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
@@ -330,6 +331,7 @@
 		DA7050F11E25EFD100079047 /* vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vertexShader.glsl; path = ../vertexShader.glsl; sourceTree = "<group>"; };
 		DA7685031FD262A500FACA0B /* GroupingsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupingsDataSource.swift; sourceTree = "<group>"; };
 		DA76850D1FD262B400FACA0B /* ProjectsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsDataSource.swift; sourceTree = "<group>"; };
+		DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeToMathToggleControl.swift; sourceTree = "<group>"; };
 		DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
@@ -634,6 +636,7 @@
 				DA04E3FB1FC0B1FF00900588 /* Grouping.swift */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
+				DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */,
 				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
 				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
 				DA5464501DBD10A300E644F0 /* Paper.swift */,
@@ -971,6 +974,7 @@
 				DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */,
 				DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */,
 				DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */,
+				DA7CB1FF1FDF8E1500568507 /* StrokeToMathToggleControl.swift in Sources */,
 				DA04D9381EA4560A003C0783 /* TutorialVideoViewController.swift in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
 				DA9E8C901F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift in Sources */,
