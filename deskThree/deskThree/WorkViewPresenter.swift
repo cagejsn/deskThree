@@ -45,6 +45,11 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         workView.userSelected(writingInstrument: selected)
     }
     
+    func beginClipping(){
+        
+        currentPage
+    }
+    
     //TODO: implement
     /**
      Move to a page to the right

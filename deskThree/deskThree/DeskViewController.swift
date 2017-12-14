@@ -158,7 +158,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         strokeToMathToggleControl.frame = CGRect(x: 170, y: 70, width: 70, height: 40)
         self.view.addSubview(strokeToMathToggleControl)
         strokeToMathToggleControl.delegate = self
-//        strokeToMathToggleControl.addTarget(work, action: <#T##Selector#>, for: <#T##UIControlEvents#>)
+        strokeToMathToggleControl.addTarget(workViewPresenter, action: #selector(WorkViewPresenter.beginClipping), for: .touchUpInside)
         strokeToMathToggleControl.setImage(#imageLiteral(resourceName: "apple"), for: .normal)
     }
 
