@@ -96,6 +96,7 @@
 		DA7CB1FF1FDF8E1500568507 /* StrokeToMathToggleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */; };
 		DA7E470B1E8DD552007C52C1 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA7E470F1E8DF1AB007C52C1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */; };
+		DA8E91F11FE223D80014B432 /* JotToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8E91F01FE223D80014B432 /* JotToMath.swift */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
 		DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */; };
 		DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */; };
@@ -334,6 +335,7 @@
 		DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeToMathToggleControl.swift; sourceTree = "<group>"; };
 		DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DA8E91F01FE223D80014B432 /* JotToMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotToMath.swift; sourceTree = "<group>"; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
 		DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableView.swift; sourceTree = "<group>"; };
 		DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableViewCell.swift; sourceTree = "<group>"; };
@@ -675,6 +677,7 @@
 				DA28412A1EB25EED0085112E /* AllPad.xib */,
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
 				DA233A901FD3B9440099FC74 /* DeskColors.swift */,
+				DA8E91F01FE223D80014B432 /* JotToMath.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -996,6 +999,7 @@
 				526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */,
 				DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */,
 				DA04E4061FC0B35400900588 /* FileSystemInteractor.swift in Sources */,
+				DA8E91F11FE223D80014B432 /* JotToMath.swift in Sources */,
 				DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */,
 				DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
