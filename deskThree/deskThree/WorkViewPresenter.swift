@@ -46,8 +46,99 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
     }
     
     func beginClipping(){
+        var clipper = Clipper(overSubview: currentPage)
+        currentPage.addSubview(clipper)
+        clipper.setCompletionFunction(functionToCall: clipperDidSelectMath)
+    }
+    
+    var jotToMath: JotToMath!
+    
+    func aFunction(){
+        var txt = jotToMath.resultAsText()
+        if(txt == ""){ return }
+        let mathimg1 = jotToMath.resultAsImage()
+        if let mathimg2 = mathimg1 as? UIImage{
+            let mathBlock = MathBlock(image: mathimg2, symbols: jotToMath.resultAsSymbolList(), text: jotToMath.resultAsText())
+            // mathBlock.frame = CGRect(x: 100, y: 100, width: 200, height: 100)
+            mathBlock.center = CGPoint(x: 200, y: 200)
+            self.currentPage.addMathBlockToPage(block: mathBlock)
+            
+        }
+    }
+    
+    func setUpJotToMath(pathFrame: CGRect){
+        jotToMath = JotToMath()
+        jotToMath.frame = pathFrame
+        // self.addSubview(jotToMath)
+        jotToMath.setCompletionBlock(codeToRun: {[weak self] in return self?.aFunction()})
         
-        currentPage
+        let certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
+        let certificateRegistered = jotToMath.registerCertificate(certificate)
+        if(certificateRegistered){
+            let mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            jotToMath.addSearchDir(bundlePath as String)
+            jotToMath.configure(withBundle: "math", andConfig: "standard")
+        }
+    }
+    
+    func acceptClippedStrokes(strokes: [[MAWCaptureInfo]]){
+        for stroke in strokes {
+            jotToMath.addStroke(stroke)
+        }
+        jotToMath.solve()
+    }
+    
+    func clipperDidSelectMath(selection: CGPath){
+        setUpJotToMath(pathFrame: selection.boundingBox)
+        
+        let temp = PathLocator.getTempFolder()
+        let dict = NSDictionary(contentsOfFile: temp+jotViewStatePlistPath)
+        let importantPath = (temp+jotViewStatePlistPath).replacingOccurrences(of: "state.plist", with: "")
+        let folder = try? FileManager.default.contentsOfDirectory(atPath: importantPath)
+        
+        var arrayOfStrokes = [JotStroke]()
+        for string in folder! {
+            if let string = string as? String {
+                if string.contains(".strokedata") {
+                    let s = JotStroke(lightFromDict: NSDictionary(contentsOfFile: importantPath+string) as! [AnyHashable : Any])
+                    arrayOfStrokes.append(s!)
+                }
+            }
+        }
+        
+        var output = [[MAWCaptureInfo]]()
+        if let strokes = arrayOfStrokes as! [JotStroke]?{
+            for strokeData in strokes {
+                if let stroke = strokeData as JotStroke?{
+                    var strokeForInput = [MAWCaptureInfo]()
+                    if let segments = stroke.segments as! [AbstractBezierPathElement]?{
+                        for segment in segments {
+                            if let segment = segment as! AbstractBezierPathElement?{
+                                var point = segment.startPoint
+                                let drawSize = currentPage.drawingView.pagePtSize
+                                
+                                point.x = point.x * (1275 / drawSize.width)
+                                point.y = (point.y * -(1650 / drawSize.height)) + 1650
+                                
+                                if(!selection.contains(point)){
+                                    continue
+                                } else {
+                                    point = point - jotToMath.frame.origin
+                                    var captured = MAWCaptureInfo()
+                                    captured.x = Float(point.x)
+                                    captured.y = Float(point.y)
+                                    strokeForInput.append(captured)
+                                }
+                            }
+                        }
+                        output.append(strokeForInput)
+                    }
+                }
+            }
+        }
+        acceptClippedStrokes(strokes: output)
     }
     
     //TODO: implement
