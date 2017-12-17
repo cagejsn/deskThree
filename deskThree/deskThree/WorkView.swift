@@ -455,21 +455,24 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             UIGraphicsBeginPDFPageWithInfo(rect!, nil)
             guard let pdfContext = UIGraphicsGetCurrentContext() else { return false}
             
-            page?.drawingView.exportToImage(onComplete: {[page] (imageV: UIImage?) in
-                page?.isHidden = false
-                let useful: UIImageView = UIImageView (image: imageV)
-                page?.addSubview(useful)
-                page?.setNeedsDisplay()
-                // Render the page contents into the PDF Context
-                page?.layer.render(in: pdfContext)
-                page?.isHidden = (page != self.currentPage) ? true : false
-                useful.removeFromSuperview()
-                // Signal that the onComplete block is done executing
-                imageReadySema.signal()}
-                , withScale: 1.66667)
-            
+            var imageHolder: UIImage!
+            page?.drawingView.exportToImage(onComplete:
+                {(imageReady: UIImage?) in
+                    imageHolder = imageReady!
+                    // Signal that the onComplete block is done executing
+                    imageReadySema.signal()
+                }
+                , withScale: 1.0)
             // Wait till the onComplete block is done
             imageReadySema.wait()
+            page?.isHidden = false
+            let useful: UIImageView = UIImageView (image: imageHolder)
+            page?.addSubview(useful)
+            page?.setNeedsDisplay()
+            // Render the page contents into the PDF Context
+            page?.layer.render(in: pdfContext)
+            page?.isHidden = (page != self.currentPage) ? true : false
+            useful.removeFromSuperview()
         }
         
         UIGraphicsEndPDFContext()

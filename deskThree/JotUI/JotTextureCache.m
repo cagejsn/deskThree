@@ -41,10 +41,14 @@
     __block GLuint canvastexture = 0;
 
     @synchronized(self) {
-        if ([cachedTextures count]) {
+        while ([cachedTextures count]) {
             JotGLTexture* reusedTexture = [cachedTextures lastObject];
+            if (reusedTexture.pixelSize.width == fullSize.width && reusedTexture.pixelSize.height == fullSize.height){
             [cachedTextures removeLastObject];
             return reusedTexture;
+            } else {
+                break;
+            }
         }
 
         [context runBlock:^{
