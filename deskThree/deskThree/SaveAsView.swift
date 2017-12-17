@@ -32,48 +32,7 @@ class SaveAsView: UIView {
         
     }
     
-    //currently just renames current project
-    static func renameProject(name: String, workViewRef: WorkView){
-        
-        //return if they want to rename the project to its current name
-        if(name == workViewRef.getDeskProject().name){
-            return
-        }
-        
-        let newName = name
-        let oldName = workViewRef.getDeskProject().name
-        let temp = PathLocator.getTempFolder()
-        
-        var projects = PathLocator.loadMetaData()
-        for i in  0..<projects.count {
-            //in case we caught a file that we want to replace
-            if projects[i].name == newName{
-                projects.remove(at: i)
-                break
-            }
-        }
-        do{
-            try FileManager.default.removeItem(atPath: temp+"/"+newName)
-        }
-        catch{
-            print("file did not exist")
-        }
-        //in case we caught the file that we want to change the name of
-        for i in 0..<projects.count {
-            if projects[i].name == oldName{
-                projects[i].name = newName
-            }
-        }
-        
-        do{
-            try FileManager.default.moveItem(atPath: temp+"/"+oldName!, toPath: temp+"/"+newName)
-        }
-        catch{
-            print("error, project dir not moved correctly")
-        }
-        NSKeyedArchiver.archiveRootObject(projects, toFile: PathLocator.getMetaFolder()+"/Projects.meta")
-        workViewRef.getDeskProject().name = name
-    }
+    
 
     @IBAction func closeButtonTapped(_ sender: Any) {
         self.removeFromSuperview()  

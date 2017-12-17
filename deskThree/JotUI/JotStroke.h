@@ -36,6 +36,9 @@
 @property(nonatomic, strong) JotBufferManager* bufferManager;
 @property(nonatomic, readonly) int fullByteSize;
 
+
+- (id)initLightFromDict:(NSDictionary*)dictionary;
+
 /**
  * create an empty stroke with the input texture
  */

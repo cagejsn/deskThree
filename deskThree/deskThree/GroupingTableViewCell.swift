@@ -41,9 +41,10 @@ class GroupingTableViewCell: UITableViewCell {
         stylizeText()
         self.addSubview(label)
         self.layer.addSublayer(groupingColorDot)        
-        self.backgroundColor = FileExplorerColors.DarkGrey
+        self.backgroundColor = FileExplorerColors.LightGrey
         
-        self.selectedBackgroundView = { () -> UIView in let v = UIView(); v.backgroundColor = FileExplorerColors.MidDarkDeskBlue; return v}()
+        self.selectedBackgroundView = { () -> UIView in let v = UIView(); v.backgroundColor = UIColor.white; return v}()
+        label.highlightedTextColor = FileExplorerColors.DarkTextColor
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -52,10 +53,11 @@ class GroupingTableViewCell: UITableViewCell {
     
     
     
+    
     func stylizeText(){
         label.adjustsFontSizeToFitWidth = true
         label.font = UIFont(name: ".SFUIText-Medium", size: 24)
-        label.textColor = UIColor.white
+        label.textColor = FileExplorerColors.DarkGrey
         
     }
     

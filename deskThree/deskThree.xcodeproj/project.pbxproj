@@ -41,7 +41,25 @@
 		DA04D9361EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04D9351EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift */; };
 		DA04D9381EA4560A003C0783 /* TutorialVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */; };
 		DA04D93A1EA4562F003C0783 /* TutorialVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */; };
+		DA04E3FC1FC0B1FF00900588 /* Grouping.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E3FB1FC0B1FF00900588 /* Grouping.swift */; };
+		DA04E4061FC0B35400900588 /* FileSystemInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E4051FC0B35400900588 /* FileSystemInteractor.swift */; };
+		DA04E4081FC0B3F900900588 /* MetaDataInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E4071FC0B3F900900588 /* MetaDataInteractor.swift */; };
+		DA04E40A1FC0BC1700900588 /* JotFilesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */; };
+		DA04E40C1FC0CB9200900588 /* PaperInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */; };
+		DA04E40E1FC0CC0800900588 /* ProjectFileInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E40D1FC0CC0800900588 /* ProjectFileInteractor.swift */; };
+		DA04E4101FC0CCD400900588 /* WorkViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */; };
 		DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1308DC1E5007F9008EBD14 /* DeskView.swift */; };
+		DA233A8F1FD3B5550099FC74 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA233A8D1FD3B5550099FC74 /* ILTranslucentView.m */; };
+		DA233A911FD3B9440099FC74 /* DeskColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233A901FD3B9440099FC74 /* DeskColors.swift */; };
+		DA233A931FD4A5B90099FC74 /* CurrentGroupingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233A921FD4A5B90099FC74 /* CurrentGroupingLabel.swift */; };
+		DA233A951FD4A81E0099FC74 /* GroupingsLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233A941FD4A81E0099FC74 /* GroupingsLabel.swift */; };
+		DA233A9A1FD4BB8B0099FC74 /* AddGroupingsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233A991FD4BB8B0099FC74 /* AddGroupingsButton.swift */; };
+		DA233AA41FD4C1350099FC74 /* ProjectOptionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233AA31FD4C1350099FC74 /* ProjectOptionsButton.swift */; };
+		DA233AA81FD4C2560099FC74 /* ProjectNameLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233AA71FD4C2560099FC74 /* ProjectNameLabel.swift */; };
+		DA233AAA1FD4C2750099FC74 /* LastModifiedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233AA91FD4C2750099FC74 /* LastModifiedLabel.swift */; };
+		DA233AAD1FD505FF0099FC74 /* ProjectOptionsMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233AAC1FD505FF0099FC74 /* ProjectOptionsMenu.swift */; };
+		DA233AAF1FD8FC0E0099FC74 /* NewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA233AAE1FD8FC0E0099FC74 /* NewCollectionViewCell.swift */; };
+		DA233AB11FD8FC300099FC74 /* NewCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA233AB01FD8FC300099FC74 /* NewCollectionViewCell.xib */; };
 		DA2841081EAFBBD00085112E /* SlideMenuControllerSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; };
 		DA2841091EAFBBD70085112E /* SlideMenuControllerSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA28410B1EAFC5590085112E /* HamburgerMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */; };
@@ -51,7 +69,7 @@
 		DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2841201EB048B10085112E /* MathViewContainer.swift */; };
 		DA28412B1EB25EED0085112E /* AllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28412A1EB25EED0085112E /* AllPad.xib */; };
 		DA2841301EB279F50085112E /* PencilEraserToggleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */; };
-		DA2B7CA61F9BB43400496BEC /* GroupingsLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CA51F9BB43400496BEC /* GroupingsLabel.swift */; };
+		DA2B7CA61F9BB43400496BEC /* GroupingsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CA51F9BB43400496BEC /* GroupingsHeaderView.swift */; };
 		DA2B7CB01F9BD60400496BEC /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CAF1F9BD60400496BEC /* UserView.swift */; };
 		DA2B7CB21F9BDD4B00496BEC /* FileExplorerColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */; };
 		DA2B7CB41F9C26D600496BEC /* FileExplorerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */; };
@@ -73,8 +91,14 @@
 		DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA67005B1E3EDD1C00A6179A /* GKContext.swift */; };
 		DA7050E41E25591000079047 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7050E31E25591000079047 /* GraphView.swift */; };
 		DA7050F21E25EFD100079047 /* vertexShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DA7050F11E25EFD100079047 /* vertexShader.glsl */; };
+		DA7685041FD262A500FACA0B /* GroupingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7685031FD262A500FACA0B /* GroupingsDataSource.swift */; };
+		DA76850E1FD262B400FACA0B /* ProjectsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA76850D1FD262B400FACA0B /* ProjectsDataSource.swift */; };
+		DA7A09281FE2211A007BDCE1 /* Clipper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A09271FE2211A007BDCE1 /* Clipper.swift */; };
+		DA7CB1FF1FDF8E1500568507 /* StrokeToMathToggleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */; };
 		DA7E470B1E8DD552007C52C1 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA7E470F1E8DF1AB007C52C1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */; };
+		DA8E91F11FE223D80014B432 /* JotToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8E91F01FE223D80014B432 /* JotToMath.swift */; };
+		DA8E92041FE596B20014B432 /* FileThumbnailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
 		DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */; };
 		DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */; };
@@ -249,7 +273,26 @@
 		DA04D9351EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+isFirstLaunch.swift"; sourceTree = "<group>"; };
 		DA04D9371EA45609003C0783 /* TutorialVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialVideoViewController.swift; sourceTree = "<group>"; };
 		DA04D9391EA4562F003C0783 /* TutorialVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialVideoViewController.xib; sourceTree = "<group>"; };
+		DA04E3FB1FC0B1FF00900588 /* Grouping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grouping.swift; sourceTree = "<group>"; };
+		DA04E4051FC0B35400900588 /* FileSystemInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileSystemInteractor.swift; sourceTree = "<group>"; };
+		DA04E4071FC0B3F900900588 /* MetaDataInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaDataInteractor.swift; sourceTree = "<group>"; };
+		DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotFilesInteractor.swift; sourceTree = "<group>"; };
+		DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaperInteractor.swift; sourceTree = "<group>"; };
+		DA04E40D1FC0CC0800900588 /* ProjectFileInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectFileInteractor.swift; sourceTree = "<group>"; };
+		DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkViewPresenter.swift; sourceTree = "<group>"; };
 		DA1308DC1E5007F9008EBD14 /* DeskView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskView.swift; sourceTree = "<group>"; };
+		DA233A8D1FD3B5550099FC74 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
+		DA233A8E1FD3B5550099FC74 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
+		DA233A901FD3B9440099FC74 /* DeskColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskColors.swift; sourceTree = "<group>"; };
+		DA233A921FD4A5B90099FC74 /* CurrentGroupingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentGroupingLabel.swift; sourceTree = "<group>"; };
+		DA233A941FD4A81E0099FC74 /* GroupingsLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupingsLabel.swift; sourceTree = "<group>"; };
+		DA233A991FD4BB8B0099FC74 /* AddGroupingsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupingsButton.swift; sourceTree = "<group>"; };
+		DA233AA31FD4C1350099FC74 /* ProjectOptionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOptionsButton.swift; sourceTree = "<group>"; };
+		DA233AA71FD4C2560099FC74 /* ProjectNameLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNameLabel.swift; sourceTree = "<group>"; };
+		DA233AA91FD4C2750099FC74 /* LastModifiedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastModifiedLabel.swift; sourceTree = "<group>"; };
+		DA233AAC1FD505FF0099FC74 /* ProjectOptionsMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectOptionsMenu.swift; sourceTree = "<group>"; };
+		DA233AAE1FD8FC0E0099FC74 /* NewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCollectionViewCell.swift; sourceTree = "<group>"; };
+		DA233AB01FD8FC300099FC74 /* NewCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewCollectionViewCell.xib; sourceTree = "<group>"; };
 		DA2841051EAFBB270085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
 		DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SlideMenuControllerSwift.framework; path = Carthage/Build/iOS/SlideMenuControllerSwift.framework; sourceTree = "<group>"; };
 		DA28410A1EAFC5590085112E /* HamburgerMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HamburgerMenuViewController.xib; sourceTree = "<group>"; };
@@ -259,7 +302,7 @@
 		DA2841201EB048B10085112E /* MathViewContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathViewContainer.swift; sourceTree = "<group>"; };
 		DA28412A1EB25EED0085112E /* AllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllPad.xib; sourceTree = "<group>"; };
 		DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PencilEraserToggleControl.swift; sourceTree = "<group>"; };
-		DA2B7CA51F9BB43400496BEC /* GroupingsLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingsLabel.swift; sourceTree = "<group>"; };
+		DA2B7CA51F9BB43400496BEC /* GroupingsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingsHeaderView.swift; sourceTree = "<group>"; };
 		DA2B7CAF1F9BD60400496BEC /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerColors.swift; sourceTree = "<group>"; };
 		DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerHeaderView.swift; sourceTree = "<group>"; };
@@ -289,8 +332,14 @@
 		DA67005B1E3EDD1C00A6179A /* GKContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKContext.swift; sourceTree = "<group>"; };
 		DA7050E31E25591000079047 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		DA7050F11E25EFD100079047 /* vertexShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = vertexShader.glsl; path = ../vertexShader.glsl; sourceTree = "<group>"; };
+		DA7685031FD262A500FACA0B /* GroupingsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupingsDataSource.swift; sourceTree = "<group>"; };
+		DA76850D1FD262B400FACA0B /* ProjectsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsDataSource.swift; sourceTree = "<group>"; };
+		DA7A09271FE2211A007BDCE1 /* Clipper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clipper.swift; sourceTree = "<group>"; };
+		DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeToMathToggleControl.swift; sourceTree = "<group>"; };
 		DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DA8E91F01FE223D80014B432 /* JotToMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotToMath.swift; sourceTree = "<group>"; };
+		DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileThumbnailButton.swift; sourceTree = "<group>"; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
 		DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableView.swift; sourceTree = "<group>"; };
 		DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableViewCell.swift; sourceTree = "<group>"; };
@@ -413,6 +462,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DA233AAB1FD4C29E0099FC74 /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */,
+				DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */,
+				DA233AA71FD4C2560099FC74 /* ProjectNameLabel.swift */,
+				DA233AA91FD4C2750099FC74 /* LastModifiedLabel.swift */,
+				DA233AA31FD4C1350099FC74 /* ProjectOptionsButton.swift */,
+				DA233AAC1FD505FF0099FC74 /* ProjectOptionsMenu.swift */,
+				DA233AAE1FD8FC0E0099FC74 /* NewCollectionViewCell.swift */,
+				DA233AB01FD8FC300099FC74 /* NewCollectionViewCell.xib */,
+				DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */,
+			);
+			name = CollectionViewCell;
+			sourceTree = "<group>";
+		};
 		DA49189E1DE64EDF00E3AA1D /* CopiedFromJotUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -443,22 +508,48 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DA8E920D1FE5F6730014B432 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
+				DA04E3FB1FC0B1FF00900588 /* Grouping.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		DA8E920E1FE5F68C0014B432 /* File System */ = {
+			isa = PBXGroup;
+			children = (
+				DA04E4051FC0B35400900588 /* FileSystemInteractor.swift */,
+				DA04E4071FC0B3F900900588 /* MetaDataInteractor.swift */,
+				DA04E40D1FC0CC0800900588 /* ProjectFileInteractor.swift */,
+				DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */,
+				DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */,
+				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
+			);
+			name = "File System";
+			sourceTree = "<group>";
+		};
 		DA9E8C8A1F8A94A000D6D8AD /* File Explorer */ = {
 			isa = PBXGroup;
 			children = (
 				DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */,
 				DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */,
-				DA2B7CA51F9BB43400496BEC /* GroupingsLabel.swift */,
+				DA2B7CA51F9BB43400496BEC /* GroupingsHeaderView.swift */,
+				DA233A941FD4A81E0099FC74 /* GroupingsLabel.swift */,
+				DA233A991FD4BB8B0099FC74 /* AddGroupingsButton.swift */,
 				DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */,
 				DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */,
 				DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */,
 				DAEE9E8A1FB5046C007426BD /* FileExplorerCollectionViewHeader.swift */,
-				DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */,
-				DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */,
+				DA233AAB1FD4C29E0099FC74 /* CollectionViewCell */,
 				DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */,
+				DA7685031FD262A500FACA0B /* GroupingsDataSource.swift */,
+				DA76850D1FD262B400FACA0B /* ProjectsDataSource.swift */,
 				DA9E8C8F1F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift */,
 				DA2B7CAF1F9BD60400496BEC /* UserView.swift */,
 				DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */,
+				DA233A921FD4A5B90099FC74 /* CurrentGroupingLabel.swift */,
 			);
 			name = "File Explorer";
 			sourceTree = "<group>";
@@ -557,16 +648,23 @@
 		DAFBE3A21DBBDBC20007D249 /* deskThree */ = {
 			isa = PBXGroup;
 			children = (
+				DA233A8E1FD3B5550099FC74 /* ILTranslucentView.h */,
+				DA233A8D1FD3B5550099FC74 /* ILTranslucentView.m */,
 				DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */,
 				DA7050F11E25EFD100079047 /* vertexShader.glsl */,
 				DADC67F51E26A89500C14F5B /* fragmentShader.glsl */,
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
+				DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */,
+				DA8E920E1FE5F68C0014B432 /* File System */,
+				DA8E920D1FE5F6730014B432 /* Models */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
+				DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */,
 				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
 				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
 				DA5464501DBD10A300E644F0 /* Paper.swift */,
+				DA7A09271FE2211A007BDCE1 /* Clipper.swift */,
 				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
 				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
 				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
@@ -585,8 +683,6 @@
 				DA9E8C8A1F8A94A000D6D8AD /* File Explorer */,
 				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
 				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
-				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
-				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
 				DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */,
 				DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */,
 				DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */,
@@ -602,6 +698,8 @@
 				DA2841201EB048B10085112E /* MathViewContainer.swift */,
 				DA28412A1EB25EED0085112E /* AllPad.xib */,
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
+				DA233A901FD3B9440099FC74 /* DeskColors.swift */,
+				DA8E91F01FE223D80014B432 /* JotToMath.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -822,6 +920,7 @@
 				311C3AC01E99650700F61CE4 /* Assets.xcassets in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
 				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
+				DA233AB11FD8FC300099FC74 /* NewCollectionViewCell.xib in Resources */,
 				DA28412B1EB25EED0085112E /* AllPad.xib in Resources */,
 				311C3ABE1E9964F500F61CE4 /* SaveAsView.xib in Resources */,
 				311C3ACE1E9966C300F61CE4 /* LowerDeskControls.xib in Resources */,
@@ -900,22 +999,30 @@
 				DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */,
 				DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */,
 				DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */,
+				DA7CB1FF1FDF8E1500568507 /* StrokeToMathToggleControl.swift in Sources */,
 				DA04D9381EA4560A003C0783 /* TutorialVideoViewController.swift in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
 				DA9E8C901F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift in Sources */,
 				312A8B7C1EAFCD8000940FA7 /* UIViewExtension.swift in Sources */,
+				DA76850E1FD262B400FACA0B /* ProjectsDataSource.swift in Sources */,
 				DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */,
 				DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */,
 				3148815E1E8DDCDA0015D095 /* com.desk.education.c in Sources */,
 				DADC7C681DF0F4650086626E /* Constants.swift in Sources */,
 				DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */,
 				DA5747601E7491E50010F754 /* OCRMathView.swift in Sources */,
+				DA04E3FC1FC0B1FF00900588 /* Grouping.swift in Sources */,
+				DA8E92041FE596B20014B432 /* FileThumbnailButton.swift in Sources */,
 				DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */,
+				DA04E40C1FC0CB9200900588 /* PaperInteractor.swift in Sources */,
+				DA233AA41FD4C1350099FC74 /* ProjectOptionsButton.swift in Sources */,
 				DA2841301EB279F50085112E /* PencilEraserToggleControl.swift in Sources */,
 				DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */,
 				312A8B7E1EAFCF6D00940FA7 /* CALayerExtension.swift in Sources */,
 				526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */,
 				DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */,
+				DA04E4061FC0B35400900588 /* FileSystemInteractor.swift in Sources */,
+				DA8E91F11FE223D80014B432 /* JotToMath.swift in Sources */,
 				DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */,
 				DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
@@ -926,6 +1033,7 @@
 				DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */,
 				DAEE9E8B1FB5046C007426BD /* FileExplorerCollectionViewHeader.swift in Sources */,
 				25D1507F1DBC19CF008364EC /* PDFGenerator.swift in Sources */,
+				DA7A09281FE2211A007BDCE1 /* Clipper.swift in Sources */,
 				DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,
 				DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */,
@@ -934,24 +1042,38 @@
 				DA2B7CB21F9BDD4B00496BEC /* FileExplorerColors.swift in Sources */,
 				DA2B7CB41F9C26D600496BEC /* FileExplorerHeaderView.swift in Sources */,
 				DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */,
-				DA2B7CA61F9BB43400496BEC /* GroupingsLabel.swift in Sources */,
+				DA2B7CA61F9BB43400496BEC /* GroupingsHeaderView.swift in Sources */,
 				DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */,
+				DA233A951FD4A81E0099FC74 /* GroupingsLabel.swift in Sources */,
+				DA7685041FD262A500FACA0B /* GroupingsDataSource.swift in Sources */,
 				DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */,
+				DA04E4101FC0CCD400900588 /* WorkViewPresenter.swift in Sources */,
+				DA233AA81FD4C2560099FC74 /* ProjectNameLabel.swift in Sources */,
 				DA4918A71DE64EDF00E3AA1D /* Pen.m in Sources */,
 				52A662A31E32B1C8008E088A /* Trash.swift in Sources */,
+				DA233A931FD4A5B90099FC74 /* CurrentGroupingLabel.swift in Sources */,
 				DA3688F91E47B970006A9E1A /* CGRect+.swift in Sources */,
 				DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */,
 				DADC7C651DF0F4650086626E /* AllPad.swift in Sources */,
+				DA04E40A1FC0BC1700900588 /* JotFilesInteractor.swift in Sources */,
 				DADC7C671DF0F4650086626E /* Block.swift in Sources */,
 				DAFCF32F1E4EAAFF00B3F78E /* UIView+.swift in Sources */,
+				DA233AAD1FD505FF0099FC74 /* ProjectOptionsMenu.swift in Sources */,
 				DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */,
 				DADC7C6C1DF0F4650086626E /* OutputArea.swift in Sources */,
 				DA7050E41E25591000079047 /* GraphView.swift in Sources */,
 				526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */,
+				DA233AAA1FD4C2750099FC74 /* LastModifiedLabel.swift in Sources */,
 				DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */,
+				DA233AAF1FD8FC0E0099FC74 /* NewCollectionViewCell.swift in Sources */,
+				DA233A9A1FD4BB8B0099FC74 /* AddGroupingsButton.swift in Sources */,
+				DA04E4081FC0B3F900900588 /* MetaDataInteractor.swift in Sources */,
 				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
+				DA04E40E1FC0CC0800900588 /* ProjectFileInteractor.swift in Sources */,
 				DA2B7CB01F9BD60400496BEC /* UserView.swift in Sources */,
+				DA233A911FD3B9440099FC74 /* DeskColors.swift in Sources */,
+				DA233A8F1FD3B5550099FC74 /* ILTranslucentView.m in Sources */,
 				5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */,
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,

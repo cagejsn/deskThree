@@ -16,7 +16,7 @@ import Mixpanel
 #endif
 
 // TODO: consider moving DeskControlModuleDelegate to WorkView
-class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, FileExplorerViewControllerDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate, MathViewContainerDelegate, PencilEraserToggleControlDelegate{
+class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecognizerDelegate, UIDocumentInteractionControllerDelegate, UINavigationControllerDelegate, GKImagePickerDelegate, WorkViewDelegate, MAWMathViewDelegate, FileExplorerViewControllerDelegate, UITextFieldDelegate, HamburgerMenuViewControllerDelegate, MathViewContainerDelegate, StrokeToMathToggleControlDelegate {
 
     let gkimagePicker = GKImagePicker()
     @IBOutlet var workView: WorkView!
@@ -31,6 +31,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     @IBOutlet var pageNumberLabel: UIBarButtonItem!
     
     var pencilEraserToggleControl: PencilEraserToggleControl!
+    var strokeToMathToggleControl: StrokeToMathToggleControl!
     
     private var trashBin: Trash!
     private var prevScaleFactor: CGFloat!
@@ -43,7 +44,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     private var customContraints: [NSLayoutConstraint]!
     private var myScriptConstraints: [NSLayoutConstraint]!
     
-   
+    private var workViewPresenter: WorkViewPresenter! //will one day control the state of the WorkView
+    
     // Mixpanel initialization
     #if !DEBUG
     private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
@@ -61,6 +63,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
         setupWorkView()
         setupGKPicker()
         setupToolDrawer()
@@ -68,8 +71,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         setupToolbar()
         setupMathViewContainer()
         setupTrash()
-
         setupPencilEraserToggleControl()
+        setupStrokeToMathToggleControl()
         setupPageNumberLabel()
     }
     
@@ -83,8 +86,10 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     //MARK: Setup functions for the various components
-    func setupWorkView(workSpace: WorkView = WorkView()){
-        workView = workSpace
+    func setupWorkView(){
+        workViewPresenter = WorkViewPresenter()
+        workViewPresenter.updateDVCPageLabelHandler = self.recievePageNumberLabelUpdate(onPage:ofTotalPages:)
+        workView = WorkView(workViewPresenter)
         if(toolDrawer != nil){
             toolDrawer.delegate = workView
         }
@@ -95,7 +100,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         workView.maximumZoomScale = 2.0
         self.view.insertSubview(workView, at: 0)
         workView.boundInsideBy(superView: self.view, x1: 0, x2: 0, y1: 0, y2: 0)
-        workView.currentPage.subviewDrawingView()
+        workViewPresenter.loadNewProject()
     }
     
     func setupGKPicker(){
@@ -121,7 +126,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     
     func setupToolbar(){
         projectNameTextField.delegate = self
-        projectNameTextField.text = workView.getSerializedProjectName()
+        projectNameTextField.text = workViewPresenter.currentProject.getName()
     }
     
     func setupMathViewContainer(){
@@ -131,17 +136,12 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         mathViewContainer.setupConstraints()
     }
     
-    func adjustMathViewContainerConstraints(){
-        
-    }
-    
     func setupTrash(){
         trashBin = Trash()
         self.view.addSubview(trashBin)
         trashBin.setupTrash(lowerView: mathViewContainer)
         trashBin.hide()
     }
-
     
     func getItemForMathViewRightConstraint() -> UIView {
         return self.toolDrawer
@@ -150,44 +150,18 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     func setupPencilEraserToggleControl(){
         pencilEraserToggleControl = PencilEraserToggleControl(frame: CGRect(x: 20, y: 70, width: 140, height: 40))
         self.view.addSubview(pencilEraserToggleControl)
-        pencilEraserToggleControl.delegate = self
+        pencilEraserToggleControl.delegate = workViewPresenter
+    }
+    
+    func setupStrokeToMathToggleControl(){
+        strokeToMathToggleControl = StrokeToMathToggleControl(type: .custom)
+        strokeToMathToggleControl.frame = CGRect(x: 170, y: 70, width: 70, height: 40)
+        self.view.addSubview(strokeToMathToggleControl)
+        strokeToMathToggleControl.delegate = self
+        strokeToMathToggleControl.addTarget(workViewPresenter, action: #selector(WorkViewPresenter.beginClipping), for: .touchUpInside)
+        strokeToMathToggleControl.setImage(#imageLiteral(resourceName: "apple"), for: .normal)
     }
 
-    func switchTo(_ selected: SelectedWritingInstrument){
-        workView.userSelected(writingInstrument: selected)
-    }
-    
-   
-    
-    /*
-     ///this function will present a MAWMathView to the User
-     func toggleMathViewContainer(_ sender: MathViewContainer) {
-     if(sender.drawerPosition == .closed){
-     #if !DEBUG
-     mixpanel.track(event: "Button: MyScript Box: Export")
-     #endif
-     self.view.addSubview(mathView)
-     setupMathViewConstraints()
-     } else {
-     #if !DEBUG
-     mixpanel.track(event: "Button: MyScript Box: Clear")
-     #endif
-     mathView.clear(true)
-     mathView.removeFromSuperview()
-     }
-     }
-     
-     func setupMathViewConstraints(){
-     mathView.translatesAutoresizingMaskIntoConstraints = false
-     let leftConstraint = NSLayoutConstraint(item: mathView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1.0, constant: 100)
-     let rightConstraint = NSLayoutConstraint(item: mathView, attribute: .trailing, relatedBy: .equal, toItem: toolDrawer, attribute: .leading, multiplier: 1.0, constant: -100)
-     let bottomConstraint = NSLayoutConstraint(item: mathView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -75)
-     let heightConstraint = NSLayoutConstraint(item: mathView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 300)
-     myScriptConstraints = [leftConstraint,rightConstraint,bottomConstraint,heightConstraint]
-     self.view.addConstraints(myScriptConstraints)
-     }
-     */
-    
     //MARK: Data flow functions
     func sendingToInputObject(for element: Any){
         if let mathElement = element as? MathBlock {
@@ -209,20 +183,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         }
         return true
     }
-
-    // func NEVER CALLED
-//    @available(iOS 10.0, *)
-//    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
-//        let newProjectName = textField.text
-//        SaveAsView.renameProject(name: newProjectName!, workViewRef: workView)
-//    }
     
     // MARK - UIScrollViewDelegate functions
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         if(prevScaleFactor != nil){
-            workView.currentPage.drawingView.transform = workView.currentPage.drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
+            workViewPresenter.currentPage.drawingView.transform = workViewPresenter.currentPage.drawingView.transform.scaledBy(x: scrollView.zoomScale/prevScaleFactor, y: scrollView.zoomScale/prevScaleFactor)
         }
-        workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+        workViewPresenter.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
         prevScaleFactor = scrollView.zoomScale        
     }
     
@@ -230,7 +197,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #if !DEBUG
             mixpanel.track(event: "Gesture: Scroll")
         #endif
-        workView.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
+        workViewPresenter.currentPage.drawingView.frame.origin = CGPoint(x:-scrollView.contentOffset.x, y: -scrollView.contentOffset.y)
     }
     
     //incoming view does intersect with Trash?
@@ -268,18 +235,45 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #if !DEBUG
             mixpanel.track(event: "Button: Redo")
         #endif
-        workView.redoTapped()
+//        workViewPresenter.redoTapped()
     }
     
     @IBAction func undoTapped(){
         #if !DEBUG
             mixpanel.track(event: "Button: Undo")
         #endif
-        workView.undoTapped()
+//        workViewPresenter.undoTapped()
     }
     
+    var tempStorageForOldProjectNameTextField: String?
+    
+    /// called when the project name textField returns
+    @IBAction func editingDidBeginInProjectNameField(_ sender: Any) {
+        tempStorageForOldProjectNameTextField = projectNameTextField.text!
+    }
     @IBAction func projectNameChanged(_ sender: Any) {
-        SaveAsView.renameProject(name: projectNameTextField.text!, workViewRef: workView)
+        if(tempStorageForOldProjectNameTextField == projectNameTextField.text!){return}
+        
+        
+        //TODO: what if someone changes the name of a project before it is ever written to disk
+        do{
+            try workViewPresenter.renameProject(projectNameTextField.text!)
+        } catch DeskFileSystemError.ProjectNameTakenInGrouping(let desiredName) {
+            
+            let refreshAlert = UIAlertController(title: "Project Name Taken", message: "the rename operation failed.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
+            }))
+            
+            UIApplication.shared.keyWindow?.rootViewController?.present(refreshAlert, animated: true, completion: nil)
+            
+            projectNameTextField.text = tempStorageForOldProjectNameTextField
+            tempStorageForOldProjectNameTextField = nil
+        } catch let e {
+            print(e.localizedDescription)
+        }
+        
+        
     }
     
     
@@ -287,28 +281,23 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         #if !DEBUG
             mixpanel.track(event: "Button: Page Left")
         #endif
-        workView.movePage(direction: "left")
-        updatePageNumberLabel()
+        workViewPresenter.movePage(direction: "left")
     }
     
     @IBAction func nextPageTapped(){
         #if !DEBUG
             mixpanel.track(event: "Button: Page Right")
         #endif
-        workView.movePage(direction: "right")
-        updatePageNumberLabel()
+        workViewPresenter.movePage(direction: "right")
     }
     
-    func updatePageNumberLabel() {
-        let totalNumberPages = workView.getTotalNumberPages()
-        let currentPageIndex = workView.getCurrentPageIndex()
-        
-        self.pageNumberLabel.title = "\(String(currentPageIndex)) of \(String(totalNumberPages))"
+    func recievePageNumberLabelUpdate(onPage: Int , ofTotalPages: Int) {
+        self.pageNumberLabel.title = "\(String(onPage)) of \(String(ofTotalPages))"
     }
     
     //MARK: - WorkView Delegate
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return workView.currentPage
+        return workViewPresenter.currentPage
     }
     
     //MARK: FileExplorerViewControllerDelegate
@@ -316,30 +305,37 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.dismiss(animated: false, completion: nil)
     }
     
-    func didSelectProject(projectName: String){
+    func didSelectProject(grouping: Grouping, project: DeskProject){
         #if !DEBUG
             mixpanel.track(event: "Project Selected")
         #endif
-        workView.loadProject(projectName: projectName)
+        //TODO: fix this
+//        workView.loadProject(projectName: projectName)
         dismissFileExplorer()
-        projectNameTextField.text = workView.getDeskProject().name
-        updatePageNumberLabel()
-    }
-    
-    //TODO: This should soon go
-    func eliminateOldWorkView(workViewToElimate: WorkView){
-        if (workViewToElimate == self.workView){
-            workViewToElimate.setZoomScale(workViewToElimate.minimumZoomScale, animated: false)
-            workViewToElimate.currentPage.drawingView.removeFromSuperview()
-            workViewToElimate.removeFromSuperview()
-            workView = nil
-        }
+        workViewPresenter.openProject(project: project, grouping: grouping)
+        projectNameTextField.text = project.getName()
+        //updatePageNumberLabel()
     }
 
     //MARK: HamburgerMenuViewControllerDelegate functions
     func newProjectRequested() {
-        projectNameTextField.text = workView.newProject()
+        workViewPresenter.newProjectRequested()
         setupPageNumberLabel()
+        projectNameTextField.text = workViewPresenter.currentProject.getName()
+
+    }
+    
+    //MARK: Method used when new Project is tapped in the File Explorer
+    func newProjectRequestedIn(_ grouping: Grouping){
+        workViewPresenter.newProjectRequested(in: grouping)
+        setupPageNumberLabel()
+        projectNameTextField.text = workViewPresenter.currentProject.getName()
+        dismissFileExplorer()
+        
+    }
+    
+    func openProjectWasRenamed(to newName: String){
+        projectNameTextField.text = newName
     }
     
     func fileExplorerButtonTapped() {
@@ -412,7 +408,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func changePaper(to: SelectedPaperType){
-        workView.changePaper(to: to)
+        workViewPresenter.changePaper(to: to)
     }
 
     // TODO: make sure we autosave (archivePageObjects is called) when we create a new MathBlock
@@ -420,7 +416,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         //this is a bad way to set the position of the mathBlock, in the future, we should make the user drag it out
         var loc = self.view.center
         loc = loc - CGPoint(x: 0, y: 200)
-        createdMathBlock.center = createdMathBlock.convert(loc, to: workView.currentPage)
+        createdMathBlock.center = createdMathBlock.convert(loc, to: workViewPresenter.currentPage)
         workView.receiveNewMathBlock(createdMathBlock)
     }
     
@@ -451,11 +447,11 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
             mixpanel.track(event: "User At Image Picker Screen")
         #endif
         dismiss(animated: true, completion: nil)
-        workView.addImageToPage(pickedImage: pickedImage)
+        workViewPresenter.addImageToCurrentPageInWorkView(pickedImage)
     }
     
     override func didReceiveMemoryWarning() {
-        workView.freeInactivePages()
+        workViewPresenter.freeInactivePages()
         super.didReceiveMemoryWarning()
     }
     
@@ -477,5 +473,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
+    
     
 }

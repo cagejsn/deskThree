@@ -22,7 +22,9 @@ protocol PaperDelegate: NSObjectProtocol {
 }
 
 
-class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate, JotViewStateProxyDelegate {
+class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate {
+    
+    
     
     public weak var delegate: PaperDelegate!
     // TODO: MAKE THIS PRIVATE!
@@ -40,9 +42,23 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     internal var jotViewStatePlistPath: String!
     private var drawingState: JotViewStateProxy!
     
+    private var pageNumber: Int?
+    
     #if !DEBUG
         var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
+    
+    func getPageNumber() -> Int{
+        return pageNumber!
+    }
+    
+    func setPageNumber(number: Int){
+        pageNumber = number
+    }
+    
+    func getDrawingState() -> JotViewStateProxy{
+        return drawingState
+    }
 
     func setBackground(to: SelectedPaperType){
         let image: UIImage!
@@ -165,10 +181,11 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
 
     }
     
-    func setupDrawingView(){
+    func setupDrawingView(withStateDelegate delegate:JotViewStateProxyDelegate){
 
         drawingState = JotViewStateProxy.init(delegate: self)
         drawingView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
+
         drawingView.isUserInteractionEnabled = true
         // jotView's currentPage property is set which is used for hitTesting
         drawingView.currentPage = self
@@ -201,6 +218,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     
     
+    
+    
+    
     //pragma mark - JotViewStateProxyDelegate
     
     func documentDir() -> String {
@@ -226,30 +246,6 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         }
     }
     
-    func saveDrawing(at path: String){
-        
-        let temp = PathLocator.getTempFolder()
-        
-        do {
-            try FileManager.default.createDirectory(atPath: temp+path, withIntermediateDirectories: true, attributes: nil)
-        } catch let error as NSError {
-            print(error.localizedDescription);
-        }
-        
-        
-        let inkLocation   = path+"/ink.png"
-        let stateLocation = path+"/state.plist"
-        let thumbLocation = path+"/thumb.png"
-        
-        func doNothing(ink: UIImage? , thumb: UIImage?, state : JotViewImmutableState?) -> Void{
-            return;
-        }
-        
-        drawingView.exportImage(to: temp+inkLocation, andThumbnailTo: temp+thumbLocation, andStateTo: temp+stateLocation, andJotState: drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
-        jotViewStateInkPath = inkLocation
-        jotViewStatePlistPath = stateLocation
-        
-    }
     
     // Method to remove an expression or image. Can be extended to support any uiview sitting
     // on top of paper
@@ -273,17 +269,15 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         drawingState.isForgetful = true
         drawingState.unload()
         drawingState = nil
-        
+
         for expression in expressions {
             expression.removeFromSuperview()
         }
         expressions.removeAll()
-        
         for image in images {
             image.removeFromSuperview()
         }
         images.removeAll()
-        
         self.removeFromSuperview()
     }
 
@@ -293,23 +287,40 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         aCoder.encode(images)
         aCoder.encode(expressions)
         aCoder.encode(paperType.rawValue, forKey: "paperType")
+        aCoder.encode(pageNumber, forKey: "pageNumber")
+        aCoder.encode(jotViewStatePlistPath)
+        aCoder.encode(jotViewStateInkPath)
+    }
+    
+    func setJotPaths(){
+        let pageFolderPath = "/page" + String(pageNumber!)
+        
+        let inkLocation   = pageFolderPath+"/ink.png"
+        let stateLocation = pageFolderPath+"/state.plist"
+        let thumbLocation = pageFolderPath+"/thumb.png"
+   
+        jotViewStatePlistPath = stateLocation
+        jotViewStateInkPath = inkLocation
     }
     
     deinit {
         print("deinit")
     }
-    
+
     //MARK: Initializers
-    init() {
+    init(pageNo: Int, workViewPresenter: WorkViewPresenter ){
         
         super.init(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
+        self.pageNumber = pageNo
+        setJotPaths()
         expressions = [BlockExpression]()
         //self.image = UIImage(named: "simpleGraphPaper")
-      //  self.contentMode = .scaleToFill
+        //  self.contentMode = .scaleToFill
         self.isOpaque = false
         images = [ImageBlock]()
-        setupDrawingView()
+        setupDrawingView(withStateDelegate: workViewPresenter)
         paperType = .graph
+        
     }
     
     //MARK: setup for loading
@@ -332,9 +343,12 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         paperType = SelectedPaperType(rawValue: int)
         setBackground(to: paperType)
         
-        
-//        let temp = PathLocator.getTempFolder()
-//        jotViewStatePlistPath = temp + (unarchiver.decodeObject() as! String)
-//        jotViewStateInkPath = temp + (unarchiver.decodeObject() as! String)        
+        let pageNumberMaybe = unarchiver.decodeObject(forKey: "pageNumber")
+        if let pgNumber = pageNumberMaybe as! Int? {
+            self.pageNumber = pgNumber
+        }
+    
+        jotViewStatePlistPath = unarchiver.decodeObject() as! String!
+        jotViewStateInkPath = unarchiver.decodeObject() as! String!
     }
 }

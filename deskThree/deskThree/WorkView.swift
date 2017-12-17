@@ -1,5 +1,5 @@
 //
-//  workArea.swift
+//  WorkView.swift
 //  deskThree
 //
 //  Created by Cage Johnson on 10/22/16.
@@ -20,29 +20,18 @@ protocol WorkViewDelegate: NSObjectProtocol {
 class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawingDelegate, JotViewDelegate {
     
     public weak var customDelegate: WorkViewDelegate!
-    public private(set) var currentPage: Paper!
-    
-    private var pages: [Paper?] = [Paper]()
-    private var currentPageIndex = 0
-    private var totalPages = 0
-    
     private var longPressGR: UILongPressGestureRecognizer!
-    // stores metadata of this workspace. Initialized to untitled. can be
-    // replaced with setDeskProject
-    private var project: DeskProject!
+    
+    // state information for what is happening in Paper and its drawing view
     private var cornerPageLabel: UILabel!
-    
-    //states whether or not current page has been written to disk
-    private var onDisk: Bool
-    
-    private var isInMetaData: Bool!
-    
     private var pen: Pen!
     private var originalMinSize: CGFloat = 1.5
     private var originalMaxSize: CGFloat = 3.5
     private var eraser: Eraser!
     private var curPen = Constants.pens.pen
     private var selectedPaperType: SelectedPaperType = .graph
+    
+    weak var workViewPresenter: WorkViewPresenter?
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
@@ -55,37 +44,21 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func receiveNewMathBlock(_ createdMathBlock: MathBlock){
+        let currentPage = workViewPresenter!.currentPage
         currentPage.addMathBlockToPage(block: createdMathBlock)
         didIncrementMove(movedView: createdMathBlock)
-        didModifyDocument()
-        archivePageObjects(page: currentPageIndex)
+        let change = PaperChange.MovedBlock
+        workViewPresenter!.blockWasMoved(change)
     }
     
-
-    func getTotalNumberPages() -> Int {
-        let totalPages = self.pages.count
-        return totalPages
-    }
-    
-    func getCurrentPageIndex() -> Int {
-        return self.currentPageIndex + 1
-    }
-    
-    func setupDelegateChain(){
-        for page in pages {
-            page?.delegate = self
-            page?.setupDelegateChain()
-        }
-    }
-    
-    // Do not call this when superview is nill
+    // Do not call this when superview is nil
     func setupPageNumberSystem(){
         if superview == nil {
             return
         }
         cornerPageLabel = UILabel()
         cornerPageLabel.textAlignment = .center
-        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.pages.count))"
+        cornerPageLabel.text = "Page \(String(1)) of \(String(1))"
         cornerPageLabel.numberOfLines = 1
         cornerPageLabel.textColor = UIColor.white
         cornerPageLabel.font = UIFont.systemFont(ofSize: 16.0)
@@ -106,9 +79,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     
-    func updatePageNotification() {
+    func updatePageNotification(onPage: Int, ofTotalPages: Int) {
         self.bringSubview(toFront: cornerPageLabel)
-        cornerPageLabel.text = "Page \(String(self.currentPageIndex+1)) of \(String(self.totalPages))"
+        cornerPageLabel.text = "Page \(String(onPage)) of \(String(ofTotalPages))"
         pageNotificationFadeIn()
         pageNotificationFadeOut()
     }
@@ -124,23 +97,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             self.cornerPageLabel.alpha = 1.0
         }
     }
-    
-//    func stylizeViews(){
-//        for page in pages {
-//            page?.stylizeViews()
-//        }
-//    }
-    
-    ///sets workarea's meta data object
-    func setDeskProject(project: DeskProject){
-        self.project = project
-    }
-    
-    ///returns meta data for this workarea
-    func getDeskProject() -> DeskProject {
-        return project!
-    }
-    
+       
     // MARK - JotViewDelegate functions
     // pragma mark - JotViewDelagate and other JotView stuff
     func changePenSize(to: CGFloat) {
@@ -194,7 +151,6 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     func setPen(pen: Constants.pens){
         curPen = pen
     }
-   
     
     func getCurPen() -> Constants.pens {
         return curPen
@@ -205,12 +161,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     
-    func changePaper(to: SelectedPaperType){
-        selectedPaperType = to
-        for page in pages {
-            page?.setBackground(to: selectedPaperType)
-        }
-    }
+   
     
  
     func textureForStroke() -> JotBrushTexture! {
@@ -248,8 +199,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     
     func didEndStroke(withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
         activePen().didEndStroke(withCoalescedTouch: coalescedTouch, from: touch)
-        didModifyDocument()
-        archiveJotView(page: currentPageIndex)
+      //  didModifyDocument()
+        let change = PaperChange.AddedStroke
+        workViewPresenter?.strokeWasAdded(change)
+       // FileSystemInteractor.archiveJotView(for: pages[currentPageIndex]!, project: project)
+        
+        //archiveJotView(page: currentPageIndex)
     }
     
     func willCancel(_ stroke: JotStroke!, withCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) {
@@ -281,8 +236,9 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         let refreshAlert = UIAlertController(title: "Confirm Clear", message: "Are you sure you want to clear all of your writing? This cannot be undone.", preferredStyle: UIAlertControllerStyle.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
-            self.currentPage.clearDrawing()
-            self.archiveJotView(page: self.currentPageIndex)
+            //TODO: finish implementing the clear functionality
+//            self.currentPage.clearDrawing()
+//            self.archiveJotView(page: self.currentPageIndex)
         }))
         
         refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -290,20 +246,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         
         UIApplication.shared.keyWindow?.rootViewController?.present(refreshAlert, animated: true, completion: nil)
     }
-    
-    func undoTapped() {
-        currentPage.drawingView.undo()
-        archiveJotView(page: currentPageIndex)
-    }
-    
-    func redoTapped() {
-        currentPage.drawingView.redo()
-        archiveJotView(page: currentPageIndex)
-    }
-
+   
     
     // MARK: Expression Delegate
     func didEvaluate(forExpression sender: Expression, result: Float){
+        let currentPage: Paper = workViewPresenter!.currentPage
         let newBlock = BlockExpression.makeBlock(blockLocation: sender.center + CGPoint(x: sender.frame.width/2 + 80, y: 0)
             , blockType: TypeOfBlock.Number.rawValue, blockData: String(result))
         newBlock.removeFromSuperview()
@@ -311,11 +258,13 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         currentPage.addSubview(express)
         express.tag = -1
         currentPage.expressions.append(express as! BlockExpression)
-        express.delegate = self.currentPage
+        
+        express.delegate = currentPage
         newBlock.frame.origin = CGPoint.zero
         express.addSubview(newBlock)
-        didModifyDocument()
-        archivePageObjects(page: currentPageIndex)
+
+        let change = PaperChange.MovedBlock
+        workViewPresenter!.blockWasMoved(change)
     }
     
     func elementWantsSendToInputObject(element:Any){
@@ -327,6 +276,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func didIncrementMove(movedView: UIView){
+        let currentPage: Paper = workViewPresenter!.currentPage
         var zoomedView = CGRect() //temp CGRect
         //if the block is from an InputObject
         if let movedBlock = movedView as? Block {
@@ -356,16 +306,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             }
         }
     }
-
-    func addImageToPage(pickedImage: UIImage){
-        currentPage.addImageBlock(pickedImage: pickedImage)
-        didModifyDocument()
-        archivePageObjects(page: currentPageIndex)
-    }
     
     func didCompleteMove(movedView: UIView){
         //checks if the block's been dropped above any of the dummy views
         //if the block is not above an existing BlockGroup's dummy view, then we create a new blockgroup including only the new block
+        let currentPage: Paper = workViewPresenter!.currentPage
         var workingView = movedView
         customDelegate.hideTrash()
         
@@ -373,8 +318,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         if(customDelegate.intersectsWithTrash(justMovedBlock: movedView)){
             currentPage.removeObject(object: movedView)
             
-            didModifyDocument()
-            archivePageObjects(page: currentPageIndex)
+//            didModifyDocument()
+//            archivePageObjects(page: currentPageIndex)
             return
         }
         
@@ -387,7 +332,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             currentPage.addSubview(blockExpression)
             blockExpression.addSubview(block)
             currentPage.expressions.append(blockExpression)
-            blockExpression.delegate = self.currentPage
+            blockExpression.delegate = currentPage
             block.frame.origin = CGPoint.zero
             block.parentExpression = blockExpression
             workingView = blockExpression
@@ -467,20 +412,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
             }
         }
         hideAllSpots()
-        didModifyDocument()
-        archivePageObjects(page: currentPageIndex)
-    }
-    
-    //gets called whenever the user modifies the document to save and save metadata
-    func didModifyDocument(){
-        if !isInMetaData {
-            saveMetaData(name: project.name)
-            isInMetaData = true
-        }
-        project.modify()
+        let change = PaperChange.MovedBlock
+        workViewPresenter?.blockWasMoved(change)
     }
     
     func hideAllSpots() {
+        let currentPage: Paper = workViewPresenter!.currentPage
         for expression in currentPage.expressions {
             if let expression = expression as? BlockExpression {
             expression.hideSpots()
@@ -496,114 +433,11 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         customDelegate.unhideTrash()
     }
     
-    func moveToNewPage(){
-        // Tackles the edge case where first page is not saved
-        if currentPageIndex == 0 {
-            archivePageObjects(page: currentPageIndex)
-            archiveJotView(page: currentPageIndex)
-        }
-        currentPageIndex += 1
-        
-        // Add a new page
-        let paper = Paper()
-        pages.append(paper)
-        paper.setBackground(to: selectedPaperType)
-        self.addSubview(pages[currentPageIndex]!)
-        
-        // Push back the old view
-        self.sendSubview(toBack: pages[currentPageIndex - 1]!)
-        pages[currentPageIndex - 1]?.isHidden = true
-        
-        // Bring forward the new view
-        self.bringSubview(toFront: pages[currentPageIndex]!)
-        pages[currentPageIndex]?.isHidden = false
-        
-        currentPage = pages[currentPageIndex]
-        currentPage.delegate = self
-        archivePageObjects(page: currentPageIndex)
-        archiveJotView(page: currentPageIndex)
-    }
-    
-    func moveRight(){
-        currentPageIndex += 1
-        
-        loadPage(pageNo: currentPageIndex)
-        
-        // Move forward a page
-        currentPage = pages[currentPageIndex]
-        
-        // Push back the old view
-        self.sendSubview(toBack: pages[currentPageIndex - 1]!)
-        pages[currentPageIndex - 1]?.isHidden = true
-        
-        // Bring forward the new view
-        self.bringSubview(toFront: pages[currentPageIndex]!)
-        pages[currentPageIndex]?.isHidden = false
-    }
-    
-    func moveLeft(){
-        currentPage.drawingView.removeFromSuperview()
-
-        currentPageIndex -= 1
-        loadPage(pageNo: currentPageIndex)
-        
-        // Push back the old view
-        self.sendSubview(toBack: pages[currentPageIndex+1]!)
-        pages[currentPageIndex+1]?.isHidden = true
-        
-        // Bring forward the new view
-        self.bringSubview(toFront: pages[currentPageIndex]!)
-        pages[currentPageIndex]?.isHidden = false
-        
-        currentPage = pages[currentPageIndex]
-    }
-    
-    /**
-     Move to a page to the right
-     If there is no page, add one and make it the current page
-     */
-    func movePage(direction: String) {
-        // This line makes sure the jotView and workView zoomscales are in sync
-        self.setZoomScale(minimumZoomScale, animated: false)
-        
-        if direction  == "right" {
-            currentPage.drawingView.removeFromSuperview()
-            // Check if this is the last page
-            if currentPageIndex == pages.count - 1 {
-                moveToNewPage()
-            } else {
-                loadPage(pageNo: currentPageIndex)
-                moveRight()
-
-            }
-        } else if direction == "left" {
-            // Check if this is the first page
-            if currentPageIndex != 0 {
-                loadPage(pageNo: currentPageIndex)
-                moveLeft()
-            }
-        }
-        currentPage.drawingView.currentPage = currentPage
-        // Insert the new drawing view onto DeskView
-        currentPage.subviewDrawingView()
-        initCurPage()
-        updatePageNotification()
-    }
-    
     func raiseAlert(title: String, alert: String){
         customDelegate.displayErrorInViewController(title: title, description: alert)
     }
     
     // MARK: init and helpers
-    // Do we even need to do this?
-    func initCurPage() {
-        currentPage.subviewDrawingView()
-        //currentPage.boundInsideBy(superView: self, x1: 0, x2: 0, y1: 0, y2: 0)
-        pages[currentPageIndex]?.contentMode = .scaleAspectFit
-        currentPage.isUserInteractionEnabled = true
-        currentPage.delegate = self
-        setupForJotView()
-    }
     
     func setupForJotView() {
         self.setZoomScale(minimumZoomScale, animated: false)
@@ -612,11 +446,10 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func exportPDF (to pdfData: NSMutableData) -> Bool {
+        
+        /*
         let imageReadySema = DispatchSemaphore(value: 0)
-        
         UIGraphicsBeginPDFContextToData(pdfData, currentPage.bounds, nil)
-        
-        
         for page in pages {
             let rect = page?.bounds
             UIGraphicsBeginPDFPageWithInfo(rect!, nil)
@@ -643,154 +476,12 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         }
         
         UIGraphicsEndPDFContext()
-        
+ */
         return true
     }
     
-    func getSerializedProjectName() -> String{
-        let projects = PathLocator.loadMetaData()
-    
-        var names: [String] = []
-        
-        for project in projects {
-            names.append(project.name)
-        }
-
-        var i = 1
-        while names.contains("Untitled"+String(i)){
-            i+=1
-        }
-        return "Untitled"+String(i)
-    }
-    
-    func loadPage(pageNo: Int){
-        
-        let projectPath = PathLocator.getTempFolder() + "/" + project.name
-        let pageAddr = projectPath+"/page" + String(pageNo+1) + "/page.desk"
-        
-        //page existed before, so get it from disk
-        if(FileManager.default.fileExists(atPath: pageAddr) && pages[pageNo] == nil){
-            let page = NSKeyedUnarchiver.unarchiveObject(withFile: pageAddr) as! Paper!
-            pages[pageNo] = page!
-            pages[pageNo]?.jotViewStateInkPath = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(pageNo+1)+"/ink.png"
-            pages[pageNo]?.jotViewStatePlistPath = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(pageNo+1)+"/state.plist"
-            pages[pageNo]?.setupDrawingView()
-            pages[pageNo]?.stylizeViews()
-            addSubview(pages[pageNo]!)
-        }
-    }
-    
-    // Cleans up the current project. Loads a new one and returns its name
-    func newProject() -> String {
+    func prepareForAnIncomingPage(){
         setZoomScale(minimumZoomScale, animated: false)
-        cleanUpPages()
-        
-        // Now initialize a new page
-        let paper = Paper()
-        paper.setBackground(to: selectedPaperType)
-        paper.delegate = self
-        pages.append(paper)
-        self.addSubview(pages[0]!)
-        currentPage = pages[0]
-        initCurPage()
-        self.sendSubview(toBack: pages[0]!)
-        let name = getSerializedProjectName()
-        self.project = DeskProject(name: name)
-        self.onDisk = false
-        self.isInMetaData = false
-        return name
-    }
-    
-    func loadProject(projectName: String){
-        
-        setZoomScale(minimumZoomScale, animated: false)
-        cleanUpPages()
-        
-        let projectPath = PathLocator.getTempFolder()+"/"+projectName
-
-        self.project.name = projectName
-        
-        var count = 1
-        
-        while(FileManager.default.fileExists(atPath: projectPath + "/page" + String(count))){
-            pages.append(nil)
-            count+=1
-        }
-
-        self.totalPages = count
-        
-        //after this is called, the first page should be in memory
-        loadPage(pageNo: 0)
-        self.currentPage = pages.first!
-        
-        // Do we even need this block anymore? All the other pages are nil anyway
-        for view in self.subviews{
-            if let paper = view as? Paper {
-                paper.isHidden = true
-            }
-        }
-        
-        currentPage.isHidden = false
-
-        initCurPage()
-    }
-    
-    
-    ///saves metadata of project to meta file. overwrite same name if present
-    func saveMetaData(name: String){
-        
-        //creating metadata class instance and setting modified date to now
-        self.project.modify()
-        
-        //saving updated meta data to disk
-        let filePath = PathLocator.getMetaFolder()+"/Projects.meta"
-        var projects = PathLocator.loadMetaData()
-        for i in 0..<projects.count{
-            if projects[i].name == name{
-                //raise dialog asking user confirmation to overwrite
-                projects[i] = project
-                NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
-                return
-            }
-        }
-        projects.append(project)
-        NSKeyedArchiver.archiveRootObject(projects, toFile: filePath)
-    }
-    
-    func ensurePageDirExists() {
-        let pageDir = PathLocator.getTempFolder()+"/"+project.name+"/page"+String(currentPageIndex+1)
-        
-        do {
-            try FileManager.default.createDirectory(atPath: pageDir, withIntermediateDirectories: true, attributes: nil)
-        }catch{
-            print("dir for page already exists")
-        }
-    }
-    
-    func archivePageObjects(page: Int){
-        ensurePageDirExists()
-        if(!onDisk){
-            onDisk = true
-            archiveJotView(page: currentPageIndex)
-        }
-        let pageFolder = PathLocator.getTempFolder() + "/" + project.name + "/page"+String(page+1)
-        NSKeyedArchiver.archiveRootObject(pages[page], toFile: pageFolder + "/page.desk")
-    }
-    
-    // Used by saveAsView to save drawingStates
-    func archiveJotView(page: Int){
-        ensurePageDirExists()
-        if(!onDisk){
-            onDisk = true
-            archivePageObjects(page: currentPageIndex)
-        }
-        let pageFolder = "/"+project.name+"/page"+String(page+1)
-        pages[page]?.saveDrawing(at: pageFolder)
-    }
-    
-    override func encode(with aCoder: NSCoder){
-        super.encode(with: aCoder)
-        aCoder.encode(pages)
     }
     
     func setupJotPens() {
@@ -802,50 +493,25 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         curPen = .pen // Points to pen
     }
     
-    // Called before loading a new project
-    private func cleanUpPages() {
-        currentPage.drawingView.removeFromSuperview()
-        for page in pages {
-            page?.removePage()
-        }
-        pages.removeAll()
-        currentPageIndex = 0
-        print(pages.count)
+    func acceptAndConfigure(page: inout Paper){
+        page.delegate = self
+        self.addSubview(page)
+        self.sendSubview(toBack: page)
+        page.subviewDrawingView()
+        page.contentMode = .scaleAspectFit
+        page.isUserInteractionEnabled = true
+        setupForJotView()
     }
     
-    // Called to free up memory on didRecieveMemoryWarning
-    func freeInactivePages() {
-        for i in 0..<pages.count {
-            if(pages[i] != currentPage ){
-                pages[i]?.removePage()
-                pages.remove(at: i)
-                pages.insert(nil, at: i)
-            }
-        }
-    }
-    
-    init(){
-        self.onDisk = false
+    init(_ workViewPresenter: WorkViewPresenter){
+        self.workViewPresenter = workViewPresenter
         super.init(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
-        let pape = Paper()
-        pape.setBackground(to: selectedPaperType)
-        pape.delegate = self
-        pages.append(pape)
-        self.addSubview(pages[0]!)
-        currentPage = pages[0]
-        print("\(CFGetRetainCount(currentPage as CFTypeRef))")
-        initCurPage()
-        print("\(CFGetRetainCount(currentPage as CFTypeRef))")
-        self.sendSubview(toBack: pages[0]!)
+        workViewPresenter.setWorkView(self)
         self.panGestureRecognizer.minimumNumberOfTouches = 2
-        self.project = DeskProject(name: getSerializedProjectName())
-//        setupPageNumberSystem()
         setupJotPens()
-        isInMetaData = false
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
-    
 }

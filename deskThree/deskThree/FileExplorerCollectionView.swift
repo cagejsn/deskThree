@@ -20,11 +20,15 @@ class FileExplorerCollectionView: UICollectionView {
         
     }
     
+    func notifyDataSetChanged(){
+        self.reloadData()
+    }
+  
     
     func stylize(){
        // self.layer.cornerRadius = 10
         //self.backgroundColor = UIColor.darkGray
-        backgroundColor = FileExplorerColors.LightGrey
+        backgroundColor = UIColor.white
     }
     
     
