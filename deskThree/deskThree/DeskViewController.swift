@@ -325,6 +325,19 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     }
     
+    //MARK: Method used when new Project is tapped in the File Explorer
+    func newProjectRequestedIn(_ grouping: Grouping){
+        workViewPresenter.newProjectRequested(in: grouping)
+        setupPageNumberLabel()
+        projectNameTextField.text = workViewPresenter.currentProject.getName()
+        dismissFileExplorer()
+        
+    }
+    
+    func openProjectWasRenamed(to newName: String){
+        projectNameTextField.text = newName
+    }
+    
     func fileExplorerButtonTapped() {
         #if !DEBUG
             mixpanel.track(event: "Button: File Explorer")

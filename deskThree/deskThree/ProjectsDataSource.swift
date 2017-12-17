@@ -14,6 +14,7 @@ protocol ProjectInteractionListener {
     func doMoveProject(_ project: DeskProject)
     func doDeleteProject(_ project: DeskProject)
     func doShareProject(_ projectCell: FileExplorerCollectionViewCell)
+    func doMakeNewProjectInSelectedGrouping(_ grouping: Grouping)
 }
 
 
@@ -38,14 +39,33 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let row = indexPath.row
+        var projectsCount = selectedGrouping?.projects!.count
+        let isNew = projectsCount == nil ? true :
+            { () -> Bool in
+            if row  == selectedGrouping!.projects!.count {
+                //new project
+                return true
+            }
+            return false
+            }()
+        
+        if isNew {
+            projectInteractionListener.doMakeNewProjectInSelectedGrouping(selectedGrouping)
+            return
+        }
+        
+        
+        
+        
         let projects = selectedGrouping.projects!
         projectInteractionListener.onProjectSelected(selectedGrouping, projects[indexPath.row])
         
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = ( selectedGrouping == nil ) ? 0 : selectedGrouping.projects?.count
-        return count! + 1
+        let count = ( selectedGrouping == nil ) ? 0 : (selectedGrouping.projects?.count)! + 1
+        return count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

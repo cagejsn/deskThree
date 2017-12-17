@@ -65,6 +65,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="marchingAntsOnBorderView" destination="FVg-96-4gl" id="CyX-C2-e9K"/>
+                <outlet property="newProjectThumbnail" destination="97e-5n-aqq" id="ZYl-7s-c73"/>
                 <outlet property="translucentView" destination="1m5-xl-z74" id="L6R-Y2-ubY"/>
             </connections>
             <point key="canvasLocation" x="50" y="3"/>

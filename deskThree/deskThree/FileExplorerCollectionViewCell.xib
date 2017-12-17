@@ -19,15 +19,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RON-Iw-Raj" customClass="ProjectOptionsMenu" customModule="deskThree" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="402" height="321.5"/>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wcS-c9-Ypv">
-                    <rect key="frame" x="0.0" y="0.0" width="402" height="402"/>
-                    <accessibility key="accessibilityConfiguration">
-                        <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
-                    </accessibility>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="wcS-c9-Ypv" secondAttribute="height" multiplier="1:1" id="GaV-wM-XV2"/>
-                    </constraints>
-                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nVh-Dm-h1E" customClass="ILTranslucentView">
                     <rect key="frame" x="0.0" y="321.5" width="402" height="80.5"/>
                     <subviews>
@@ -69,25 +60,31 @@
                         <constraint firstItem="Rlf-Sh-Jez" firstAttribute="top" secondItem="oMa-h6-JiT" secondAttribute="bottom" id="y9y-bk-rjK"/>
                     </constraints>
                 </view>
+                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iJB-UX-7N1" customClass="FileThumbnailButton" customModule="deskThree" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="402" height="402"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="iJB-UX-7N1" secondAttribute="height" multiplier="1:1" id="aTl-bf-fP7"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="wcS-c9-Ypv" secondAttribute="trailing" id="0wH-it-Nq9"/>
                 <constraint firstItem="nVh-Dm-h1E" firstAttribute="top" secondItem="RON-Iw-Raj" secondAttribute="bottom" id="1Jh-aA-UpF"/>
                 <constraint firstAttribute="trailing" secondItem="RON-Iw-Raj" secondAttribute="trailing" id="3Zu-Ti-zeB"/>
-                <constraint firstItem="wcS-c9-Ypv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vzq-2h-qgl"/>
-                <constraint firstItem="wcS-c9-Ypv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="YCv-24-vRd"/>
+                <constraint firstItem="iJB-UX-7N1" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9uk-65-V5l"/>
+                <constraint firstItem="iJB-UX-7N1" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Dzb-H1-3le"/>
+                <constraint firstAttribute="bottom" secondItem="iJB-UX-7N1" secondAttribute="bottom" id="KHw-mE-Osh"/>
+                <constraint firstAttribute="trailing" secondItem="iJB-UX-7N1" secondAttribute="trailing" id="WQ0-87-8oE"/>
                 <constraint firstItem="RON-Iw-Raj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="cKj-6V-GaK"/>
                 <constraint firstItem="RON-Iw-Raj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="exo-n7-Kup"/>
                 <constraint firstItem="nVh-Dm-h1E" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gFS-QD-FYM"/>
-                <constraint firstAttribute="bottom" secondItem="wcS-c9-Ypv" secondAttribute="bottom" id="kBY-YJ-jOA"/>
                 <constraint firstAttribute="trailing" secondItem="nVh-Dm-h1E" secondAttribute="trailing" id="kT9-xE-SeC"/>
                 <constraint firstAttribute="bottom" secondItem="nVh-Dm-h1E" secondAttribute="bottom" id="qtA-uH-va4"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="fauxToolbarView" destination="nVh-Dm-h1E" id="yml-PN-xxY"/>
-                <outlet property="fileThumbnail" destination="wcS-c9-Ypv" id="NRM-jN-pHC"/>
                 <outlet property="lastModifiedLabel" destination="Rlf-Sh-Jez" id="Nd1-5h-vdD"/>
                 <outlet property="projectNameLabel" destination="oMa-h6-JiT" id="8vA-no-Ds9"/>
                 <outlet property="projectOptionsButton" destination="XqA-tN-Fcf" id="8d3-fv-Rrs"/>

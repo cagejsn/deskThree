@@ -24,6 +24,11 @@ class GroupingsDataSource: NSObject, UITableViewDataSource, UITableViewDelegate 
         groupingsToDisplay = FileSystemInteractor.getMetaData()
     }
     
+    func addAndSelectGroupingAtZeroIndex(_ grouping: Grouping){
+        groupingsToDisplay.insert(grouping, at: 0)
+        selectedGrouping = grouping
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableViewCellHeight
     }
@@ -50,7 +55,7 @@ class GroupingsDataSource: NSObject, UITableViewDataSource, UITableViewDelegate 
     
     func notifyGroupingsChanged(){
         groupingsToDisplay = FileSystemInteractor.getMetaData()
-    
+        
         
     }
     

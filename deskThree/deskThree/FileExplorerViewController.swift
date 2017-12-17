@@ -11,7 +11,9 @@ import Zip
 
 protocol FileExplorerViewControllerDelegate: NSObjectProtocol {
     func didSelectProject(grouping: Grouping, project: DeskProject)
+    func newProjectRequestedIn(_ grouping: Grouping)
     func dismissFileExplorer()
+    func openProjectWasRenamed(to newName: String)
 }
 
 class FileExplorerViewController: UIViewController, GroupingSelectedListener, ProjectInteractionListener {
@@ -68,11 +70,22 @@ class FileExplorerViewController: UIViewController, GroupingSelectedListener, Pr
             var grouping = Grouping(name: newGroupingName)
             MetaDataInteractor.saveMetaData(of: grouping)
             //TODO: make the handleMeta of FileSystemInteractor less cumbersome, can't call it here because no project
-            self.groupingsDataSource.notifyGroupingsChanged()
-            self.tableView.reloadData()
+            
+            
+            self.tableView.beginUpdates()
+            
+            self.groupingsDataSource.addAndSelectGroupingAtZeroIndex(grouping)
+//        self.groupingsDataSource.notifyGroupingsChanged()
+            self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+            self.tableView.endUpdates()
+            self.tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
+            
+//            self.tableView.reloadData()
             //select the new grouping
 //            self.tableView.selectRow(at: , animated: true, scrollPosition: )
             self.projectsDataSource.selectedGrouping = grouping
+            self.collectionViewHeader.setCurrentGroupingLabelText(text: grouping.getName())
+            self.collectionView.notifyDataSetChanged()
         })
         alertController.addAction(confirmAction)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_ action: UIAlertAction) -> Void in
@@ -109,7 +122,8 @@ extension FileExplorerViewController {
             var localProject = project
             let change = MetaChange.RenamedProject(newName: newProjectName)
             try! FileSystemInteractor.handleMeta(change, grouping: &grouping, project: &localProject)
-            
+            //sets the text of the Desk View Controle
+            self.delegate.openProjectWasRenamed(to: newProjectName)
             //
             self.projectsDataSource.notifyDataSetChanged()
             self.collectionView.reloadData()
@@ -198,9 +212,11 @@ class ShareSummary: NSObject, UIActivityItemSource {
 
 
 
-
-extension FileExplorerViewController  {
-    
+//
+extension FileExplorerViewController {
+    func doMakeNewProjectInSelectedGrouping(_ grouping: Grouping){
+        delegate.newProjectRequestedIn(grouping)
+    }
     
 }
 

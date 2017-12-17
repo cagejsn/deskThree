@@ -20,6 +20,9 @@ class FileExplorerCollectionView: UICollectionView {
         
     }
     
+    func notifyDataSetChanged(){
+        self.reloadData()
+    }
   
     
     func stylize(){

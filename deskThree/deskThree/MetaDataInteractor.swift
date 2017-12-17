@@ -214,6 +214,8 @@ class MetaDataInteractor: NSObject {
             }
         }
         
+        storedNumbersWhichAreTaken.sort()
+        
         var i: Int = 1
         for num in storedNumbersWhichAreTaken {
             if ( i == num){

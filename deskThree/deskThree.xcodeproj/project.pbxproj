@@ -98,6 +98,7 @@
 		DA7E470B1E8DD552007C52C1 /* Mixpanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 528F8AFB1E8D9C3600E75EF4 /* Mixpanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DA7E470F1E8DF1AB007C52C1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */; };
 		DA8E91F11FE223D80014B432 /* JotToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8E91F01FE223D80014B432 /* JotToMath.swift */; };
+		DA8E92041FE596B20014B432 /* FileThumbnailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
 		DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */; };
 		DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */; };
@@ -338,6 +339,7 @@
 		DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Mixpanel.xcodeproj; path = "mixpanel-swift/Mixpanel.xcodeproj"; sourceTree = "<group>"; };
 		DA7E470E1E8DF1AB007C52C1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DA8E91F01FE223D80014B432 /* JotToMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotToMath.swift; sourceTree = "<group>"; };
+		DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileThumbnailButton.swift; sourceTree = "<group>"; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
 		DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableView.swift; sourceTree = "<group>"; };
 		DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableViewCell.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 				DA233AAC1FD505FF0099FC74 /* ProjectOptionsMenu.swift */,
 				DA233AAE1FD8FC0E0099FC74 /* NewCollectionViewCell.swift */,
 				DA233AB01FD8FC300099FC74 /* NewCollectionViewCell.xib */,
+				DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */,
 			);
 			name = CollectionViewCell;
 			sourceTree = "<group>";
@@ -503,6 +506,28 @@
 				DA7E47091E8DD52E007C52C1 /* Mixpanel.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		DA8E920D1FE5F6730014B432 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
+				DA04E3FB1FC0B1FF00900588 /* Grouping.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		DA8E920E1FE5F68C0014B432 /* File System */ = {
+			isa = PBXGroup;
+			children = (
+				DA04E4051FC0B35400900588 /* FileSystemInteractor.swift */,
+				DA04E4071FC0B3F900900588 /* MetaDataInteractor.swift */,
+				DA04E40D1FC0CC0800900588 /* ProjectFileInteractor.swift */,
+				DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */,
+				DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */,
+				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
+			);
+			name = "File System";
 			sourceTree = "<group>";
 		};
 		DA9E8C8A1F8A94A000D6D8AD /* File Explorer */ = {
@@ -631,13 +656,8 @@
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
 				DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */,
-				DA04E4051FC0B35400900588 /* FileSystemInteractor.swift */,
-				DA04E4071FC0B3F900900588 /* MetaDataInteractor.swift */,
-				DA04E40D1FC0CC0800900588 /* ProjectFileInteractor.swift */,
-				DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */,
-				DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */,
-				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
-				DA04E3FB1FC0B1FF00900588 /* Grouping.swift */,
+				DA8E920E1FE5F68C0014B432 /* File System */,
+				DA8E920D1FE5F6730014B432 /* Models */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
 				25FB33341DBCFE5500785111 /* DeskViewController.xib */,
 				DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */,
@@ -663,7 +683,6 @@
 				DA9E8C8A1F8A94A000D6D8AD /* File Explorer */,
 				DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */,
 				DAE7CE821E7D70480050A543 /* SaveAsView.swift */,
-				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
 				DA35EE161E8C979700520FFD /* DWBubbleMenuButton.h */,
 				DA35EE171E8C979700520FFD /* DWBubbleMenuButton.m */,
 				DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */,
@@ -993,6 +1012,7 @@
 				DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */,
 				DA5747601E7491E50010F754 /* OCRMathView.swift in Sources */,
 				DA04E3FC1FC0B1FF00900588 /* Grouping.swift in Sources */,
+				DA8E92041FE596B20014B432 /* FileThumbnailButton.swift in Sources */,
 				DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */,
 				DA04E40C1FC0CB9200900588 /* PaperInteractor.swift in Sources */,
 				DA233AA41FD4C1350099FC74 /* ProjectOptionsButton.swift in Sources */,

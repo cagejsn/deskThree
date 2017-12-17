@@ -19,7 +19,7 @@ class FileExplorerCollectionViewCell: UICollectionViewCell, ProjectOptionsMenuDe
     
     var project: DeskProject!
     
-    @IBOutlet  fileprivate var fileThumbnail: UIImageView?
+    @IBOutlet  fileprivate var fileThumbnail: FileThumbnailButton?
     
     @IBOutlet var projectNameLabel: UILabel!
     
@@ -43,11 +43,10 @@ class FileExplorerCollectionViewCell: UICollectionViewCell, ProjectOptionsMenuDe
         
     }
     
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        fileThumbnail?.image = #imageLiteral(resourceName: "deskLogo")
-        fileThumbnail?.contentMode = .scaleAspectFill
-        
         self.backgroundColor = FileExplorerColors.LightGrey
         
         fauxToolbarView.translucentAlpha = 0.8;

@@ -44,11 +44,13 @@ class GroupingTableViewCell: UITableViewCell {
         self.backgroundColor = FileExplorerColors.LightGrey
         
         self.selectedBackgroundView = { () -> UIView in let v = UIView(); v.backgroundColor = UIColor.white; return v}()
+        label.highlightedTextColor = FileExplorerColors.DarkTextColor
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     
     

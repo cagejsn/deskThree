@@ -16,7 +16,7 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
     private var pages: [Paper?] = [Paper]()
     var selectedPaperType: SelectedPaperType = .engineering
     
-    var currentGrouping: Grouping
+    private var currentGrouping: Grouping
     var currentProject: DeskProject
     lazy var currentPage: Paper = Paper(pageNo: 1, workViewPresenter: self)
     var fileSystemInteractor: FileSystemInteractor!
@@ -68,6 +68,7 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
     
     func setUpJotToMath(pathFrame: CGRect){
         jotToMath = JotToMath()
+        jotToMath.beautificationOption = .fontify
         jotToMath.frame = pathFrame
         // self.addSubview(jotToMath)
         jotToMath.setCompletionBlock(codeToRun: {[weak self] in return self?.aFunction()})
@@ -93,16 +94,21 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
     func clipperDidSelectMath(selection: CGPath){
         setUpJotToMath(pathFrame: selection.boundingBox)
         
-        let temp = PathLocator.getTempFolder()
-        let dict = NSDictionary(contentsOfFile: temp+jotViewStatePlistPath)
-        let importantPath = (temp+jotViewStatePlistPath).replacingOccurrences(of: "state.plist", with: "")
-        let folder = try? FileManager.default.contentsOfDirectory(atPath: importantPath)
+        let dict = NSDictionary(contentsOfFile: jotViewStatePlistPath)
+        let importantPath = jotViewStatePlistPath.replacingOccurrences(of: "/state.plist", with: "")
         
+        var folderContents = [String]()
+        do{
+         folderContents = try FileManager.default.contentsOfDirectory(atPath: importantPath)
+        } catch(let e) {
+            print(e.localizedDescription)
+            
+        }
         var arrayOfStrokes = [JotStroke]()
-        for string in folder! {
+        for string in folderContents {
             if let string = string as? String {
                 if string.contains(".strokedata") {
-                    let s = JotStroke(lightFromDict: NSDictionary(contentsOfFile: importantPath+string) as! [AnyHashable : Any])
+                    let s = JotStroke(lightFromDict: NSDictionary(contentsOfFile: importantPath+"/"+string) as! [AnyHashable : Any])
                     arrayOfStrokes.append(s!)
                 }
             }
@@ -279,6 +285,7 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
     
     func handleFirstPageEdit(){
         FileSystemInteractor.handleFirstPageEdit(project: &currentProject, page: &currentPage)
+        makePathsForJVSPD_Duties()
     }
     
     func discardPageInfo(){
@@ -343,6 +350,19 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         currentPage.setBackground(to: selectedPaperType)
         workView.acceptAndConfigure(page: &currentPage)
     }
+    
+    //maintains current grouping
+    func newProjectRequested(in grouping: Grouping){
+        closeProject()
+        self.currentGrouping = grouping
+        self.currentProject = MetaDataInteractor.makeNewProjectOfFirstAvailableName(in: &currentGrouping)
+        currentPage = Paper(pageNo: 1, workViewPresenter: self)
+        replacePagesWithEmptyArray()
+        pages.append(currentPage)
+        currentPage.setBackground(to: selectedPaperType)
+        workView.acceptAndConfigure(page: &currentPage)
+    }
+    
     
     func replacePagesWithEmptyArray(){
         pages.removeAll()
