@@ -90,7 +90,7 @@
                             </connections>
                         </barButtonItem>
                     </items>
-                    <color key="barTintColor" red="0.1630671024" green="0.71859991550000002" blue="0.92298704389999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="barTintColor" red="0.066871389746665955" green="0.71127569675445557" blue="0.89505660533905029" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </toolbar>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

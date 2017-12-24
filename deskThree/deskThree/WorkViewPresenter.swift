@@ -45,10 +45,29 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         workView.userSelected(writingInstrument: selected)
     }
     
-    func beginClipping(){
-        var clipper = Clipper(overSubview: currentPage)
+    func beginClipping(_ sender: UIButton){
+        if(sender.isSelected == true){
+            removeClipper()
+            sender.isSelected = false
+            return
+        }
+        sender.isSelected = true
+//        sender.backgroundColor = UIColor.init(red: 17/255, green: 181/255, blue: 228/255, alpha: 1.0)
+        addClipperToCurrentPage()
+        
+    }
+    
+    var clipper: Clipper!
+    
+    func removeClipper(){
+        clipper.removeFromSuperview()
+    }
+    
+    func addClipperToCurrentPage(){
+        clipper = Clipper(overSubview: currentPage)
         currentPage.addSubview(clipper)
         clipper.setCompletionFunction(functionToCall: clipperDidSelectMath)
+        
     }
     
     var jotToMath: JotToMath!
@@ -60,7 +79,8 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         if let mathimg2 = mathimg1 as? UIImage{
             let mathBlock = MathBlock(image: mathimg2, symbols: jotToMath.resultAsSymbolList(), text: jotToMath.resultAsText())
             // mathBlock.frame = CGRect(x: 100, y: 100, width: 200, height: 100)
-            mathBlock.center = CGPoint(x: 200, y: 200)
+            mathBlock.center = jotToMath.center
+            
             self.currentPage.addMathBlockToPage(block: mathBlock)
             
         }

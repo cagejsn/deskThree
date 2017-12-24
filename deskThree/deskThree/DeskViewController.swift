@@ -158,10 +158,20 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         strokeToMathToggleControl.frame = CGRect(x: 170, y: 70, width: 70, height: 40)
         self.view.addSubview(strokeToMathToggleControl)
         strokeToMathToggleControl.delegate = self
-        strokeToMathToggleControl.addTarget(workViewPresenter, action: #selector(WorkViewPresenter.beginClipping), for: .touchUpInside)
-        strokeToMathToggleControl.setImage(#imageLiteral(resourceName: "apple"), for: .normal)
+        strokeToMathToggleControl.addTarget(workViewPresenter, action: #selector(WorkViewPresenter.beginClipping(_:)), for: .touchUpInside)
+//         strokeToMathToggleControl.addTarget(self, action: #selector(DeskViewController.setUpClipping), for: .touchUpInside)
+        strokeToMathToggleControl.setImage(#imageLiteral(resourceName: "magicWand"), for: .normal)
+        strokeToMathToggleControl.imageView?.contentMode = .scaleAspectFit
+        strokeToMathToggleControl.isSelected = false
+        strokeToMathToggleControl.imageEdgeInsets = UIEdgeInsetsMake(5, 5, 5, 5)
+        strokeToMathToggleControl.layer.cornerRadius = 7
+        strokeToMathToggleControl.layer.borderWidth = 3
+        strokeToMathToggleControl.layer.borderColor = UIColor.init(colorLiteralRed: 0, green: 191/255, blue: 1.0, alpha: 1.0).cgColor
+        strokeToMathToggleControl.adjustsImageWhenHighlighted = false
+        
     }
 
+    
     //MARK: Data flow functions
     func sendingToInputObject(for element: Any){
         if let mathElement = element as? MathBlock {

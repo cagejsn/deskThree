@@ -19,6 +19,12 @@ class Clipper: UIView {
     var animatedClippingLayer: CAShapeLayer = CAShapeLayer()
     let pattern: [NSNumber] = [NSNumber(value:5.0),NSNumber(value:5.0)]
     var viewToClipFrom: UIView!
+    override var canBecomeFirstResponder: Bool {
+        get {
+           return true
+        }
+    }
+    
     
     //clipper should work as follows:
     // the initialization of the clipper happens after a button is pushed on the VC
@@ -93,26 +99,23 @@ class Clipper: UIView {
         self.layer.addSublayer(animatedClippingLayer)
     }
     
+    
     func showSelectableOptions(){
+        becomeFirstResponder()
+        var selectActionMenu: UIMenuController = UIMenuController.shared
+        selectActionMenu.arrowDirection = .down
+        selectActionMenu.setTargetRect(activePath.bounds, in: self)
         
-        var selectableTypePicker: UIButton
-        var optionsViewWidth:CGFloat = 30
+        var selectableActionMath = UIMenuItem(title: "math", action: #selector(wordsButtonTapped))
+        var selectableActionClear = UIMenuItem(title: "clear", action: #selector(wordsButtonTapped))
         
-        let x = activePath.bounds.origin.x + ((activePath.bounds.width - optionsViewWidth)/2)
-        
-        //        selectableTypePicker = UIButton(type: .custom)
-        selectableTypePicker = UIButton(type: .system)
-        selectableTypePicker.tintColor = UIColor.white
-        selectableTypePicker.frame = CGRect(x: x, y: activePath.bounds.origin.y - 45, width: optionsViewWidth, height: 23)
-        selectableTypePicker.setImage(#imageLiteral(resourceName: "fOfX"), for: .normal)
-        selectableTypePicker.backgroundColor = UIColor.init(red: 42/255, green: 183/255, blue: 235/255, alpha: 1.0)
-        selectableTypePicker.imageEdgeInsets = UIEdgeInsets(top: 5, left: 2, bottom: 5, right: 2)
-        self.addSubview(selectableTypePicker)
-        
-        selectableTypePicker.addTarget(self, action: #selector(wordsButtonTapped), for: .touchUpInside)
-        
-        selectableTypePicker.layer.cornerRadius = 5
+        var selectableActionCancel = UIMenuItem(title: "cancel", action: #selector(wordsButtonTapped))
+        selectActionMenu.menuItems = [selectableActionMath,selectableActionClear,selectableActionCancel]
+        selectActionMenu.setMenuVisible(true, animated: true)
+           
     }
+    
+    
     
     func wordsButtonTapped(){
         
@@ -188,6 +191,8 @@ class Clipper: UIView {
         super.init(frame:CGRect(x: 0, y: 0, width: 1275, height: 1650))
         //self.transform = view.transform
         viewToClipFrom = view
+
+        
         //attemptToConstraint(withView:view)
     }
     

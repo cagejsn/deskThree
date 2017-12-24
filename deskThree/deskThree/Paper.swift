@@ -24,7 +24,7 @@ protocol PaperDelegate: NSObjectProtocol {
 
 class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate {
     
-    
+    typealias handler = ()->()
     
     public weak var delegate: PaperDelegate!
     // TODO: MAKE THIS PRIVATE!
@@ -41,6 +41,16 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     internal var jotViewStateInkPath: String!
     internal var jotViewStatePlistPath: String!
     private var drawingState: JotViewStateProxy!
+    
+    var mathBlockEditHandler: handler!
+    var mathBlockEqualsHandler: handler!
+    var mathBlockWolframHandler:handler!
+    
+    override var canBecomeFirstResponder: Bool {
+        get {
+            return true
+        }
+    }
     
     private var pageNumber: Int?
     
@@ -117,6 +127,24 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         block.delegate = self
         expressions.append(block)
         self.addSubview(block)
+        showSelectableMathBlockOptions(frame: block.frame)
+    }
+    
+    
+    
+    func showSelectableMathBlockOptions(frame: CGRect){
+        becomeFirstResponder()
+        var selectActionMenu: UIMenuController = UIMenuController.shared
+        selectActionMenu.arrowDirection = .down
+        selectActionMenu.setTargetRect(frame, in: self)
+        
+        var selectableActionEdit = UIMenuItem(title: "edit", action: #selector(getter: Paper.mathBlockEditHandler))
+        
+        var selectableActionEquals = UIMenuItem(title: "=", action: #selector(getter: Paper.mathBlockEqualsHandler))
+        
+        var selectableActionWolfram = UIMenuItem(title: "wr", action: #selector(getter: Paper.mathBlockWolframHandler))
+        selectActionMenu.menuItems = [selectableActionEdit,selectableActionEquals,selectableActionWolfram]
+        selectActionMenu.setMenuVisible(true, animated: true)
     }
     
     func didHoldBlock(sender: MathBlock) {
@@ -183,7 +211,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     
     func setupDrawingView(withStateDelegate delegate:JotViewStateProxyDelegate){
 
-        drawingState = JotViewStateProxy.init(delegate: self)
+        drawingState = JotViewStateProxy.init(delegate: delegate as! NSObjectProtocol & JotViewStateProxyDelegate)
         drawingView = JotView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
 
         drawingView.isUserInteractionEnabled = true

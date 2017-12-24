@@ -36,12 +36,23 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
       //  scrollView.scrollIndicatorInsets
       //  scrollView.showsVerticalScrollIndicator = false
         insideHamburger.setup()
+//        scrollView.contentSize = insideHamburger.bounds.size
+        
       }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        scrollView.contentSize = insideHamburger.frame.size
+
+    }
+    /*
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = insideHamburger.bounds.size
+//        scrollView.contentSize = insideHamburger.bounds.size
     }
+    */
+    
     
     func newButtonTapped(){
         delegate.newProjectRequested()
