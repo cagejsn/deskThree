@@ -219,6 +219,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         // hmm?
         //activePen().shouldUseVelocity
         return activePen().color(forCoalescedTouch: coalescedTouch, from: touch)
+        
     }
     
     func width(forCoalescedTouch coalescedTouch: UITouch!, from touch: UITouch!) -> CGFloat {

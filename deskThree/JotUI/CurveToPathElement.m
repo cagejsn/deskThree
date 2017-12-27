@@ -159,6 +159,7 @@ const CGPoint JotCGNotFoundPoint = {-10000000.2, -999999.6};
 
 
 - (BOOL)shouldContainVertexColorDataGivenPreviousElement:(AbstractBezierPathElement*)previousElement {
+    
     if (!previousElement) {
         return NO;
     }
@@ -675,6 +676,24 @@ static CGFloat subdivideBezierAtLength(const CGPoint bez[4],
     }
 }
 
+#pragma mark - Encoding & Decoding
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeCGPoint:curveTo forKey:@"curveTo"];
+    [aCoder encodeCGPoint:ctrl1 forKey:@"ctrl1"];
+    [aCoder encodeCGPoint:ctrl2 forKey:@"ctrl2"];
+    
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super initWithCoder:aDecoder]) {
+        curveTo = [aDecoder decodeCGPointForKey:@"curveTo"];
+        ctrl1 = [aDecoder decodeCGPointForKey:@"ctrl1"];
+        ctrl2 = [aDecoder decodeCGPointForKey:@"ctrl2"];
+    }
+    return self;
+}
 
 #pragma mark - PlistSaving
 
@@ -686,11 +705,11 @@ static CGFloat subdivideBezierAtLength(const CGPoint bez[4],
     [dict setObject:[NSNumber numberWithFloat:ctrl1.y] forKey:@"ctrl1.y"];
     [dict setObject:[NSNumber numberWithFloat:ctrl2.x] forKey:@"ctrl2.x"];
     [dict setObject:[NSNumber numberWithFloat:ctrl2.y] forKey:@"ctrl2.y"];
-    [dict setObject:[NSNumber numberWithBool:vertexBufferShouldContainColor] forKey:@"vertexBufferShouldContainColor"];
-    if (dataVertexBuffer) {
-        [dict setObject:dataVertexBuffer forKey:@"vertexBuffer"];
-    }
-    [dict setObject:[NSNumber numberWithFloat:numberOfBytesOfVertexData] forKey:@"numberOfBytesOfVertexData"];
+//    [dict setObject:[NSNumber numberWithBool:vertexBufferShouldContainColor] forKey:@"vertexBufferShouldContainColor"];
+//    if (dataVertexBuffer) {
+//        [dict setObject:dataVertexBuffer forKey:@"vertexBuffer"];
+//    }
+//    [dict setObject:[NSNumber numberWithFloat:numberOfBytesOfVertexData] forKey:@"numberOfBytesOfVertexData"];
     return [NSDictionary dictionaryWithDictionary:dict];
 }
 
@@ -702,9 +721,9 @@ static CGFloat subdivideBezierAtLength(const CGPoint bez[4],
         curveTo = CGPointMake([[dictionary objectForKey:@"curveTo.x"] floatValue], [[dictionary objectForKey:@"curveTo.y"] floatValue]);
         ctrl1 = CGPointMake([[dictionary objectForKey:@"ctrl1.x"] floatValue], [[dictionary objectForKey:@"ctrl1.y"] floatValue]);
         ctrl2 = CGPointMake([[dictionary objectForKey:@"ctrl2.x"] floatValue], [[dictionary objectForKey:@"ctrl2.y"] floatValue]);
-        dataVertexBuffer = [dictionary objectForKey:@"vertexBuffer"];
-        vertexBufferShouldContainColor = [[dictionary objectForKey:@"vertexBufferShouldContainColor"] boolValue];
-        numberOfBytesOfVertexData = [[dictionary objectForKey:@"numberOfBytesOfVertexData"] integerValue];
+//        dataVertexBuffer = [dictionary objectForKey:@"vertexBuffer"];
+//        vertexBufferShouldContainColor = [[dictionary objectForKey:@"vertexBufferShouldContainColor"] boolValue];
+//        numberOfBytesOfVertexData = [[dictionary objectForKey:@"numberOfBytesOfVertexData"] integerValue];
 
         CGFloat currentScale = [[UIScreen mainScreen] scale];
         if (currentScale != scaleOfVertexBuffer) {
@@ -717,9 +736,9 @@ static CGFloat subdivideBezierAtLength(const CGPoint bez[4],
             numberOfBytesOfVertexData = 0;
         }
 
-        if (!vertexBufferShouldContainColor) {
-            [self calculateAndCacheColorComponents];
-        }
+      //  if (!vertexBufferShouldContainColor) {
+       //     [self calculateAndCacheColorComponents];
+     //   }
 
         NSUInteger prime = 31;
         hashCache = 1;

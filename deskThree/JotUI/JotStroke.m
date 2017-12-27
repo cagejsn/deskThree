@@ -11,6 +11,9 @@
 #import "AbstractBezierPathElement.h"
 #import "AbstractBezierPathElement-Protected.h"
 #import "JotDefaultBrushTexture.h"
+#import "JotGLColorlessPointProgram.h"
+#import "UIColor+JotHelper.h"
+
 #import "NSArray+JotMapReduce.h"
 #import "JotBufferVBO.h"
 #import "JotBufferManager.h"
@@ -24,6 +27,8 @@
     SegmentSmoother* segmentSmoother;
     // this is the texture to use when drawing the stroke
     JotBrushTexture* texture;
+    //color of the stroke
+    UIColor* strokeColor;
     __weak NSObject<JotStrokeDelegate>* delegate;
     // total Byte size
     NSInteger totalNumberOfBytes;
@@ -36,6 +41,7 @@
 @synthesize segments;
 @synthesize segmentSmoother;
 @synthesize texture;
+@synthesize strokeColor;
 @synthesize delegate;
 @synthesize totalNumberOfBytes;
 @synthesize bufferManager;
@@ -48,6 +54,7 @@
         }
         segmentSmoother = [[SegmentSmoother alloc] init];
         texture = _texture;
+//        strokeColor = [[UIColor alloc] initWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
         bufferManager = _bufferManager;
     }
     return self;
@@ -134,14 +141,39 @@
     return CGRectZero;
 }
 
+
+#pragma mark - Encoding & Decoding
+
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+   // [aCoder encodeObject:NSStringFromClass([self class]) forKey:@"class"];
+    [aCoder encodeObject:segments forKey:@"segments"];
+    [aCoder encodeObject:segmentSmoother forKey:@"segmentSmoother"];
+    [aCoder encodeObject:texture forKey:@"texture"];
+    [aCoder encodeObject:strokeColor forKey:@"strokeColor"];
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super init]) {
+        segments = [aDecoder decodeObjectForKey:@"segments"];
+        segmentSmoother = [aDecoder decodeObjectForKey:@"segmentSmoother"];
+        texture = [aDecoder decodeObjectForKey:@"texture"];
+        strokeColor = [aDecoder decodeObjectForKey:@"strokeColor"];
+    }
+    return self;
+}
+
 #pragma mark - PlistSaving
 
 - (NSDictionary*)asDictionary {
     @synchronized(segments) {
-        return [NSDictionary dictionaryWithObjectsAndKeys:@"JotStroke", @"class",
-                                                          [self.segments jotMapWithSelector:@selector(asDictionary)], @"segments",
-                                                          [self.segmentSmoother asDictionary], @"segmentSmoother",
-                                                          [self.texture asDictionary], @"texture", nil];
+        NSDictionary* dictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"JotStroke", @"class",
+                                   [self.segments jotMapWithSelector:@selector(asDictionary)], @"segments",
+                                   [self.segmentSmoother asDictionary], @"segmentSmoother",
+                                   [self.texture asDictionary], @"texture",
+                                   [self.strokeColor asDictionary], @"strokeColor",
+                                   nil];
+        return dictionary;
     }
 }
 
@@ -171,6 +203,7 @@
 - (id)initFromDictionary:(NSDictionary*)dictionary {
     if (self = [super init]) {
         hashCache = 1;
+        strokeColor = [UIColor colorWithDictionary:[dictionary objectForKey:@"strokeColor"]];
         segmentSmoother = [[SegmentSmoother alloc] initFromDictionary:[dictionary objectForKey:@"segmentSmoother"]];
         bufferManager = [dictionary objectForKey:@"bufferManager"];
         __block AbstractBezierPathElement* previousElement = nil;
@@ -179,6 +212,8 @@
             Class class = NSClassFromString(className);
             AbstractBezierPathElement* segment = [[class alloc] initFromDictionary:obj];
             [segment setBufferManager:bufferManager];
+            [segment setColor: self.strokeColor];
+            
             [self updateHashWithObject:segment];
             totalNumberOfBytes += [segment numberOfBytesGivenPreviousElement:previousElement];
             [segment validateDataGivenPreviousElement:previousElement]; // nil out our dictionary loaded data if it's the wrong size

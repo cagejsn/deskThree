@@ -1438,6 +1438,8 @@ static int undoCounter;
                 if ([touch respondsToSelector:@selector(preciseLocationInView:)]) {
                     preciseLocInView = [touch preciseLocationInView:self];
                 }
+//                [newStroke setStrokeColor:[self.delegate colorForCoalescedTouch:touch fromTouch:touch]];
+                newStroke.strokeColor = [self.delegate colorForCoalescedTouch:touch fromTouch:touch];
                 [self addLineToAndRenderStroke:newStroke
                                        toPoint:preciseLocInView
                                        toWidth:[self.delegate widthForCoalescedTouch:touch fromTouch:touch]

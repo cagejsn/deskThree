@@ -8,10 +8,9 @@
 
 #import "AbstractBezierPathElement.h"
 #import "AbstractBezierPathElement-Protected.h"
-#import "UIColor+JotHelper.h"
 #import "JotUI.h"
 #import "JotGLColorlessPointProgram.h"
-
+#import "UIColor+JotHelper.h"
 
 @implementation AbstractBezierPathElement {
     JotBufferManager* bufferManager;
@@ -159,6 +158,31 @@
     }
 }
 
+#pragma mark - Encoding & Decoding
+
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:NSStringFromClass([self class]) forKey:@"class"];
+    [aCoder encodeCGPoint:startPoint forKey:@"startPoint"];
+    [aCoder encodeFloat:rotation forKey:@"rotation"];
+    [aCoder encodeFloat:width forKey:@"width"];
+    [aCoder encodeFloat:stepWidth forKey:@"stepWidth"];
+    [aCoder encodeFloat:extraLengthWithoutDot forKey:@"extraLengthWithoutDot"];
+    [aCoder encodeFloat:scaleOfVertexBuffer forKey:@"scaleOfVertexBuffer"];
+    
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super init]) {
+        startPoint = [aDecoder decodeCGPointForKey:@"startPoint"];
+        rotation = [aDecoder decodeFloatForKey:@"rotation"];
+        width = [aDecoder decodeFloatForKey:@"width"];
+        stepWidth = [aDecoder decodeFloatForKey:@"stepWidth"];
+        extraLengthWithoutDot = [aDecoder decodeFloatForKey:@"extraLengthWithoutDot"];
+        scaleOfVertexBuffer = [aDecoder decodeFloatForKey:@"scaleOfVertexBuffer"];
+    }
+    return self;
+}
 
 #pragma mark - PlistSaving
 
@@ -170,7 +194,7 @@
                                                       [NSNumber numberWithFloat:width], @"width",
                                                       [NSNumber numberWithFloat:stepWidth], @"stepWidth",
                                                       [NSNumber numberWithFloat:extraLengthWithoutDot], @"extraLengthWithoutDot",
-                                                      (color ? [color asDictionary] : [NSDictionary dictionary]), @"color",
+//                                                      (color ? [color asDictionary] : [NSDictionary dictionary]), @"color",
                                                       [NSNumber numberWithFloat:scaleOfVertexBuffer], @"scaleOfVertexBuffer", nil];
 }
 
@@ -182,7 +206,7 @@
         rotation = [[dictionary objectForKey:@"rotation"] floatValue];
         stepWidth = [[dictionary objectForKey:@"stepWidth"] floatValue] ?: .5;
         extraLengthWithoutDot = [[dictionary objectForKey:@"extraLengthWithoutDot"] floatValue];
-        color = [UIColor colorWithDictionary:[dictionary objectForKey:@"color"]];
+//        color = [UIColor colorWithDictionary:[dictionary objectForKey:@"color"]];
         scaleOfVertexBuffer = [[dictionary objectForKey:@"scaleOfVertexBuffer"] floatValue];
     }
     return self;

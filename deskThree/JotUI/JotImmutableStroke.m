@@ -7,6 +7,7 @@
 //
 
 #import "JotImmutableStroke.h"
+#import "UIColor+JotHelper.h"
 
 
 @implementation JotImmutableStroke {
@@ -15,6 +16,7 @@
     NSArray* segments;
     // this is the texture to use when drawing the stroke
     JotBrushTexture* texture;
+    UIColor* strokeColor;
     NSString* uuid;
     //
     NSString* strokeClassName;
@@ -25,6 +27,7 @@
         segmentSmoother = stroke.segmentSmoother;
         segments = [NSArray arrayWithArray:stroke.segments];
         texture = stroke.texture;
+        strokeColor = stroke.strokeColor;
         uuid = [stroke uuid];
         strokeClassName = NSStringFromClass([stroke class]);
     }
@@ -41,6 +44,10 @@
 
 - (JotBrushTexture*)texture {
     return texture;
+}
+
+- (UIColor*)strokeColor {
+    return strokeColor;
 }
 
 - (NSString*)uuid {
