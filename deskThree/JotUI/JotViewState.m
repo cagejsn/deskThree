@@ -181,15 +181,22 @@ static JotGLContext* backgroundLoadStrokesThreadContext = nil;
             id (^loadStrokeBlock)(id obj, NSUInteger index) = ^id(id obj, NSUInteger index) {
                 if (![obj isKindOfClass:[NSDictionary class]]) {
                     NSString* filename = [[stateDirectory stringByAppendingPathComponent:obj] stringByAppendingPathExtension:kJotStrokeFileExt];
-                    obj = [NSDictionary dictionaryWithContentsOfFile:filename];
+                    obj = [NSKeyedUnarchiver unarchiveObjectWithFile:filename];
+//                    obj = [NSDictionary dictionaryWithContentsOfFile:filename];
                 }
                 // pass in the buffer manager to use
-                [obj setObject:bufferManager forKey:@"bufferManager"];
-                [obj setObject:[NSNumber numberWithFloat:scale] forKey:@"scale"];
+                JotStroke* stroke = obj;
+                
+                [stroke setupWith:bufferManager];
+                
+                
+//                [obj setObject:bufferManager forKey:@"bufferManager"];
+//                [obj setObject:[NSNumber numberWithFloat:scale] forKey:@"scale"];
 
-                NSString* className = [obj objectForKey:@"class"];
-                Class class = NSClassFromString(className);
-                JotStroke* stroke = [[class alloc] initFromDictionary:obj];
+//                NSString* className = [obj objectForKey:@"class"];
+//                Class class = NSClassFromString(className);
+                
+//                JotStroke* stroke = [[class alloc] initFromDictionary:obj];
 
                 if (!CGSizeEqualToSize(strokeStatePageSize, CGSizeZero)) {
                     if (fullPtSize.width != strokeStatePageSize.width && fullPtSize.height != strokeStatePageSize.height) {

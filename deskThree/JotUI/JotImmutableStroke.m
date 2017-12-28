@@ -54,6 +54,9 @@
     return uuid;
 }
 
+
+
+
 - (NSDictionary*)asDictionary {
     NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithDictionary:[super asDictionary]];
     [dict setObject:strokeClassName forKey:@"class"];

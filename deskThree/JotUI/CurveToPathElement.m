@@ -688,9 +688,40 @@ static CGFloat subdivideBezierAtLength(const CGPoint bez[4],
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super initWithCoder:aDecoder]) {
+        lock = [[NSLock alloc] init];
+        boundsCache.origin = JotCGNotFoundPoint;
+        
         curveTo = [aDecoder decodeCGPointForKey:@"curveTo"];
         ctrl1 = [aDecoder decodeCGPointForKey:@"ctrl1"];
         ctrl2 = [aDecoder decodeCGPointForKey:@"ctrl2"];
+        
+       //forcing reload
+            // the scale of the cached data in the dictionary is
+            // different than the scael of the data that we need.
+            // zero this out and it'll regenerate with the
+            // correct scale on demand
+        
+            scaleOfVertexBuffer = 0;
+            dataVertexBuffer = nil;
+            numberOfBytesOfVertexData = 0;
+        
+        
+        //  if (!vertexBufferShouldContainColor) {
+        //     [self calculateAndCacheColorComponents];
+        //   }
+        
+        NSUInteger prime = 31;
+        hashCache = 1;
+        hashCache = prime * hashCache + startPoint.x;
+        hashCache = prime * hashCache + startPoint.y;
+        hashCache = prime * hashCache + curveTo.x;
+        hashCache = prime * hashCache + curveTo.y;
+        hashCache = prime * hashCache + ctrl1.x;
+        hashCache = prime * hashCache + ctrl1.y;
+        hashCache = prime * hashCache + ctrl2.x;
+        hashCache = prime * hashCache + ctrl2.y;
+        
+        
     }
     return self;
 }

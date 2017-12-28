@@ -147,20 +147,58 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
    // [aCoder encodeObject:NSStringFromClass([self class]) forKey:@"class"];
-    [aCoder encodeObject:segments forKey:@"segments"];
-    [aCoder encodeObject:segmentSmoother forKey:@"segmentSmoother"];
-    [aCoder encodeObject:texture forKey:@"texture"];
-    [aCoder encodeObject:strokeColor forKey:@"strokeColor"];
+    @synchronized(segments) {
+        [aCoder encodeObject:self.segments forKey:@"segments"];
+        [aCoder encodeObject:self.segmentSmoother forKey:@"segmentSmoother"];
+        [aCoder encodeObject:self.texture forKey:@"texture"];
+        [aCoder encodeObject:self.strokeColor forKey:@"strokeColor"];
+    }
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super init]) {
+        hashCache = 1;
+        
         segments = [aDecoder decodeObjectForKey:@"segments"];
         segmentSmoother = [aDecoder decodeObjectForKey:@"segmentSmoother"];
         texture = [aDecoder decodeObjectForKey:@"texture"];
         strokeColor = [aDecoder decodeObjectForKey:@"strokeColor"];
     }
     return self;
+}
+
+- (void)setupWith:(JotBufferManager*)bufferManager {
+    self.bufferManager = bufferManager;
+    
+    
+    
+    __block AbstractBezierPathElement* previousElement = nil;
+//    __block int numBytes = 0;
+    segments = [segments jotMap:^id(AbstractBezierPathElement* segment, NSUInteger index) {
+//        NSString* className = [obj objectForKey:@"class"];
+//        Class class = NSClassFromString(className);
+//        AbstractBezierPathElement* segment = [[class alloc] initFromDictionary:obj];
+        [segment setBufferManager:bufferManager];
+//        [segment setColor: [UIColor colorWithRed:1.0 green:0 blue:0 alpha:1.0]];
+        [segment setColor: strokeColor];
+        
+        [self updateHashWithObject:segment];
+        totalNumberOfBytes += [segment numberOfBytesGivenPreviousElement:previousElement];
+        [segment validateDataGivenPreviousElement:previousElement]; // nil out our dictionary loaded data if it's the wrong size
+        [segment loadDataIntoVBOIfNeeded]; // generate if if needed
+        previousElement = segment;
+        return segment;
+    }];
+    
+    
+    
+    segments;
+    
+    
+    
+    
+    
+    
 }
 
 #pragma mark - PlistSaving

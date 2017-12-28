@@ -125,12 +125,14 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
             
         }
         var arrayOfStrokes = [JotStroke]()
-        for string in folderContents {
-            if let string = string as? String {
-                if string.contains(".strokedata") {
-                    let s = JotStroke(lightFromDict: NSDictionary(contentsOfFile: importantPath+"/"+string) as! [AnyHashable : Any])
-                    arrayOfStrokes.append(s!)
-                }
+        
+        var undefStrokesOnPage = currentPage.drawingView.state.everyVisibleStroke()
+        guard let strokesOnPage = undefStrokesOnPage as? [JotStroke] else { return }
+        
+        //TODO: figure out how to not read strokes that aren't visible because of erasurement
+        for s in strokesOnPage {
+            if(s.strokeColor != nil){
+                arrayOfStrokes.append(s)
             }
         }
         

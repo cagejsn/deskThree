@@ -40,6 +40,8 @@
 @property(nonatomic, readonly) int fullByteSize;
 
 
+- (void)setupWith:(JotBufferManager*)bufferManager;
+
 - (id)initLightFromDict:(NSDictionary*)dictionary;
 
 /**

@@ -29,10 +29,10 @@
         NSMutableArray* stackOfImmutableStrokes = [NSMutableArray array];
         NSMutableArray* stackOfImmutableUndoneStrokes = [NSMutableArray array];
         for (JotStroke* stroke in [stateInfo objectForKey:@"stackOfStrokes"]) {
-            [stackOfImmutableStrokes addObject:[[JotImmutableStroke alloc] initWithJotStroke:stroke]];
+            [stackOfImmutableStrokes addObject:stroke];
         }
         for (JotStroke* stroke in [stateInfo objectForKey:@"stackOfUndoneStrokes"]) {
-            [stackOfImmutableUndoneStrokes addObject:[[JotImmutableStroke alloc] initWithJotStroke:stroke]];
+            [stackOfImmutableUndoneStrokes addObject:stroke];
         }
 
         [stateDict setObject:stackOfImmutableStrokes forKey:@"stackOfStrokes"];
@@ -64,7 +64,8 @@
             NSString* filename = [[stateDirectory stringByAppendingPathComponent:[obj uuid]] stringByAppendingPathExtension:kJotStrokeFileExt];
             NSFileManager* manager = [NSFileManager defaultManager];
             if (![manager fileExistsAtPath:filename] || self.mustOverwriteAllStrokeFiles) {
-                [[obj asDictionary] writeToFile:filename atomically:YES];
+//                [[obj asDictionary] writeToFile:filename atomically:YES];
+                [NSKeyedArchiver archiveRootObject:obj toFile:filename];
             }
             [fileNamesOfStrokes addObject:filename];
             return obj;

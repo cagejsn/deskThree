@@ -112,7 +112,6 @@
 		DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E81DC3A0D600C73780 /* GKImageCropViewController.m */; };
 		DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494EA1DC3A0D600C73780 /* GKImagePicker.m */; };
 		DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494EC1DC3A0D600C73780 /* GKResizeableCropOverlayView.m */; };
-		DAD0713C1FF2CF94006A58FF /* DeskProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAD0713A1FF2CF94006A58FF /* DeskProject.xcdatamodeld */; };
 		DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EC1DBBF2DD001F7901 /* WorkView.swift */; };
 		DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */; };
 		DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DADC67F51E26A89500C14F5B /* fragmentShader.glsl */; };
@@ -363,7 +362,6 @@
 		DAA494EB1DC3A0D600C73780 /* GKResizeableCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKResizeableCropOverlayView.h; sourceTree = "<group>"; };
 		DAA494EC1DC3A0D600C73780 /* GKResizeableCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKResizeableCropOverlayView.m; sourceTree = "<group>"; };
 		DAD071311FF2CF06006A58FF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		DAD0713B1FF2CF94006A58FF /* StrokeData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StrokeData.xcdatamodel; sourceTree = "<group>"; };
 		DAD144EC1DBBF2DD001F7901 /* WorkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
 		DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageBlock.swift; sourceTree = "<group>"; };
 		DADC67F51E26A89500C14F5B /* fragmentShader.glsl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fragmentShader.glsl; sourceTree = "<group>"; };
@@ -704,7 +702,6 @@
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
 				DA233A901FD3B9440099FC74 /* DeskColors.swift */,
 				DA8E91F01FE223D80014B432 /* JotToMath.swift */,
-				DAD0713A1FF2CF94006A58FF /* DeskProject.xcdatamodeld */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -1071,7 +1068,6 @@
 				DA233AAA1FD4C2750099FC74 /* LastModifiedLabel.swift in Sources */,
 				DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */,
 				DA233AAF1FD8FC0E0099FC74 /* NewCollectionViewCell.swift in Sources */,
-				DAD0713C1FF2CF94006A58FF /* DeskProject.xcdatamodeld in Sources */,
 				DA233A9A1FD4BB8B0099FC74 /* AddGroupingsButton.swift in Sources */,
 				DA04E4081FC0B3F900900588 /* MetaDataInteractor.swift in Sources */,
 				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,
@@ -1384,19 +1380,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		DAD0713A1FF2CF94006A58FF /* DeskProject.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				DAD0713B1FF2CF94006A58FF /* StrokeData.xcdatamodel */,
-			);
-			currentVersion = DAD0713B1FF2CF94006A58FF /* StrokeData.xcdatamodel */;
-			path = DeskProject.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = DAFBE3981DBBDBC20007D249 /* Project object */;
 }

@@ -162,24 +162,27 @@
 
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:NSStringFromClass([self class]) forKey:@"class"];
+//    [aCoder encodeObject:NSStringFromClass([self class]) forKey:@"class"];
     [aCoder encodeCGPoint:startPoint forKey:@"startPoint"];
-    [aCoder encodeFloat:rotation forKey:@"rotation"];
+//    [aCoder encodeFloat:rotation forKey:@"rotation"];
     [aCoder encodeFloat:width forKey:@"width"];
-    [aCoder encodeFloat:stepWidth forKey:@"stepWidth"];
+//    [aCoder encodeFloat:stepWidth forKey:@"stepWidth"];
     [aCoder encodeFloat:extraLengthWithoutDot forKey:@"extraLengthWithoutDot"];
-    [aCoder encodeFloat:scaleOfVertexBuffer forKey:@"scaleOfVertexBuffer"];
+//    [aCoder encodeFloat:scaleOfVertexBuffer forKey:@"scaleOfVertexBuffer"];
     
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
     if(self = [super init]) {
         startPoint = [aDecoder decodeCGPointForKey:@"startPoint"];
-        rotation = [aDecoder decodeFloatForKey:@"rotation"];
+//        rotation = [aDecoder decodeFloatForKey:@"rotation"];
+        rotation = 0;
         width = [aDecoder decodeFloatForKey:@"width"];
-        stepWidth = [aDecoder decodeFloatForKey:@"stepWidth"];
+//        stepWidth = [aDecoder decodeFloatForKey:@"stepWidth"];
+        
+        stepWidth = 0.3;
         extraLengthWithoutDot = [aDecoder decodeFloatForKey:@"extraLengthWithoutDot"];
-        scaleOfVertexBuffer = [aDecoder decodeFloatForKey:@"scaleOfVertexBuffer"];
+//        scaleOfVertexBuffer = [aDecoder decodeFloatForKey:@"scaleOfVertexBuffer"];
     }
     return self;
 }
