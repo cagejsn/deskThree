@@ -37,7 +37,7 @@ struct ColorlessVertex {
  * small values will also give a smoother line, but will
  * cost more in CPU
  */
-#define kBrushStepSize 1
+#define kBrushStepSize 2
 
 
 @interface AbstractBezierPathElement : NSObject <PlistSaving, NSCoding> {

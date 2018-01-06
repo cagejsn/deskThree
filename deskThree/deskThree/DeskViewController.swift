@@ -173,11 +173,22 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     
     //MARK: Data flow functions
-    func sendingToInputObject(for element: Any){
-        if let mathElement = element as? MathBlock {
-            mathViewContainer.receiveElement(mathElement)
+    func sendingToInputObject(for element: Any, toDestination: ExpressionDestination){
+        
+        guard let mathBlock = element as? MathBlock else { return }
+        
+        switch toDestination {
+        case .MathView:
+            mathViewContainer.receiveElement(mathBlock)
+        case .Calculator:
+            toolDrawer.receiveElement(mathBlock)
+        case .Wolfram:
+            didRequestWRDisplay(query: mathBlock.getMathML())
+        default:
+            break
         }
-        toolDrawer.receiveElement(element)
+        
+        
     }
     
     //MARK: UITextfieldDelegate functions

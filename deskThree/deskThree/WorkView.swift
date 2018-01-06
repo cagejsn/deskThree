@@ -13,7 +13,7 @@ protocol WorkViewDelegate: NSObjectProtocol {
     func intersectsWithTrash(justMovedBlock: UIView)->Bool
     func unhideTrash()
     func hideTrash()
-    func sendingToInputObject(for element: Any)
+    func sendingToInputObject(for element: Any, toDestination: ExpressionDestination)
     func displayErrorInViewController(title: String, description: String)
 }
 
@@ -39,8 +39,8 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     //MARK: Data Flow
-    func passHeldBlock(sender: Expression) {
-        customDelegate.sendingToInputObject(for: sender)
+    func passHeldBlock(sender: Expression, toDestination: ExpressionDestination) {
+        customDelegate.sendingToInputObject(for: sender, toDestination: toDestination)
     }
     
     func receiveNewMathBlock(_ createdMathBlock: MathBlock){
@@ -173,7 +173,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         // print(activePen().stepWidthForStroke())
         // return activePen().stepWidthForStroke()
         
-        return CGFloat(0.3)
+        return CGFloat(0.4)
     }
     
     func supportsRotation() -> Bool {
@@ -268,9 +268,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         workViewPresenter!.blockWasMoved(change)
     }
     
-    func elementWantsSendToInputObject(element:Any){
-        customDelegate!.sendingToInputObject(for: element)
-    }
+    
     
     func didBeginMove(movedView: UIView) {
         customDelegate.unhideTrash()

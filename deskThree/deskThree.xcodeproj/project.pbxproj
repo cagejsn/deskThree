@@ -85,6 +85,9 @@
 		DA4918B01DE75AAA00E3AA1D /* point.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AA1DE75AAA00E3AA1D /* point.fsh */; };
 		DA4918B11DE75AAA00E3AA1D /* quad.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AB1DE75AAA00E3AA1D /* quad.fsh */; };
 		DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */; };
+		DA531CC7200139A5008A3861 /* ClipperSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC6200139A5008A3861 /* ClipperSession.swift */; };
+		DA531CC920014274008A3861 /* StrokeToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC820014274008A3861 /* StrokeToMath.swift */; };
+		DA531CCB200150C9008A3861 /* ClipperPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CCA200150C9008A3861 /* ClipperPresenter.swift */; };
 		DA5464511DBD10A300E644F0 /* Paper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5464501DBD10A300E644F0 /* Paper.swift */; };
 		DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */; };
 		DA5747601E7491E50010F754 /* OCRMathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57475F1E7491E50010F754 /* OCRMathView.swift */; };
@@ -325,6 +328,9 @@
 		DA4918AC1DE75AAA00E3AA1D /* quad.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = quad.vsh; sourceTree = "<group>"; };
 		DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = stencil.fsh; sourceTree = "<group>"; };
 		DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LowerDeskControls.xib; sourceTree = "<group>"; };
+		DA531CC6200139A5008A3861 /* ClipperSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipperSession.swift; sourceTree = "<group>"; };
+		DA531CC820014274008A3861 /* StrokeToMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeToMath.swift; sourceTree = "<group>"; };
+		DA531CCA200150C9008A3861 /* ClipperPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipperPresenter.swift; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
 		DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKFilteredImageView.swift; sourceTree = "<group>"; };
 		DA57475F1E7491E50010F754 /* OCRMathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRMathView.swift; sourceTree = "<group>"; };
@@ -658,6 +664,12 @@
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
 				DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */,
+				DA531CC6200139A5008A3861 /* ClipperSession.swift */,
+				DA7A09271FE2211A007BDCE1 /* Clipper.swift */,
+				DA531CCA200150C9008A3861 /* ClipperPresenter.swift */,
+				DA531CC820014274008A3861 /* StrokeToMath.swift */,
+				DA8E91F01FE223D80014B432 /* JotToMath.swift */,
+				DA5464501DBD10A300E644F0 /* Paper.swift */,
 				DA8E920E1FE5F68C0014B432 /* File System */,
 				DA8E920D1FE5F6730014B432 /* Models */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
@@ -665,8 +677,6 @@
 				DA7CB1FE1FDF8E1500568507 /* StrokeToMathToggleControl.swift */,
 				DA35EE141E8C966100520FFD /* DeskControlModule.swift */,
 				DA3688BE1E414613006A9E1A /* ToolDrawer.swift */,
-				DA5464501DBD10A300E644F0 /* Paper.swift */,
-				DA7A09271FE2211A007BDCE1 /* Clipper.swift */,
 				DA1308DC1E5007F9008EBD14 /* DeskView.swift */,
 				DADC67F91E27E9D500C14F5B /* GraphingBlock.swift */,
 				DADC67FB1E27E9F800C14F5B /* GraphingBlock.xib */,
@@ -701,7 +711,6 @@
 				DA28412A1EB25EED0085112E /* AllPad.xib */,
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
 				DA233A901FD3B9440099FC74 /* DeskColors.swift */,
-				DA8E91F01FE223D80014B432 /* JotToMath.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -1021,6 +1030,7 @@
 				DA2841301EB279F50085112E /* PencilEraserToggleControl.swift in Sources */,
 				DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */,
 				312A8B7E1EAFCF6D00940FA7 /* CALayerExtension.swift in Sources */,
+				DA531CC7200139A5008A3861 /* ClipperSession.swift in Sources */,
 				526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */,
 				DA3688C21E43F98A006A9E1A /* CGPoint+.swift in Sources */,
 				DA04E4061FC0B35400900588 /* FileSystemInteractor.swift in Sources */,
@@ -1028,6 +1038,7 @@
 				DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */,
 				DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
+				DA531CCB200150C9008A3861 /* ClipperPresenter.swift in Sources */,
 				DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */,
 				DA04D9361EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift in Sources */,
 				DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */,
@@ -1068,6 +1079,7 @@
 				DA233AAA1FD4C2750099FC74 /* LastModifiedLabel.swift in Sources */,
 				DA28410D1EAFC56B0085112E /* HamburgerMenuViewController.swift in Sources */,
 				DA233AAF1FD8FC0E0099FC74 /* NewCollectionViewCell.swift in Sources */,
+				DA531CC920014274008A3861 /* StrokeToMath.swift in Sources */,
 				DA233A9A1FD4BB8B0099FC74 /* AddGroupingsButton.swift in Sources */,
 				DA04E4081FC0B3F900900588 /* MetaDataInteractor.swift in Sources */,
 				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,

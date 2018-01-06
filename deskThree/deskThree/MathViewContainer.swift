@@ -77,16 +77,14 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
                     mixpanel.track(event: "Gesture: MathView: Open")
                 #endif
                 
-                animateToExpandedPosition()
-                drawerPosition = DrawerPosition.open
+                open()
                 
             } else {
                 #if !DEBUG
                     mixpanel.track(event: "Gesture: MathView: Close")
                 #endif
                 
-                animateToCollapsedPosition()
-                drawerPosition = DrawerPosition.closed
+                close()
             }
         }
     }
@@ -104,11 +102,9 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         }
         if(sender.state == .ended){
             if(self.frame.height >= (containerExpandedHeight/2)){
-                animateToExpandedPosition()
-                drawerPosition = DrawerPosition.open
+                open()
             } else {
-                animateToCollapsedPosition()
-                drawerPosition = DrawerPosition.closed
+                close()
             }
             previousTranslation = 0
         }
@@ -200,7 +196,12 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     func createMathBlock(for mathView: OCRMathView){
         
         if let image1 =  mathView.resultAsImage(){
-            let mathBlock = MathBlock(image: image1, symbols: mathView.resultAsSymbolList(), text: mathView.resultAsText())
+            let symbols = mathView.resultAsSymbolList()!
+            let text = mathView.resultAsText()!
+            let mathML = mathView.resultAsMathML()!
+            let data = mathView.serialize()!
+            
+            let mathBlock = MathBlock(image: image1, symbols: symbols, text: text, mathML: mathML, data: data)
             delegate.pass(mathBlock,for:mathView)
         }
         
@@ -228,7 +229,19 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     }
     
     func mathViewDidEndRecognition(_ mathView: MAWMathView!) {
-        
+        if let ocrMathView = mathView as? OCRMathView {
+            if ocrMathView.isInEditMode {
+                if ocrMathView.targetForEdits != nil {
+                        var newText = ocrMathView.resultAsText()
+                        var newImage = ocrMathView.resultAsImage()
+                        var newMathSymbols = ocrMathView.resultAsSymbolList()
+                        var newMathML = ocrMathView.resultAsMathML()
+                        let data = ocrMathView.serialize()!
+                    if(newText == "" ) { return }
+                    ocrMathView.targetForEdits.updateContents(newText!,newImage!,newMathSymbols!,newMathML!, data)
+                }
+            }
+        }
     }
     
     func setupTabConstraints(){
@@ -252,7 +265,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
             bundlePath = bundlePath.appendingPathComponent("conf") as NSString
             mathView.addSearchDir(bundlePath as String)
             mathView.configure(withBundle: "math", andConfig: "standard")
-            mathView.paddingRatio = UIEdgeInsetsMake(7, 7, 7, 7)
+            mathView.paddingRatio = UIEdgeInsetsMake(1, 1, 1, 1)
 //            mathView.round(corners: [.topLeft, .topRight], radius: 5.0)
         }
     }
@@ -272,6 +285,21 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     }
     
     func receiveElement(_ element: MathBlock){
+        mathViews.first!.clear(false)
+        mathViews.first!.enterEditModeWith(element)
+        open()
+        
+    }
+    
+    func close(){
+        animateToCollapsedPosition()
+        drawerPosition = DrawerPosition.closed
+        mathViews.first!.endEditMode()
+    }
+    
+    func open(){
+        animateToExpandedPosition()
+        drawerPosition = DrawerPosition.open
     }
     
     func addMathViewToStack(){

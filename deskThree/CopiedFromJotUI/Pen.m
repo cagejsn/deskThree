@@ -166,7 +166,7 @@ static float clamp(min, max, value) {
  * < 0 is knotty
  */
 - (CGFloat)smoothnessForCoalescedTouch:(UITouch*)coalescedTouch fromTouch:(UITouch*)touch {
-    return 0.75;
+    return 0.8;
 }
 
 - (NSArray*)willAddElements:(NSArray*)elements toStroke:(JotStroke*)stroke fromPreviousElement:(AbstractBezierPathElement*)previousElement {

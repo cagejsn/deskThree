@@ -169,9 +169,6 @@
 
 - (void)setupWith:(JotBufferManager*)bufferManager {
     self.bufferManager = bufferManager;
-    
-    
-    
     __block AbstractBezierPathElement* previousElement = nil;
 //    __block int numBytes = 0;
     segments = [segments jotMap:^id(AbstractBezierPathElement* segment, NSUInteger index) {
@@ -189,16 +186,6 @@
         previousElement = segment;
         return segment;
     }];
-    
-    
-    
-    segments;
-    
-    
-    
-    
-    
-    
 }
 
 #pragma mark - PlistSaving

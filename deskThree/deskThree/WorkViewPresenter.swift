@@ -45,130 +45,20 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         workView.userSelected(writingInstrument: selected)
     }
     
-    func beginClipping(_ sender: UIButton){
+    func toggleClipping(_ sender: UIButton){
+        if(currentPage.clipperSession == nil){            
+            currentPage.clipperSession = ClipperSession(sender,currentPage)
+            currentPage.clipperSession.start()
+        }
+        
         if(sender.isSelected == true){
-            removeClipper()
-            sender.isSelected = false
-            return
-        }
-        sender.isSelected = true
-//        sender.backgroundColor = UIColor.init(red: 17/255, green: 181/255, blue: 228/255, alpha: 1.0)
-        addClipperToCurrentPage()
-        
-    }
-    
-    var clipper: Clipper!
-    
-    func removeClipper(){
-        clipper.removeFromSuperview()
-    }
-    
-    func addClipperToCurrentPage(){
-        clipper = Clipper(overSubview: currentPage)
-        currentPage.addSubview(clipper)
-        clipper.setCompletionFunction(functionToCall: clipperDidSelectMath)
-        
-    }
-    
-    var jotToMath: JotToMath!
-    
-    func aFunction(){
-        var txt = jotToMath.resultAsText()
-        if(txt == ""){ return }
-        let mathimg1 = jotToMath.resultAsImage()
-        if let mathimg2 = mathimg1 as? UIImage{
-            let mathBlock = MathBlock(image: mathimg2, symbols: jotToMath.resultAsSymbolList(), text: jotToMath.resultAsText())
-            // mathBlock.frame = CGRect(x: 100, y: 100, width: 200, height: 100)
-            mathBlock.center = jotToMath.center
-            
-            self.currentPage.addMathBlockToPage(block: mathBlock)
-            
+            currentPage.clipperSession.end()
+            currentPage.clipperSession = nil
         }
     }
     
-    func setUpJotToMath(pathFrame: CGRect){
-        jotToMath = JotToMath()
-        jotToMath.beautificationOption = .fontify
-        jotToMath.frame = pathFrame
-        // self.addSubview(jotToMath)
-        jotToMath.setCompletionBlock(codeToRun: {[weak self] in return self?.aFunction()})
-        
-        let certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
-        let certificateRegistered = jotToMath.registerCertificate(certificate)
-        if(certificateRegistered){
-            let mainBundle = Bundle.main
-            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
-            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
-            jotToMath.addSearchDir(bundlePath as String)
-            jotToMath.configure(withBundle: "math", andConfig: "standard")
-        }
-    }
     
-    func acceptClippedStrokes(strokes: [[MAWCaptureInfo]]){
-        for stroke in strokes {
-            jotToMath.addStroke(stroke)
-        }
-        jotToMath.solve()
-    }
-    
-    func clipperDidSelectMath(selection: CGPath){
-        setUpJotToMath(pathFrame: selection.boundingBox)
-        
-        let dict = NSDictionary(contentsOfFile: jotViewStatePlistPath)
-        let importantPath = jotViewStatePlistPath.replacingOccurrences(of: "/state.plist", with: "")
-        
-        var folderContents = [String]()
-        do{
-         folderContents = try FileManager.default.contentsOfDirectory(atPath: importantPath)
-        } catch(let e) {
-            print(e.localizedDescription)
-            
-        }
-        var arrayOfStrokes = [JotStroke]()
-        
-        var undefStrokesOnPage = currentPage.drawingView.state.everyVisibleStroke()
-        guard let strokesOnPage = undefStrokesOnPage as? [JotStroke] else { return }
-        
-        //TODO: figure out how to not read strokes that aren't visible because of erasurement
-        for s in strokesOnPage {
-            if(s.strokeColor != nil){
-                arrayOfStrokes.append(s)
-            }
-        }
-        
-        var output = [[MAWCaptureInfo]]()
-        if let strokes = arrayOfStrokes as! [JotStroke]?{
-            for strokeData in strokes {
-                if let stroke = strokeData as JotStroke?{
-                    var strokeForInput = [MAWCaptureInfo]()
-                    if let segments = stroke.segments as! [AbstractBezierPathElement]?{
-                        for segment in segments {
-                            if let segment = segment as! AbstractBezierPathElement?{
-                                var point = segment.startPoint
-                                let drawSize = currentPage.drawingView.pagePtSize
-                                
-                                point.x = point.x * (1275 / drawSize.width)
-                                point.y = (point.y * -(1650 / drawSize.height)) + 1650
-                                
-                                if(!selection.contains(point)){
-                                    continue
-                                } else {
-                                    point = point - jotToMath.frame.origin
-                                    var captured = MAWCaptureInfo()
-                                    captured.x = Float(point.x)
-                                    captured.y = Float(point.y)
-                                    strokeForInput.append(captured)
-                                }
-                            }
-                        }
-                        output.append(strokeForInput)
-                    }
-                }
-            }
-        }
-        acceptClippedStrokes(strokes: output)
-    }
-    
+
     //TODO: implement
     /**
      Move to a page to the right

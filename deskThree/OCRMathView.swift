@@ -33,11 +33,31 @@ class OCRMathView: MAWMathView {
     var topContraint: NSLayoutConstraint!
     var heightContraint: NSLayoutConstraint!
     var rightConstraint: NSLayoutConstraint!
+    
+    var isInEditMode: Bool = false
+    var targetForEdits: MathBlock!
 
     #if !DEBUG
     private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
 
+    func enterEditModeWith(_ element: MathBlock){
+//        self.addSymbols(element.mathSymbols, allowUndo: true)
+        if(self.unserialize(element.getData())){
+            targetForEdits = element
+            isInEditMode = true
+            solve()
+        }
+        
+        
+    }
+    
+    func endEditMode(){
+        targetForEdits = nil
+        isInEditMode = false
+    }
+
+    
     
     func clearButtonTapped(){
         self.clear(false)
@@ -52,7 +72,7 @@ class OCRMathView: MAWMathView {
         mixpanel.track(event: "Button: Wolfram Query")
         #endif
 
-        delegate2.didRequestWRDisplay(query: self.resultAsText())
+        delegate2.didRequestWRDisplay(query: self.resultAsMathML())
     }
     
     func stylize(){
