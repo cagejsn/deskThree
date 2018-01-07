@@ -135,6 +135,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         }
     }
     
+    func completedClipperSession(){
+        clipperSession = nil
+    }
     
     func addMathBlockToPage(block: MathBlock){
         #if !DEBUG

@@ -8,12 +8,9 @@
 
 import Foundation
 
-
-
 class ClipperSession: NSObject, HandleClipsDelegate, ClipperDelegate {
    
     weak var sender: UIButton?
-    var magicWandEnabled: Bool = false
     var handleClips: HandleClips!
     var clipper: Clipper?
     weak var ownerPage: Paper?
@@ -33,9 +30,9 @@ class ClipperSession: NSObject, HandleClipsDelegate, ClipperDelegate {
     
     func end() {
         clipper?.removeFromSuperview()
-        magicWandEnabled = false
         sender!.isSelected = false
     }
+    
     
     init(_ sender: UIButton, _ paper: Paper){
         self.sender = sender

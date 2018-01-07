@@ -11,7 +11,7 @@ import UIKit
 
 typealias VoidBlock = ()->()
 
-protocol ClipperDelegate {
+protocol ClipperDelegate: class {
     func end()
 }
 
@@ -20,10 +20,9 @@ class Clipper: UIView {
     var activePath: UIBezierPath!
     var animatedClippingLayer: CAShapeLayer = CAShapeLayer()
     let pattern: [NSNumber] = [NSNumber(value:5.0),NSNumber(value:5.0)]
-    var viewToClipFrom: UIView!
     weak var handleClips: HandleClips?
     var hasFinishedSelection: Bool = false
-    var delegate: ClipperDelegate!
+    weak var delegate: ClipperDelegate!
     
     //responder chain overrides
     override var canBecomeFirstResponder: Bool {
@@ -43,11 +42,7 @@ class Clipper: UIView {
         return super.resignFirstResponder()
     }
     
-    
-    func restoreUIMenuController(){
-        showSelectableOptions(forRect: self.activePath.bounds)
-    }
-    
+        
     //clipper should work as follows:
     // the initialization of the clipper happens after a button is pushed on the VC
     // the clipper is initialized (it's a view) with the same size as a view which it is layered on top of. It should steal any touch input from that view as it makes a selection.
@@ -148,7 +143,6 @@ class Clipper: UIView {
         //how to handle constraints and the ability to rotate?
         super.init(frame:CGRect(x: 0, y: 0, width: 1275, height: 1650))
         //self.transform = view.transform
-        viewToClipFrom = view
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -11,7 +11,8 @@ import Foundation
 class StrokeToMath: NSObject {
     
     var jotToMath: JotToMath!
-    var page: Paper
+    weak var page: Paper!
+    weak var listener: HandledActionListener!
     
     func pushResultToPage(){
         var txt = jotToMath.resultAsText()
@@ -20,7 +21,8 @@ class StrokeToMath: NSObject {
         if let mathimg2 = mathimg1 as? UIImage{
             let mathBlock = MathBlock(image: mathimg2, symbols: jotToMath.resultAsSymbolList(), text: jotToMath.resultAsText(), mathML: jotToMath.resultAsMathML(), data: jotToMath.serialize())
             mathBlock.center = jotToMath.center
-            self.page.addMathBlockToPage(block: mathBlock)
+            page.addMathBlockToPage(block: mathBlock)
+            listener.actionCompleted()
         }
     }
     

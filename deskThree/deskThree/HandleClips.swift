@@ -10,29 +10,38 @@ import Foundation
 
 typealias AcceptsArgCompletionBlock = (CGPath)->()
 
-protocol HandleClipsDelegate {
+protocol HandleClipsDelegate: class {
     func end()
 }
 
-class HandleClips: NSObject {
+protocol HandledActionListener: class {
+    func actionCompleted()
+}
+
+class HandleClips: NSObject, HandledActionListener {
     
-    var clipper: Clipper
+    weak var clipper: Clipper!
     var strokeToMath: StrokeToMath
     var selectedStrokeEraser: SelectedStrokeEraser
-    var delegate: HandleClipsDelegate!
+    weak var delegate: HandleClipsDelegate!
     
     func handleMath(selection: CGPath){
+        
         strokeToMath.clipperDidSelectMathWith(selection: selection)
         selectedStrokeEraser.clipperDidSelectStrokesForErasure(selection: selection)
-        delegate.end()
+        
     }
     
     func handleClear(selection: CGPath){
         selectedStrokeEraser.clipperDidSelectStrokesForErasure(selection: selection)
-        delegate.end()
+        
     }
     
     func handleCancel(){
+        
+    }
+    
+    func actionCompleted(){
         delegate.end()
     }
 
@@ -44,6 +53,10 @@ class HandleClips: NSObject {
         selectedStrokeEraser = SelectedStrokeEraser(currentPage)
         
         super.init()
+        strokeToMath.listener = self
+        selectedStrokeEraser.listener = self
+        
+        
         clipper.handleClips = self
     }
 }

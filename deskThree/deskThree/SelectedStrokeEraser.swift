@@ -10,8 +10,8 @@ import Foundation
 
 class SelectedStrokeEraser: NSObject {
     
-    var page: Paper
-    
+    weak var page: Paper?
+    weak var listener: HandledActionListener!
     
     func clipperDidSelectStrokesForErasure(selection: CGPath){
         
