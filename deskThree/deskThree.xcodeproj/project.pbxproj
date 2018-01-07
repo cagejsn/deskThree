@@ -87,7 +87,7 @@
 		DA4918B31DE75AAA00E3AA1D /* stencil.fsh in Resources */ = {isa = PBXBuildFile; fileRef = DA4918AD1DE75AAA00E3AA1D /* stencil.fsh */; };
 		DA531CC7200139A5008A3861 /* ClipperSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC6200139A5008A3861 /* ClipperSession.swift */; };
 		DA531CC920014274008A3861 /* StrokeToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC820014274008A3861 /* StrokeToMath.swift */; };
-		DA531CCB200150C9008A3861 /* ClipperPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CCA200150C9008A3861 /* ClipperPresenter.swift */; };
+		DA531CCB200150C9008A3861 /* HandleClips.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CCA200150C9008A3861 /* HandleClips.swift */; };
 		DA5464511DBD10A300E644F0 /* Paper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5464501DBD10A300E644F0 /* Paper.swift */; };
 		DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */; };
 		DA5747601E7491E50010F754 /* OCRMathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57475F1E7491E50010F754 /* OCRMathView.swift */; };
@@ -133,6 +133,7 @@
 		DAEE9E8B1FB5046C007426BD /* FileExplorerCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE9E8A1FB5046C007426BD /* FileExplorerCollectionViewHeader.swift */; };
 		DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */; };
 		DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */; };
+		DAF9E89A20017B9B009761F6 /* SelectedStrokeEraser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF9E89920017B9B009761F6 /* SelectedStrokeEraser.swift */; };
 		DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */; };
 		DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */; };
 		DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */; };
@@ -330,7 +331,7 @@
 		DA4A54721E8CD00B0039B030 /* LowerDeskControls.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LowerDeskControls.xib; sourceTree = "<group>"; };
 		DA531CC6200139A5008A3861 /* ClipperSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipperSession.swift; sourceTree = "<group>"; };
 		DA531CC820014274008A3861 /* StrokeToMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeToMath.swift; sourceTree = "<group>"; };
-		DA531CCA200150C9008A3861 /* ClipperPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipperPresenter.swift; sourceTree = "<group>"; };
+		DA531CCA200150C9008A3861 /* HandleClips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleClips.swift; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
 		DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKFilteredImageView.swift; sourceTree = "<group>"; };
 		DA57475F1E7491E50010F754 /* OCRMathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRMathView.swift; sourceTree = "<group>"; };
@@ -393,6 +394,7 @@
 		DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerViewController.swift; sourceTree = "<group>"; };
 		DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileExplorerViewController.xib; sourceTree = "<group>"; };
 		DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaveAsView.xib; sourceTree = "<group>"; };
+		DAF9E89920017B9B009761F6 /* SelectedStrokeEraser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStrokeEraser.swift; sourceTree = "<group>"; };
 		DAFBE3A01DBBDBC20007D249 /* deskThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskViewController.swift; sourceTree = "<group>"; };
@@ -666,10 +668,11 @@
 				DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */,
 				DA531CC6200139A5008A3861 /* ClipperSession.swift */,
 				DA7A09271FE2211A007BDCE1 /* Clipper.swift */,
-				DA531CCA200150C9008A3861 /* ClipperPresenter.swift */,
+				DA531CCA200150C9008A3861 /* HandleClips.swift */,
 				DA531CC820014274008A3861 /* StrokeToMath.swift */,
 				DA8E91F01FE223D80014B432 /* JotToMath.swift */,
 				DA5464501DBD10A300E644F0 /* Paper.swift */,
+				DAF9E89920017B9B009761F6 /* SelectedStrokeEraser.swift */,
 				DA8E920E1FE5F68C0014B432 /* File System */,
 				DA8E920D1FE5F6730014B432 /* Models */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
@@ -1038,9 +1041,10 @@
 				DADC7C6A1DF0F4650086626E /* Expression.swift in Sources */,
 				DA2841211EB048B10085112E /* MathViewContainer.swift in Sources */,
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
-				DA531CCB200150C9008A3861 /* ClipperPresenter.swift in Sources */,
+				DA531CCB200150C9008A3861 /* HandleClips.swift in Sources */,
 				DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */,
 				DA04D9361EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift in Sources */,
+				DAF9E89A20017B9B009761F6 /* SelectedStrokeEraser.swift in Sources */,
 				DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */,
 				DA5464511DBD10A300E644F0 /* Paper.swift in Sources */,
 				DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */,

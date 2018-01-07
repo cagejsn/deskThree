@@ -46,16 +46,15 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
     }
     
     func toggleClipping(_ sender: UIButton){
-        if(currentPage.clipperSession == nil){            
-            currentPage.clipperSession = ClipperSession(sender,currentPage)
-            currentPage.clipperSession.start()
-        }
-        
-        if(sender.isSelected == true){
+        if(sender.isSelected){
             currentPage.clipperSession.end()
             currentPage.clipperSession = nil
+        } else {
+            currentPage.clipperSession = ClipperSession(sender, currentPage)
+            currentPage.clipperSession.start()
         }
     }
+    
     
     
 

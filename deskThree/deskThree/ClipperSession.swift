@@ -8,38 +8,37 @@
 
 import Foundation
 
-class ClipperSession: NSObject {
-    
+
+
+class ClipperSession: NSObject, HandleClipsDelegate, ClipperDelegate {
+   
     weak var sender: UIButton?
     var magicWandEnabled: Bool = false
-    var clipperPresenter: ClipperPresenter
+    var handleClips: HandleClips!
     var clipper: Clipper?
-    var hasClipperBegunClipping: Bool = false
     weak var ownerPage: Paper?
-    
     
     func start() {
         addClipperToCurrentPage()
-        sender!.isSelected = true
-        hasClipperBegunClipping = true
+        sender?.isSelected = true
     }
     
     func addClipperToCurrentPage(){
         clipper = Clipper(overSubview: ownerPage!)
-        clipperPresenter = ClipperPresenter(clipper)
+        clipper!.delegate = self
+        handleClips = HandleClips(clipper!,currentPage: ownerPage!)
+        handleClips.delegate = self
         ownerPage!.addSubview(clipper!)
-        
     }
     
     func end() {
+        clipper?.removeFromSuperview()
+        magicWandEnabled = false
         sender!.isSelected = false
     }
     
     init(_ sender: UIButton, _ paper: Paper){
         self.sender = sender
         self.ownerPage = paper        
-    }
-    
-    
-    
+    }    
 }

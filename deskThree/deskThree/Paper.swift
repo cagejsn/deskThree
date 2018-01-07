@@ -161,7 +161,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         var selectActionMenu: UIMenuController = UIMenuController.shared
         selectActionMenu.arrowDirection = .down
         selectActionMenu.setTargetRect(block.frame, in: self)
-        
+    
         
         var selectableActionEdit = UIMenuItem(title: "edit", action: #selector(Paper.mathBlockEditHandler))
         var selectableActionEquals = UIMenuItem(title: "=", action: #selector(Paper.mathBlockEqualsHandler))

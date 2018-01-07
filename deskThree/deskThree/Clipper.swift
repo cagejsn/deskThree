@@ -9,20 +9,44 @@
 import Foundation
 import UIKit
 
+typealias VoidBlock = ()->()
+
+protocol ClipperDelegate {
+    func end()
+}
+
 class Clipper: UIView {
     
     var activePath: UIBezierPath!
     var animatedClippingLayer: CAShapeLayer = CAShapeLayer()
     let pattern: [NSNumber] = [NSNumber(value:5.0),NSNumber(value:5.0)]
     var viewToClipFrom: UIView!
-    weak var clipperPresenter: ClipperPresenter?
+    weak var handleClips: HandleClips?
+    var hasFinishedSelection: Bool = false
+    var delegate: ClipperDelegate!
     
+    //responder chain overrides
     override var canBecomeFirstResponder: Bool {
         get {
            return true
         }
     }
     
+    override func becomeFirstResponder() -> Bool {
+        NotificationCenter.default.addObserver(self, selector: #selector(Clipper.resignFirstResponder), name: NSNotification.Name.UIMenuControllerDidHideMenu , object: nil)
+        return super.becomeFirstResponder()
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIMenuControllerDidHideMenu, object: nil)
+        delegate.end()
+        return super.resignFirstResponder()
+    }
+    
+    
+    func restoreUIMenuController(){
+        showSelectableOptions(forRect: self.activePath.bounds)
+    }
     
     //clipper should work as follows:
     // the initialization of the clipper happens after a button is pushed on the VC
@@ -47,20 +71,53 @@ class Clipper: UIView {
     }
     
     func beginSelection(with point: CGPoint){
-        setupPaths()
-        activePath.move(to: point)
+        if(!hasFinishedSelection){
+            setupPaths()
+            activePath.move(to: point)
+        }
     }
     
     func incrementSelection(withNew point: CGPoint){
-        activePath.addLine(to: point)
-        animatedClippingLayer.path = activePath.cgPath
+        if(!hasFinishedSelection){
+            activePath.addLine(to: point)
+            animatedClippingLayer.path = activePath.cgPath
+        }
     }
     
     func endSelection(forLastTouch point: CGPoint){
-        activePath.close()
-        animatedClippingLayer.path = activePath.cgPath
-        clipperPresenter!.showSelectableOptions(forRect: activePath.bounds)
+        if(!hasFinishedSelection){
+            activePath.close()
+            animatedClippingLayer.path = activePath.cgPath
+            hasFinishedSelection = true
+            showSelectableOptions(forRect: activePath.bounds)
+        }
     }
+  
+    func showSelectableOptions(forRect: CGRect){
+        
+        self.becomeFirstResponder()
+        var selectActionMenu: UIMenuController = UIMenuController.shared
+        selectActionMenu.arrowDirection = .down
+        selectActionMenu.setTargetRect(forRect, in: self)
+        var selectableActionMath = UIMenuItem(title: "math", action: #selector(mathButtonTapped))
+        var selectableActionClear = UIMenuItem(title: "clear", action: #selector(clearButtonTapped))
+        var selectableActionCancel = UIMenuItem(title: "cancel", action: #selector(cancelButtonTapped))
+        selectActionMenu.menuItems = [selectableActionMath,selectableActionClear,selectableActionCancel]
+        selectActionMenu.setMenuVisible(true, animated: true)
+    }
+    
+    func mathButtonTapped(){
+        handleClips?.handleMath(selection: self.activePath.cgPath)
+    }
+    
+    func clearButtonTapped(){
+        handleClips?.handleClear(selection: self.activePath.cgPath)
+    }
+    
+    func cancelButtonTapped(){
+        handleClips?.handleCancel()
+    }
+    
     
     func setupPaths(){
         activePath = UIBezierPath()

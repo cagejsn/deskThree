@@ -158,7 +158,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         strokeToMathToggleControl.frame = CGRect(x: 170, y: 70, width: 70, height: 40)
         self.view.addSubview(strokeToMathToggleControl)
         strokeToMathToggleControl.delegate = self
-        strokeToMathToggleControl.addTarget(workViewPresenter, action: #selector(WorkViewPresenter.beginClipping(_:)), for: .touchUpInside)
+        strokeToMathToggleControl.addTarget(workViewPresenter, action: #selector(WorkViewPresenter.toggleClipping(_:)), for: .touchUpInside)
 //         strokeToMathToggleControl.addTarget(self, action: #selector(DeskViewController.setUpClipping), for: .touchUpInside)
         strokeToMathToggleControl.setImage(#imageLiteral(resourceName: "magicWand"), for: .normal)
         strokeToMathToggleControl.imageView?.contentMode = .scaleAspectFit

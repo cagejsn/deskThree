@@ -8,36 +8,27 @@
 
 import Foundation
 
-class StrokeToMath {
-
-    static func setupJotToMath(pathFrame: CGRect) -> JotToMath {
-        jotToMath = JotToMath()
-        jotToMath.beautificationOption = .fontify
-        jotToMath.frame = pathFrame
-        // self.addSubview(jotToMath)
-        jotToMath.setCompletionBlock(codeToRun: {[weak self] in return self?.aFunction()})
-        
-        let certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
-        let certificateRegistered = jotToMath.registerCertificate(certificate)
-        if(certificateRegistered){
-            let mainBundle = Bundle.main
-            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
-            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
-            jotToMath.addSearchDir(bundlePath as String)
-            jotToMath.configure(withBundle: "math", andConfig: "standard")
+class StrokeToMath: NSObject {
+    
+    var jotToMath: JotToMath!
+    var page: Paper
+    
+    func pushResultToPage(){
+        var txt = jotToMath.resultAsText()
+        if(txt == ""){ return }
+        let mathimg1 = jotToMath.resultAsImage()
+        if let mathimg2 = mathimg1 as? UIImage{
+            let mathBlock = MathBlock(image: mathimg2, symbols: jotToMath.resultAsSymbolList(), text: jotToMath.resultAsText(), mathML: jotToMath.resultAsMathML(), data: jotToMath.serialize())
+            mathBlock.center = jotToMath.center
+            self.page.addMathBlockToPage(block: mathBlock)
         }
     }
     
-    
-    
-    func clipperDidSelect(selection: CGPath){
+    func clipperDidSelectMathWith(selection: CGPath){
         
-        currentPage.clipperSession.end()
-        
-        
-        setUpJotToMath(pathFrame: selection.boundingBox)
+        setupJotToMath(pathFrame: selection.boundingBox)
         var arrayOfStrokes = [JotStroke]()
-        var undefStrokesOnPage = currentPage.drawingView.state.everyVisibleStroke()
+        var undefStrokesOnPage = page.drawingView.state.everyVisibleStroke()
         guard let strokesOnPage = undefStrokesOnPage as? [JotStroke] else { return }
         //TODO: figure out how to not read strokes that aren't visible because of erasurement
         for s in strokesOnPage {
@@ -55,7 +46,7 @@ class StrokeToMath {
                         for segment in segments {
                             if let segment = segment as! AbstractBezierPathElement?{
                                 var point = segment.startPoint
-                                let drawSize = currentPage.drawingView.pagePtSize
+                                let drawSize = page.drawingView.pagePtSize
                                 
                                 point.x = point.x * (1275 / drawSize.width)
                                 point.y = (point.y * -(1650 / drawSize.height)) + 1650
@@ -76,9 +67,31 @@ class StrokeToMath {
                 }
             }
         }
-        acceptClippedStrokes(strokes: output)
+        jotToMath.acceptClippedStrokes(strokes: output)
+    }
+    
+    func setupJotToMath(pathFrame: CGRect){
+        jotToMath = JotToMath()
+        jotToMath.beautificationOption = .fontify
+        jotToMath.frame = pathFrame
+        // self.addSubview(jotToMath)
+        jotToMath.setCompletionBlock(codeToRun: {[weak self] in return self?.pushResultToPage()})
+        
+        let certificate: Data = NSData(bytes: myCertificate.bytes, length: myCertificate.length) as Data
+        let certificateRegistered = jotToMath.registerCertificate(certificate)
+        if(certificateRegistered){
+            let mainBundle = Bundle.main
+            var bundlePath = mainBundle.path(forResource: "resources", ofType: "bundle") as! NSString
+            bundlePath = bundlePath.appendingPathComponent("conf") as NSString
+            jotToMath.addSearchDir(bundlePath as String)
+            jotToMath.configure(withBundle: "math", andConfig: "standard")
+        }
     }
     
     
+    init(_ ownerPage: Paper) {
+        self.page = ownerPage
+        super.init()
+    }
     
 }
