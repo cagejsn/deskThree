@@ -121,6 +121,27 @@
     point3 = otherSmoother.point3;
 }
 
+#pragma mark - Encoding & Decoding
+
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeCGPoint:point0 forKey:@"point0"];
+    [aCoder encodeCGPoint:point1 forKey:@"point1"];
+    [aCoder encodeCGPoint:point2 forKey:@"point2"];
+    [aCoder encodeCGPoint:point3 forKey:@"point3"];
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super init]) {
+        point0 = [aDecoder decodeCGPointForKey:@"point0"];
+        point1 = [aDecoder decodeCGPointForKey:@"point1"];
+        point2 = [aDecoder decodeCGPointForKey:@"point2"];
+        point3 = [aDecoder decodeCGPointForKey:@"point3"];
+    }
+    return self;
+}
+
+
 
 #pragma mark - PlistSaving
 

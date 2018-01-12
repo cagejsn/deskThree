@@ -12,19 +12,26 @@ import UIKit
     import Mixpanel
 #endif
 
+enum ExpressionDestination {
+    case MathView
+    case Calculator
+    case Wolfram
+}
+
 // Figure out why we need this
 protocol PaperDelegate: NSObjectProtocol {
-    func passHeldBlock(sender:Expression)
+    func passHeldBlock(sender:Expression, toDestination: ExpressionDestination)
     func didBeginMove(movedView: UIView)
     func didIncrementMove(movedView: UIView)
     func didCompleteMove(movedView: UIView)
     func didEvaluate(forExpression sender: Expression, result: Float)
 }
 
-
 class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate {
     
-    typealias handler = ()->()
+    typealias handler = (MathBlock)->()
+    
+    var clipperSession: ClipperSession!
     
     public weak var delegate: PaperDelegate!
     // TODO: MAKE THIS PRIVATE!
@@ -37,19 +44,24 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     //JotUI Properties
     var drawingView: JotView!
     
+    var handlesEditMathBlock: handler!
+    var handlesEqualsMathBlock: handler!
+    var handlesWRMathBlock: handler!
+    
     // JotViewStateProxy Properties
     internal var jotViewStateInkPath: String!
     internal var jotViewStatePlistPath: String!
     private var drawingState: JotViewStateProxy!
     
-    var mathBlockEditHandler: handler!
-    var mathBlockEqualsHandler: handler!
-    var mathBlockWolframHandler:handler!
-    
     override var canBecomeFirstResponder: Bool {
         get {
             return true
         }
+    }
+    
+    override func resignFirstResponder() -> Bool {
+        activeBlock = nil
+        return super.resignFirstResponder()
     }
     
     private var pageNumber: Int?
@@ -66,7 +78,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         pageNumber = number
     }
     
-    func getDrawingState() -> JotViewStateProxy{
+    func getDrawingState() -> JotViewStateProxy {
         return drawingState
     }
 
@@ -88,9 +100,8 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         self.image = image
     }
     
-    
-    func elementWantsSendToInputObject(element:Any){
-        delegate.passHeldBlock(sender: element as! Expression)
+    func elementWantsOptionsMenu(element:Any){
+        showSelectableMathBlockOptions(element as! MathBlock)
     }
     
     func didBeginMove(movedView: UIView){
@@ -106,7 +117,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     }
     
     func didEvaluate(forExpression sender: Expression, result: Float){
-        delegate.didEvaluate(forExpression: sender, result: result)
+        delegate.passHeldBlock(sender: sender, toDestination: .Calculator)
     }
     
        
@@ -118,6 +129,9 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         }
     }
     
+    func completedClipperSession(){
+        clipperSession = nil
+    }
     
     func addMathBlockToPage(block: MathBlock){
         #if !DEBUG
@@ -127,29 +141,51 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         block.delegate = self
         expressions.append(block)
         self.addSubview(block)
-        showSelectableMathBlockOptions(frame: block.frame)
+        showSelectableMathBlockOptions(block)
     }
     
+    func setupHandlers(){
+        var edit = { block in self.delegate.passHeldBlock(sender: block, toDestination: .MathView)}
+        handlesEditMathBlock = edit
+        var equals = { block in self.delegate.passHeldBlock(sender: block, toDestination: .Calculator)}
+        handlesEqualsMathBlock = equals
+        var wr = { block in self.delegate.passHeldBlock(sender: block, toDestination: .Wolfram)}
+        handlesWRMathBlock = wr
+    }
     
-    
-    func showSelectableMathBlockOptions(frame: CGRect){
+    func showSelectableMathBlockOptions(_ block: MathBlock){
+        activeBlock = block
+        setupHandlers()
         becomeFirstResponder()
         var selectActionMenu: UIMenuController = UIMenuController.shared
         selectActionMenu.arrowDirection = .down
-        selectActionMenu.setTargetRect(frame, in: self)
-        
-        var selectableActionEdit = UIMenuItem(title: "edit", action: #selector(getter: Paper.mathBlockEditHandler))
-        
-        var selectableActionEquals = UIMenuItem(title: "=", action: #selector(getter: Paper.mathBlockEqualsHandler))
-        
-        var selectableActionWolfram = UIMenuItem(title: "wr", action: #selector(getter: Paper.mathBlockWolframHandler))
+        selectActionMenu.setTargetRect(block.frame, in: self)
+    
+        var selectableActionEdit = UIMenuItem(title: "edit", action: #selector(Paper.mathBlockEditHandler))
+        var selectableActionEquals = UIMenuItem(title: "=", action: #selector(Paper.mathBlockEqualsHandler))
+        var selectableActionWolfram = UIMenuItem(title: "wr", action: #selector(Paper.mathBlockWolframHandler))
+       
         selectActionMenu.menuItems = [selectableActionEdit,selectableActionEquals,selectableActionWolfram]
         selectActionMenu.setMenuVisible(true, animated: true)
     }
     
-    func didHoldBlock(sender: MathBlock) {
-        delegate.passHeldBlock(sender:sender)
+    weak var activeBlock: MathBlock?
+    
+    func mathBlockEditHandler(){
+        guard activeBlock != nil else { return }
+        handlesEditMathBlock(activeBlock!)
     }
+    
+    func mathBlockEqualsHandler(){
+        guard activeBlock != nil else { return }
+        handlesEqualsMathBlock(activeBlock!)
+    }
+    
+    func mathBlockWolframHandler(){
+        guard activeBlock != nil else { return }
+        handlesWRMathBlock(activeBlock!)
+    }
+    
     
     // Adds an image onto the paper. Used by GKImagePicker Delegate
     func addImageBlock (pickedImage: UIImage){

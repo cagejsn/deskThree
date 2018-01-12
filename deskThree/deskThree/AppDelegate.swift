@@ -11,6 +11,7 @@ import Fabric
 import Crashlytics
 import SlideMenuControllerSwift
 import Zip
+import FBSDKCoreKit
 
 #if !DEBUG
 import Mixpanel
@@ -25,10 +26,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     #if !DEBUG
     var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
-   
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-       
+        Fabric.with([Crashlytics.self, Answers.self])
+        Answers.logCustomEvent(withName: "App Started", customAttributes: nil)
+        
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        FBSDKAppEvents.activateApp()
         
         print(Zip.isValidFileExtension("edf"))
         Zip.addCustomFileExtension("edf")
@@ -100,6 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
         Zip.addCustomFileExtension("edf")
+        
+        var handled: Bool = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
+        return handled
         
         var fileNameWithType = url.lastPathComponent
         if !fileNameWithType.contains(".edf") {

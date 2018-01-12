@@ -7,6 +7,14 @@ build/
 DerivedData/
 MyScript_ATK-ios-2.2/
 
+##frameworks, download them yourself
+Bolts.framework
+FBSDKCoreKit.framework
+FBSDKLoginKit.framework
+FBSDKShareKit.framework
+Fabric.framework
+Crashlytics.framework
+
 ## Various settings
 *.pbxuser
 !default.pbxuser

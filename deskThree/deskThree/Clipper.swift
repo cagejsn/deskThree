@@ -9,27 +9,43 @@
 import Foundation
 import UIKit
 
-typealias AcceptsArgCompletionBlock = (CGPath)->()
+typealias VoidBlock = ()->()
 
+protocol ClipperDelegate: class {
+    func end()
+}
 
 class Clipper: UIView {
     
-    var completionBlock: AcceptsArgCompletionBlock!
     var activePath: UIBezierPath!
     var animatedClippingLayer: CAShapeLayer = CAShapeLayer()
     let pattern: [NSNumber] = [NSNumber(value:5.0),NSNumber(value:5.0)]
-    var viewToClipFrom: UIView!
+    weak var handleClips: HandleClips?
+    var hasFinishedSelection: Bool = false
+    weak var delegate: ClipperDelegate!
+    
+    //responder chain overrides
     override var canBecomeFirstResponder: Bool {
         get {
            return true
         }
     }
     
+    override func becomeFirstResponder() -> Bool {
+        NotificationCenter.default.addObserver(self, selector: #selector(Clipper.resignFirstResponder), name: NSNotification.Name.UIMenuControllerDidHideMenu , object: nil)
+        return super.becomeFirstResponder()
+    }
     
+    override func resignFirstResponder() -> Bool {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIMenuControllerDidHideMenu, object: nil)
+        delegate.end()
+        return super.resignFirstResponder()
+    }
+    
+        
     //clipper should work as follows:
     // the initialization of the clipper happens after a button is pushed on the VC
     // the clipper is initialized (it's a view) with the same size as a view which it is layered on top of. It should steal any touch input from that view as it makes a selection.
-    // upon finishing a path, the Clipper will use pointers that it was initialized with and
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event )
@@ -49,31 +65,54 @@ class Clipper: UIView {
         endSelection(forLastTouch:point!)
     }
     
-    
-    func setCompletionFunction(functionToCall: @escaping (CGPath)->()){
-        completionBlock = functionToCall
-    }
-    
-    
     func beginSelection(with point: CGPoint){
-        setupPaths()
-        activePath.move(to: point)
-        
+        if(!hasFinishedSelection){
+            setupPaths()
+            activePath.move(to: point)
+        }
     }
     
     func incrementSelection(withNew point: CGPoint){
-        activePath.addLine(to: point)
-        animatedClippingLayer.path = activePath.cgPath
+        if(!hasFinishedSelection){
+            activePath.addLine(to: point)
+            animatedClippingLayer.path = activePath.cgPath
+        }
     }
-    
     
     func endSelection(forLastTouch point: CGPoint){
-        activePath.close()
-        animatedClippingLayer.path = activePath.cgPath
-        //performClipping()
-        //completionBlock(activePath.cgPath)
-        showSelectableOptions()
+        if(!hasFinishedSelection){
+            activePath.close()
+            animatedClippingLayer.path = activePath.cgPath
+            hasFinishedSelection = true
+            showSelectableOptions(forRect: activePath.bounds)
+        }
     }
+  
+    func showSelectableOptions(forRect: CGRect){
+        
+        self.becomeFirstResponder()
+        var selectActionMenu: UIMenuController = UIMenuController.shared
+        selectActionMenu.arrowDirection = .down
+        selectActionMenu.setTargetRect(forRect, in: self)
+        var selectableActionMath = UIMenuItem(title: "math", action: #selector(mathButtonTapped))
+        var selectableActionClear = UIMenuItem(title: "clear", action: #selector(clearButtonTapped))
+        var selectableActionCancel = UIMenuItem(title: "cancel", action: #selector(cancelButtonTapped))
+        selectActionMenu.menuItems = [selectableActionMath,selectableActionClear,selectableActionCancel]
+        selectActionMenu.setMenuVisible(true, animated: true)
+    }
+    
+    func mathButtonTapped(){
+        handleClips?.handleMath(selection: self.activePath.cgPath)
+    }
+    
+    func clearButtonTapped(){
+        handleClips?.handleClear(selection: self.activePath.cgPath)
+    }
+    
+    func cancelButtonTapped(){
+        handleClips?.handleCancel()
+    }
+    
     
     func setupPaths(){
         activePath = UIBezierPath()
@@ -100,100 +139,10 @@ class Clipper: UIView {
     }
     
     
-    func showSelectableOptions(){
-        becomeFirstResponder()
-        var selectActionMenu: UIMenuController = UIMenuController.shared
-        selectActionMenu.arrowDirection = .down
-        selectActionMenu.setTargetRect(activePath.bounds, in: self)
-        
-        var selectableActionMath = UIMenuItem(title: "math", action: #selector(wordsButtonTapped))
-        var selectableActionClear = UIMenuItem(title: "clear", action: #selector(wordsButtonTapped))
-        
-        var selectableActionCancel = UIMenuItem(title: "cancel", action: #selector(wordsButtonTapped))
-        selectActionMenu.menuItems = [selectableActionMath,selectableActionClear,selectableActionCancel]
-        selectActionMenu.setMenuVisible(true, animated: true)
-           
-    }
-    
-    
-    
-    func wordsButtonTapped(){
-        
-        let cartesianDifference = activePath.cgPath.boundingBox.origin - self.convert(activePath.cgPath.boundingBox, to: superview).origin
-        let scaleDifference = activePath.cgPath.boundingBox.width / self.convert(activePath.cgPath.boundingBox, to: superview).width
-        
-        //activePath.apply(CGAffineTransform.init(translationX: cartesianDifference.x, y: cartesianDifference.y))
-        //activePath.apply(CGAffineTransform.init(scaleX: scaleDifference, y: scaleDifference))
-        
-        print(self.frame)
-        completionBlock(activePath.cgPath)
-        // print(frame)
-        self.removeFromSuperview()
-    }
-    
-    
-    func performClipping(){
-        
-        var result = UIImageView()
-        /*
-         switch(clipperType) {
-         case .imageView:
-         
-         break
-         case .jotView:
-         break
-         case .pdfContext:
-         break
-         case .context:
-         var maskLayer = CAShapeLayer()
-         maskLayer.path = activePath.cgPath
-         UIGraphicsBeginImageContextWithOptions(activePath.bounds.size, false, 0.0)
-         let context = UIGraphicsGetCurrentContext()
-         var clippedRect = CGRect(x: 0,y:0, width: activePath.bounds.size.width, height: activePath.bounds.size.height)
-         var drawRect = CGRect(x: activePath.bounds.origin.x * -1, y: activePath.bounds.origin.y * -1, width: viewToClipFrom.frame.width , height: viewToClipFrom.frame.height)
-         viewToClipFrom.layer.mask = maskLayer
-         context?.translateBy(x: drawRect.origin.x, y: drawRect.origin.y)
-         viewToClipFrom.layer.render(in: context!)
-         viewToClipFrom.layer.mask = nil
-         var img = context?.makeImage()
-         result = UIImageView(frame: activePath.bounds )
-         result.image = UIImage(cgImage:img!)
-         break
-         
-         default:
-         break
-         }
-         */
-        // completionBlock(result)
-    }
-    
-    func attemptToConstraint(withView view: UIView){
-        if let superView = view.superview {
-            superView.addSubview(self)
-            superview?.addConstraints(
-                { () -> [NSLayoutConstraint] in
-                    var contraints = [NSLayoutConstraint]()
-                    self.layoutMarginsGuide.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-                    self.layoutMarginsGuide.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-                    self.layoutMarginsGuide.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-                    self.layoutMarginsGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-                    return constraints
-                }()
-            )
-        }
-    }
-    
     init(overSubview view: UIView){
         //how to handle constraints and the ability to rotate?
-        print(view.bounds)
-        print(view.frame)
-        
         super.init(frame:CGRect(x: 0, y: 0, width: 1275, height: 1650))
         //self.transform = view.transform
-        viewToClipFrom = view
-
-        
-        //attemptToConstraint(withView:view)
     }
     
     required init?(coder aDecoder: NSCoder) {

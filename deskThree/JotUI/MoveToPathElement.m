@@ -79,6 +79,29 @@
     return [NSString stringWithFormat:@"[Move to: %f,%f]", startPoint.x, startPoint.y];
 }
 
+#pragma mark - NSCoding init
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        NSUInteger prime = 31;
+        hashCache = 1;
+        hashCache = prime * hashCache + startPoint.x;
+        hashCache = prime * hashCache + startPoint.y;
+        
+            // cage - forcing regenerate
+        
+            // the scale of the cached data in the dictionary is
+            // different than the scael of the data that we need.
+            // zero this out and it'll regenerate with the
+            // correct scale on demand
+            scaleOfVertexBuffer = 0;
+            dataVertexBuffer = nil;
+        
+        
+    }
+    return self;
+}
+
 #pragma mark - PlistSaving
 
 - (id)initFromDictionary:(NSDictionary*)dictionary {

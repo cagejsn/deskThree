@@ -128,6 +128,21 @@
 }
 
 
+#pragma mark - Encoding & Decoding
+
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:NSStringFromClass([self class]) forKey:@"class"];
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
+    NSString* className = [aDecoder decodeObjectForKey:@"class"];
+    Class clz = NSClassFromString(className);
+    return [[clz alloc] init];
+}
+
+
+
 #pragma mark - PlistSaving
 
 - (id)init {

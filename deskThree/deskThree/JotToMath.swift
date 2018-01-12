@@ -20,7 +20,12 @@ class JotToMath: MAWMathView, MAWMathViewDelegate {
         codeToRunUponCompletion()
     }
     
-    
+    func acceptClippedStrokes(strokes: [[MAWCaptureInfo]]){
+        for stroke in strokes {
+            self.addStroke(stroke)
+        }
+        self.solve()
+    }
     
     func mathViewDidBeginRecognition(_ mathView: MAWMathView!) {
         var d = 2

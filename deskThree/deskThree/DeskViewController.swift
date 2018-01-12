@@ -50,15 +50,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     #if !DEBUG
     private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
-    
-    func didLoadState(_ state: JotViewStateProxy!) {
         
-    }
-    
-    func didUnloadState(_ state: JotViewStateProxy!) {
-        
-    }
-    
     //MARK: Lifecycle functions for DVC
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -158,7 +150,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         strokeToMathToggleControl.frame = CGRect(x: 170, y: 70, width: 70, height: 40)
         self.view.addSubview(strokeToMathToggleControl)
         strokeToMathToggleControl.delegate = self
-        strokeToMathToggleControl.addTarget(workViewPresenter, action: #selector(WorkViewPresenter.beginClipping(_:)), for: .touchUpInside)
+        strokeToMathToggleControl.addTarget(workViewPresenter, action: #selector(WorkViewPresenter.toggleClipping(_:)), for: .touchUpInside)
 //         strokeToMathToggleControl.addTarget(self, action: #selector(DeskViewController.setUpClipping), for: .touchUpInside)
         strokeToMathToggleControl.setImage(#imageLiteral(resourceName: "magicWand"), for: .normal)
         strokeToMathToggleControl.imageView?.contentMode = .scaleAspectFit
@@ -173,11 +165,23 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
 
     
     //MARK: Data flow functions
-    func sendingToInputObject(for element: Any){
-        if let mathElement = element as? MathBlock {
-            mathViewContainer.receiveElement(mathElement)
+    func sendingToInputObject(for element: Any, toDestination: ExpressionDestination){
+        
+        guard let mathBlock = element as? MathBlock else { return }
+        
+        switch toDestination {
+        case .MathView:
+            mathViewContainer.receiveElement(mathBlock)
+        case .Calculator:
+            
+            toolDrawer.receiveElement(mathBlock)
+        case .Wolfram:
+            didRequestWRDisplay(query: mathBlock.getMathML())
+        default:
+            break
         }
-        toolDrawer.receiveElement(element)
+        
+        
     }
     
     //MARK: UITextfieldDelegate functions

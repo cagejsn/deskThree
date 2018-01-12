@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <OpenGLES/EAGL.h>
-#import "UIColor+JotHelper.h"
 #import "OpenGLVBO.h"
 
 

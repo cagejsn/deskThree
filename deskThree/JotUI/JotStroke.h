@@ -21,9 +21,11 @@
  * between points into a nice single curve, and also
  * interpolate width and color including alpha
  */
-@interface JotStroke : NSObject <PlistSaving> {
+@interface JotStroke : NSObject <PlistSaving,NSCoding> {
     // this will store all the segments in drawn order
     NSMutableArray* segments;
+    
+    
     // cache the hash, since it's expenseive to calculate
     NSUInteger hashCache;
 }
@@ -31,11 +33,14 @@
 @property(nonatomic, readonly) SegmentSmoother* segmentSmoother;
 @property(nonatomic, readonly) NSArray* segments;
 @property(nonatomic, readonly) JotBrushTexture* texture;
+@property(nonatomic, strong) UIColor* strokeColor;
 @property(nonatomic, weak) NSObject<JotStrokeDelegate>* delegate;
 @property(nonatomic, readonly) NSInteger totalNumberOfBytes;
 @property(nonatomic, strong) JotBufferManager* bufferManager;
 @property(nonatomic, readonly) int fullByteSize;
 
+
+- (void)setupWith:(JotBufferManager*)bufferManager;
 
 - (id)initLightFromDict:(NSDictionary*)dictionary;
 

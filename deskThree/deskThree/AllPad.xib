@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -451,6 +451,7 @@
                 <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xzO-Vr-CWZ">
                     <rect key="frame" x="229" y="1" width="76" height="64"/>
                     <color key="backgroundColor" red="0.50190365309999996" green="0.50199371579999996" blue="0.50189799069999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="201" id="gXx-8W-1LQ"/>
                     </constraints>
@@ -459,6 +460,7 @@
                     </state>
                     <connections>
                         <action selector="deleteTextFromEntryArea:" destination="-1" eventType="touchUpInside" id="tVI-xB-rGw"/>
+                        <outletCollection property="gestureRecognizers" destination="kmc-on-itS" appends="YES" id="Skz-vT-5Po"/>
                     </connections>
                 </button>
             </subviews>
@@ -622,5 +624,10 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-11" y="-122.5"/>
         </view>
+        <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="kmc-on-itS">
+            <connections>
+                <action selector="deleteTextFromEntryAreaLongPressed:" destination="-1" id="M5l-tj-U7s"/>
+            </connections>
+        </pongPressGestureRecognizer>
     </objects>
 </document>
