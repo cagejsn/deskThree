@@ -88,6 +88,10 @@
 		DA531CC7200139A5008A3861 /* ClipperSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC6200139A5008A3861 /* ClipperSession.swift */; };
 		DA531CC920014274008A3861 /* StrokeToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC820014274008A3861 /* StrokeToMath.swift */; };
 		DA531CCB200150C9008A3861 /* HandleClips.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CCA200150C9008A3861 /* HandleClips.swift */; };
+		DA53BCB1200722C30012179B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCAD200722C10012179B /* Bolts.framework */; };
+		DA53BCB2200722C30012179B /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCAE200722C10012179B /* FBSDKLoginKit.framework */; };
+		DA53BCB3200722C30012179B /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCAF200722C20012179B /* FBSDKShareKit.framework */; };
+		DA53BCB4200722C30012179B /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCB0200722C30012179B /* FBSDKCoreKit.framework */; };
 		DA5464511DBD10A300E644F0 /* Paper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5464501DBD10A300E644F0 /* Paper.swift */; };
 		DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */; };
 		DA5747601E7491E50010F754 /* OCRMathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57475F1E7491E50010F754 /* OCRMathView.swift */; };
@@ -332,6 +336,10 @@
 		DA531CC6200139A5008A3861 /* ClipperSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipperSession.swift; sourceTree = "<group>"; };
 		DA531CC820014274008A3861 /* StrokeToMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeToMath.swift; sourceTree = "<group>"; };
 		DA531CCA200150C9008A3861 /* HandleClips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleClips.swift; sourceTree = "<group>"; };
+		DA53BCAD200722C10012179B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
+		DA53BCAE200722C10012179B /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		DA53BCAF200722C20012179B /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
+		DA53BCB0200722C30012179B /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
 		DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKFilteredImageView.swift; sourceTree = "<group>"; };
 		DA57475F1E7491E50010F754 /* OCRMathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRMathView.swift; sourceTree = "<group>"; };
@@ -420,14 +428,18 @@
 			files = (
 				3176D2D61EA47A3900866D21 /* libc++.tbd in Frameworks */,
 				3176D2D41EA47A2D00866D21 /* libz.tbd in Frameworks */,
+				DA53BCB3200722C30012179B /* FBSDKShareKit.framework in Frameworks */,
 				DA7E470F1E8DF1AB007C52C1 /* QuartzCore.framework in Frameworks */,
 				CE18D3651E6DCE2E00BC54D8 /* ATKMathWidget.framework in Frameworks */,
+				DA53BCB2200722C30012179B /* FBSDKLoginKit.framework in Frameworks */,
 				3176D2C81EA478F900866D21 /* Crashlytics.framework in Frameworks */,
 				CE18D3611E6DCD2500BC54D8 /* ATKMath.framework in Frameworks */,
 				DAE5D31E1E623337007DE25F /* SystemConfiguration.framework in Frameworks */,
+				DA53BCB1200722C30012179B /* Bolts.framework in Frameworks */,
 				3176D2C91EA478F900866D21 /* Fabric.framework in Frameworks */,
 				314881591E8DD5800015D095 /* Mixpanel.framework in Frameworks */,
 				DA2841081EAFBBD00085112E /* SlideMenuControllerSwift.framework in Frameworks */,
+				DA53BCB4200722C30012179B /* FBSDKCoreKit.framework in Frameworks */,
 				CEC6DD141DEE8D80002A2460 /* JotUI.framework in Frameworks */,
 				CE18D3631E6DCD4600BC54D8 /* ATKCore.framework in Frameworks */,
 			);
@@ -607,9 +619,26 @@
 			name = GKImagePickerFiles;
 			sourceTree = "<group>";
 		};
+		DAF9E89B200462E4009761F6 /* Clipping */ = {
+			isa = PBXGroup;
+			children = (
+				DA531CC6200139A5008A3861 /* ClipperSession.swift */,
+				DA7A09271FE2211A007BDCE1 /* Clipper.swift */,
+				DA531CCA200150C9008A3861 /* HandleClips.swift */,
+				DA531CC820014274008A3861 /* StrokeToMath.swift */,
+				DA8E91F01FE223D80014B432 /* JotToMath.swift */,
+				DAF9E89920017B9B009761F6 /* SelectedStrokeEraser.swift */,
+			);
+			name = Clipping;
+			sourceTree = "<group>";
+		};
 		DAFBE3971DBBDBC20007D249 = {
 			isa = PBXGroup;
 			children = (
+				DA53BCAD200722C10012179B /* Bolts.framework */,
+				DA53BCB0200722C30012179B /* FBSDKCoreKit.framework */,
+				DA53BCAE200722C10012179B /* FBSDKLoginKit.framework */,
+				DA53BCAF200722C20012179B /* FBSDKShareKit.framework */,
 				DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */,
 				314881561E8DD5770015D095 /* Zip.framework */,
 				528F8B141E8DB57300E75EF4 /* Zip */,
@@ -666,13 +695,8 @@
 				DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */,
 				DAD144EC1DBBF2DD001F7901 /* WorkView.swift */,
 				DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */,
-				DA531CC6200139A5008A3861 /* ClipperSession.swift */,
-				DA7A09271FE2211A007BDCE1 /* Clipper.swift */,
-				DA531CCA200150C9008A3861 /* HandleClips.swift */,
-				DA531CC820014274008A3861 /* StrokeToMath.swift */,
-				DA8E91F01FE223D80014B432 /* JotToMath.swift */,
+				DAF9E89B200462E4009761F6 /* Clipping */,
 				DA5464501DBD10A300E644F0 /* Paper.swift */,
-				DAF9E89920017B9B009761F6 /* SelectedStrokeEraser.swift */,
 				DA8E920E1FE5F68C0014B432 /* File System */,
 				DA8E920D1FE5F6730014B432 /* Models */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
@@ -757,7 +781,8 @@
 				DAFBE39E1DBBDBC20007D249 /* Resources */,
 				314881551E8DD3160015D095 /* Embed Frameworks */,
 				3148815F1E8DE9410015D095 /* ShellScript */,
-				3176D2D21EA4791E00866D21 /* ShellScript */,
+				3176D2D21EA4791E00866D21 /* Run Script */,
+				DA53BCA02005CF160012179B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -980,9 +1005,23 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
 		};
-		3176D2D21EA4791E00866D21 /* ShellScript */ = {
+		3176D2D21EA4791E00866D21 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 0120eeecb3d895f8d2db17ec5673c6ebf8fd9cf1 89d1958a6a7fbcddc253849d46197dde03e70d0215a7bc80b9602aea726ca53c";
+		};
+		DA53BCA02005CF160012179B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -991,7 +1030,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 6778e199c22b9c45a2b16348fdf519707c845e04 39863d6b71adf6ffe104a1a20309e04f68bb5b65ed152b4ecbe27fdb05060c05";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 

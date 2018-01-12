@@ -45,12 +45,22 @@ class ToolDrawer: UIView {
         var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
     
+    func open(){
+        animateToExpandedPosition()
+        drawerPosition = .open
+    }
+    
+    func close(){
+        animateToCollapsedPosition()
+        drawerPosition = .closed
+    }
+    
     func receiveElement(_ element: Any){
-        if(drawerPosition == .closed){
-            return
-        }
         if(!isActive){
-            return
+            activateAllPad()
+        }
+        if(drawerPosition == .closed){
+            open()
         }
         if(activePad != nil){
             activePad.receiveElement(element)
@@ -82,29 +92,19 @@ class ToolDrawer: UIView {
         let location = sender.location(in: self)
         if (toolIcons[0].frame.contains(location)){
             if (!isActive){
-                activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
-                self.addSubview(activePad)
-                activePad.delegate = delegate
-                isActive = true
-                calculatorIcon.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
+               activateAllPad()
             }
                 if(drawerPosition == DrawerPosition.closed){
                     #if !DEBUG
                         mixpanel.track(event: "Gesture: Calculator: Open")
                     #endif
-
-                    animateToExpandedPosition()
-                    drawerPosition = DrawerPosition.open
-                    
+                    open()
                 } else {
                     #if !DEBUG
                         mixpanel.track(event: "Gesture: Calculator: Close")
                     #endif
-
-                    animateToCollapsedPosition()
-                    drawerPosition = DrawerPosition.closed
+                    close()
                 }
-
         }
     }
     
@@ -122,23 +122,25 @@ class ToolDrawer: UIView {
         }
         
         if (!isActive){
-            activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
-            self.addSubview(activePad)
-            activePad.delegate = delegate
-            isActive = true
-            calculatorIcon.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
+            activateAllPad()
         }
         
         if(sender.state == .ended){
             if(self.frame.width >= (toolDrawerExpandedWidth/2)){
-                animateToExpandedPosition()
-                drawerPosition = DrawerPosition.open
+                open()
             } else {
-                animateToCollapsedPosition()
-                drawerPosition = DrawerPosition.closed
+                close()
             }
             previousTranslation = 0
         }
+    }
+    
+    func activateAllPad(){
+        activePad = AllPad(frame: CGRect(x: toolDrawerCollapsedWidth, y: 0, width: Constants.dimensions.AllPad.width, height: Constants.dimensions.AllPad.height))
+        self.addSubview(activePad)
+        activePad.delegate = delegate
+        isActive = true
+        calculatorIcon.backgroundColor = UIColor.init(red: 26.0/255.0, green: 26.0/255.0, blue: 26.0/255.0, alpha: 0.75)
     }
     
     func deactivateActivePad(){

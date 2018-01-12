@@ -50,15 +50,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     #if !DEBUG
     private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     #endif
-    
-    func didLoadState(_ state: JotViewStateProxy!) {
         
-    }
-    
-    func didUnloadState(_ state: JotViewStateProxy!) {
-        
-    }
-    
     //MARK: Lifecycle functions for DVC
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -181,6 +173,7 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         case .MathView:
             mathViewContainer.receiveElement(mathBlock)
         case .Calculator:
+            
             toolDrawer.receiveElement(mathBlock)
         case .Wolfram:
             didRequestWRDisplay(query: mathBlock.getMathML())

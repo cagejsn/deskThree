@@ -63,12 +63,16 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
     
     override func receiveElement(_ element: Any) {
-        if let express = element as? BlockExpression {
-            numEntryArea.setTitle(ETree.printCurrentTree(root: express.rootBlock), for: .normal)
-            numEntryAreaText = ETree.printCurrentTree(root: express.rootBlock)
+        if let element2 = element as? MathBlock {
+            updateNumEntryAreaText(String(element2.calculateBasedOnStringRepresentation()))
+            
         }
     }
     
+    func updateNumEntryAreaText(_ text: String ){
+        numEntryAreaText = text
+        numEntryArea.setTitle(numEntryAreaText, for: .normal)
+    }
     
     init(viewController : DeskViewController){
         super.init(frame:CGRect(x: UIScreen.main.bounds.width - Constants.dimensions.AllPad.width, y:UIScreen.main.bounds.height - Constants.dimensions.AllPad.height - 44 , width: Constants.dimensions.AllPad.width , height: Constants.dimensions.AllPad.height))
@@ -391,7 +395,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         }
     }
     
-    func deleteTextFromEntryAreaLongPressed(_ sender: AnyObject) {
+    @IBAction func deleteTextFromEntryAreaLongPressed(_ sender: AnyObject) {
         mixpanel.track(event: "Button: Calculator: Backspace Long Press")
 
         if (numEntryAreaText.characters.count > 0) {

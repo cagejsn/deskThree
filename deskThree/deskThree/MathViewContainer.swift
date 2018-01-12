@@ -76,14 +76,11 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
                 #if !DEBUG
                     mixpanel.track(event: "Gesture: MathView: Open")
                 #endif
-                
                 open()
-                
             } else {
                 #if !DEBUG
                     mixpanel.track(event: "Gesture: MathView: Close")
                 #endif
-                
                 close()
             }
         }
@@ -200,12 +197,9 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
             let text = mathView.resultAsText()!
             let mathML = mathView.resultAsMathML()!
             let data = mathView.serialize()!
-            
             let mathBlock = MathBlock(image: image1, symbols: symbols, text: text, mathML: mathML, data: data)
             delegate.pass(mathBlock,for:mathView)
         }
-        
-        
     }
     
     func didRequestWRDisplay(query: String){

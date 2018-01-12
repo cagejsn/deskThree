@@ -14,6 +14,23 @@ class SelectedStrokeEraser: NSObject {
     weak var listener: HandledActionListener!
     
     func clipperDidSelectStrokesForErasure(selection: CGPath){
+        let state = page?.drawingView.state!
+        let strokesAmbig = state!.everyVisibleStroke()
+        
+        guard let strokes = strokesAmbig as? [JotStroke]! else {
+            return
+        }
+        for stroke in strokes {
+           
+            var i = 0
+            for segmentAmbig in stroke.segments {
+                
+                stroke.removeElement(at: i)
+                
+            }
+        }
+        
+        
         
     }
     

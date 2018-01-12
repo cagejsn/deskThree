@@ -18,7 +18,6 @@ enum ExpressionDestination {
     case Wolfram
 }
 
-
 // Figure out why we need this
 protocol PaperDelegate: NSObjectProtocol {
     func passHeldBlock(sender:Expression, toDestination: ExpressionDestination)
@@ -27,7 +26,6 @@ protocol PaperDelegate: NSObjectProtocol {
     func didCompleteMove(movedView: UIView)
     func didEvaluate(forExpression sender: Expression, result: Float)
 }
-
 
 class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDelegate {
     
@@ -66,8 +64,6 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         return super.resignFirstResponder()
     }
     
-    
-    
     private var pageNumber: Int?
     
     #if !DEBUG
@@ -82,7 +78,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         pageNumber = number
     }
     
-    func getDrawingState() -> JotViewStateProxy{
+    func getDrawingState() -> JotViewStateProxy {
         return drawingState
     }
 
@@ -104,9 +100,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         self.image = image
     }
     
-    
-    func elementWantsSendToInputObject(element:Any){
-        
+    func elementWantsOptionsMenu(element:Any){
         showSelectableMathBlockOptions(element as! MathBlock)
     }
     
@@ -123,7 +117,7 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     }
     
     func didEvaluate(forExpression sender: Expression, result: Float){
-        delegate.didEvaluate(forExpression: sender, result: result)
+        delegate.passHeldBlock(sender: sender, toDestination: .Calculator)
     }
     
        
@@ -153,6 +147,8 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
     func setupHandlers(){
         var edit = { block in self.delegate.passHeldBlock(sender: block, toDestination: .MathView)}
         handlesEditMathBlock = edit
+        var equals = { block in self.delegate.passHeldBlock(sender: block, toDestination: .Calculator)}
+        handlesEqualsMathBlock = equals
         var wr = { block in self.delegate.passHeldBlock(sender: block, toDestination: .Wolfram)}
         handlesWRMathBlock = wr
     }
@@ -165,7 +161,6 @@ class Paper: UIImageView, UIScrollViewDelegate, ImageBlockDelegate, ExpressionDe
         selectActionMenu.arrowDirection = .down
         selectActionMenu.setTargetRect(block.frame, in: self)
     
-        
         var selectableActionEdit = UIMenuItem(title: "edit", action: #selector(Paper.mathBlockEditHandler))
         var selectableActionEquals = UIMenuItem(title: "=", action: #selector(Paper.mathBlockEqualsHandler))
         var selectableActionWolfram = UIMenuItem(title: "wr", action: #selector(Paper.mathBlockWolframHandler))

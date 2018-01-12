@@ -22,8 +22,10 @@ protocol OCRMathViewDelegate {
 class OCRMathView: MAWMathView {
     var clearButton: UIButton!
     var searchWRButton: UIButton!
-    var outputAreaForExpressions: UIButton!
-    var outputAreaConstraints: [NSLayoutConstraint]!
+    var undoButton: UIButton!
+    var redoButton: UIButton!
+    
+    var clearButtonConstraints: [NSLayoutConstraint]!
     var wolframQueryConstraints: [NSLayoutConstraint]!
     var delegate2: OCRMathViewDelegate!
     
@@ -48,8 +50,6 @@ class OCRMathView: MAWMathView {
             isInEditMode = true
             solve()
         }
-        
-        
     }
     
     func endEditMode(){
@@ -57,8 +57,6 @@ class OCRMathView: MAWMathView {
         isInEditMode = false
     }
 
-    
-    
     func clearButtonTapped(){
         self.clear(false)
     }
@@ -67,11 +65,18 @@ class OCRMathView: MAWMathView {
         delegate2.createMathBlock(for: self)
     }
     
+    func undoButtonTapped(){
+        self.undo()
+    }
+    
+    func redoButtonTapped(){
+        self.redo()
+    }
+    
     func searchWRButtonTapped(){
         #if !DEBUG
         mixpanel.track(event: "Button: Wolfram Query")
         #endif
-
         delegate2.didRequestWRDisplay(query: self.resultAsMathML())
     }
     
@@ -89,15 +94,15 @@ class OCRMathView: MAWMathView {
         stylize()
     }
     
-    func setupContraintsForOutputArea(){
-        outputAreaForExpressions.translatesAutoresizingMaskIntoConstraints = false
+    func setupContraintsForClearButton(){
+        clearButton.translatesAutoresizingMaskIntoConstraints = false
         
-        let rightConstraint = NSLayoutConstraint(item: outputAreaForExpressions, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -15)
-        let topConstraint = NSLayoutConstraint(item: outputAreaForExpressions, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 15)
-        let widthConstraint = NSLayoutConstraint(item: outputAreaForExpressions, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50)
-        let heightConstraint = NSLayoutConstraint(item: outputAreaForExpressions, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50)
-        outputAreaConstraints = [rightConstraint,topConstraint,widthConstraint,heightConstraint]
-        self.addConstraints(outputAreaConstraints)
+        let rightConstraint = NSLayoutConstraint(item: clearButton, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -15)
+        let topConstraint = NSLayoutConstraint(item: clearButton, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 15)
+        let widthConstraint = NSLayoutConstraint(item: clearButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50)
+        let heightConstraint = NSLayoutConstraint(item: clearButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50)
+        clearButtonConstraints = [rightConstraint,topConstraint,widthConstraint,heightConstraint]
+        self.addConstraints(clearButtonConstraints)
 
     }
     
@@ -111,6 +116,13 @@ class OCRMathView: MAWMathView {
         wolframQueryConstraints = [leftConstraint,bottomConstraint,widthConstraint,heightConstraint]
         self.addConstraints(wolframQueryConstraints)
         
+    }
+    
+    func setupContraintsForUndoRedo(){
+        NSLayoutConstraint.activate([
+        
+        
+        ])
     }
     
     func setupMathViewConstraints(){
@@ -128,13 +140,12 @@ class OCRMathView: MAWMathView {
         super.init(frame: frame)
 
         // Add buttons
-
-        clearButton = UIButton(frame: CGRect(x: 15, y: 15, width: 50, height: 50))
+        clearButton = UIButton(frame: CGRect())
         clearButton.setImage(UIImage(named:"clear"), for: .normal)
         clearButton.addTarget(self, action: #selector(OCRMathView.clearButtonTapped), for:.touchUpInside)
         self.addSubview(clearButton)
+        setupContraintsForClearButton()
 
-        
         searchWRButton = UIButton(frame: CGRect(x:15, y: 90, width: 50, height: 50))
         searchWRButton.setImage(UIImage(named: "Wolfram-Logo-Blue"), for: .normal)
         searchWRButton.setTitle("wolfram", for: .normal)
@@ -145,16 +156,22 @@ class OCRMathView: MAWMathView {
         searchWRButton.layer.shadowRadius = 1.0
         self.addSubview(searchWRButton)
         setupConstraintsForWRQuery()
+        
+        undoButton = UIButton(frame: CGRect(x:15, y: 15, width: 50, height: 50))
+        undoButton.setImage(#imageLiteral(resourceName: "undoButton"), for: .normal)
+        undoButton.contentMode = .scaleAspectFit
+        undoButton.addTarget(self, action: #selector(OCRMathView.undoButtonTapped), for: .touchUpInside)
+        self.addSubview(undoButton)
+        
+        redoButton = UIButton(frame: CGRect(x:75, y: 15, width: 50, height: 50))
+        redoButton.setImage(#imageLiteral(resourceName: "redoButton"), for: .normal)
+        redoButton.contentMode = .scaleAspectFit
+        redoButton.addTarget(self, action: #selector(OCRMathView.redoButtonTapped), for: .touchUpInside)
+        self.addSubview(redoButton)
 
 
         self.clipsToBounds = false
-        outputAreaForExpressions = UIButton(frame: CGRect(x: self.frame.width - 65, y: 15, width: 50, height: 50))
-        outputAreaForExpressions.setImage(UIImage(named:"addToPage"), for: .normal)
-        outputAreaForExpressions.contentMode = .scaleAspectFit
-        self.addSubview(outputAreaForExpressions)
-        setupContraintsForOutputArea()
-        outputAreaForExpressions.addTarget(self, action: #selector(OCRMathView.addToPageButtonTapped), for: .touchUpInside)
- 
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

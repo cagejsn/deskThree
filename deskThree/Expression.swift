@@ -11,7 +11,7 @@ import UIKit
 import Mixpanel
 
 protocol ExpressionDelegate {
-    func elementWantsSendToInputObject(element:Any)
+    func elementWantsOptionsMenu(element:Any)
     func didBeginMove(movedView: UIView)
     func didIncrementMove(movedView: UIView)
     func didCompleteMove(movedView: UIView)
@@ -65,6 +65,23 @@ class Expression: UIView, UIGestureRecognizerDelegate {
         self.delegate!.didCompleteMove(movedView: self)
     }
     
+    func calculateBasedOnStringRepresentation() -> Double {
+        parser?.parserSetFunction(functionString: expressionString)
+        do {
+            try parser?.parserPlot(start: 1, end: 2, totalSteps: 1)
+            
+        } catch MathError.missingOperand {
+            print(parser?.getError())
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        if parser?.getError() == "" {
+            return (parser?.getY()[0])!
+            
+        }
+        return 0
+    }
     
     //MARK: Gesture Recognizer Methods
     func handleDoubleTap() {
@@ -89,7 +106,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     
     func handleLongPress(){
         //mixpanel.track(event: "Gesture: Block: Long Press")
-        delegate?.elementWantsSendToInputObject(element: self)
+        delegate?.elementWantsOptionsMenu(element: self)
     }
     
     //MARK: Support Methods
