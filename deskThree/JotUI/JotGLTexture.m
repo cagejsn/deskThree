@@ -96,6 +96,7 @@ static int totalTextureBytes;
                 if (!imageData) {
                     @throw [NSException exceptionWithName:@"Memory Exception" reason:@"can't malloc" userInfo:nil];
                 }
+                
                 CGContextRef cgContext = CGBitmapContextCreate(imageData, fullPixelSize.width, fullPixelSize.height, 8, 4 * fullPixelSize.width, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
                 if (!cgContext) {
                     @throw [NSException exceptionWithName:@"CGContext Exception" reason:@"can't create new context" userInfo:nil];

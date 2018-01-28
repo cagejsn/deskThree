@@ -13,12 +13,8 @@ class PaperInteractor: NSObject {
     
     var jotFilesInteractor: JotFilesInteractor?
     
-    
-    
-    static func save(paper: inout Paper, in project: inout DeskProject, in grouping: inout Grouping){
+    static func save(paper: Paper, in project: DeskProject, in grouping: Grouping){
         createNewPageDirectoryIfNeededInTemp(for: paper.getPageNumber(), in: project, in: grouping)
-        
-
         archivePageObjects(for: paper, in: project)
         JotFilesInteractor.saveDrawing(for: paper, in: project)
     }
@@ -38,7 +34,4 @@ class PaperInteractor: NSObject {
         let pageFolder = PathLocator.getTempFolder() + "/" + project.getName() + "/page"+String(page.getPageNumber())
         NSKeyedArchiver.archiveRootObject(page, toFile: pageFolder + "/page.desk")
     }
-    
-    
-    
 }

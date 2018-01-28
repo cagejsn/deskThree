@@ -141,6 +141,10 @@ class InsideHamburgerView: UIView {
         delegate.penSizeSliderValueChanged(value: sender.value)
     }
     
+    @IBAction func endedSliderTouch(_ sender: UISlider) {
+        AnalyticsManager.track(.ChangePenSize(sender.value))
+    }
+    
     @IBAction func firstColorButtonTapped(_ sender: Any) {
         if(selectedPenColor != .black){
         removeSelectedIcon(from: selectedPenColor)

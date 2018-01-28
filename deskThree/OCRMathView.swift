@@ -14,7 +14,6 @@ import Mixpanel
 
 
 protocol OCRMathViewDelegate {
-    func createMathBlock(for mathView: OCRMathView)
     func didRequestWRDisplay(query: String)
     func getViewForTopConstraint(for mathView: OCRMathView) -> UIView
 }
@@ -39,12 +38,7 @@ class OCRMathView: MAWMathView {
     var isInEditMode: Bool = false
     var targetForEdits: MathBlock!
 
-    #if !DEBUG
-    private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
-    #endif
-
     func enterEditModeWith(_ element: MathBlock){
-//        self.addSymbols(element.mathSymbols, allowUndo: true)
         if(self.unserialize(element.getData())){
             targetForEdits = element
             isInEditMode = true
@@ -59,31 +53,29 @@ class OCRMathView: MAWMathView {
 
     func clearButtonTapped(){
         self.clear(false)
-    }
-    
-    func addToPageButtonTapped(){
-        delegate2.createMathBlock(for: self)
+        AnalyticsManager.track(.ClearMathView)
     }
     
     func undoButtonTapped(){
         self.undo()
+        AnalyticsManager.track(.UndoInMathView)
     }
     
     func redoButtonTapped(){
         self.redo()
+        AnalyticsManager.track(.RedoInMathView)
     }
     
     func searchWRButtonTapped(){
-        #if !DEBUG
-        mixpanel.track(event: "Button: Wolfram Query")
-        #endif
-        delegate2.didRequestWRDisplay(query: self.resultAsMathML())
+        let query = self.resultAsMathML()!
+        let queryAsString = self.resultAsText()!
+        delegate2.didRequestWRDisplay(query: query)
+        AnalyticsManager.track(.WolframButtonInMathView(queryAsString))
     }
     
     func stylize(){
         topBorderLayer = self.addAndReturnTopBorder(color: Constants.DesignColors.deskBlue, width: 5)
         topBorderLayer.opacity = 0.8
-        
     }
     
     override func layoutSubviews() {

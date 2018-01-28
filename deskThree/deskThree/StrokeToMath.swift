@@ -74,7 +74,8 @@ class StrokeToMath: NSObject {
     
     func setupJotToMath(pathFrame: CGRect){
         jotToMath = JotToMath()
-        jotToMath.beautificationOption = .fontify
+        jotToMath.beautificationOption = .disabled
+//        jotToMath.beautificationOption = .fontify
         jotToMath.frame = pathFrame
         // self.addSubview(jotToMath)
         jotToMath.setCompletionBlock(codeToRun: {[weak self] in return self?.pushResultToPage()})

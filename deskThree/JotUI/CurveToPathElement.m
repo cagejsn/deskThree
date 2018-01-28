@@ -1,4 +1,4 @@
-//
+ //
 //  CurveToPathElement.m
 //  JotUI
 //
@@ -684,6 +684,14 @@ static CGFloat subdivideBezierAtLength(const CGPoint bez[4],
     [aCoder encodeCGPoint:ctrl1 forKey:@"ctrl1"];
     [aCoder encodeCGPoint:ctrl2 forKey:@"ctrl2"];
     
+    [aCoder encodeObject:dataVertexBuffer forKey:@"vertexBuffer"];
+    
+    [aCoder encodeBool:vertexBufferShouldContainColor forKey:@"vertexBufferShouldContainColor"];
+    
+    [aCoder encodeInteger:numberOfBytesOfVertexData forKey:@"numberOfBytesOfVertexData"];
+    
+    
+    
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -695,20 +703,24 @@ static CGFloat subdivideBezierAtLength(const CGPoint bez[4],
         ctrl1 = [aDecoder decodeCGPointForKey:@"ctrl1"];
         ctrl2 = [aDecoder decodeCGPointForKey:@"ctrl2"];
         
-       //forcing reload
+        dataVertexBuffer = [aDecoder decodeObjectForKey:@"vertexBuffer"];
+        vertexBufferShouldContainColor = [aDecoder decodeBoolForKey:@"vertexBufferShouldContainColor"];
+        numberOfBytesOfVertexData = [aDecoder decodeIntegerForKey:@"numberOfBytesOfVertexData"];
+        
+        CGFloat currentScale = [[UIScreen mainScreen] scale];
+        if (currentScale != scaleOfVertexBuffer) {
             // the scale of the cached data in the dictionary is
             // different than the scael of the data that we need.
             // zero this out and it'll regenerate with the
             // correct scale on demand
-        
             scaleOfVertexBuffer = 0;
             dataVertexBuffer = nil;
             numberOfBytesOfVertexData = 0;
+        }
         
-        
-        //  if (!vertexBufferShouldContainColor) {
-        //     [self calculateAndCacheColorComponents];
-        //   }
+          if (!vertexBufferShouldContainColor) {
+                    [self calculateAndCacheColorComponents];
+           }
         
         NSUInteger prime = 31;
         hashCache = 1;
@@ -768,7 +780,7 @@ static CGFloat subdivideBezierAtLength(const CGPoint bez[4],
         }
 
       //  if (!vertexBufferShouldContainColor) {
-       //     [self calculateAndCacheColorComponents];
+//            [self calculateAndCacheColorComponents];
      //   }
 
         NSUInteger prime = 31;
@@ -803,6 +815,7 @@ static CGFloat subdivideBezierAtLength(const CGPoint bez[4],
         numberOfBytesOfVertexData = 0;
     } else {
         // noop, we're good
+        
     }
 }
 

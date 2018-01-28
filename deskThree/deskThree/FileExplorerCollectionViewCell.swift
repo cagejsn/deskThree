@@ -44,6 +44,14 @@ class FileExplorerCollectionViewCell: UICollectionViewCell, ProjectOptionsMenuDe
     }
     
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        if projectOptionsVisible {
+            quickHideProjectOptions()
+        }
+    }
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -93,24 +101,32 @@ class FileExplorerCollectionViewCell: UICollectionViewCell, ProjectOptionsMenuDe
     
     @IBAction func onProjectOptionsTapped(_ sender: Any) {
         
-        !projectOptionsVisible ? {
-            self.bringSubview(toFront: projectOptionsMenu)
-            UIView.animate(withDuration: 0.7, delay: 0.0, animations: {
-            self.projectOptionsMenu.alpha = 1.0 })
-            projectOptionsVisible = true
-            }() :
-            {
-            UIView.animate(withDuration: 0.7, delay: 0.0, animations: {
-                self.projectOptionsMenu.alpha = 0.0
-            })
-        projectOptionsVisible = false
-        }()
+        !projectOptionsVisible ?  showProjectOptions() : hideProjectOptions()
+        
     }
     
+    func showProjectOptions(){
+        self.bringSubview(toFront: projectOptionsMenu)
+        UIView.animate(withDuration: 0.7, delay: 0.0, animations: {
+            self.projectOptionsMenu.alpha = 1.0 })
+        projectOptionsVisible = true
+    }
+    
+    func hideProjectOptions(){
+    
+        UIView.animate(withDuration: 0.7, delay: 0.0, animations: {
+            self.projectOptionsMenu.alpha = 0.0
+        })
+        projectOptionsVisible = false
+    }
+    
+    func quickHideProjectOptions(){
+        projectOptionsMenu.alpha = 0.0
+        projectOptionsVisible = false
+    }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
+        super.init(coder: aDecoder)        
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {

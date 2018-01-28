@@ -21,13 +21,13 @@ class JotFilesInteractor: NSObject {
         let thumbLocation = pageFolderPath+"/thumb.png"
         
         func doNothing(ink: UIImage? , thumb: UIImage?, state : JotViewImmutableState?) -> Void{
-            return;
+            
         }
         
         let drawingState = page.getDrawingState()
+        AnalyticsManager.track(.FinishedStroke(drawingState.everyVisibleStroke().count))
         page.drawingView.exportImage(to: temp+projectFolderPath+inkLocation, andThumbnailTo: temp+projectFolderPath+thumbLocation, andStateTo: temp+projectFolderPath+stateLocation, andJotState: drawingState, withThumbnailScale: 1.0, onComplete: doNothing)
-        //page.jotViewStateInkPath = inkLocation
-       // page.jotViewStatePlistPath = stateLocation
+
     }
  
 }

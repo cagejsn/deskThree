@@ -13,12 +13,12 @@ protocol FileExplorerViewControllerDelegate: NSObjectProtocol {
     func didSelectProject(grouping: Grouping, project: DeskProject)
     func newProjectRequestedIn(_ grouping: Grouping)
     func dismissFileExplorer()
-    func openProjectWasRenamed(to newName: String)
+    func getChangeOpenProjectNameHandler() -> (String) -> (Bool)
+    func getOpenProjectSerialNumber() -> Int
 }
 
 class FileExplorerViewController: UIViewController, GroupingSelectedListener, ProjectInteractionListener {
     
-  
     let tableViewCellHeight: CGFloat = 80
     
     static public let reuseIdentifier = "DeskCell"
@@ -36,10 +36,19 @@ class FileExplorerViewController: UIViewController, GroupingSelectedListener, Pr
     
     fileprivate var groupingsDataSource: GroupingsDataSource!
     fileprivate var projectsDataSource: ProjectsDataSource!
+    
+    fileprivate var openProjectSerialNumber: Int {
+        get {
+           return delegate.getOpenProjectSerialNumber()
+        }
+    }
 
+    var fileSystemInteractor: FileSystemInteractor!
     
     override func viewDidLoad() {
-        groupingsDataSource = GroupingsDataSource(gSL: self)
+        fileSystemInteractor = FileSystemInteractor(self)
+
+        groupingsDataSource = GroupingsDataSource(gSL: self, fSI: fileSystemInteractor)
         projectsDataSource = ProjectsDataSource(pIL: self)
         tableView.delegate = groupingsDataSource
         tableView.dataSource = groupingsDataSource
@@ -47,13 +56,13 @@ class FileExplorerViewController: UIViewController, GroupingSelectedListener, Pr
         collectionView.dataSource = projectsDataSource
         collectionView.register(UINib(nibName: "FileExplorerCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: FileExplorerViewController.reuseIdentifier)
         collectionView.register(UINib(nibName: "NewCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: FileExplorerViewController.reuseIdentifier2)
-        
         collectionView.delaysContentTouches = false
         //function pointer is passed
         fileExplorerHeaderView.passCancel = { [weak self] in self?.cancelButtonTapped()}
         
 //        addGroupingButton.contentMode = .scaleAspectFit
     }
+    
     
     func cancelButtonTapped() {
         delegate.dismissFileExplorer()
@@ -67,29 +76,28 @@ class FileExplorerViewController: UIViewController, GroupingSelectedListener, Pr
         })
         let confirmAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action: UIAlertAction) -> Void in
             newGroupingName = (alertController.textFields?[0].text)!
+            let isGroupingNameTaken = MetaDataInteractor.determineIfGroupingAlreadyExists(with:newGroupingName)
+            if(newGroupingName == "" || isGroupingNameTaken) {self.fileSystemInteractor.showErrorMessageWithText("Make a different name for the Grouping"); return}
             var grouping = Grouping(name: newGroupingName)
-            MetaDataInteractor.saveMetaData(of: grouping)
+            do {
+                try MetaDataInteractor.saveMetaData(of: grouping)
+            } catch let e {
+                let alertController = UIAlertController(title: "Error", message: e.localizedDescription, preferredStyle: .alert)
+                self.present(alertController, animated: true, completion: nil)
+            }
             //TODO: make the handleMeta of FileSystemInteractor less cumbersome, can't call it here because no project
-            
             
             self.tableView.beginUpdates()
             
             self.groupingsDataSource.addAndSelectGroupingAtZeroIndex(grouping)
-//        self.groupingsDataSource.notifyGroupingsChanged()
+
             self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
             self.tableView.endUpdates()
             self.tableView.selectRow(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: .none)
             
-//            self.tableView.reloadData()
-            //select the new grouping
-//            self.tableView.selectRow(at: , animated: true, scrollPosition: )
-            self.projectsDataSource.selectedGrouping = grouping
-            self.collectionViewHeader.setCurrentGroupingLabelText(text: grouping.getName())
-            self.collectionView.notifyDataSetChanged()
         })
         alertController.addAction(confirmAction)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_ action: UIAlertAction) -> Void in
-        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: { _ in })
     }
@@ -97,9 +105,9 @@ class FileExplorerViewController: UIViewController, GroupingSelectedListener, Pr
 
 // MARK: Grouping Selected Listener
 extension FileExplorerViewController {
-    func onGroupingSelected(_ grouping: Grouping) {
-        collectionViewHeader.setCurrentGroupingLabelText(text: grouping.getName())
-        projectsDataSource.displayProjectsIn(grouping)
+    func onGroupingSelected(_ groupingName: String) {
+        collectionViewHeader.setCurrentGroupingLabelText(text: groupingName)
+        projectsDataSource.displayProjectsIn(groupingName)
         collectionView.reloadData()
     }
 }
@@ -108,51 +116,54 @@ extension FileExplorerViewController {
 extension FileExplorerViewController {
     func onProjectSelected(_ selectedGrouping: Grouping, _ selectedProject: DeskProject) {
         delegate.didSelectProject(grouping: selectedGrouping, project: selectedProject)
+        AnalyticsManager.track(.ProjectSelected)
     }
     
-    func doRenameProject(_ project: DeskProject) {
-        var newProjectName: String = ""
-        let alertController = UIAlertController(title: "Rename Project", message: "enter a new name for the Project", preferredStyle: .alert)
-        alertController.addTextField(configurationHandler: {(_ textField: UITextField) -> Void in
-            textField.placeholder = "New Name"
-        })
-        let confirmAction = UIAlertAction(title: "OK", style: .default, handler: {(_ action: UIAlertAction) -> Void in
-            newProjectName = (alertController.textFields?[0].text)!
-            var grouping = self.groupingsDataSource.selectedGrouping!
-            var localProject = project
-            let change = MetaChange.RenamedProject(newName: newProjectName)
-            try! FileSystemInteractor.handleMeta(change, grouping: &grouping, project: &localProject)
-            //sets the text of the Desk View Controle
-            self.delegate.openProjectWasRenamed(to: newProjectName)
-            //
-            self.projectsDataSource.notifyDataSetChanged()
-            self.collectionView.reloadData()
-        })
-        alertController.addAction(confirmAction)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(_ action: UIAlertAction) -> Void in
-        })
-        alertController.addAction(cancelAction)
-        present(alertController, animated: true, completion: { _ in })
+    func showRenamePrompt(_ project: DeskProject) {
+        let renameProjectAlertManager = RenameProjectAlertManager(project, self, renameHandler: doRenameProject)
+        renameProjectAlertManager.showPrompt()
     }
     
+    func getSelectedGrouping() -> Grouping? {
+        return groupingsDataSource.selectedGrouping
+    }
+    
+    func doRenameProject(project: DeskProject, newName: String ){
+        let serialNumberOfRenamingProject = project.getUniqueProjectSerialNumber()
+
+        var handleRenameOpenProject: ((String)->(Bool))?
+        let isOpen = serialNumberOfRenamingProject == self.openProjectSerialNumber
+        if(isOpen){
+            handleRenameOpenProject = self.delegate.getChangeOpenProjectNameHandler()
+            if(handleRenameOpenProject!(newName)){
+                onRenameProjectSuccess()
+            }
+        } else {
+            let change = MetaChange.RenamedProject(newName: newName, isOpen: isOpen)
+            if(fileSystemInteractor.handleMeta(change, grouping: getSelectedGrouping()!, project: project)){
+                onRenameProjectSuccess()
+            }
+        }
+    }
+    
+    func onRenameProjectSuccess(){
+        self.projectsDataSource.notifyDataSetChanged()
+        //reloading takes care of displaying the new name in the collection view
+        self.collectionView.reloadData()
+        AnalyticsManager.track(.RenameProjectFEVC)
+    }
+    
+    
+   
     
     func doMoveProject(_ project: DeskProject) {
-        
-        let vc = UIViewController()
-        vc.preferredContentSize = CGSize(width: 250,height: 300)
-        let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: 250, height: 300))
-//        pickerView.delegate = self
-//        pickerView.dataSource = self
-        vc.view.addSubview(pickerView)
-        let editRadiusAlert = UIAlertController(title: "Choose distance", message: "", preferredStyle: UIAlertControllerStyle.alert)
-        editRadiusAlert.setValue(vc, forKey: "contentViewController")
-        editRadiusAlert.addAction(UIAlertAction(title: "Done", style: .default, handler: nil))
-        editRadiusAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(editRadiusAlert, animated: true)
-        
-        
-        
-        
+        if(openProjectSerialNumber == project.getUniqueProjectSerialNumber()){
+            showFailureMessageWith(text: "Can't move a project while open.")
+        }
+        let moveProjectAlertManager = MoveProjectAlertManager()
+        moveProjectAlertManager.setProperties(fileSystemInteractor, self, projectToMove: project)
+        moveProjectAlertManager.setDismissalBlock(block:{self.projectsDataSource.notifyDataSetChanged();self.collectionView.reloadData()})
+        moveProjectAlertManager.makeAlert()
     }
     
     func doDeleteProject(_ project: DeskProject) {
@@ -161,7 +172,7 @@ extension FileExplorerViewController {
         deleteAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
             //TODO: finish implementing the delete functionality
             
-            
+            AnalyticsManager.track(.DeleteProject)
         }))
         
         deleteAlert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
@@ -174,7 +185,11 @@ extension FileExplorerViewController {
         
         
         var string = projectCell.project.getName()
-        var url = ProjectFileInteractor.getURLofZippedProjectFolder(in: projectsDataSource.selectedGrouping, project: projectCell.project)
+        guard var url = try? ProjectFileInteractor.getURLofFolderForProjectInGroupingsFile(in: projectsDataSource.selectedGrouping, project: projectCell.project) else {
+
+            fileSystemInteractor.showMessageFor(DeskFileSystemError.MissingFolderWithProjectContents)
+            return
+        }
         let email = ShareSummary(title: string, url: url)
         
         var vc = UIActivityViewController(activityItems: [email], applicationActivities: nil )
@@ -182,9 +197,20 @@ extension FileExplorerViewController {
         
        
         
-        
+        AnalyticsManager.track(.ShareProject)
         present(vc, animated: true, completion: nil)
 
+    }
+    
+    func showFailureMessageWith(text: String ){
+        let failureAlert = UIAlertController(title: "Failure", message: text, preferredStyle: UIAlertControllerStyle.alert)
+        
+        failureAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+            //TODO: finish implementing the delete functionality
+            
+            
+        }))
+        present(failureAlert, animated: true, completion: nil)
     }
     
 }
@@ -207,6 +233,7 @@ class ShareSummary: NSObject, UIActivityItemSource {
     }
     
     
+    
 }
 
 
@@ -216,6 +243,7 @@ class ShareSummary: NSObject, UIActivityItemSource {
 extension FileExplorerViewController {
     func doMakeNewProjectInSelectedGrouping(_ grouping: Grouping){
         delegate.newProjectRequestedIn(grouping)
+        AnalyticsManager.track(.NewProjectFEVC)
     }
     
 }

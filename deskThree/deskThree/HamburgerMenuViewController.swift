@@ -60,17 +60,22 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
             slideMenuController.closeLeft()
             //slideMenuController.mainViewController
         }
+        AnalyticsManager.track(.NewProjectHVC)
     }
     
     func openButtonTapped(){
         slideMenuController()?.closeLeft()
         delegate.fileExplorerButtonTapped()
+        AnalyticsManager.track(.OpenFileExplorer)
     }
     
     func printButtonTapped(){
         slideMenuController()?.closeLeft()
         delegate.printButtonPushed()
+        AnalyticsManager.track(.PrintProject)
     }
+    
+    
     
     func penSizeSliderValueChanged(value: Float){
         delegate.penSizeChanged(to: CGFloat(value))
@@ -78,26 +83,27 @@ class HamburgerMenuViewController: UIViewController, InsideHamburgerViewDelegate
     
     func penColorChanged(to: SelectedPenColor){
         delegate.penColorChanged(to: to)
+        AnalyticsManager.track(.ChangePenColor(String(describing:to)))
     }
-    
-    
     
     func changePaper(to: SelectedPaperType){
         delegate.changePaper(to: to)
+        AnalyticsManager.track(.ChangeProjectBackground(String(describing:to)))
     }
 
-    
     func importPhotoButtonTapped(){
         slideMenuController()?.closeLeft()
         delegate.loadImageButtonPushed()
+        AnalyticsManager.track(.ImportPhoto)
     }
     
     func feedbackButtonTapped() {
         delegate.feedbackButtonTapped()
+        AnalyticsManager.track(.SendFeedback)
     }
     
     func clearButtonTapped(){
         delegate.clearButtonTapped()
-        
+        AnalyticsManager.track(.ClearProject)
     }
 }

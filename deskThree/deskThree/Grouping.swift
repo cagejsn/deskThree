@@ -12,7 +12,7 @@ import Foundation
 class Grouping: NSObject, NSCoding {
     
     var name: String?
-    var projects: [DeskProject]?
+    var projects: [DeskProject]
     var color: UIColor = UIColor.gray
     
     ///change name of grouping
@@ -24,12 +24,16 @@ class Grouping: NSObject, NSCoding {
         return name!
     }
     
-    func getProjects() -> [DeskProject]?{
+    func getProjects() -> [DeskProject]{
         return projects
     }
     
     func addProject(_ project: DeskProject){
-        self.projects!.append(project)
+        self.projects.append(project)
+    }
+    
+    func removeProject(_ project: DeskProject){
+        projects.removeObject(object: project)
     }
     
     func setColor(color:UIColor){
@@ -48,16 +52,17 @@ class Grouping: NSObject, NSCoding {
     
     
     required init?(coder aDecoder: NSCoder) {
-        super.init()
+        projects = [DeskProject]()
         // Initialize the first page & set it as the current page
         let loadedName = aDecoder.decodeObject() as! String
         let loadedProjects = aDecoder.decodeObject() as? [DeskProject]
         let loadedColor = aDecoder.decodeObject() as? UIColor
+        super.init()
         self.name = loadedName
-        self.projects = loadedProjects
+        self.projects = loadedProjects!
     }
     
-    init(name: String = "default"){
+    init(name: String = DeskUserPrefs.nameOfDefaultGrouping()){
         self.name = name
         self.projects = [DeskProject]()
 //        self.color = UIColor.gray

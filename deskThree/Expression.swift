@@ -107,6 +107,7 @@ class Expression: UIView, UIGestureRecognizerDelegate {
     func handleLongPress(){
         //mixpanel.track(event: "Gesture: Block: Long Press")
         delegate?.elementWantsOptionsMenu(element: self)
+        AnalyticsManager.track(.MathBlockLongPress)
     }
     
     //MARK: Support Methods

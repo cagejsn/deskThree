@@ -28,12 +28,11 @@ class HandleClips: NSObject, HandledActionListener {
     func handleMath(selection: CGPath){
         
         strokeToMath.clipperDidSelectMathWith(selection: selection)
-        selectedStrokeEraser.clipperDidSelectStrokesForErasure(selection: selection)
         
     }
     
     func handleClear(selection: CGPath){
-        selectedStrokeEraser.clipperDidSelectStrokesForErasure(selection: selection)
+//        selectedStrokeEraser.clipperDidSelectStrokesForErasure(selection: selection)
         
     }
     

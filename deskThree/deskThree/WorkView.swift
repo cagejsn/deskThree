@@ -44,7 +44,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
     }
     
     func receiveNewMathBlock(_ createdMathBlock: MathBlock){
-        let currentPage = workViewPresenter!.currentPage
+        let currentPage = workViewPresenter!.currentPage!
         currentPage.addMathBlockToPage(block: createdMathBlock)
         didIncrementMove(movedView: createdMathBlock)
         let change = PaperChange.MovedBlock
@@ -173,7 +173,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         // print(activePen().stepWidthForStroke())
         // return activePen().stepWidthForStroke()
         
-        return CGFloat(0.4)
+        return CGFloat(0.3)
     }
     
     func supportsRotation() -> Bool {
@@ -444,40 +444,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         self.contentOffset = CGPoint(x: 0.0, y: 0.0)
     }
     
-    func exportPDF (to pdfData: NSMutableData) -> Bool {
-        
-        /*
-        let imageReadySema = DispatchSemaphore(value: 0)
-        UIGraphicsBeginPDFContextToData(pdfData, currentPage.bounds, nil)
-        for page in pages {
-            let rect = page?.bounds
-            UIGraphicsBeginPDFPageWithInfo(rect!, nil)
-            guard let pdfContext = UIGraphicsGetCurrentContext() else { return false}
-            
-            var imageHolder: UIImage!
-            page?.drawingView.exportToImage(onComplete:
-                {(imageReady: UIImage?) in
-                    imageHolder = imageReady!
-                    // Signal that the onComplete block is done executing
-                    imageReadySema.signal()
-                }
-                , withScale: 1.0)
-            // Wait till the onComplete block is done
-            imageReadySema.wait()
-            page?.isHidden = false
-            let useful: UIImageView = UIImageView (image: imageHolder)
-            page?.addSubview(useful)
-            page?.setNeedsDisplay()
-            // Render the page contents into the PDF Context
-            page?.layer.render(in: pdfContext)
-            page?.isHidden = (page != self.currentPage) ? true : false
-            useful.removeFromSuperview()
-        }
-        
-        UIGraphicsEndPDFContext()
- */
-        return true
-    }
+    
     
     func prepareForAnIncomingPage(){
         setZoomScale(minimumZoomScale, animated: false)
@@ -492,7 +459,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         curPen = .pen // Points to pen
     }
     
-    func acceptAndConfigure(page: inout Paper){
+    func acceptAndConfigure(page: Paper){
         page.delegate = self
         self.addSubview(page)
         self.sendSubview(toBack: page)

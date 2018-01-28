@@ -11,13 +11,9 @@ import Foundation
 
 class FileExplorerCollectionView: UICollectionView {
     
-    
-    
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         stylize()
-        
     }
     
     func notifyDataSetChanged(){

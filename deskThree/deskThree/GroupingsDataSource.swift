@@ -9,24 +9,28 @@
 import Foundation
 
 protocol GroupingSelectedListener {
-    func onGroupingSelected(_ grouping: Grouping)
+    func onGroupingSelected(_ groupingName: String)
 }
 
 class GroupingsDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
     let tableViewCellHeight: CGFloat = 50
     
     var groupingsToDisplay: [Grouping]!
-    var selectedGrouping: Grouping!
+    var selectedGrouping: Grouping?
     var groupingSelectedListener: GroupingSelectedListener
+    var fileSystemInteractor: FileSystemInteractor!
     
-    init(gSL: GroupingSelectedListener) {
+    init(gSL: GroupingSelectedListener, fSI: FileSystemInteractor) {
         self.groupingSelectedListener = gSL
-        groupingsToDisplay = FileSystemInteractor.getMetaData()
+        self.fileSystemInteractor = fSI
+        groupingsToDisplay = fileSystemInteractor.getMetaData().sorted(by: {return $0.0.getName() < $0.1.getName() })
     }
     
     func addAndSelectGroupingAtZeroIndex(_ grouping: Grouping){
         groupingsToDisplay.insert(grouping, at: 0)
         selectedGrouping = grouping
+        groupingSelectedListener.onGroupingSelected(selectedGrouping!.getName())
+
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -50,15 +54,12 @@ class GroupingsDataSource: NSObject, UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedGrouping = groupingsToDisplay[indexPath.row]
-        groupingSelectedListener.onGroupingSelected(selectedGrouping)
+        groupingSelectedListener.onGroupingSelected(selectedGrouping!.getName())
     }
+    
     
     func notifyGroupingsChanged(){
-        groupingsToDisplay = FileSystemInteractor.getMetaData()
-        
-        
+        groupingsToDisplay = fileSystemInteractor.getMetaData().sorted(by: {return $0.0.getName() < $0.1.getName() })
     }
-    
-    
     
 }

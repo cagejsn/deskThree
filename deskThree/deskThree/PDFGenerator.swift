@@ -13,12 +13,12 @@ class PDFGenerator: NSObject {
     
 
     
-   static func createPdfFromView(workView: WorkView, saveToDocumentsWithFileName fileName: String) -> String
+   static func createPdfFromView(workViewPresenter: WorkViewPresenter, saveToDocumentsWithFileName fileName: String) -> String
     {
 
         let pdfData = NSMutableData()
         
-        if !workView.exportPDF(to: pdfData) {return "no"}
+        if !workViewPresenter.exportPDF(to: pdfData) {return "no"}
         
         if let documentDirectories = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
             let documentsFileName = documentDirectories + "/" + fileName

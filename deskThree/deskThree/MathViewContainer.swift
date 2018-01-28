@@ -7,9 +7,6 @@
 //
 
 import Foundation
-#if !DEBUG
-import Mixpanel
-#endif
 
 
 let mathViewHeight: Int = 300
@@ -20,7 +17,6 @@ let containerExpandedHeight: CGFloat = 344
 
 
 protocol MathViewContainerDelegate {
-    func pass(_ createdMathBlock: MathBlock,for mathView: OCRMathView)
     func didRequestWRDisplay(query: String)
     func getItemForMathViewRightConstraint() -> UIView
 }
@@ -43,10 +39,6 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     var heightContraint: NSLayoutConstraint!
     var rightConstraint: NSLayoutConstraint!
 
-    // Mixpanel initialization
-    #if !DEBUG
-    private var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
-    #endif
 
 
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
@@ -66,24 +58,16 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     }
 
     func handleSingleTap(sender: UITapGestureRecognizer){
-        #if !DEBUG
-            mixpanel.track(event: "Gesture: MathView: Single Touch Open/Close")
-        #endif
-
+        
         let location = sender.location(in: self)
         if (tab.frame.contains(location)){
             if(drawerPosition == DrawerPosition.closed){
-                #if !DEBUG
-                    mixpanel.track(event: "Gesture: MathView: Open")
-                #endif
                 open()
-            } else {
-                #if !DEBUG
-                    mixpanel.track(event: "Gesture: MathView: Close")
-                #endif
+            } else {                
                 close()
             }
         }
+        AnalyticsManager.track(.ToggleMathViewTap)
     }
     
     func handlePan(sender: UIPanGestureRecognizer){
@@ -103,6 +87,7 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
             } else {
                 close()
             }
+            AnalyticsManager.track(.ToggleMathViewDrag)
             previousTranslation = 0
         }
     }
@@ -111,8 +96,6 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         if (self.frame.height - dy > containerCollapsedHeight && self.frame.height - dy < containerExpandedHeight){return true}
         return false
     }
-    
-    
     
     func animateToCollapsedPosition(){
         self.isUserInteractionEnabled = false
@@ -188,19 +171,6 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
         rightConstraint = NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: delegate.getItemForMathViewRightConstraint(), attribute: .leading, multiplier: 1.0, constant: 40)
         superview!.addConstraints([leftConstraint,bottomContraint,heightContraint,rightConstraint])
     }
-
-    //MARK: OCRMathViewDelegate Functions
-    func createMathBlock(for mathView: OCRMathView){
-        
-        if let image1 =  mathView.resultAsImage(){
-            let symbols = mathView.resultAsSymbolList()!
-            let text = mathView.resultAsText()!
-            let mathML = mathView.resultAsMathML()!
-            let data = mathView.serialize()!
-            let mathBlock = MathBlock(image: image1, symbols: symbols, text: text, mathML: mathML, data: data)
-            delegate.pass(mathBlock,for:mathView)
-        }
-    }
     
     func didRequestWRDisplay(query: String){
         delegate.didRequestWRDisplay(query: query)
@@ -266,11 +236,8 @@ class MathViewContainer: UIView, MAWMathViewDelegate, OCRMathViewDelegate {
     
     func stylize( mathView: OCRMathView){
         mathView.setupMathViewConstraints()
-
         mathView.stylize()
     }
-    
-    
     
     func setup(mathView: OCRMathView){
         mathView.delegate = self

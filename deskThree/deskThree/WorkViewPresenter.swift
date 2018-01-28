@@ -14,15 +14,12 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
     var jotViewStatePlistPath: String!
     
     private var pages: [Paper?] = [Paper]()
-    var selectedPaperType: SelectedPaperType = .engineering
+    var selectedPaperType: SelectedPaperType = .graph
     
-    private var currentGrouping: Grouping
-    var currentProject: DeskProject
-    lazy var currentPage: Paper = Paper(pageNo: 1, workViewPresenter: self)
+    var currentGrouping: Grouping = MetaDataInteractor.getDefaultGrouping()
+    var currentProject: DeskProject!
+    var currentPage: Paper!
     var fileSystemInteractor: FileSystemInteractor!
-    
-    var projectIsEdited: Bool = false
-    var pageIsEdited: Bool = false
     
     var updateDVCPageLabelHandler: pageLabelHandler!
     typealias pageLabelHandler = (Int,Int)->()
@@ -53,48 +50,56 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
             currentPage.clipperSession = ClipperSession(sender, currentPage)
             currentPage.clipperSession.start()
         }
+        AnalyticsManager.track(.MagicWand)
     }
     
+    func undo(){
+        currentPage.drawingView.undo()
+        AnalyticsManager.track(.UndoStroke)
+    }
     
+    func redo(){
+        currentPage.drawingView.redo()
+        AnalyticsManager.track(.RedoStroke)
+    }
     
-
     //TODO: implement
     /**
      Move to a page to the right
      If there is no page, add one and make it the current page
      */
     func movePage(direction: String) {
-        
+        workView.prepareForAnIncomingPage()
         if direction  == "right" {
-            if(!projectIsEdited){handleFirstProjectEdit(); projectIsEdited = true}
-            if(!pageIsEdited){handleFirstPageEdit(); pageIsEdited = true}
-            
-            // Check if this is the last page
-            if currentPage.getPageNumber() == pages.count {
-                workView.prepareForAnIncomingPage()
-                dismissCurrentPage()
-                moveToNewPage()
-            } else {
-                workView.prepareForAnIncomingPage()
-                dismissCurrentPage()
-                loadExistingPageAt(pageNo: currentPage.getPageNumber() + 1)
-            }
+            movePageRight()
         } else if direction == "left" {
-            // Check if this is the first page
-            if currentPage.getPageNumber() > 1 {
-                workView.prepareForAnIncomingPage()
-                dismissCurrentPage()
-                loadExistingPageAt(pageNo: currentPage.getPageNumber() - 1)
-            }
+            movePageLeft()
+        }
+        updatePageLabels()
+    }
+    
+    func movePageRight(){
+        if(!isProjectEdited()){handleFirstProjectEdit()}
+        if(!isPageEdited()){handleFirstPageEdit()}
+        // Check if this is the last page
+        if currentPage.getPageNumber() == pages.count {
+            dismissCurrentPage()
+            moveToNewPage()
+        } else {
+            dismissCurrentPage()
+            loadExistingPageAt(pageNo: currentPage.getPageNumber() + 1)
         }
         
-        currentPage.drawingView.currentPage = currentPage
-        // Insert the new drawing view onto DeskView
-      //  currentPage.subviewDrawingView()
-        //        configurePage(page: &currentPage)
-        
-       updatePageLabels()
-        
+        AnalyticsManager.track(.PageRight)
+    }
+    
+    func movePageLeft(){
+        // Check if this is the first page
+        if currentPage.getPageNumber() > 1 {
+            dismissCurrentPage()
+            loadExistingPageAt(pageNo: currentPage.getPageNumber() - 1)
+        }
+        AnalyticsManager.track(.PageLeft)
     }
     
     func updatePageLabels(){
@@ -105,7 +110,6 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
     }
     
     func moveToNewPage(){
-        pageIsEdited = false
         // Add a new page
         var paper = Paper(pageNo: currentPage.getPageNumber()+1, workViewPresenter: self)
         pages.append(paper)
@@ -117,16 +121,17 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         // Bring forward the new view
         currentPage = paper
         
-//        currentPage.setupDrawingView(withStateDelegate: self)
-        workView.acceptAndConfigure(page: &currentPage)
+        workView.acceptAndConfigure(page: currentPage)
         
         let change = PaperChange.CreatedNewPage(atIndex: currentPage.getPageNumber())
-        FileSystemInteractor.handlePaper(change: change, grouping: &currentGrouping, project: &currentProject, page: &currentPage)
+        fileSystemInteractor.handlePaper(change: change, grouping: currentGrouping, project: currentProject, page: currentPage)
+        currentPage.connectNewDrawingViewToPage()
     }
     
     func dismissCurrentPage(){
-        discardPageInfo()
+        discardPathsToJotElements()
         currentPage.drawingView.removeFromSuperview()
+        currentPage.drawingSession.endSession()
         currentPage.isHidden = true
     }
     
@@ -139,74 +144,61 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         currentPage.isHidden = false
         makePathsForJVSPD_Duties()
         currentPage.setupDrawingView(withStateDelegate: self)
-        workView.acceptAndConfigure(page: &currentPage)
+        workView.acceptAndConfigure(page: currentPage)
     }
     
-    func renameProject(_ newName: String) throws {
-        if(!projectIsEdited){currentProject.rename(name: newName);return}
-        if(newName == currentProject.getName()){return}
-        let change = MetaChange.RenamedProject(newName: newName)
-        do {
-         try FileSystemInteractor.handleMeta(change, grouping: &currentGrouping, project: &currentProject)
-        } catch let error {
-            throw error
-        }
+   
+    
+    func renameProject(_ newName: String) -> Bool {
+        if(!isProjectEdited()){handleFirstProjectEdit()}
+        if(!isPageEdited()){handleFirstPageEdit()}
+        if(newName == currentProject.getName()){return true}
+        let change = MetaChange.RenamedProject(newName: newName, isOpen: true)
+        return fileSystemInteractor.handleMeta(change, grouping: currentGrouping, project: currentProject)
     }
     
     func addImageToCurrentPageInWorkView(_ image: UIImage){
-        if(!projectIsEdited){handleFirstProjectEdit(); projectIsEdited = true}
-        if(!pageIsEdited){handleFirstPageEdit(); pageIsEdited = true}
+        if(!isProjectEdited()){handleFirstProjectEdit()}
+        if(!isPageEdited()){handleFirstPageEdit()}
         currentPage.addImageBlock(pickedImage: image)
-        let change = PaperChange.AddedImage
-        FileSystemInteractor.handlePaper(change: change, grouping: &currentGrouping, project: &currentProject, page: &currentPage)
+        let change = PaperChange.MovedImage
+        fileSystemInteractor.handlePaper(change: change, grouping: currentGrouping, project: currentProject, page: currentPage)
     }
     
     func strokeWasAdded(_ change: PaperChange){
-        if(!projectIsEdited){handleFirstProjectEdit(); projectIsEdited = true}
-        if(!pageIsEdited){handleFirstPageEdit(); pageIsEdited = true}
-        FileSystemInteractor.handlePaper(change: change, grouping: &currentGrouping, project: &currentProject, page: &currentPage)
+        if(!isProjectEdited()){handleFirstProjectEdit()}
+        if(!isPageEdited()){handleFirstPageEdit()}
+        fileSystemInteractor.handlePaper(change: change, grouping: currentGrouping, project: currentProject, page: currentPage)
     }
     
     func blockWasMoved(_ change: PaperChange){
-        if(!projectIsEdited){handleFirstProjectEdit(); projectIsEdited = true}
-        if(!pageIsEdited){handleFirstPageEdit(); pageIsEdited = true}
-        FileSystemInteractor.handlePaper(change: change, grouping: &currentGrouping, project: &currentProject, page: &currentPage)
-        
+        if(!isProjectEdited()){handleFirstProjectEdit()}
+        if(!isPageEdited()){handleFirstPageEdit()}
+        fileSystemInteractor.handlePaper(change: change, grouping: currentGrouping, project: currentProject, page: currentPage)
     }
     
     func loadNewProject(){
-//        currentPage = Paper(pageNo: 1, workViewPresenter: self)
-        workView.acceptAndConfigure(page: &currentPage)
-    }
-    
-    //TODO: make the Project only get zipped and written to disk upon closing if it has edits
-    override init() {        
-        self.currentGrouping = MetaDataInteractor.getDefaultGrouping()
-        self.currentProject = MetaDataInteractor.makeNewProjectOfFirstAvailableName(in: &currentGrouping)
-        super.init()
-        self.currentPage = Paper(pageNo: 1, workViewPresenter: self )
-        self.pages.append(currentPage)
-        
-        FileSystemInteractor.emptyTempByZippingOpenProjects(into: &currentGrouping)
+        workView.acceptAndConfigure(page: currentPage)
     }
     
     func handleFirstProjectEdit(){
-        FileSystemInteractor.handleFirstProjectEdit(grouping: &currentGrouping, project: &currentProject, page: &currentPage)
+        currentProject.edit()
+        fileSystemInteractor.handleFirstProjectEdit(grouping: currentGrouping, project: currentProject, page: currentPage)
     }
     
     func handleFirstPageEdit(){
-        FileSystemInteractor.handleFirstPageEdit(project: &currentProject, page: &currentPage)
+        currentPage.edit()
+        fileSystemInteractor.handleFirstPageEdit(project: currentProject, page: currentPage)
         makePathsForJVSPD_Duties()
     }
     
-    func discardPageInfo(){
+    func discardPathsToJotElements(){
         jotViewStateInkPath = ""
         jotViewStatePlistPath = ""        
     }
     
     // Called before loading a new project
     private func cleanUpPages() {
-        //        currentPage.drawingView.removeFromSuperview()
         for page in pages {
             page?.removePage()
         }
@@ -222,13 +214,11 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
             self.currentPage = paper
             self.pages = pages
         }
-        FileSystemInteractor.afterLoading(pageNo: toPage, inProject: project.getName(), fromGrouping: grouping.getName(), run: loadHandler)
-        
-        projectIsEdited = true
-        pageIsEdited = true
+        fileSystemInteractor.afterLoading(pageNo: toPage, inProject: project.getName(), fromGrouping: grouping.getName(), run: loadHandler)
         
         loadExistingPageAt(pageNo: toPage)
         updatePageLabels()
+        
     }
     
     func makePathsForJVSPD_Duties(){
@@ -241,44 +231,44 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         currentPage.drawingView.removeFromSuperview()
         currentPage.removePage()
       
-        if(projectIsEdited){
-            //zip up project and store in the grouping folder
-            try! FileSystemInteractor.zipProjectFromTempFolderAndPlaceInGroupingFolder(project: currentProject, grouping: currentGrouping)
-            //clean out the TempFolder
-            FileSystemInteractor.removeProjectFromTemp(project: currentProject)
+        if(isProjectEdited()){
+            //if the project was edited in this session
+            //it needs to be saved
+            do {
+                //clean out the TempFolder
+                try fileSystemInteractor.moveProjectFromTempFolderAndPlaceInGroupingFolder(project: currentProject, grouping: currentGrouping)
+            } catch let e {
+                fileSystemInteractor.showMessageFor(e)
+            }
         }
-        projectIsEdited = false
-        pageIsEdited = false
     }
     
+    
     //maintains current grouping
-    func newProjectRequested(){
+    func newProjectRequested(in updatedGrouping: Grouping?){
         closeProject()
-        self.currentProject = MetaDataInteractor.makeNewProjectOfFirstAvailableName(in: &currentGrouping)
+        if(updatedGrouping != nil){
+            currentGrouping = updatedGrouping!
+        }
+        self.currentProject = MetaDataInteractor.makeNewProjectOfFirstAvailableName(in: currentGrouping)
         currentPage = Paper(pageNo: 1, workViewPresenter: self)
         replacePagesWithEmptyArray()
         pages.append(currentPage)
         currentPage.setBackground(to: selectedPaperType)
-        workView.acceptAndConfigure(page: &currentPage)
+        workView.acceptAndConfigure(page: currentPage)
     }
     
-    //maintains current grouping
-    func newProjectRequested(in grouping: Grouping){
-        closeProject()
-        self.currentGrouping = grouping
-        self.currentProject = MetaDataInteractor.makeNewProjectOfFirstAvailableName(in: &currentGrouping)
-        currentPage = Paper(pageNo: 1, workViewPresenter: self)
-        replacePagesWithEmptyArray()
-        pages.append(currentPage)
-        currentPage.setBackground(to: selectedPaperType)
-        workView.acceptAndConfigure(page: &currentPage)
+    func isPageEdited() -> Bool {
+        return currentPage.isEdited
     }
     
+    func isProjectEdited() -> Bool {
+        return currentProject.isEdited
+    }
     
     func replacePagesWithEmptyArray(){
         pages.removeAll()
     }
-    
     
     func freeInactivePages() {
         for i in 0..<pages.count {
@@ -304,4 +294,67 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         }
     }
     
+    
+    func getOpenProjectPageThumbnails() -> [UIImage]{
+        
+        let fileManager = FileManager.default
+        var arrayOfPageImages = [UIImage]()
+        
+        for page in pages {
+        let pathToPageFolder = fileSystemInteractor.getPageDirectoryInTempFor(pageNo: page!.getPageNumber(), in: currentProject)
+            do {
+                let contentsAsStrings = try! fileManager.contentsOfDirectory(atPath: pathToPageFolder)
+                if contentsAsStrings.contains("thumb.png"){
+               arrayOfPageImages.append(UIImage(contentsOfFile: pathToPageFolder + "/thumb.png")!)
+                }
+            }
+        }
+        return arrayOfPageImages
+    }
+    
+    func exportPDF (to pdfData: NSMutableData) -> Bool {
+        
+        UIGraphicsBeginPDFContextToData(pdfData, currentPage.bounds, nil)
+        
+        let thumbs = getOpenProjectPageThumbnails()
+        for (index, page) in pages.enumerated() {
+            
+            let rect = page?.bounds
+            UIGraphicsBeginPDFPageWithInfo(rect!, nil)
+            guard let pdfContext = UIGraphicsGetCurrentContext() else { return false}
+            page?.isHidden = false
+            let useful = UIImageView(frame: CGRect(x: 0, y: 0, width: 1275, height: 1650))
+            useful.image = thumbs[index]
+            //TODO: fix print when there is no file around to print
+            page?.addSubview(useful)
+            page?.setNeedsDisplay()
+            // Render the page contents into the PDF Context
+            page?.layer.render(in: pdfContext)
+            page?.isHidden = (page != self.currentPage) ? true : false
+            useful.removeFromSuperview()
+        }
+        
+        UIGraphicsEndPDFContext()
+        
+        return true
+    }
+    
+    
+    //TODO: make the Project only get zipped and written to disk upon closing if it has edits
+    init(_ viewController: UIViewController) {
+        super.init()
+        self.currentProject = MetaDataInteractor.makeNewProjectOfFirstAvailableName(in: currentGrouping)
+        self.currentPage = Paper(pageNo: 1, workViewPresenter: self )
+        self.pages.append(currentPage)
+        fileSystemInteractor = FileSystemInteractor(viewController)
+        do {
+            DispatchQueue.main.async {
+                try? self.fileSystemInteractor.saveLostState()
+            }
+        } catch let e {
+            print(e.localizedDescription)
+        }
+        
+        
+    }
 }

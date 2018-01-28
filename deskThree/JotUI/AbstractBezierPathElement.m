@@ -168,7 +168,7 @@
     [aCoder encodeFloat:width forKey:@"width"];
 //    [aCoder encodeFloat:stepWidth forKey:@"stepWidth"];
     [aCoder encodeFloat:extraLengthWithoutDot forKey:@"extraLengthWithoutDot"];
-//    [aCoder encodeFloat:scaleOfVertexBuffer forKey:@"scaleOfVertexBuffer"];
+    [aCoder encodeFloat:scaleOfVertexBuffer forKey:@"scaleOfVertexBuffer"];
     
 }
 
@@ -182,7 +182,7 @@
         
         stepWidth = 0.3;
         extraLengthWithoutDot = [aDecoder decodeFloatForKey:@"extraLengthWithoutDot"];
-//        scaleOfVertexBuffer = [aDecoder decodeFloatForKey:@"scaleOfVertexBuffer"];
+        scaleOfVertexBuffer = [aDecoder decodeFloatForKey:@"scaleOfVertexBuffer"];
     }
     return self;
 }

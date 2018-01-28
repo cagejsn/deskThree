@@ -53,6 +53,8 @@ enum TypeOfBlock: Int {
 
 struct Constants {
     
+    static let DESK_ARTIFACT_PATH_COMPONENT: String = "desk.artifact"
+    
     struct DesignColors {
         static let deskBlue = UIColor.init(red: 42/255, green: 183/255, blue: 235/255, alpha: 1.0)
         

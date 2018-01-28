@@ -592,7 +592,7 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
             }];
             [secondSubContext runBlock:^{
                 //            // finish current gl calls
-                //            glFinish();
+                            glFinish();
 
                 [secondSubContext glDisableDither];
                 [secondSubContext glEnableBlend];
@@ -602,8 +602,8 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
 
                 CGSize fullSize = viewFramebuffer.initialViewport;
                 /* Export size matches the actual paper size */
-//                CGSize exportSize = CGSizeMake(1275 * 2 , 1650 * 2);
-                CGSize exportSize = CGSizeMake(ceilf(fullSize.width), ceilf(fullSize.height));
+                CGSize exportSize = CGSizeMake(1275 * 2 , 1650 * 2);
+//                CGSize exportSize = CGSizeMake(ceilf(fullSize.width), ceilf(fullSize.height));
 
                 [secondSubContext glViewportWithX:0 y:0 width:(GLsizei)fullSize.width height:(GLsizei)fullSize.height];
 
@@ -685,6 +685,7 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
                 }
                 // Read pixel data from the framebuffer
                 [secondSubContext readPixelsInto:data ofSize:GLSizeFromCGSize(fullSize)];
+                
 
                 // now we're done, delete our buffers
                 [secondSubContext unbindFramebuffer];
@@ -833,8 +834,9 @@ static const void* const kImportExportStateQueueIdentifier = &kImportExportState
                 CGSize exportSize = CGSizeMake(ceilf(initialViewport.width), ceilf(initialViewport.height));
 
                 // create the texture
-                // maxTextureSize
-                CGSize maxTextureSize = [UIScreen mainScreen].portraitBounds.size;
+                CGSize maxTextureSize = CGSizeMake(1275, 1650);
+                
+//                CGSize maxTextureSize = [UIScreen mainScreen].portraitBounds.size;
                 maxTextureSize.width *= [UIScreen mainScreen].scale;
                 maxTextureSize.height *= [UIScreen mainScreen].scale;
                 JotGLTexture* canvasTexture = [[JotTextureCache sharedManager] generateTextureForContext:secondSubContext ofSize:maxTextureSize];
@@ -1286,6 +1288,7 @@ static int undoCounter;
                         NSInteger distance = 0;
                         while ([strokeToWriteToTexture.segments count] && distance < 300) {
                             AbstractBezierPathElement* element = [strokeToWriteToTexture.segments objectAtIndex:0];
+                            //                           TODO: make this write to a place with the x y data
                             [strokeToWriteToTexture removeElementAtIndex:0];
                             [self renderElement:element fromPreviousElement:prevElementForTextureWriting includeOpenGLPrepForFBO:nil toContext:context];
                             prevElementForTextureWriting = element;

@@ -41,15 +41,16 @@
     __block GLuint canvastexture = 0;
 
     @synchronized(self) {
-        while ([cachedTextures count]) {
+        int i;
+        for(i = [cachedTextures count] ; i > 0; i-- ){
             JotGLTexture* reusedTexture = [cachedTextures lastObject];
             if (reusedTexture.pixelSize.width == fullSize.width && reusedTexture.pixelSize.height == fullSize.height){
-            [cachedTextures removeLastObject];
-            return reusedTexture;
-            } else {
-                break;
-            }
+                [cachedTextures removeLastObject];
+                
+                return reusedTexture;
+            } 
         }
+        
 
         [context runBlock:^{
             canvastexture = [context generateTextureForSize:fullSize withBytes:NULL];
@@ -73,7 +74,7 @@
             @throw [NSException exceptionWithName:@"TextureCacheException" reason:@"Recaching already cached texture" userInfo:nil];
         }
         [cachedTextures addObject:texture];
-        //        DebugLog(@"texture returned, have %d in cache", (int) [cachedTextures count]);
+        DebugLog(@"texture returned, have %d in cache", (int) [cachedTextures count]);
     }
 }
 

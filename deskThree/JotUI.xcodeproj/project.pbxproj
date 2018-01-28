@@ -139,7 +139,7 @@
 		66455F8C175FC47200C66DFA /* JotGLTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotGLTexture.h; sourceTree = "<group>"; };
 		66455F8D175FC47200C66DFA /* JotGLTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = JotGLTexture.m; sourceTree = "<group>"; };
 		66455F90175FD8BF00C66DFA /* JotGLTextureBackedFrameBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotGLTextureBackedFrameBuffer.h; sourceTree = "<group>"; };
-		66455F91175FD8BF00C66DFA /* JotGLTextureBackedFrameBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = JotGLTextureBackedFrameBuffer.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		66455F91175FD8BF00C66DFA /* JotGLTextureBackedFrameBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = JotGLTextureBackedFrameBuffer.m; sourceTree = "<group>"; };
 		6648A52217F0E09000117ECB /* JotGLContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotGLContext.h; sourceTree = "<group>"; };
 		6648A52317F0E09000117ECB /* JotGLContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = JotGLContext.m; sourceTree = "<group>"; };
 		6658ABCE1A7B1A1F00F32506 /* JotGLLayerBackedFrameBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JotGLLayerBackedFrameBuffer.h; sourceTree = "<group>"; };

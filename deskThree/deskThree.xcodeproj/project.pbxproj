@@ -26,7 +26,6 @@
 		3176D2D61EA47A3900866D21 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3176D2D51EA47A3900866D21 /* libc++.tbd */; };
 		526C111C1E7DD8FE00196164 /* PathLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111B1E7DD8FE00196164 /* PathLocator.swift */; };
 		526C111F1E7DF2CB00196164 /* DeskProject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526C111E1E7DF2CB00196164 /* DeskProject.swift */; };
-		528F8B151E8DB57300E75EF4 /* Zip in Resources */ = {isa = PBXBuildFile; fileRef = 528F8B141E8DB57300E75EF4 /* Zip */; };
 		5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297A22C1E6C993100BFA775 /* BlockExpression.swift */; };
 		52A662A31E32B1C8008E088A /* Trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A662A21E32B1C8008E088A /* Trash.swift */; };
 		52C9BB271E2D68AA005DA9C2 /* deskThreeGraphTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C9BB261E2D68AA005DA9C2 /* deskThreeGraphTests.swift */; };
@@ -88,10 +87,15 @@
 		DA531CC7200139A5008A3861 /* ClipperSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC6200139A5008A3861 /* ClipperSession.swift */; };
 		DA531CC920014274008A3861 /* StrokeToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC820014274008A3861 /* StrokeToMath.swift */; };
 		DA531CCB200150C9008A3861 /* HandleClips.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CCA200150C9008A3861 /* HandleClips.swift */; };
+		DA535D4B20180B16007B5184 /* ArchiveInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA535D4A20180B16007B5184 /* ArchiveInteractor.swift */; };
+		DA535D5520180B4D007B5184 /* DeskArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA535D5420180B4D007B5184 /* DeskArchive.swift */; };
+		DA535D57201AA4AC007B5184 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA535D56201AA4AC007B5184 /* AnalyticsManager.swift */; };
 		DA53BCB1200722C30012179B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCAD200722C10012179B /* Bolts.framework */; };
 		DA53BCB2200722C30012179B /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCAE200722C10012179B /* FBSDKLoginKit.framework */; };
 		DA53BCB3200722C30012179B /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCAF200722C20012179B /* FBSDKShareKit.framework */; };
 		DA53BCB4200722C30012179B /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCB0200722C30012179B /* FBSDKCoreKit.framework */; };
+		DA53BCD4200AA0E30012179B /* DrawingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53BCD3200AA0E30012179B /* DrawingSession.swift */; };
+		DA53BCD6200AAB8F0012179B /* ExpressionDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA53BCD5200AAB8F0012179B /* ExpressionDestination.swift */; };
 		DA5464511DBD10A300E644F0 /* Paper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA5464501DBD10A300E644F0 /* Paper.swift */; };
 		DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */; };
 		DA5747601E7491E50010F754 /* OCRMathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57475F1E7491E50010F754 /* OCRMathView.swift */; };
@@ -107,6 +111,7 @@
 		DA8E91F11FE223D80014B432 /* JotToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8E91F01FE223D80014B432 /* JotToMath.swift */; };
 		DA8E92041FE596B20014B432 /* FileThumbnailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
+		DA957CD4201CFEB600677BAB /* RenameProjectAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA957CD3201CFEB600677BAB /* RenameProjectAlertManager.swift */; };
 		DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */; };
 		DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */; };
 		DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */; };
@@ -119,6 +124,7 @@
 		DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E81DC3A0D600C73780 /* GKImageCropViewController.m */; };
 		DAA494F11DC3A0D600C73780 /* GKImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494EA1DC3A0D600C73780 /* GKImagePicker.m */; };
 		DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494EC1DC3A0D600C73780 /* GKResizeableCropOverlayView.m */; };
+		DABEBA2E200B20C800C18468 /* DeskUserPrefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABEBA2D200B20C800C18468 /* DeskUserPrefs.swift */; };
 		DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EC1DBBF2DD001F7901 /* WorkView.swift */; };
 		DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */; };
 		DADC67F61E26A89500C14F5B /* fragmentShader.glsl in Resources */ = {isa = PBXBuildFile; fileRef = DADC67F51E26A89500C14F5B /* fragmentShader.glsl */; };
@@ -138,6 +144,7 @@
 		DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF9E2071E7B4E5900EBF436 /* FileExplorerViewController.swift */; };
 		DAF9E20A1E7B4F7300EBF436 /* FileExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */; };
 		DAF9E89A20017B9B009761F6 /* SelectedStrokeEraser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF9E89920017B9B009761F6 /* SelectedStrokeEraser.swift */; };
+		DAFB738E2015254F00E7C4A8 /* MoveProjectAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFB738D2015254F00E7C4A8 /* MoveProjectAlertManager.swift */; };
 		DAFBE3A41DBBDBC20007D249 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */; };
 		DAFBE3A61DBBDBC20007D249 /* DeskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */; };
 		DAFBE3AE1DBBDBC20007D249 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DAFBE3AC1DBBDBC20007D249 /* LaunchScreen.storyboard */; };
@@ -264,7 +271,6 @@
 		528F8B021E8D9C4300E75EF4 /* Mixpanel */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Mixpanel; path = "mixpanel-swift/Mixpanel"; sourceTree = "<group>"; };
 		528F8B051E8D9DBB00E75EF4 /* mixpanel-swift */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "mixpanel-swift"; sourceTree = "<group>"; };
 		528F8B0C1E8D9EA800E75EF4 /* Mixpanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Mixpanel.swift; path = "mixpanel-swift/Mixpanel/Mixpanel.swift"; sourceTree = "<group>"; };
-		528F8B141E8DB57300E75EF4 /* Zip */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Zip; sourceTree = "<group>"; };
 		5297A22C1E6C993100BFA775 /* BlockExpression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockExpression.swift; sourceTree = "<group>"; };
 		52A662A21E32B1C8008E088A /* Trash.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trash.swift; sourceTree = "<group>"; };
 		52C9BB241E2D68AA005DA9C2 /* deskThreeGraphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = deskThreeGraphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -336,10 +342,15 @@
 		DA531CC6200139A5008A3861 /* ClipperSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipperSession.swift; sourceTree = "<group>"; };
 		DA531CC820014274008A3861 /* StrokeToMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeToMath.swift; sourceTree = "<group>"; };
 		DA531CCA200150C9008A3861 /* HandleClips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleClips.swift; sourceTree = "<group>"; };
+		DA535D4A20180B16007B5184 /* ArchiveInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveInteractor.swift; sourceTree = "<group>"; };
+		DA535D5420180B4D007B5184 /* DeskArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskArchive.swift; sourceTree = "<group>"; };
+		DA535D56201AA4AC007B5184 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		DA53BCAD200722C10012179B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		DA53BCAE200722C10012179B /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		DA53BCAF200722C20012179B /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		DA53BCB0200722C30012179B /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		DA53BCD3200AA0E30012179B /* DrawingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingSession.swift; sourceTree = "<group>"; };
+		DA53BCD5200AAB8F0012179B /* ExpressionDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpressionDestination.swift; sourceTree = "<group>"; };
 		DA5464501DBD10A300E644F0 /* Paper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paper.swift; sourceTree = "<group>"; };
 		DA56E02B1E3D6E290061DEE3 /* GKFilteredImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GKFilteredImageView.swift; sourceTree = "<group>"; };
 		DA57475F1E7491E50010F754 /* OCRMathView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCRMathView.swift; sourceTree = "<group>"; };
@@ -356,6 +367,7 @@
 		DA8E91F01FE223D80014B432 /* JotToMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JotToMath.swift; sourceTree = "<group>"; };
 		DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileThumbnailButton.swift; sourceTree = "<group>"; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
+		DA957CD3201CFEB600677BAB /* RenameProjectAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameProjectAlertManager.swift; sourceTree = "<group>"; };
 		DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableView.swift; sourceTree = "<group>"; };
 		DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableViewCell.swift; sourceTree = "<group>"; };
 		DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionView.swift; sourceTree = "<group>"; };
@@ -376,6 +388,7 @@
 		DAA494EA1DC3A0D600C73780 /* GKImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKImagePicker.m; sourceTree = "<group>"; };
 		DAA494EB1DC3A0D600C73780 /* GKResizeableCropOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKResizeableCropOverlayView.h; sourceTree = "<group>"; };
 		DAA494EC1DC3A0D600C73780 /* GKResizeableCropOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKResizeableCropOverlayView.m; sourceTree = "<group>"; };
+		DABEBA2D200B20C800C18468 /* DeskUserPrefs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskUserPrefs.swift; sourceTree = "<group>"; };
 		DAD071311FF2CF06006A58FF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DAD144EC1DBBF2DD001F7901 /* WorkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkView.swift; sourceTree = "<group>"; };
 		DAD144EE1DBC0F76001F7901 /* ImageBlock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageBlock.swift; sourceTree = "<group>"; };
@@ -403,6 +416,7 @@
 		DAF9E2091E7B4F7300EBF436 /* FileExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileExplorerViewController.xib; sourceTree = "<group>"; };
 		DAF9E20B1E7C6D8600EBF436 /* SaveAsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SaveAsView.xib; sourceTree = "<group>"; };
 		DAF9E89920017B9B009761F6 /* SelectedStrokeEraser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedStrokeEraser.swift; sourceTree = "<group>"; };
+		DAFB738D2015254F00E7C4A8 /* MoveProjectAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveProjectAlertManager.swift; sourceTree = "<group>"; };
 		DAFBE3A01DBBDBC20007D249 /* deskThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = deskThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAFBE3A31DBBDBC20007D249 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskViewController.swift; sourceTree = "<group>"; };
@@ -534,6 +548,7 @@
 			children = (
 				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
 				DA04E3FB1FC0B1FF00900588 /* Grouping.swift */,
+				DA535D5420180B4D007B5184 /* DeskArchive.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -547,6 +562,7 @@
 				DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */,
 				DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */,
 				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
+				DA535D4A20180B16007B5184 /* ArchiveInteractor.swift */,
 			);
 			name = "File System";
 			sourceTree = "<group>";
@@ -571,6 +587,8 @@
 				DA2B7CAF1F9BD60400496BEC /* UserView.swift */,
 				DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */,
 				DA233A921FD4A5B90099FC74 /* CurrentGroupingLabel.swift */,
+				DAFB738D2015254F00E7C4A8 /* MoveProjectAlertManager.swift */,
+				DA957CD3201CFEB600677BAB /* RenameProjectAlertManager.swift */,
 			);
 			name = "File Explorer";
 			sourceTree = "<group>";
@@ -641,7 +659,6 @@
 				DA53BCAF200722C20012179B /* FBSDKShareKit.framework */,
 				DA2841071EAFBBD00085112E /* SlideMenuControllerSwift.framework */,
 				314881561E8DD5770015D095 /* Zip.framework */,
-				528F8B141E8DB57300E75EF4 /* Zip */,
 				DA7E46F61E8DD52E007C52C1 /* Mixpanel.xcodeproj */,
 				3176D2C61EA478F900866D21 /* Crashlytics.framework */,
 				3176D2C71EA478F900866D21 /* Fabric.framework */,
@@ -697,6 +714,9 @@
 				DA04E40F1FC0CCD400900588 /* WorkViewPresenter.swift */,
 				DAF9E89B200462E4009761F6 /* Clipping */,
 				DA5464501DBD10A300E644F0 /* Paper.swift */,
+				DABEBA2D200B20C800C18468 /* DeskUserPrefs.swift */,
+				DA53BCD5200AAB8F0012179B /* ExpressionDestination.swift */,
+				DA53BCD3200AA0E30012179B /* DrawingSession.swift */,
 				DA8E920E1FE5F68C0014B432 /* File System */,
 				DA8E920D1FE5F6730014B432 /* Models */,
 				DAFBE3A51DBBDBC20007D249 /* DeskViewController.swift */,
@@ -738,6 +758,7 @@
 				DA28412A1EB25EED0085112E /* AllPad.xib */,
 				DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */,
 				DA233A901FD3B9440099FC74 /* DeskColors.swift */,
+				DA535D56201AA4AC007B5184 /* AnalyticsManager.swift */,
 			);
 			path = deskThree;
 			sourceTree = "<group>";
@@ -958,7 +979,6 @@
 				DA2841121EAFD3410085112E /* InsideHamburgerView.xib in Resources */,
 				311C3AC01E99650700F61CE4 /* Assets.xcassets in Resources */,
 				CEC6DD101DEE8D14002A2460 /* JotUI in Resources */,
-				528F8B151E8DB57300E75EF4 /* Zip in Resources */,
 				DA233AB11FD8FC300099FC74 /* NewCollectionViewCell.xib in Resources */,
 				DA28412B1EB25EED0085112E /* AllPad.xib in Resources */,
 				311C3ABE1E9964F500F61CE4 /* SaveAsView.xib in Resources */,
@@ -1049,6 +1069,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE3E876C1E354D640076DA3A /* Parser.swift in Sources */,
+				DA53BCD4200AA0E30012179B /* DrawingSession.swift in Sources */,
 				DAE7CE831E7D70480050A543 /* SaveAsView.swift in Sources */,
 				DA1308DD1E5007F9008EBD14 /* DeskView.swift in Sources */,
 				DA35EE181E8C979700520FFD /* DWBubbleMenuButton.m in Sources */,
@@ -1058,11 +1079,13 @@
 				DA9E8C901F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift in Sources */,
 				312A8B7C1EAFCD8000940FA7 /* UIViewExtension.swift in Sources */,
 				DA76850E1FD262B400FACA0B /* ProjectsDataSource.swift in Sources */,
+				DA535D5520180B4D007B5184 /* DeskArchive.swift in Sources */,
 				DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */,
 				DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */,
 				3148815E1E8DDCDA0015D095 /* com.desk.education.c in Sources */,
 				DADC7C681DF0F4650086626E /* Constants.swift in Sources */,
 				DAA494F21DC3A0D600C73780 /* GKResizeableCropOverlayView.m in Sources */,
+				DABEBA2E200B20C800C18468 /* DeskUserPrefs.swift in Sources */,
 				DA5747601E7491E50010F754 /* OCRMathView.swift in Sources */,
 				DA04E3FC1FC0B1FF00900588 /* Grouping.swift in Sources */,
 				DA8E92041FE596B20014B432 /* FileThumbnailButton.swift in Sources */,
@@ -1082,6 +1105,7 @@
 				DAD144EF1DBC0F76001F7901 /* ImageBlock.swift in Sources */,
 				DA531CCB200150C9008A3861 /* HandleClips.swift in Sources */,
 				DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */,
+				DA53BCD6200AAB8F0012179B /* ExpressionDestination.swift in Sources */,
 				DA04D9361EA455C8003C0783 /* UserDefaults+isFirstLaunch.swift in Sources */,
 				DAF9E89A20017B9B009761F6 /* SelectedStrokeEraser.swift in Sources */,
 				DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */,
@@ -1092,10 +1116,12 @@
 				DA7A09281FE2211A007BDCE1 /* Clipper.swift in Sources */,
 				DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,
+				DA535D4B20180B16007B5184 /* ArchiveInteractor.swift in Sources */,
 				DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */,
 				DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
 				DA2B7CB21F9BDD4B00496BEC /* FileExplorerColors.swift in Sources */,
+				DA957CD4201CFEB600677BAB /* RenameProjectAlertManager.swift in Sources */,
 				DA2B7CB41F9C26D600496BEC /* FileExplorerHeaderView.swift in Sources */,
 				DAF9E2081E7B4E5900EBF436 /* FileExplorerViewController.swift in Sources */,
 				DA2B7CA61F9BB43400496BEC /* GroupingsHeaderView.swift in Sources */,
@@ -1127,6 +1153,7 @@
 				DA04E4081FC0B3F900900588 /* MetaDataInteractor.swift in Sources */,
 				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
+				DA535D57201AA4AC007B5184 /* AnalyticsManager.swift in Sources */,
 				DA04E40E1FC0CC0800900588 /* ProjectFileInteractor.swift in Sources */,
 				DA2B7CB01F9BD60400496BEC /* UserView.swift in Sources */,
 				DA233A911FD3B9440099FC74 /* DeskColors.swift in Sources */,
@@ -1135,6 +1162,7 @@
 				DADC67FA1E27E9D500C14F5B /* GraphingBlock.swift in Sources */,
 				DA4918A51DE64EDF00E3AA1D /* Eraser.m in Sources */,
 				DA4918A61DE64EDF00E3AA1D /* Marker.m in Sources */,
+				DAFB738E2015254F00E7C4A8 /* MoveProjectAlertManager.swift in Sources */,
 				DADC7C691DF0F4650086626E /* ETree.swift in Sources */,
 				DA9E8C891F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift in Sources */,
 			);
@@ -1308,6 +1336,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9GGQU4DHVC;
@@ -1327,6 +1356,8 @@
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.desk.education;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1343,6 +1374,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 0.0.1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 9GGQU4DHVC;
@@ -1363,6 +1395,7 @@
 				OTHER_SWIFT_FLAGS = "-DRELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.desk.education;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "deskThree-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

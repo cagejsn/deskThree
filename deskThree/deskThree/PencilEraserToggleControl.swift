@@ -86,6 +86,7 @@ class PencilEraserToggleControl: UIImageView {
             self.image = UIImage(named: "pencilSelected")
         }
         delegate.switchTo(selected)
+        AnalyticsManager.track(.TogglePenEraser(String(describing:selected)))
     }
     
     func setupConstraintsForPencilAndEraser(){

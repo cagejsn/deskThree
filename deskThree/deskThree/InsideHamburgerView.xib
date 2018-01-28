@@ -128,6 +128,7 @@
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
+                                <action selector="endedSliderTouch:" destination="iN0-l3-epB" eventType="touchUpInside" id="i9G-bH-4UU"/>
                                 <action selector="penSizeSliderValueChanged:" destination="iN0-l3-epB" eventType="valueChanged" id="Vy2-K6-a1Q"/>
                             </connections>
                         </slider>

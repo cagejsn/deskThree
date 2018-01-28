@@ -38,6 +38,8 @@ class MathBlock: Expression{
         expressionString = newText
         mathML = newMathML
         data = newData
+        
+        AnalyticsManager.track(.EditLinkedBlock)
     }
     
     func getMathML() -> String {

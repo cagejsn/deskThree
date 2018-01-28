@@ -12,7 +12,7 @@ import Foundation
 
 class MetaDataInteractor: NSObject {
     
-    static func rename(grouping: inout Grouping, to newName: String) throws  {
+    static func rename(grouping: Grouping, to newName: String) throws  {
         let fileManager = FileManager.default
         let metaFolderPath = PathLocator.getMetaFolder()
         let currentPathOfGroupingMetaData = metaFolderPath + "/" + grouping.getName() + ".meta"
@@ -28,93 +28,102 @@ class MetaDataInteractor: NSObject {
         grouping.rename(name: newName)
         
         //this may not work
-        try! fileManager.copyItem(atPath: currentPathOfGroupingMetaData, toPath: newPathForGroupingMetaData)
+        do {
+            try fileManager.copyItem(atPath: currentPathOfGroupingMetaData, toPath: newPathForGroupingMetaData)
+            
+            try fileManager.removeItem(atPath: currentPathOfGroupingMetaData)
+        } catch let e {
+           throw e
+        }
         
-        try! fileManager.removeItem(atPath: currentPathOfGroupingMetaData)
     }
    
-    
-    //
-    static func rename(project: inout DeskProject, to newName: String, in grouping: inout Grouping) throws {
+    static func rename(project: DeskProject, to newName: String, in grouping: Grouping) throws {
         let projectName = project.getName()
         let groupingName = grouping.getName()
-        var projects = grouping.getProjects()!
+        var projects = grouping.getProjects()
         let filePath = PathLocator.getMetaFolder()+"/"+groupingName+".meta"
         
         var desiredProjectNameIsTaken: Bool = false
         for i in 0..<projects.count{
             if (projects[i].getName() == newName) {
                 desiredProjectNameIsTaken = true
+                throw DeskFileSystemError.ProjectNameTakenInGrouping(newName)
             }
         }
         
-        if(desiredProjectNameIsTaken){throw DeskFileSystemError.ProjectNameTakenInGrouping(newName)}
-        project.rename(name: newName)
-        try! saveMetaData(of: grouping)
+        for project_inMeta in projects {
+            if (project_inMeta.getUniqueProjectSerialNumber() == project.getUniqueProjectSerialNumber()){
+                project_inMeta.rename(name: newName)
+                saveMetaData(of: grouping)
+                return
+            }
+        }
+
     }
     
-    static func remove(grouping: Grouping){
+    static func remove(grouping: Grouping) throws {
         let fileManager = FileManager.default
         let groupingName = grouping.getName()
         let filePath = PathLocator.getMetaFolder()+"/"+groupingName+".meta"
         do{
             try fileManager.removeItem(atPath: filePath)
-        } catch let error {
-            print(error.localizedDescription)
+        } catch let e {
+            throw e
         }
     }
     
-    static func remove(project: DeskProject, from grouping: inout Grouping){
-        let projectName = project.getName()
-        let groupingName = grouping.getName()
-        var projects = grouping.getProjects()!
-        let filePath = PathLocator.getMetaFolder()+"/"+groupingName+".meta"
-        
-        for i in 0..<projects.count{
-            if (projects[i].getName() == projectName) {
-                //raise dialog asking user confirmation to overwrite
-                projects[i] = project
-                projects.remove(at: i)
-                grouping.projects = projects
-                try! saveMetaData(of: grouping)
-                return
-            }
-        }
-        //failure
+    static func remove(project: DeskProject, from grouping: Grouping) {
+        grouping.removeProject(project)
+        saveMetaData(of: grouping)
     }
     
-    static func save(project: inout DeskProject, intoGroupingWithName groupingName: String) throws {
+    static func save(project: DeskProject, intoGroupingWithName groupingName: String) throws {
         let fileManager = FileManager.default
         let filePath = PathLocator.getMetaFolder()+"/"+groupingName+".meta"
         
+        let grouping: Grouping?
         if(!fileManager.fileExists(atPath: filePath)){
             //no Grouping with destination name
-            throw DeskFileSystemError.NoGroupingMetaFileWithName(groupingName)
+            PathLocator.getProjectsFolderFor(groupingName: groupingName)
+            grouping = Grouping(name: groupingName)
+        } else {
+            grouping = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? Grouping
         }
-        let grouping = NSKeyedUnarchiver.unarchiveObject(withFile: filePath)
         if let grouping = grouping as! Grouping! {
-            grouping.addProject(project)
-            try! saveMetaData(of: grouping)
+            let incomingProjectName = project.getName()
+            if(!isProjectNameTakenIn(grouping: grouping, name: incomingProjectName)){
+            grouping.addProject(project)            
+            project.setOwnedByGroupingName(newGroupingOwner: grouping.getName())
+            saveMetaData(of: grouping)
+            } else {
+                throw DeskFileSystemError.ProjectNameTakenInGrouping(incomingProjectName)
+            }
         }
-      
-
-        //ignores the files folder implications and only does the meta data rn
     }
     
-    static func save(project: inout DeskProject, into grouping: inout Grouping){
-        let projectName = project.getName()
-        let groupingName = grouping.getName()
-        var projects = grouping.getProjects()!
-        let filePath = PathLocator.getMetaFolder()+"/"+groupingName+".meta"
+    static func isProjectNameTakenIn(grouping: Grouping, name: String) -> Bool {
+        let projects = grouping.projects
+        for i in 0..<projects.count{
+            if (projects[i].getName() == name) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    static func save(project openProject: DeskProject, into grouping: Grouping) throws {
+        let openProjectName = openProject.getName()
+        var projects = grouping.getProjects()
         
         var projectNameIsTaken = true
         var attemptsToRename: Int = 0
         while(projectNameIsTaken){
             var i = 0
             while (i < projects.count){
-                if (projects[i].getName() == project.getName()) {
+                if (projects[i].getName() == openProject.getName()) {
                     attemptsToRename += 1
-                    project.rename(name: projectName+"("+String(attemptsToRename)+")")
+                    openProject.rename(name: openProjectName+"("+String(attemptsToRename)+")")
                     i = 0
                     continue
                 }
@@ -123,9 +132,15 @@ class MetaDataInteractor: NSObject {
             projectNameIsTaken = false
         }
         
-        projects.append(project)
-        grouping.projects = projects
-        try? saveMetaData(of: grouping)
+        grouping.addProject(openProject)
+
+        openProject.setOwnedByGroupingName(newGroupingOwner: grouping.getName())
+        
+        do {
+            try saveMetaData(of: grouping)
+        } catch let e {
+            throw e
+        }
         
     }
     
@@ -134,15 +149,10 @@ class MetaDataInteractor: NSObject {
         let fileManager = FileManager.default
         let name = grouping.getName()
         let filePath = PathLocator.getMetaFolder()+"/"+name+".meta"
-        if(fileManager.fileExists(atPath: filePath)){
-            //there is already a file at this path
-            //throw an error
-            //throw DeskFileSystemError.FileNameIsTakeDuringRenameOperation(name)
-        }
         NSKeyedArchiver.archiveRootObject(grouping, toFile: filePath)
     }
     
-    static func getGrouping(withName groupingName:String) throws -> Grouping? {
+    static func getGrouping(withName groupingName:String) throws -> Grouping {
         let fileManager = FileManager.default
         let metaFolderPath = PathLocator.getMetaFolder()
         let proposedGroupingPath = metaFolderPath + "/" + groupingName + ".meta"
@@ -150,37 +160,33 @@ class MetaDataInteractor: NSObject {
             throw DeskFileSystemError.NoGroupingMetaFileWithName(groupingName)
         }
         let data = NSKeyedUnarchiver.unarchiveObject(withFile: proposedGroupingPath)
-        if let grouping = data as! Grouping! {
-            return grouping
+        guard let grouping = data as! Grouping! else {
+            throw DeskFileSystemError.NoGroupingMetaFileWithName(groupingName)
         }
-        return nil
+        return grouping
     }
     
     static func getDefaultGrouping() -> Grouping{
-        var defaultGrouping: String = "default"
+        var defaultGrouping: String = DeskUserPrefs.nameOfDefaultGrouping()
 
-//        defaultGrouping = UserDefaults.getDefaultGroupingName
         var grouping: Grouping
         do {
             grouping = try getGrouping(withName: defaultGrouping) as! Grouping!
         } catch let e {
             print(e.localizedDescription)
-            grouping = Grouping(name: "default")
+            grouping = Grouping(name: defaultGrouping)
         }
-        
-        //set the user defaults defaultGrouping Name
-//        UserDefaults.setDefaultGrouping
-        
+              
         return grouping
     }
     
     static func getSharedWithMeGrouping() -> Grouping{
-        var defaultGrouping: String = "shared"
+        var sharedGrouping: String = "shared"
         
         var grouping: Grouping
         do {
             //grouping already exists
-            grouping = try getGrouping(withName: defaultGrouping) as! Grouping!
+            grouping = try getGrouping(withName: sharedGrouping) as! Grouping!
         } catch let e {
             print(e.localizedDescription)
             grouping = Grouping(name: "shared")
@@ -192,9 +198,19 @@ class MetaDataInteractor: NSObject {
         return grouping
     }
     
-    static func makeNewProjectOfFirstAvailableName(in grouping: inout Grouping) -> DeskProject {
+    static func determineIfGroupingAlreadyExists(with name: String) ->Bool {
+        let groupings = retrieveAllGroupingMetaData()
+        for grouping in groupings {
+            if(grouping.getName() == name){
+                return true
+            }
+        }
+        return false
+    }
+    
+    static func makeNewProjectOfFirstAvailableName(in grouping: Grouping) -> DeskProject {
         
-        let projectsInGrouping = grouping.projects!
+        let projectsInGrouping = grouping.projects
         let numberOfProjects = projectsInGrouping.count
         var storedNamesWithUntitled = [String]()
         var storedNumbersWhichAreTaken = [Int]()
@@ -223,18 +239,16 @@ class MetaDataInteractor: NSObject {
             }
         }
         
-        let projectWithProperName = DeskProject(name: "Untitled"+String(i))
+        let projectWithProperName = DeskProject(name: "Untitled"+String(i), ownedByGrouping: grouping.getName())
         
-        
-        //takoing these out because the project should get saved to the grouping until the first stroke is written or other modification is made
+        //taking these out because the project should get saved to the grouping until the first stroke is written or other modification is made
      //   grouping.projects?.append(projectWithProperName)
      //   saveMetaData(of: grouping)
         
         return projectWithProperName
-        
     }
     
-    
+    //TODO: on first install crash here, has to do with Project.meta
     static func retrieveAllGroupingMetaData() -> [Grouping] {
         let fileManager = FileManager.default
         let metaFolderPath = PathLocator.getMetaFolder()
@@ -247,5 +261,4 @@ class MetaDataInteractor: NSObject {
         }
         return groupings
     }
-    
 }

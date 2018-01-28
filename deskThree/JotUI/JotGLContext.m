@@ -1079,7 +1079,8 @@ forStenciledPath:(UIBezierPath*)clippingPath
 
 - (void)assertCheckFramebuffer {
     ValidateCurrentContext;
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE) {
+    GLuint status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if (status != GL_FRAMEBUFFER_COMPLETE) {
         NSString* glErrorStr = [NSString stringWithFormat:@"failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER)];
         DebugLog(@"GL Framebuffer Error: %@", glErrorStr);
         @throw [NSException exceptionWithName:@"Framebuffer Exception" reason:glErrorStr userInfo:nil];

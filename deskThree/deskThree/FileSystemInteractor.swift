@@ -12,7 +12,7 @@ import Zip
 enum PaperChange {
     case MovedBlock
     case AddedStroke
-    case AddedImage
+    case MovedImage
     case CreatedNewPage(atIndex: Int)
 }
 
@@ -20,7 +20,7 @@ enum MetaChange {
     case DeletedGrouping
     case RenamedGrouping(newName: String)
     case CreatedGrouping
-    case RenamedProject(newName: String)
+    case RenamedProject(newName: String, isOpen: Bool)
     case MovedProject(destGroupingName: String)
     case DeletedProject
     case CreatedProject
@@ -31,8 +31,10 @@ enum DeskFileSystemError: Error {
     case ProjectNameTakenInGrouping(String)
     case NoGroupingMetaFileWithName(String)
     case NeededDirectoryIsMissing
-    case MissingDZIPFileWithProjectContents
+    case MissingFolderWithProjectContents
     case ProjectDirectoryAlreadyExistsInTemp
+    case CouldNotGetNamesOfFoldersInTemp
+    case DidntFindPaperAtPath
 }
 
 
@@ -40,30 +42,55 @@ class FileSystemInteractor: NSObject {
     
     var metaDataInteractor: MetaDataInteractor?
     var projectFileInteractor: ProjectFileInteractor?
+    var viewController: UIViewController!
+    
+    func showMessageFor(_ error: Error){
+        let alertController = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default) {
+            (action: UIAlertAction) in print("Youve pressed OK Button")
+        }
+        alertController.addAction(OKAction)
+        viewController.present(alertController, animated: true, completion: nil)
+    }
+    
+    func showErrorMessageWithText(_ text: String){
+        let renameAlert = UIAlertController(title: "Error", message: text, preferredStyle: UIAlertControllerStyle.alert)
+        renameAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+        }))
+        viewController.present(renameAlert, animated: true, completion: nil)
+    }
+    
+    func showCantRenameError(){
+        //TODO: what if someone changes the name of a project before it is ever written to disk
+        
+        let renameAlert = UIAlertController(title: "Project Name Taken", message: "the rename operation failed.", preferredStyle: UIAlertControllerStyle.alert)
+            
+            renameAlert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+            }))
+            
+        viewController.present(renameAlert, animated: true, completion: nil)
+       
+    }
     
     //should only be available when open
-    static func handlePaper(change: PaperChange, grouping: inout Grouping, project: inout DeskProject, page: inout Paper){
+    func handlePaper(change: PaperChange, grouping: Grouping, project: DeskProject, page: Paper){
         switch (change){
             
         case .MovedBlock:
-            FileSystemInteractor.archivePageObjectsIntoTempFolder(for: page, project: project)
+            archivePageObjectsIntoTempFolder(for: page, project: project)
             break
             
         case .AddedStroke:
-            PaperInteractor.save(paper: &page, in: &project, in: &grouping)
-//            FileSystemInteractor.archiveJotView(for: page, project: project)
+            PaperInteractor.save(paper: page, in: project, in: grouping)
             break
             
-            
-        case .AddedImage:
-            FileSystemInteractor.archivePageObjectsIntoTempFolder(for: page, project: project)
+        case .MovedImage:
+            archivePageObjectsIntoTempFolder(for: page, project: project)
             break
             
         case .CreatedNewPage(let atIndex):
             //TODO add logic for inserting a page in the middle of a document
-            //
-            FileSystemInteractor.getPageDirectoryInTempFor(pageNo: atIndex, in: project)
-            
+            getPageDirectoryInTempFor(pageNo: atIndex, in: project)
             break
             
         default:
@@ -75,102 +102,128 @@ class FileSystemInteractor: NSObject {
     }
     
     //can also be reached from the fileExplorer
-    static func handleMeta( _ change: MetaChange, grouping: inout Grouping, project: inout DeskProject) throws {
+    func handleMeta(_ change: MetaChange, grouping: Grouping, project: DeskProject) -> Bool{
+        
         switch (change){
-            
-     
-        
-        case .MovedProject(let destinationGroupingName):
-            
-            //TODO go find the .zip file of the project and literally put it somewhere
-            
-            //now the meta data change
-            do{
-                try MetaDataInteractor.save(project: &project, intoGroupingWithName: destinationGroupingName)
-                try MetaDataInteractor.remove(project: project, from: &grouping)
-            } catch let error {
-                print(error.localizedDescription)
-            }
-            break
-            
-            
-        case .DeletedProject:
-            
-            //TODO: remove the .zip file from the Grouping's folder
-            try! MetaDataInteractor.remove(project: project, from: &grouping)
-
-            break
-            
-            
-   
-            
-        case .CreatedProject:
-            
-            //TODO: hmm should we add a .zip into
-            
-            MetaDataInteractor.save(project: &project, into: &grouping)
-            break
-            
-         
-        case .RenamedProject(let newName):
-            let oldName = project.getName()
-            //first let's find out if the project in question is the opened project
-            let projectIsOpen: Bool = ProjectFileInteractor.isOpenInTemp(project: oldName)
-            //second let's find out if there is a file open with our desired Name, I'm not sure how this would happen, but it is possible
-            let newProjectNameIsTakeInTemp: Bool = ProjectFileInteractor.isOpenInTemp(project: newName)
-            
-            do{
-                try MetaDataInteractor.rename(project: &project, to: newName, in: &grouping)
-            } catch let error {
-                throw error
-            }
-            
-            
-            if(newProjectNameIsTakeInTemp){
-                abort() // nameTaken, invalid state
-            }
-            
-            //TODO: Fix this project open vs. zipped rename
-            if (projectIsOpen) {
-                //here we will change the name of the directory in Temp
-                ProjectFileInteractor.renameProjectDirectoryInTemp(oldName: oldName, newName: newName)
+            case .MovedProject(let destinationGroupingName):
                 
-                //TODO add the capability to change the name of the project's zip while it is open, or not saved yet
-            } else {
-                //project isn't open, find it in grouping folder, and change the name of the .zip
-                ProjectFileInteractor.renameProjectZipInGroupingFolder(oldProjectName: oldName, newProjectName: newName, in: grouping.getName())
-            }
-            break
+                let sourceURL = ProjectFileInteractor.getURLofFolderForProjectInGroupingsFile(in: grouping, project: project)
+                let destURL = URL(fileURLWithPath: PathLocator.getProjectsFolderFor(groupingName: destinationGroupingName))
+                
+                do {
+                    try FileManager.default.moveItem(at: sourceURL, to: destURL.appendingPathComponent(sourceURL.lastPathComponent))
+                    
+                    MetaDataInteractor.remove(project: project, from: grouping)
+                    try MetaDataInteractor.save(project: project, intoGroupingWithName: destinationGroupingName)
+                    
+                    
+                } catch DeskFileSystemError.MissingFolderWithProjectContents {
+                    showErrorMessageWithText("Missing Folder with Project Contents")
+                } catch DeskFileSystemError.NoGroupingMetaFileWithName {
+                    
+                } catch DeskFileSystemError.ProjectNameTakenInGrouping(let incomingProjectName) {
+                    showErrorMessageWithText("There already is a project named " + incomingProjectName + "in " + destinationGroupingName)
+                    try? FileManager.default.moveItem(at: destURL.appendingPathComponent(sourceURL.lastPathComponent), to: sourceURL )
+                    try? MetaDataInteractor.save(project: project, into: grouping)
+                } catch let e {
+                    showMessageFor(e)
+                }
+                break
             
             
-        case .DeletedGrouping:
-            MetaDataInteractor.remove(grouping: grouping)
-            break
-        
-        
-        case .RenamedGrouping(let newName):
-            do {
-                try MetaDataInteractor.rename(grouping: &grouping, to: newName)
-            } catch let error {
-                print(error.localizedDescription)
+            case .DeletedProject:
+                
+                //TODO: remove the .zip file from the Grouping's folder
+                do {
+                    try MetaDataInteractor.remove(project: project, from: grouping)
+                } catch let e {
+                    showMessageFor(e)
+                }
+                break
+            
+            case .CreatedProject:
+                //TODO: hmm should we add a .zip into
+                do {
+                    try MetaDataInteractor.save(project: project, into: grouping)
+                } catch let e {
+                    showMessageFor(e)
+                }
+                break
+            
+            case .RenamedProject(let newName, let isOpen):
+                let oldName = project.getName()
+                
+                do{
+                    //find out if there is a Project folder in the grouping
+                    let projectFolderExistsinGrouping = ProjectFileInteractor.isFolderIn(grouping: grouping , with: oldName)
+                    
+                    
+                    //always going to need to rename MetaData
+                    try MetaDataInteractor.rename(project: project, to: newName, in: grouping)
+                    
+                    if (isOpen) {
+                        // let's find out if there is a project with a name that we want in Temp
+                        // since this is a freak state, we should handle it by moving that other
+                        let isDesiredNameTakenInTemp: Bool = ProjectFileInteractor.isFolderInTemp(project: newName)
+                        if (isDesiredNameTakenInTemp) { removeFolderFromTemp(withName: newName) }
+                        //here we will change the name of the directory in Temp
+                        try ProjectFileInteractor.renameProjectDirectoryInTemp(oldName: oldName, newName: newName)
+                        
+                        if(projectFolderExistsinGrouping){
+                        try ProjectFileInteractor.renameProjectFolderInGroupingFolder(oldProjectName: oldName,newProjectName: newName,in: grouping.getName())
+                        }
+                        
+                        //TODO: rename when the project hasn't been put in the Grouping Storage folder
+                    } else {
+                        //project isn't open, find it in grouping folder, and change the name of the folder
+                        try ProjectFileInteractor.renameProjectFolderInGroupingFolder(oldProjectName: oldName, newProjectName: newName, in: grouping.getName())
+                    }
+                    return true
+                } catch DeskFileSystemError.ProjectNameTakenInGrouping(let desiredName) {
+                    //normal error, life is fine, we also never tried renaming something in the file system
+                    showCantRenameError()
+                    return false
+                } catch let e {
+                    // rename operation failed after the MetaData was changed, revert it
+                    try! MetaDataInteractor.rename(project: project, to: oldName, in: grouping)
+                    showMessageFor(e)
+                }
+                break
+            
+            
+            case .DeletedGrouping:
+                do {
+                    try MetaDataInteractor.remove(grouping: grouping)
+                } catch let e {
+                    showMessageFor(e)
+                }
+                break
+            
+            
+            case .RenamedGrouping(let newName):
+                do {
+                    try MetaDataInteractor.rename(grouping: grouping, to: newName)
+                } catch let e {
+                    showMessageFor(e)
+                }
+                break
+            
+            
+            case .CreatedGrouping:
+                do {
+                    try MetaDataInteractor.saveMetaData(of: grouping)
+                } catch let e {
+                    showMessageFor(e)
             }
-            break
-        
-        
-        case .CreatedGrouping:
-            do {
-                try MetaDataInteractor.saveMetaData(of: grouping)
-            } catch let error {
-                print(error.localizedDescription)
+                break
+            
+            default:
+                //not found
+                //mix of overloaded parameters and cases
+                abort()
+                break
         }
-            break
-        
-        default:
-            //not found
-            //mix of overloaded parameters and cases
-            abort()
-            break
-        }
+        return true
     } //end of function
     /*
     static func findAndLoad(project: String,in grouping: String, to page: Int, ){
@@ -179,12 +232,23 @@ class FileSystemInteractor: NSObject {
     }
 */
     
-    static func afterLoading(pageNo: Int, inProject: String, fromGrouping: String, run loadingCompletionBlock: (inout Grouping,inout DeskProject,inout Paper, inout [Paper]) -> ()){
+    func removeFolderFromTemp(withName name: String) {
+        let tempPath = PathLocator.getMetaFolder()
+        let urlWithFolder = URL(fileURLWithPath: tempPath + "/" + name, isDirectory: true)
+        do {
+        try FileManager.default.removeItem(at: urlWithFolder)
+        } catch let e {
+            showMessageFor(e)
+        }
+    }
+    
+    
+    func afterLoading(pageNo: Int, inProject: String, fromGrouping: String, run loadingCompletionBlock: (inout Grouping,inout DeskProject,inout Paper, inout [Paper]) -> ()){
         
         let fileManager = FileManager.default
         
         var grouping = try! MetaDataInteractor.getGrouping(withName: fromGrouping)
-        let groupingProjects = grouping!.projects!
+        let groupingProjects = grouping.projects
         
         var seekForProject: DeskProject?
         for project in groupingProjects {
@@ -196,7 +260,7 @@ class FileSystemInteractor: NSObject {
         
         //go get the zipped file of the same name as the DeskProject which will be in this Grouping's folder, load that thing in to the Temp Folder
         do {
-        try getProjectFilesFromGroupingAndThenUnzipIntoTemp(project: seekForProject!, grouping: grouping!)
+        try getProjectFolderFromGroupingAndCopyToTemp(project: seekForProject!, grouping: grouping)
         } catch let e {
             print( e.localizedDescription )
         }
@@ -220,24 +284,24 @@ class FileSystemInteractor: NSObject {
             }
             i += 1
         }
-        loadingCompletionBlock(&grouping!, &seekForProject!, &pages[pageNo - 1], &pages)
+        loadingCompletionBlock(&grouping, &seekForProject!, &pages[pageNo - 1], &pages)
 
     }
     
     
-    static func getMetaData() -> [Grouping] {
+    func getMetaData() -> [Grouping] {
         
         let groupings = MetaDataInteractor.retrieveAllGroupingMetaData()
         return groupings
     }
     
-    static func getProjectDirectoryInTemp(project: DeskProject) -> String {
+    func getProjectDirectoryInTemp(project: DeskProject) -> String {
         
         let path = try! ProjectFileInteractor.makeProjectDirectoryInTemp(withName: project.getName())
         return path
     }
     
-    static func getPageDirectoryInTempFor(pageNo: Int, in project: DeskProject)-> String {
+    func getPageDirectoryInTempFor(pageNo: Int, in project: DeskProject)-> String {
         let fileManager = FileManager.default
         let projectDirInTemp = getProjectDirectoryInTemp(project: project)
         let proposedPageDir = projectDirInTemp + "/page" + String(pageNo)
@@ -266,27 +330,22 @@ class FileSystemInteractor: NSObject {
         return proposedPageDir
     }
     
-    static func archivePageObjectsIntoTempFolder(for page: Paper, project: DeskProject){
+    func archivePageObjectsIntoTempFolder(for page: Paper, project: DeskProject){
         let pageDirectory = getPageDirectoryInTempFor(pageNo: page.getPageNumber(), in: project)
         NSKeyedArchiver.archiveRootObject(page, toFile: pageDirectory + "/page.desk")
     }
     
-    static func archiveJotView(for page: Paper, project: DeskProject){
+    func archiveJotView(for page: Paper, project: DeskProject){
         let pageDirectory = getPageDirectoryInTempFor(pageNo: page.getPageNumber(), in: project)
         JotFilesInteractor.saveDrawing(for: page, in: project)
        // page.saveDrawing(at: pageDirectory)
         
     }
     
-    
-    static func zipProjectFromTempFolderAndPlaceInGroupingFolder(project: DeskProject, grouping: Grouping) throws -> String  {
-        let tempFolderPath = PathLocator.getTempFolder()
+    func ensureDirectoriesExist(_ projectFolderPathInTemp: String, _ groupingFolder: String ) throws{
         let fileManager = FileManager.default
-        let projectFolderPathInTemp = tempFolderPath + "/" + project.getName()
         var isDirectoryBool: ObjCBool = ObjCBool(false)
         
-        let groupingFolder = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
-
         if(!fileManager.fileExists(atPath: projectFolderPathInTemp, isDirectory: &isDirectoryBool)) {
             throw DeskFileSystemError.NeededDirectoryIsMissing
         }
@@ -296,53 +355,80 @@ class FileSystemInteractor: NSObject {
         if (!isDirectoryBool.boolValue){
             throw DeskFileSystemError.NeededDirectoryIsMissing
         }
+    }
+    
+    func moveProjectFromTempFolderAndPlaceInGroupingFolder(project: DeskProject, grouping: Grouping) throws {
+        let tempFolderPath = PathLocator.getTempFolder()
+        let fileManager = FileManager.default
+        let projectFolderPathInTemp = tempFolderPath + "/" + project.getName()
+        let groupingFolder = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
 
+        do {
+            try ensureDirectoriesExist(projectFolderPathInTemp, groupingFolder)
+        } catch let e {
+            showMessageFor(e)
+        }
         // now we know that there are two DIRECTORIES, one is the project Folder in TEMP
         // which we will zip and the other is the Grouping's Folder where the zipped projects live
         
-        let zipFilePath =  URL(fileURLWithPath: groupingFolder).appendingPathComponent(project.getName()+".edf")
-      
-        try! Zip.zipFiles(paths: [URL(fileURLWithPath:projectFolderPathInTemp)], zipFilePath: zipFilePath, password: nil, progress: nil)
-        
-        //what about overwrites?
-        return groupingFolder + "/" + project.getName()
+        let destinationPath =  URL(fileURLWithPath: groupingFolder).appendingPathComponent(project.getName())
+        let sourcePath = URL(fileURLWithPath: projectFolderPathInTemp)
+     
+        do {
+            try fileManager.moveItem(at: sourcePath, to: destinationPath)
+        } catch let e {
+            do {
+                try fileManager.replaceItemAt(destinationPath, withItemAt: sourcePath)
+            } catch let e {
+                showMessageFor(e)
+            }
+        }
+       
     }
     
-    static func getProjectFilesFromGroupingAndThenUnzipIntoTemp(project: DeskProject, grouping: Grouping) throws {
+    func getProjectFolderFromGroupingAndCopyToTemp(project: DeskProject, grouping: Grouping) throws {
         
         let tempFolderPath = PathLocator.getTempFolder()
         let fileManager = FileManager.default
-       // let projectFolderPathInTemp = tempFolderPath + "/" + project.getName()
-        var isDirectoryBool: ObjCBool = ObjCBool(false)
         
         let groupingFolder = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
-        let projectFilePath = groupingFolder + "/" + project.getName() + ".edf"
+        let projectFolderPath = groupingFolder + "/" + project.getName()
         
-        if(!fileManager.fileExists(atPath: groupingFolder, isDirectory: &isDirectoryBool)){
-            throw DeskFileSystemError.NeededDirectoryIsMissing
-        }
-        if (!isDirectoryBool.boolValue){
-            throw DeskFileSystemError.NeededDirectoryIsMissing
-        }
-        if (!fileManager.fileExists(atPath:projectFilePath)){
-            throw DeskFileSystemError.MissingDZIPFileWithProjectContents
+        do{
+            try ensureDirectoriesExist(tempFolderPath, groupingFolder)
+        } catch let e {
+            showMessageFor(e)
         }
         
-     //   Zip.un
-        //all good, lets unzip into a directory
+        if (!fileManager.fileExists(atPath:projectFolderPath)){
+            throw DeskFileSystemError.MissingFolderWithProjectContents
+        }
+        
+        let sourceURL = URL(fileURLWithPath: projectFolderPath)
+        let folderSpecificPathComponent = sourceURL.lastPathComponent
+        let destinationURL = URL(fileURLWithPath: tempFolderPath).appendingPathComponent(folderSpecificPathComponent)
+ 
+        //all good, lets move into a directory
         do {
-             try Zip.unzipFile(URL(fileURLWithPath: projectFilePath), destination: URL(fileURLWithPath:tempFolderPath), overwrite: true, password: nil)
-        } catch let error {
-            print(error.localizedDescription)
+            try fileManager.copyItem(at: sourceURL, to: destinationURL)
+        } catch let e {
+            showMessageFor(e)
         }
     }
     
     
     ///this function is only concerned with the Meta Data
-    static func handleFirstProjectEdit(grouping: inout Grouping, project: inout DeskProject, page: inout Paper){
+    func handleFirstProjectEdit(grouping: Grouping, project: DeskProject, page: Paper){
         let change = MetaChange.CreatedProject
         //1. add the project to the grouping
-        try! FileSystemInteractor.handleMeta(change, grouping: &grouping, project: &project)
+        do {
+            try handleMeta(change, grouping: grouping, project: project)
+        } catch DeskFileSystemError.FileNameIsTakeDuringRenameOperation(let takenName) {
+            showErrorMessageWithText("name is taken" + takenName)
+        } catch let e {
+            showMessageFor(e)
+        }
+        
         //2. write the grouping's meta file to the Meta Folder
         
         //3. 
@@ -352,37 +438,152 @@ class FileSystemInteractor: NSObject {
     }
     
     /// only is concerned with Temp folder
-    static func handleFirstPageEdit(project: inout DeskProject, page: inout Paper){
+    func handleFirstPageEdit(project: DeskProject, page: Paper){
         getPageDirectoryInTempFor(pageNo: page.getPageNumber(), in: project)
-        
-        
+        archivePageObjectsIntoTempFolder(for: page, project: project)
     }
     
-    static func removeProjectFromTemp(project: DeskProject){
-        let tempFolderPath = PathLocator.getTempFolder()
-        let fileManager = FileManager.default
-        try! fileManager.removeItem(atPath: tempFolderPath + "/" + project.getName())
-    }
-    
-    static func emptyTempByZippingOpenProjects(into grouping: inout Grouping){
-        let tempFolderPath = PathLocator.getTempFolder()
-        let fileManager = FileManager.default
-        let namesOfProjects = try! fileManager.contentsOfDirectory(atPath: tempFolderPath)
-        
-        
-        //TODO: fix the bug where someone kills Desk with a project open, and that project hasn't been written to zip
-        // upon re-open, Desk takes all the temp folders and zips them, storing them in the default grouping, if it encounters a folder with the same name as a project in the Grouping it appends the (#) to the folder name and creates a project with that new name
-        for name in namesOfProjects {
-            var project = DeskProject(name: name)
-            let change = MetaChange.CreatedProject
-            try! handleMeta(change, grouping: &grouping, project: &project)
-            if (name != project.getName()){
-                try! fileManager.moveItem(atPath: tempFolderPath + "/" + name, toPath: tempFolderPath + "/" + project.getName())
+    func detectMissingProjects() -> [(Grouping, DeskProject)]{
+        var missingGroupingProjectPairs = [(Grouping, DeskProject)]()
+        let groupings = getMetaData()
+        for grouping in groupings {
+            for project in grouping.projects {
+                do {
+                    try ProjectFileInteractor.getURLofFolderForProjectInGroupingsFile(in: grouping, project: project)
+                } catch DeskFileSystemError.MissingFolderWithProjectContents {
+                    //Project Folder is missing
+                    missingGroupingProjectPairs.append((grouping,project))
+                } catch let e {
+                    print(e.localizedDescription)
+                }
             }
-            try! zipProjectFromTempFolderAndPlaceInGroupingFolder(project: project, grouping: grouping)
-            removeProjectFromTemp(project: project)
+        }
+        return missingGroupingProjectPairs
+    }
+    
+    func moveToFillSpotInGrouping(_ missingGroupingProjectPairs: [(Grouping, DeskProject)],lookupValue:(groupingNameForPage: String, projectNameFromTemp: String)) -> Bool {
+        
+        for pair in missingGroupingProjectPairs {
+            if (pair.0.getName() == lookupValue.groupingNameForPage) && (pair.1.getName() == lookupValue.projectNameFromTemp) {
+                //found match
+                //move the project folder there
+                do {
+                    try moveProjectFromTempFolderAndPlaceInGroupingFolder(project: pair.1, grouping: pair.0)
+                } catch let e {
+                    showMessageFor(e)
+                    return false
+                }
+                removeProjectFromTemp(project: pair.1)
+                return true
+            }
+        }
+        return false
+    }
+    
+    func moveProjectFolderToGroupingFolderIfAProjectExists(in grouping: Grouping, with projectName: String) -> Bool{
+        for project in grouping.projects {
+            if(project.getName() == projectName){
+                //found a project with the same name
+                do {
+                    try moveProjectFromTempFolderAndPlaceInGroupingFolder(project: project, grouping: grouping)
+                } catch let e {
+                    showMessageFor(e)
+                    return false
+                }
+                removeProjectFromTemp(project: project)
+                return true
+            }
+        }
+        return false
+    }
+    
+    // upon re-open, Desk takes all the temp folders and trys to find where they belong
+    func saveLostState() throws {
+        let fileManager = FileManager.default
+        let tempFolderPath = PathLocator.getTempFolder()
+        let projectsMissingFromGroupings = detectMissingProjects()
+        
+        guard let namesOfFoldersInTemp = try? fileManager.contentsOfDirectory(atPath: tempFolderPath) else {
+            throw DeskFileSystemError.CouldNotGetNamesOfFoldersInTemp
         }
         
+        let groupings = getMetaData()
+        for folderName in namesOfFoldersInTemp {
+            
+            //get an desk.archive object and read it
+            let pathToArchiveObject = tempFolderPath + "/" + folderName + "/" + Constants.DESK_ARTIFACT_PATH_COMPONENT
+            guard let archiveObject = try? ArchiveInteractor.getDeskArchive(at: pathToArchiveObject) else {
+                continue
+            }
+            
+            //get the grouping which it says it belongs to
+            let groupingNameForProject = archiveObject.grouping
+            
+            for grouping in groupings {
+               
+                //see is there is a match with any of the projects in this grouping
+                if(moveToFillSpotInGrouping(projectsMissingFromGroupings, lookupValue:(groupingNameForProject,folderName))){
+                    //folderName was found to live in grouping and has been zipped up there
+                    continue //move to the next projectName
+                }
+                
+                //there was no missing DZIP for the (projectName, grouping) combo
+                //overwrite anything with the same name
+                if(grouping.getName() == groupingNameForProject){
+                    //the project says that it lives in this grouping
+                    //let's check
+                    if(moveProjectFolderToGroupingFolderIfAProjectExists(in: grouping, with: folderName)){
+                        continue
+                    }
+                    
+                    // now we are left with an open project in Temp which thinks it lives in this grouping
+                    // but the grouping doesn't know about it
+                    var project = DeskProject(name: folderName, ownedByGrouping: grouping.getName())
+                    let change = MetaChange.CreatedProject
+                    do {
+                        try handleMeta(change, grouping: grouping, project: project)
+                    } catch let e {
+                        showMessageFor(e)
+                    }
+                    
+                    // this doubtful since we just iterated through the grouping
+                    // searching for this name, but somehow
+                    // the name that was given to the project during
+                    // "created project"
+                    // did not endup as the same name
+                    // it entered with
+                    if (folderName != project.getName()){
+                        do {
+                            // handle the changing of the name at a directory level
+                            try fileManager.moveItem(atPath: tempFolderPath + "/" + folderName, toPath: tempFolderPath + "/" + project.getName())
+                        } catch let e {
+                            showMessageFor(e)
+                        }
+                    }
+                    
+                    do {
+                        try moveProjectFromTempFolderAndPlaceInGroupingFolder(project: project, grouping: grouping)
+                    } catch let e {
+                        showMessageFor(e)
+                    }
+                    removeProjectFromTemp(project: project)    
+                }
+            }
+        }
     }
     
+    func removeProjectFromTemp(project: DeskProject){
+        let tempFolderPath = PathLocator.getTempFolder()
+        let fileManager = FileManager.default
+        do {
+            try fileManager.removeItem(atPath: tempFolderPath + "/" + project.getName())
+        } catch let e {
+            showMessageFor(e)
+        }
+    }
+    
+    init( _ viewController: UIViewController) {
+        self.viewController = viewController
+        super.init()
+    }
 }

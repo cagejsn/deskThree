@@ -434,8 +434,7 @@ class AllPad: InputObject, MathEntryAreaDelegate {
         })
     }
     @IBAction func addTextToEntryArea( _ sender: UIButton) {
-        mixpanel.track(event: "Button: Calculator: Add Text")
-
+        AnalyticsManager.track(.Input(sender.titleLabel!.text!))
         numEntryAreaText += sender.titleLabel!.text!
         UIView.performWithoutAnimation({
             self.numEntryArea.setTitle(self.numEntryAreaText, for: UIControlState.normal);
@@ -444,13 +443,16 @@ class AllPad: InputObject, MathEntryAreaDelegate {
     }
     
     @IBAction func equalsButtonPushed( _ sender: UIButton){
-        mixpanel.track(event: "Button: Calculator: Equals")
+        
+       
         
         let emptyString = (checkTextAreaIsEmpty(text: numEntryAreaText))
         if emptyString {
-            let parser: Parser = Parser(functionString: (self.numEntryArea.titleLabel?.text)!)
+            let input = (self.numEntryArea.titleLabel?.text)!
+            let parser: Parser = Parser(functionString: input)
             do {
                 try parser.parserPlot(start: 1, end: 2, totalSteps: 3)
+                 AnalyticsManager.track(.Equals(input))
             } catch MathError.missingOperand {
                 mixpanel.track(event: "Error: Missing Operand")
                 print("Missing operand, abort")

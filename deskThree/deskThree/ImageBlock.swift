@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import Mixpanel
 
 protocol ImageBlockDelegate: NSObjectProtocol {
     func fixImageToPage(image: ImageBlock)
@@ -30,13 +29,9 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     weak var delegate: ImageBlockDelegate! = nil
     var previousRotation: CGFloat = 0
 
-    // Mixpanel initialization
-    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
 
     //MARK: Custom Methods
     func toggleEditable(){
-        mixpanel.track(event: "Gesture: Image: Toggle Editable")
-
         if (!editable) {
             self.layer.borderWidth = 3
             self.layer.borderColor = UIColor.purple.cgColor
@@ -44,12 +39,12 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
             rotationGestureRecognizer.isEnabled = true
             doubleTapGestureRecognizer?.isEnabled = true
             editable = true
-            delegate!.freeImageForMovement(image: self)
+//            delegate!.freeImageForMovement(image: self)
             isUserInteractionEnabled = true
         } else {
             self.layer.borderColor = UIColor.clear.cgColor
             editable = false
-            delegate!.fixImageToPage(image: self)
+//            delegate!.fixImageToPage(image: self)
             zoomGR?.isEnabled = false
             rotationGestureRecognizer.isEnabled = false
             doubleTapGestureRecognizer?.isEnabled = false
@@ -58,7 +53,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
         }
         // This function is called so that the updated editable value is encoded
         // Find a better way to do this in the future
-        delegate.didCompleteMove(movedView: self)
+//        delegate.didCompleteMove(movedView: self)
     }
     
     func isEditable()->Bool{
@@ -70,14 +65,14 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
             superview!.bringSubview(toFront: self)
-            delegate.didBeginMove(movedView: self)
+//            delegate.didBeginMove(movedView: self)
         }
     }
     
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
-            delegate.didIncrementMove(movedView: self)
+//            delegate.didIncrementMove(movedView: self)
             let touch: AnyObject = touches.first as UITouch!
             let currentTouch = touch.location(in: self)
             let previousTouch = touch.previousLocation(in: self)
@@ -91,7 +86,7 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if(editable){
-        delegate.didCompleteMove(movedView: self)
+//        delegate.didCompleteMove(movedView: self)
         }
     }
     
@@ -106,7 +101,6 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     }
         
     func handleRotate( sender: UIRotationGestureRecognizer){
-        mixpanel.track(event: "Gesture: Image: Handle Rotate")
         let dR = sender.rotation - previousRotation
         previousRotation = sender.rotation
         self.imageHolder.transform = self.imageHolder.transform.rotated(by: dR)
@@ -116,7 +110,6 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     }
 
     func handlePinch( sender: UIPinchGestureRecognizer){
-        mixpanel.track(event: "Gesture: Image: Handle Pinch")
 
         if (editable) {
             if (sender.state == UIGestureRecognizerState.changed) {
@@ -132,7 +125,6 @@ class ImageBlock: UIView, UIGestureRecognizerDelegate {
     
 
     func setImage(image: UIImage){
-        mixpanel.track(event: "Gesture: Image: Set Image")
 
         imageHolder.image = image
     }

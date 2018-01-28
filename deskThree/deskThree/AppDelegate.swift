@@ -13,9 +13,6 @@ import SlideMenuControllerSwift
 import Zip
 import FBSDKCoreKit
 
-#if !DEBUG
-import Mixpanel
-#endif
     
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,27 +20,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var dvc: DeskViewController!
     
-    #if !DEBUG
-    var mixpanel = Mixpanel.initialize(token: "4282546d172f753049abf29de8f64523")
-    #endif
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self, Answers.self])
         Answers.logCustomEvent(withName: "App Started", customAttributes: nil)
-        
+        print(UIScreen.main.scale)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
+        
         
         print(Zip.isValidFileExtension("edf"))
         Zip.addCustomFileExtension("edf")
         print(Zip.isValidFileExtension("edf"))
         
+        
         // Override point for customization after application launch.
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        #if !DEBUG
-            mixpanel.track(event: "App Opened")
-        #endif
         
         dvc = DeskViewController()
         let hmc = HamburgerMenuViewController()
@@ -89,17 +82,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
-        #if !DEBUG
-            Mixpanel.mainInstance().people.increment(property: "Times app launched", by: 1)
-        #endif
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 
-        #if !DEBUG
-            Mixpanel.mainInstance().people.increment(property: "Times app terminated", by: 1)
-        #endif
     }
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
@@ -114,15 +101,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
         
-        
         let substringIndex = fileNameWithType.index(fileNameWithType.endIndex, offsetBy: -4)
         let fileName = fileNameWithType.substring(to: substringIndex )
         
         var sharedGrouping = MetaDataInteractor.getSharedWithMeGrouping()
-        var project = DeskProject(name: fileName)
+        var project = DeskProject(name: fileName, ownedByGrouping: sharedGrouping.getName())
         
         let change = MetaChange.CreatedProject
-        try! FileSystemInteractor.handleMeta(change, grouping: &sharedGrouping, project: &project)
+        
+        do {
+            try MetaDataInteractor.save(project: project, into: sharedGrouping)
+        } catch let e {
+            print(e.localizedDescription)
+        }
+            //            try fileSystemInteractor.handleMeta(change, grouping: sharedGrouping, project: project)
+        
         
         let groupingsFolder = PathLocator.getProjectsFolderFor(groupingName: sharedGrouping.getName())
         let newPath = URL(fileURLWithPath: groupingsFolder + "/" + fileNameWithType)
