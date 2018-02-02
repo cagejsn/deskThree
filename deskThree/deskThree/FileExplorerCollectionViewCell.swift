@@ -17,7 +17,7 @@ protocol FECVEDelegate {
 
 class FileExplorerCollectionViewCell: UICollectionViewCell, ProjectOptionsMenuDelegate{
     
-    var project: DeskProject!
+    var artifact: DeskArtifact!
     
     @IBOutlet  fileprivate var fileThumbnail: FileThumbnailButton?
     
@@ -66,10 +66,10 @@ class FileExplorerCollectionViewCell: UICollectionViewCell, ProjectOptionsMenuDe
         
     }
     
-    func readInData( project: DeskProject){
-        self.project = project
-        projectNameLabel.text = project.getName()
-        lastModifiedLabel.text = project.getName()
+    func readInData( artifact: DeskArtifact){
+        self.artifact = artifact
+        projectNameLabel.text = artifact.getName()
+        lastModifiedLabel.text = artifact.modified.description(with: Locale.current)
     }
     
     

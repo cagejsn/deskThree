@@ -9,18 +9,17 @@
 import Foundation
 
 protocol ProjectInteractionListener {
-    func onProjectSelected(_ selectedGrouping: Grouping, _ selectedProject: DeskProject)
-    func showRenamePrompt(_ project: DeskProject)
-    func doMoveProject(_ project: DeskProject)
-    func doDeleteProject(_ project: DeskProject)
-    func doShareProject(_ projectCell: FileExplorerCollectionViewCell)
+    func onArtifactSelected(_ selectedGrouping: Grouping, _ selectedArtifact: DeskArtifact)
+    func showRenamePrompt(_ artifact: DeskArtifact)
+    func doMoveProject(_ artifact: DeskArtifact)
+    func doDeleteProject(_ artifact: DeskArtifact)
+    func doShareArtifact(_ artifactCell: FileExplorerCollectionViewCell)
     func doMakeNewProjectInSelectedGrouping(_ grouping: Grouping)
 }
 
 class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, FECVEDelegate {
     
-    fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
-
+    fileprivate let sectionInsets = FileExplorerConstants.FILE_EXPLORER_EDGE_INSETS
     var projectInteractionListener: ProjectInteractionListener
     var selectedGrouping: Grouping!
     
@@ -34,10 +33,10 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let row = indexPath.row
-        var projectsCount = selectedGrouping?.projects.count
+        var projectsCount = selectedGrouping?.artifacts.count
         let isNew = projectsCount == nil ? true :
             { () -> Bool in
-            if row  == selectedGrouping!.projects.count {
+            if row  == selectedGrouping!.artifacts.count {
                 //new project
                 return true
             }
@@ -49,12 +48,12 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
             return
         }
         
-        let projects = selectedGrouping.projects
-        projectInteractionListener.onProjectSelected(selectedGrouping, projects[indexPath.row])
+        let projects = selectedGrouping.artifacts
+        projectInteractionListener.onArtifactSelected(selectedGrouping, projects[indexPath.row])
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = ( selectedGrouping == nil ) ? 0 : selectedGrouping.projects.count + 1
+        let count = ( selectedGrouping == nil ) ? 0 : selectedGrouping.artifacts.count + 1
         return count
     }
     
@@ -65,7 +64,7 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         var newProjectSpot: Int = 0
-        if selectedGrouping != nil { newProjectSpot = (selectedGrouping?.projects.count)! }
+        if selectedGrouping != nil { newProjectSpot = (selectedGrouping?.artifacts.count)! }
         
         if(indexPath.row == newProjectSpot){
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FileExplorerViewController.reuseIdentifier2, for: indexPath)
@@ -77,7 +76,7 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
         if let fecve = cell as? FileExplorerCollectionViewCell {
             print(fecve.isUserInteractionEnabled)
             fecve.delegate = self
-            fecve.readInData(project: selectedGrouping.projects[indexPath.row])
+            fecve.readInData(artifact: selectedGrouping.artifacts[indexPath.row])
         }
         return cell
     }
@@ -96,7 +95,7 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
       
-        return CGSize(width: 200   , height: 200)
+        return CGSize(width: FileExplorerConstants.FILE_EXPLORER_VIEW_CELL_WIDTH , height: FileExplorerConstants.FILE_EXPLORER_VIEW_CELL_HEIGHT)
     }
     
     //3
@@ -115,20 +114,18 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
     
     //MARK: FECVCDelegate Method Stubs
     func renameTappedForCell(_ cell: FileExplorerCollectionViewCell) {
-        projectInteractionListener.showRenamePrompt(cell.project)
+        projectInteractionListener.showRenamePrompt(cell.artifact)
     }
     
     func onMoveTapped(_ cell: FileExplorerCollectionViewCell) {
-        projectInteractionListener.doMoveProject(cell.project)
+        projectInteractionListener.doMoveProject(cell.artifact)
     }
     
     func onDeleteTapped(_ cell: FileExplorerCollectionViewCell) {
-        projectInteractionListener.doDeleteProject(cell.project)
+        projectInteractionListener.doDeleteProject(cell.artifact)
     }
     
     func onShareTapped(_ cell: FileExplorerCollectionViewCell) {
-        projectInteractionListener.doShareProject(cell)
+        projectInteractionListener.doShareArtifact(cell)
     }
-    
-    
 }

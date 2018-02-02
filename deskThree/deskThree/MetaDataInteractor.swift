@@ -41,7 +41,7 @@ class MetaDataInteractor: NSObject {
     static func rename(project: DeskProject, to newName: String, in grouping: Grouping) throws {
         let projectName = project.getName()
         let groupingName = grouping.getName()
-        var projects = grouping.getProjects()
+        var projects = grouping.getArtifacts()
         let filePath = PathLocator.getMetaFolder()+"/"+groupingName+".meta"
         
         var desiredProjectNameIsTaken: Bool = false
@@ -74,7 +74,7 @@ class MetaDataInteractor: NSObject {
     }
     
     static func remove(project: DeskProject, from grouping: Grouping) {
-        grouping.removeProject(project)
+        grouping.removeArtifact(project)
         saveMetaData(of: grouping)
     }
     
@@ -85,7 +85,7 @@ class MetaDataInteractor: NSObject {
         let grouping: Grouping?
         if(!fileManager.fileExists(atPath: filePath)){
             //no Grouping with destination name
-            PathLocator.getProjectsFolderFor(groupingName: groupingName)
+            PathLocator.getArtifactsFolderFor(groupingName: groupingName)
             grouping = Grouping(name: groupingName)
         } else {
             grouping = NSKeyedUnarchiver.unarchiveObject(withFile: filePath) as? Grouping
@@ -93,7 +93,7 @@ class MetaDataInteractor: NSObject {
         if let grouping = grouping as! Grouping! {
             let incomingProjectName = project.getName()
             if(!isProjectNameTakenIn(grouping: grouping, name: incomingProjectName)){
-            grouping.addProject(project)            
+            grouping.addArtifact(project)            
             project.setOwnedByGroupingName(newGroupingOwner: grouping.getName())
             saveMetaData(of: grouping)
             } else {
@@ -103,7 +103,7 @@ class MetaDataInteractor: NSObject {
     }
     
     static func isProjectNameTakenIn(grouping: Grouping, name: String) -> Bool {
-        let projects = grouping.projects
+        let projects = grouping.artifacts
         for i in 0..<projects.count{
             if (projects[i].getName() == name) {
                 return true
@@ -114,7 +114,7 @@ class MetaDataInteractor: NSObject {
     
     static func save(project openProject: DeskProject, into grouping: Grouping) throws {
         let openProjectName = openProject.getName()
-        var projects = grouping.getProjects()
+        var projects = grouping.getArtifacts()
         
         var projectNameIsTaken = true
         var attemptsToRename: Int = 0
@@ -132,7 +132,7 @@ class MetaDataInteractor: NSObject {
             projectNameIsTaken = false
         }
         
-        grouping.addProject(openProject)
+        grouping.addArtifact(openProject)
 
         openProject.setOwnedByGroupingName(newGroupingOwner: grouping.getName())
         
@@ -210,7 +210,7 @@ class MetaDataInteractor: NSObject {
     
     static func makeNewProjectOfFirstAvailableName(in grouping: Grouping) -> DeskProject {
         
-        let projectsInGrouping = grouping.projects
+        let projectsInGrouping = grouping.artifacts
         let numberOfProjects = projectsInGrouping.count
         var storedNamesWithUntitled = [String]()
         var storedNumbersWhichAreTaken = [Int]()

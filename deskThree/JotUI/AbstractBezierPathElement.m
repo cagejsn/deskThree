@@ -180,7 +180,7 @@
         width = [aDecoder decodeFloatForKey:@"width"];
 //        stepWidth = [aDecoder decodeFloatForKey:@"stepWidth"];
         
-        stepWidth = 0.3;
+        stepWidth = 0.4;
         extraLengthWithoutDot = [aDecoder decodeFloatForKey:@"extraLengthWithoutDot"];
         scaleOfVertexBuffer = [aDecoder decodeFloatForKey:@"scaleOfVertexBuffer"];
     }

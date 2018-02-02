@@ -14,6 +14,7 @@ enum PaperChange {
     case AddedStroke
     case MovedImage
     case CreatedNewPage(atIndex: Int)
+    case ClearedPage
 }
 
 enum MetaChange {
@@ -93,6 +94,10 @@ class FileSystemInteractor: NSObject {
             getPageDirectoryInTempFor(pageNo: atIndex, in: project)
             break
             
+        case .ClearedPage:
+            PaperInteractor.save(paper: page, in: project, in: grouping)
+            break
+            
         default:
             //not found
             //mix of overloaded parameters and cases
@@ -107,15 +112,14 @@ class FileSystemInteractor: NSObject {
         switch (change){
             case .MovedProject(let destinationGroupingName):
                 
-                let sourceURL = ProjectFileInteractor.getURLofFolderForProjectInGroupingsFile(in: grouping, project: project)
-                let destURL = URL(fileURLWithPath: PathLocator.getProjectsFolderFor(groupingName: destinationGroupingName))
+                let sourceURL = try! ProjectFileInteractor.getURLofFolderForArtifactInGroupingsFile(in: grouping, artifact: project)
+                let destURL = URL(fileURLWithPath: PathLocator.getArtifactsFolderFor(groupingName: destinationGroupingName))
                 
                 do {
                     try FileManager.default.moveItem(at: sourceURL, to: destURL.appendingPathComponent(sourceURL.lastPathComponent))
                     
                     MetaDataInteractor.remove(project: project, from: grouping)
                     try MetaDataInteractor.save(project: project, intoGroupingWithName: destinationGroupingName)
-                    
                     
                 } catch DeskFileSystemError.MissingFolderWithProjectContents {
                     showErrorMessageWithText("Missing Folder with Project Contents")
@@ -136,6 +140,10 @@ class FileSystemInteractor: NSObject {
                 //TODO: remove the .zip file from the Grouping's folder
                 do {
                     try MetaDataInteractor.remove(project: project, from: grouping)
+                    let sourceURL = try ProjectFileInteractor.getURLofFolderForArtifactInGroupingsFile(in: grouping, artifact: project)
+                    let fileManager = FileManager.default
+                    try fileManager.removeItem(at: sourceURL)
+                
                 } catch let e {
                     showMessageFor(e)
                 }
@@ -173,11 +181,15 @@ class FileSystemInteractor: NSObject {
                         try ProjectFileInteractor.renameProjectFolderInGroupingFolder(oldProjectName: oldName,newProjectName: newName,in: grouping.getName())
                         }
                         
+                        let artifactPath = PathLocator.getTempFolder() + "/" + project.getName() + "/" + Constants.DESK_ARTIFACT_PATH_COMPONENT
+                        ArchiveInteractor.put(project, at: artifactPath)
+                        
                         //TODO: rename when the project hasn't been put in the Grouping Storage folder
                     } else {
                         //project isn't open, find it in grouping folder, and change the name of the folder
                         try ProjectFileInteractor.renameProjectFolderInGroupingFolder(oldProjectName: oldName, newProjectName: newName, in: grouping.getName())
                     }
+                    
                     return true
                 } catch DeskFileSystemError.ProjectNameTakenInGrouping(let desiredName) {
                     //normal error, life is fine, we also never tried renaming something in the file system
@@ -248,12 +260,12 @@ class FileSystemInteractor: NSObject {
         let fileManager = FileManager.default
         
         var grouping = try! MetaDataInteractor.getGrouping(withName: fromGrouping)
-        let groupingProjects = grouping.projects
+        let groupingProjects = grouping.artifacts
         
         var seekForProject: DeskProject?
         for project in groupingProjects {
             if project.getName() == inProject{
-            seekForProject = project
+            seekForProject = project as? DeskProject
             break
             }
         }
@@ -266,6 +278,9 @@ class FileSystemInteractor: NSObject {
         }
         
         let projectPagesDirInTemp = getProjectDirectoryInTemp(project: seekForProject!)
+        
+        
+        
         let pagesAsStrings = try! fileManager.contentsOfDirectory(atPath: projectPagesDirInTemp)
         
         var pages = [Paper]()
@@ -357,11 +372,11 @@ class FileSystemInteractor: NSObject {
         }
     }
     
-    func moveProjectFromTempFolderAndPlaceInGroupingFolder(project: DeskProject, grouping: Grouping) throws {
+    func moveArtifactFromTempFolderAndPlaceInGroupingFolder(artifact: DeskArtifact, grouping: Grouping) throws {
         let tempFolderPath = PathLocator.getTempFolder()
         let fileManager = FileManager.default
-        let projectFolderPathInTemp = tempFolderPath + "/" + project.getName()
-        let groupingFolder = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
+        let projectFolderPathInTemp = tempFolderPath + "/" + artifact.getName()
+        let groupingFolder = PathLocator.getArtifactsFolderFor(groupingName: grouping.getName())
 
         do {
             try ensureDirectoriesExist(projectFolderPathInTemp, groupingFolder)
@@ -371,7 +386,7 @@ class FileSystemInteractor: NSObject {
         // now we know that there are two DIRECTORIES, one is the project Folder in TEMP
         // which we will zip and the other is the Grouping's Folder where the zipped projects live
         
-        let destinationPath =  URL(fileURLWithPath: groupingFolder).appendingPathComponent(project.getName())
+        let destinationPath =  URL(fileURLWithPath: groupingFolder).appendingPathComponent(artifact.getName())
         let sourcePath = URL(fileURLWithPath: projectFolderPathInTemp)
      
         do {
@@ -391,7 +406,7 @@ class FileSystemInteractor: NSObject {
         let tempFolderPath = PathLocator.getTempFolder()
         let fileManager = FileManager.default
         
-        let groupingFolder = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
+        let groupingFolder = PathLocator.getArtifactsFolderFor(groupingName: grouping.getName())
         let projectFolderPath = groupingFolder + "/" + project.getName()
         
         do{
@@ -439,26 +454,28 @@ class FileSystemInteractor: NSObject {
     
     /// only is concerned with Temp folder
     func handleFirstPageEdit(project: DeskProject, page: Paper){
+        
         getPageDirectoryInTempFor(pageNo: page.getPageNumber(), in: project)
         archivePageObjectsIntoTempFolder(for: page, project: project)
+        
     }
     
-    func detectMissingProjects() -> [(Grouping, DeskProject)]{
-        var missingGroupingProjectPairs = [(Grouping, DeskProject)]()
+    func detectGroupingsWithMissingProjects() -> [Grouping]{
+        var groupingsWithMissingProjects = [Grouping]()
         let groupings = getMetaData()
         for grouping in groupings {
-            for project in grouping.projects {
+            for project in grouping.artifacts {
                 do {
-                    try ProjectFileInteractor.getURLofFolderForProjectInGroupingsFile(in: grouping, project: project)
+                    try ProjectFileInteractor.getURLofFolderForArtifactInGroupingsFile(in: grouping, artifact: project)
                 } catch DeskFileSystemError.MissingFolderWithProjectContents {
                     //Project Folder is missing
-                    missingGroupingProjectPairs.append((grouping,project))
+                    groupingsWithMissingProjects.append(grouping)
                 } catch let e {
                     print(e.localizedDescription)
                 }
             }
         }
-        return missingGroupingProjectPairs
+        return groupingsWithMissingProjects
     }
     
     func moveToFillSpotInGrouping(_ missingGroupingProjectPairs: [(Grouping, DeskProject)],lookupValue:(groupingNameForPage: String, projectNameFromTemp: String)) -> Bool {
@@ -468,29 +485,29 @@ class FileSystemInteractor: NSObject {
                 //found match
                 //move the project folder there
                 do {
-                    try moveProjectFromTempFolderAndPlaceInGroupingFolder(project: pair.1, grouping: pair.0)
+                    try moveArtifactFromTempFolderAndPlaceInGroupingFolder(artifact: pair.1, grouping: pair.0)
                 } catch let e {
                     showMessageFor(e)
                     return false
                 }
-                removeProjectFromTemp(project: pair.1)
+                removeArtifactFromTemp(artifact: pair.1)
                 return true
             }
         }
         return false
     }
     
-    func moveProjectFolderToGroupingFolderIfAProjectExists(in grouping: Grouping, with projectName: String) -> Bool{
-        for project in grouping.projects {
-            if(project.getName() == projectName){
-                //found a project with the same name
+    func moveProjectFolderToGroupingFolderIfMatchFound(in grouping: Grouping, homeless artifact: DeskArtifact) -> Bool{
+        for project in grouping.artifacts {
+            if(project.getUniqueProjectSerialNumber() == artifact.getUniqueProjectSerialNumber()){
+                //found it
                 do {
-                    try moveProjectFromTempFolderAndPlaceInGroupingFolder(project: project, grouping: grouping)
+                    try moveArtifactFromTempFolderAndPlaceInGroupingFolder(artifact: project, grouping: grouping)
                 } catch let e {
                     showMessageFor(e)
                     return false
                 }
-                removeProjectFromTemp(project: project)
+//                removeArtifactFromTemp(artifact: project)
                 return true
             }
         }
@@ -501,13 +518,12 @@ class FileSystemInteractor: NSObject {
     func saveLostState() throws {
         let fileManager = FileManager.default
         let tempFolderPath = PathLocator.getTempFolder()
-        let projectsMissingFromGroupings = detectMissingProjects()
+        let groupingsWithMissingProjects = detectGroupingsWithMissingProjects()
         
         guard let namesOfFoldersInTemp = try? fileManager.contentsOfDirectory(atPath: tempFolderPath) else {
             throw DeskFileSystemError.CouldNotGetNamesOfFoldersInTemp
         }
         
-        let groupings = getMetaData()
         for folderName in namesOfFoldersInTemp {
             
             //get an desk.archive object and read it
@@ -516,67 +532,19 @@ class FileSystemInteractor: NSObject {
                 continue
             }
             
-            //get the grouping which it says it belongs to
-            let groupingNameForProject = archiveObject.grouping
-            
-            for grouping in groupings {
-               
-                //see is there is a match with any of the projects in this grouping
-                if(moveToFillSpotInGrouping(projectsMissingFromGroupings, lookupValue:(groupingNameForProject,folderName))){
-                    //folderName was found to live in grouping and has been zipped up there
-                    continue //move to the next projectName
-                }
-                
-                //there was no missing DZIP for the (projectName, grouping) combo
-                //overwrite anything with the same name
-                if(grouping.getName() == groupingNameForProject){
-                    //the project says that it lives in this grouping
-                    //let's check
-                    if(moveProjectFolderToGroupingFolderIfAProjectExists(in: grouping, with: folderName)){
-                        continue
-                    }
-                    
-                    // now we are left with an open project in Temp which thinks it lives in this grouping
-                    // but the grouping doesn't know about it
-                    var project = DeskProject(name: folderName, ownedByGrouping: grouping.getName())
-                    let change = MetaChange.CreatedProject
-                    do {
-                        try handleMeta(change, grouping: grouping, project: project)
-                    } catch let e {
-                        showMessageFor(e)
-                    }
-                    
-                    // this doubtful since we just iterated through the grouping
-                    // searching for this name, but somehow
-                    // the name that was given to the project during
-                    // "created project"
-                    // did not endup as the same name
-                    // it entered with
-                    if (folderName != project.getName()){
-                        do {
-                            // handle the changing of the name at a directory level
-                            try fileManager.moveItem(atPath: tempFolderPath + "/" + folderName, toPath: tempFolderPath + "/" + project.getName())
-                        } catch let e {
-                            showMessageFor(e)
-                        }
-                    }
-                    
-                    do {
-                        try moveProjectFromTempFolderAndPlaceInGroupingFolder(project: project, grouping: grouping)
-                    } catch let e {
-                        showMessageFor(e)
-                    }
-                    removeProjectFromTemp(project: project)    
+            for grouping in groupingsWithMissingProjects {
+                if(moveProjectFolderToGroupingFolderIfMatchFound(in: grouping, homeless: archiveObject)){
+                    continue
                 }
             }
         }
     }
     
-    func removeProjectFromTemp(project: DeskProject){
+    func removeArtifactFromTemp(artifact: DeskArtifact){
         let tempFolderPath = PathLocator.getTempFolder()
         let fileManager = FileManager.default
         do {
-            try fileManager.removeItem(atPath: tempFolderPath + "/" + project.getName())
+            try fileManager.removeItem(atPath: tempFolderPath + "/" + artifact.getName())
         } catch let e {
             showMessageFor(e)
         }

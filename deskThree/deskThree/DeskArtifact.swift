@@ -12,16 +12,18 @@ import Foundation
 // inside of a folder for a project, pdf, powerpoint, etc
 // it should basically be a meta data token that describes
 // what that folder thinks about the world around it
-class DeskArchive: NSObject {
-    var type: String = ""
-    var grouping: String
+protocol DeskArtifact: NSCoding {
     
     
-    
-    
-    
-    init(type: String, grouping: String){
-        self.type = type; self.grouping = grouping
+    var ownedByGrouping: String {
+        get
     }
-
+    
+    
+    var modified: Date { get }
+    var createdTimeStamp: Date { get }
+    var type: String { get }    
+    func getUniqueProjectSerialNumber() -> Int
+    func getName() -> String
+    func rename(name: String)
 }

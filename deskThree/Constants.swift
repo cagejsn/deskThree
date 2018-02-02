@@ -53,6 +53,9 @@ enum TypeOfBlock: Int {
 
 struct Constants {
     
+   
+    
+    static let FILE_EXTENSION: String = "desk"
     static let DESK_ARTIFACT_PATH_COMPONENT: String = "desk.artifact"
     
     struct DesignColors {

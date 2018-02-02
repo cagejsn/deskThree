@@ -12,7 +12,7 @@ import Foundation
 class Grouping: NSObject, NSCoding {
     
     var name: String?
-    var projects: [DeskProject]
+    var artifacts: [DeskArtifact]
     var color: UIColor = UIColor.gray
     
     ///change name of grouping
@@ -24,16 +24,17 @@ class Grouping: NSObject, NSCoding {
         return name!
     }
     
-    func getProjects() -> [DeskProject]{
-        return projects
+    func getArtifacts() -> [DeskArtifact]{
+        return artifacts
     }
     
-    func addProject(_ project: DeskProject){
-        self.projects.append(project)
+    func addArtifact(_ artifact: DeskArtifact){
+        self.artifacts.append(artifact)
     }
     
-    func removeProject(_ project: DeskProject){
-        projects.removeObject(object: project)
+    func removeArtifact(_ artifact: DeskArtifact){
+        artifacts.removeObject(object: artifact as! DeskProject)
+        
     }
     
     func setColor(color:UIColor){
@@ -46,25 +47,24 @@ class Grouping: NSObject, NSCoding {
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.name)
-        aCoder.encode(self.projects)
+        aCoder.encode(self.artifacts)
         aCoder.encode(self.color)
     }
     
     
     required init?(coder aDecoder: NSCoder) {
-        projects = [DeskProject]()
+        artifacts = [DeskArtifact]()
         // Initialize the first page & set it as the current page
         let loadedName = aDecoder.decodeObject() as! String
-        let loadedProjects = aDecoder.decodeObject() as? [DeskProject]
+        let loadedArtifacts = aDecoder.decodeObject() as? [DeskArtifact]
         let loadedColor = aDecoder.decodeObject() as? UIColor
         super.init()
         self.name = loadedName
-        self.projects = loadedProjects!
+        self.artifacts = loadedArtifacts!
     }
     
     init(name: String = DeskUserPrefs.nameOfDefaultGrouping()){
         self.name = name
-        self.projects = [DeskProject]()
-//        self.color = UIColor.gray
+        self.artifacts = [DeskArtifact]()
     }
 }

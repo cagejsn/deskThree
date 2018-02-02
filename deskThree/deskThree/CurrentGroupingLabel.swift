@@ -10,16 +10,8 @@ import Foundation
 
 
 class CurrentGroupingLabel: UILabel {
-    
-    
-    
     override func drawText(in rect: CGRect) {
         var offsetRect = rect.offsetBy(dx: 0, dy: 5)
         super.drawText(in: offsetRect)
     }
-    
-    
-    
-    
-    
 }

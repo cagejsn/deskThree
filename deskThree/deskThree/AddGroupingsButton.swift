@@ -19,13 +19,9 @@ class AddGroupingButton: UIButton {
         self.setImage(#imageLiteral(resourceName: "addNewGrouping"), for: .normal)
         self.imageEdgeInsets = UIEdgeInsetsMake(27, 27, 11, 11)
     }
-    
-    
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
     }
-    
-    
-    
+
 }

@@ -38,7 +38,7 @@ class PathLocator {
     }
     
     
-    static func getProjectsFolderFor(groupingName: String) -> String {
+    static func getArtifactsFolderFor(groupingName: String) -> String {
         let groupingsFolderPath = getGroupingsFolder()
         let pathForSpecificGrouping = groupingsFolderPath + "/" + groupingName
         let fileManager = FileManager.default

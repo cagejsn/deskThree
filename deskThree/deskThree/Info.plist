@@ -15,7 +15,7 @@
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.desk.customUTIHandler.edf</string>
+				<string>com.desk.customUTIHandler.desk</string>
 			</array>
 		</dict>
 	</array>
@@ -112,11 +112,11 @@
 				<string>com.pkware.zip-archive</string>
 			</array>
 			<key>UTTypeIdentifier</key>
-			<string>com.desk.customUTIHandler.edf</string>
+			<string>com.desk.customUTIHandler.desk</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<string>edf</string>
+				<string>desk</string>
 			</dict>
 		</dict>
 	</array>

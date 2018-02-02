@@ -95,11 +95,9 @@ class MoveProjectAlertManager: UIViewController, UIPickerViewDelegate, UIPickerV
         guard let grouping = try! MetaDataInteractor.getGrouping(withName: groupingName) as! Grouping! else {
             abort()
         }
-        
         let change = MetaChange.MovedProject(destGroupingName: destGroupingName)
         fileSystemInteractor?.handleMeta(change, grouping: grouping, project: projectToMove!)
         dismissalBlock?()
-        
         AnalyticsManager.track(.MoveProject)
     }
     
@@ -112,5 +110,4 @@ class MoveProjectAlertManager: UIViewController, UIPickerViewDelegate, UIPickerV
         self.presentingVC = presentingViewController
         self.projectToMove = projectToMove
     }
-  
 }

@@ -173,7 +173,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         // print(activePen().stepWidthForStroke())
         // return activePen().stepWidthForStroke()
         
-        return CGFloat(0.3)
+        return CGFloat(0.4)
     }
     
     func supportsRotation() -> Bool {
@@ -238,6 +238,7 @@ class WorkView: UIScrollView, InputObjectDelegate, PaperDelegate, PageAndDrawing
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
             //TODO: finish implementing the clear functionality
+            self.workViewPresenter?.clear()
 //            self.currentPage.clearDrawing()
 //            self.archiveJotView(page: self.currentPageIndex)
         }))

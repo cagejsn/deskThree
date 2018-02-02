@@ -20,24 +20,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var dvc: DeskViewController!
     
-    
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         Fabric.with([Crashlytics.self, Answers.self])
         Answers.logCustomEvent(withName: "App Started", customAttributes: nil)
-        print(UIScreen.main.scale)
+        
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
         
-        
-        print(Zip.isValidFileExtension("edf"))
-        Zip.addCustomFileExtension("edf")
-        print(Zip.isValidFileExtension("edf"))
-        
+        Zip.addCustomFileExtension(Constants.FILE_EXTENSION)
         
         // Override point for customization after application launch.
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        
         dvc = DeskViewController()
         let hmc = HamburgerMenuViewController()
         hmc.delegate = dvc  
@@ -57,11 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let tutorialVideoViewController = TutorialVideoViewController()
             slideMenuController.present(tutorialVideoViewController, animated: true, completion: nil)
         }
-        
-        Fabric.with([Crashlytics.self])
-        
-        
-        
         return true
     }
 
@@ -91,50 +79,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         
-        Zip.addCustomFileExtension("edf")
+        Zip.addCustomFileExtension(Constants.FILE_EXTENSION)
         
         var handled: Bool = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, options: options)
-        return handled
+        if(handled){return true}
         
-        var fileNameWithType = url.lastPathComponent
-        if !fileNameWithType.contains(".edf") {
+        if !url.pathExtension.hasSuffix(Constants.FILE_EXTENSION) {
             return false
         }
         
-        let substringIndex = fileNameWithType.index(fileNameWithType.endIndex, offsetBy: -4)
+        var fileNameWithType = url.lastPathComponent
+        let substringIndex = fileNameWithType.index(fileNameWithType.endIndex, offsetBy: -5)
         let fileName = fileNameWithType.substring(to: substringIndex )
         
         var sharedGrouping = MetaDataInteractor.getSharedWithMeGrouping()
         var project = DeskProject(name: fileName, ownedByGrouping: sharedGrouping.getName())
         
-        let change = MetaChange.CreatedProject
-        
         do {
             try MetaDataInteractor.save(project: project, into: sharedGrouping)
+            let groupingsFolder = PathLocator.getArtifactsFolderFor(groupingName: sharedGrouping.getName())
+            let permURL = URL(fileURLWithPath: groupingsFolder + "/" + project.getName())
+            
+            let fileManager = FileManager.default
+            let tempLocationURL = try Zip.quickUnzipFile(url)
+           
+            let contents = try fileManager.contentsOfDirectory(at: tempLocationURL, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles)
+            let contentsTempURL = contents.first!
+            
+            try fileManager.moveItem(at: contentsTempURL, to: permURL)
+            try fileManager.removeItem(at: url)
+            try fileManager.removeItem(at: tempLocationURL)
+            return true
+          
         } catch let e {
             print(e.localizedDescription)
         }
-            //            try fileSystemInteractor.handleMeta(change, grouping: sharedGrouping, project: project)
-        
-        
-        let groupingsFolder = PathLocator.getProjectsFolderFor(groupingName: sharedGrouping.getName())
-        let newPath = URL(fileURLWithPath: groupingsFolder + "/" + fileNameWithType)
-        
-        let fileManager = FileManager.default
-        try! fileManager.moveItem(at: url, to: newPath)
-
-        dvc.didSelectProject(grouping: sharedGrouping, project: project)
-        try? fileManager.removeItem(at: url)
-        return true
+       return false
     }
     
-    
-    //TODO: Known issues with opening sent files.
-    //1. the name of the project (inside the zip file)
-    // and the name of the zipped file have to be the same, or else crash
-    //2. there can't be a zipped file with the same name at the grouping's project folder
-    // level, or else fileManager.moveItem will crash
-    //3. the grouping can't have a project in it with the same name, or else it will change the name of the project it creates to *whatever*(2) and the project name wont match the zipped file name
 
 }
 

@@ -15,7 +15,6 @@ class JotToMath: MAWMathView, MAWMathViewDelegate {
     
     typealias Action = ()->Void
     
-    
     func mathViewDidEndRecognition(_ mathView: MAWMathView!) {
         codeToRunUponCompletion()
     }

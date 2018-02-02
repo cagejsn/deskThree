@@ -13,10 +13,8 @@ typealias Action = ()->()
 class FileExplorerHeaderView: ILTranslucentView {
     
     var bottomBorder: CALayer?
-   // var userView: UserView!
     var cancelButton: UIButton!
     var fileExplorerLabel: UILabel!
-    
     var passCancel: Action!
     
     override init(frame: CGRect) {
@@ -97,9 +95,7 @@ class FileExplorerHeaderView: ILTranslucentView {
     }
    
     func stylize(){
-//        bottomBorder = addAndReturnBottomBorder(color: FileExplorerColors.DarkGrey, width: 1)
-        
-        
+
         self.translucentAlpha = 0.8;
         self.translucentStyle = .default
         self.translucentTintColor = DeskColors.DeskBlueBarColor

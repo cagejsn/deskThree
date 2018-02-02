@@ -23,5 +23,4 @@ class GroupingsLabel: UILabel {
         var offsetRect = rect.offsetBy(dx: 50, dy: 5)
         super.drawText(in: offsetRect)
     }
-    
 }

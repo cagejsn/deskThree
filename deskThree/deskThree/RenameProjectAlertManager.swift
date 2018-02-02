@@ -9,13 +9,13 @@
 import Foundation
 
 class RenameProjectAlertManager {
-    typealias renameHandler = (DeskProject,String)->()
+    typealias renameHandler = (DeskArtifact,String)->()
     weak var fileSystemInteractor: FileSystemInteractor?
     weak var presentingVC: UIViewController?
     var nameFieldContents: String = ""
     var alertController = UIAlertController(title: "Rename Project", message: "enter a new name for the Project", preferredStyle: .alert)
     
-    var projectToRename: DeskProject
+    var artifactToRename: DeskArtifact
     var renameHandler: renameHandler
     
     
@@ -35,13 +35,13 @@ class RenameProjectAlertManager {
     
     func doRenameProject(_ action: UIAlertAction) {
         nameFieldContents = alertController.textFields![0].text!
-        self.renameHandler(projectToRename,nameFieldContents)
+        self.renameHandler(artifactToRename,nameFieldContents)
     }
     
     
-    init(_ project: DeskProject, _ presentingViewController: UIViewController, renameHandler: @escaping renameHandler){
+    init(_ artifact: DeskArtifact, _ presentingViewController: UIViewController, renameHandler: @escaping renameHandler){
         self.presentingVC = presentingViewController
         self.renameHandler = renameHandler
-        self.projectToRename = project
+        self.artifactToRename = artifact
     }
 }

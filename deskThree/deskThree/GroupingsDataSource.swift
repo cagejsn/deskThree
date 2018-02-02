@@ -13,8 +13,8 @@ protocol GroupingSelectedListener {
 }
 
 class GroupingsDataSource: NSObject, UITableViewDataSource, UITableViewDelegate {
-    let tableViewCellHeight: CGFloat = 50
-    
+    let tableViewCellHeight: CGFloat = FileExplorerConstants.TABLE_VIEW_CELL_HEIGHT
+    let tableViewCellWidth: CGFloat = FileExplorerConstants.TABLE_VIEW_CELL_WIDTH
     var groupingsToDisplay: [Grouping]!
     var selectedGrouping: Grouping?
     var groupingSelectedListener: GroupingSelectedListener
@@ -43,9 +43,8 @@ class GroupingsDataSource: NSObject, UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var groupingForCell = groupingsToDisplay[indexPath.row]
-        let cell = GroupingTableViewCell(frame: CGRect(x:0,y:0,width:200,height:tableViewCellHeight), text: groupingForCell.getName() , color: groupingForCell.getColor().cgColor)
+        let cell = GroupingTableViewCell(frame: CGRect(x:0,y:0,width: tableViewCellWidth ,height: tableViewCellHeight), text: groupingForCell.getName() , color: groupingForCell.getColor().cgColor)
         return cell
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

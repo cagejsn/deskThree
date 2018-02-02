@@ -46,7 +46,7 @@ class ProjectFileInteractor: NSObject {
     }
     
     static func isFolderIn( grouping: Grouping , with name: String) -> Bool {
-        let groupingFolderPath = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
+        let groupingFolderPath = PathLocator.getArtifactsFolderFor(groupingName: grouping.getName())
         let proposedProjectFolderPathInGrouping = groupingFolderPath + "/" + name
         let fileManager = FileManager.default
         var isDirectoryBool: ObjCBool = ObjCBool(false)
@@ -61,7 +61,7 @@ class ProjectFileInteractor: NSObject {
     
     static func renameProjectFolderInGroupingFolder(oldProjectName: String, newProjectName: String, in groupingName: String) throws {
         let fileManager = FileManager.default
-        let pathToGroupingProjects = PathLocator.getProjectsFolderFor(groupingName: groupingName)
+        let pathToGroupingProjects = PathLocator.getArtifactsFolderFor(groupingName: groupingName)
         
         let proposedNewPathToProject = pathToGroupingProjects + "/" + newProjectName
         let pathToSpecificProject = pathToGroupingProjects + "/" + oldProjectName
@@ -134,18 +134,23 @@ class ProjectFileInteractor: NSObject {
         let fileManager = FileManager.default
         
         do{
-            let urlToRemove = try getURLofFolderForProjectInGroupingsFile(in: grouping, project: project)
+            let urlToRemove = try getURLofFolderForArtifactInGroupingsFile(in: grouping, artifact: project)
             try fileManager.removeItem(at: urlToRemove)
         } catch let e {
             throw e
         }
     }
     
-    static func getURLofFolderForProjectInGroupingsFile(in grouping: Grouping, project: DeskProject) -> URL {
+    static func getURLofFolderForArtifactInGroupingsFile(in grouping: Grouping, artifact: DeskArtifact) throws -> URL {
         let fileManager = FileManager.default
-        let projectsFolderPath = PathLocator.getProjectsFolderFor(groupingName: grouping.getName())
-        let proposedProjectFolderPath = projectsFolderPath + "/" + project.getName()
-        return URL(fileURLWithPath: proposedProjectFolderPath)        
+        let projectsFolderPath = PathLocator.getArtifactsFolderFor(groupingName: grouping.getName())
+        let proposedProjectFolderPath = projectsFolderPath + "/" + artifact.getName()
+        
+        if(!fileManager.fileExists(atPath: proposedProjectFolderPath)){
+            throw DeskFileSystemError.MissingFolderWithProjectContents
+        }
+        
+        return URL(fileURLWithPath: proposedProjectFolderPath)
     }
     
 }

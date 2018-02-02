@@ -58,7 +58,9 @@ const CGPoint JotCGNotFoundPoint = {-10000000.2, -999999.6};
         curveTo = _curveTo;
         ctrl1 = _ctrl1;
         ctrl2 = _ctrl2;
-
+        
+        vertexBufferShouldContainColor = true;
+        
         NSUInteger prime = 31;
         hashCache = 1;
         hashCache = prime * hashCache + startPoint.x;
@@ -179,13 +181,13 @@ const CGPoint JotCGNotFoundPoint = {-10000000.2, -999999.6};
     colorSteps[3] = myColor[3] - prevColor[3];
 
     BOOL shouldContainColor = YES;
-    if (!self.color ||
-        (colorSteps[0] == 0 &&
-         colorSteps[1] == 0 &&
-         colorSteps[2] == 0 &&
-         colorSteps[3] == 0)) {
-        shouldContainColor = NO;
-    }
+//    if (!self.color ||
+//        (colorSteps[0] == 0 &&
+//         colorSteps[1] == 0 &&
+//         colorSteps[2] == 0 &&
+//         colorSteps[3] == 0)) {
+//        shouldContainColor = NO;
+//    }
     return shouldContainColor;
 }
 

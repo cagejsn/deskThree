@@ -69,7 +69,6 @@
 		DA28412B1EB25EED0085112E /* AllPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA28412A1EB25EED0085112E /* AllPad.xib */; };
 		DA2841301EB279F50085112E /* PencilEraserToggleControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */; };
 		DA2B7CA61F9BB43400496BEC /* GroupingsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CA51F9BB43400496BEC /* GroupingsHeaderView.swift */; };
-		DA2B7CB01F9BD60400496BEC /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CAF1F9BD60400496BEC /* UserView.swift */; };
 		DA2B7CB21F9BDD4B00496BEC /* FileExplorerColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */; };
 		DA2B7CB41F9C26D600496BEC /* FileExplorerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */; };
 		DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35EE141E8C966100520FFD /* DeskControlModule.swift */; };
@@ -87,8 +86,8 @@
 		DA531CC7200139A5008A3861 /* ClipperSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC6200139A5008A3861 /* ClipperSession.swift */; };
 		DA531CC920014274008A3861 /* StrokeToMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CC820014274008A3861 /* StrokeToMath.swift */; };
 		DA531CCB200150C9008A3861 /* HandleClips.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA531CCA200150C9008A3861 /* HandleClips.swift */; };
-		DA535D4B20180B16007B5184 /* ArchiveInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA535D4A20180B16007B5184 /* ArchiveInteractor.swift */; };
-		DA535D5520180B4D007B5184 /* DeskArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA535D5420180B4D007B5184 /* DeskArchive.swift */; };
+		DA535D4B20180B16007B5184 /* ArtifactInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA535D4A20180B16007B5184 /* ArtifactInteractor.swift */; };
+		DA535D5520180B4D007B5184 /* DeskArtifact.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA535D5420180B4D007B5184 /* DeskArtifact.swift */; };
 		DA535D57201AA4AC007B5184 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA535D56201AA4AC007B5184 /* AnalyticsManager.swift */; };
 		DA53BCB1200722C30012179B /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCAD200722C10012179B /* Bolts.framework */; };
 		DA53BCB2200722C30012179B /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA53BCAE200722C10012179B /* FBSDKLoginKit.framework */; };
@@ -112,12 +111,12 @@
 		DA8E92041FE596B20014B432 /* FileThumbnailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */; };
 		DA93BC691E08744800CC2130 /* MathEntryArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA93BC681E08744800CC2130 /* MathEntryArea.swift */; };
 		DA957CD4201CFEB600677BAB /* RenameProjectAlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA957CD3201CFEB600677BAB /* RenameProjectAlertManager.swift */; };
+		DA957CD62024001B00677BAB /* FileExplorerConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA957CD52024001B00677BAB /* FileExplorerConstants.swift */; };
 		DA9E8C7B1F7831E600D6D8AD /* GroupingTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */; };
 		DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */; };
 		DA9E8C871F816C2A00D6D8AD /* FileExplorerCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */; };
 		DA9E8C891F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */; };
 		DA9E8C8C1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */; };
-		DA9E8C901F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9E8C8F1F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift */; };
 		DAA494ED1DC3A0D600C73780 /* GKCropBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E21DC3A0D600C73780 /* GKCropBorderView.m */; };
 		DAA494EE1DC3A0D600C73780 /* GKImageCropOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E41DC3A0D600C73780 /* GKImageCropOverlayView.m */; };
 		DAA494EF1DC3A0D600C73780 /* GKImageCropView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA494E61DC3A0D600C73780 /* GKImageCropView.m */; };
@@ -317,7 +316,6 @@
 		DA28412A1EB25EED0085112E /* AllPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllPad.xib; sourceTree = "<group>"; };
 		DA28412F1EB279F50085112E /* PencilEraserToggleControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PencilEraserToggleControl.swift; sourceTree = "<group>"; };
 		DA2B7CA51F9BB43400496BEC /* GroupingsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingsHeaderView.swift; sourceTree = "<group>"; };
-		DA2B7CAF1F9BD60400496BEC /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerColors.swift; sourceTree = "<group>"; };
 		DA2B7CB31F9C26D600496BEC /* FileExplorerHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerHeaderView.swift; sourceTree = "<group>"; };
 		DA35EE141E8C966100520FFD /* DeskControlModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeskControlModule.swift; sourceTree = "<group>"; };
@@ -342,8 +340,8 @@
 		DA531CC6200139A5008A3861 /* ClipperSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipperSession.swift; sourceTree = "<group>"; };
 		DA531CC820014274008A3861 /* StrokeToMath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeToMath.swift; sourceTree = "<group>"; };
 		DA531CCA200150C9008A3861 /* HandleClips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandleClips.swift; sourceTree = "<group>"; };
-		DA535D4A20180B16007B5184 /* ArchiveInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveInteractor.swift; sourceTree = "<group>"; };
-		DA535D5420180B4D007B5184 /* DeskArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskArchive.swift; sourceTree = "<group>"; };
+		DA535D4A20180B16007B5184 /* ArtifactInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtifactInteractor.swift; sourceTree = "<group>"; };
+		DA535D5420180B4D007B5184 /* DeskArtifact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeskArtifact.swift; sourceTree = "<group>"; };
 		DA535D56201AA4AC007B5184 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		DA53BCAD200722C10012179B /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		DA53BCAE200722C10012179B /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -368,12 +366,12 @@
 		DA8E92031FE596B20014B432 /* FileThumbnailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileThumbnailButton.swift; sourceTree = "<group>"; };
 		DA93BC681E08744800CC2130 /* MathEntryArea.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MathEntryArea.swift; sourceTree = "<group>"; };
 		DA957CD3201CFEB600677BAB /* RenameProjectAlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameProjectAlertManager.swift; sourceTree = "<group>"; };
+		DA957CD52024001B00677BAB /* FileExplorerConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExplorerConstants.swift; sourceTree = "<group>"; };
 		DA9E8C7A1F7831E600D6D8AD /* GroupingTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableView.swift; sourceTree = "<group>"; };
 		DA9E8C841F78329A00D6D8AD /* GroupingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupingTableViewCell.swift; sourceTree = "<group>"; };
 		DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionView.swift; sourceTree = "<group>"; };
 		DA9E8C881F8171F000D6D8AD /* FileExplorerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileExplorerCollectionViewCell.swift; sourceTree = "<group>"; };
 		DA9E8C8B1F8AAF1700D6D8AD /* FileExplorerCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileExplorerCollectionViewCell.xib; sourceTree = "<group>"; };
-		DA9E8C8F1F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectGroupingSegmentedControl.swift; sourceTree = "<group>"; };
 		DAA494CA1DC2EBC700C73780 /* deskThree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "deskThree-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAA494DF1DC2ED5A00C73780 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DAA494E11DC3A0D600C73780 /* GKCropBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKCropBorderView.h; sourceTree = "<group>"; };
@@ -548,7 +546,7 @@
 			children = (
 				526C111E1E7DF2CB00196164 /* DeskProject.swift */,
 				DA04E3FB1FC0B1FF00900588 /* Grouping.swift */,
-				DA535D5420180B4D007B5184 /* DeskArchive.swift */,
+				DA535D5420180B4D007B5184 /* DeskArtifact.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -562,7 +560,7 @@
 				DA04E40B1FC0CB9200900588 /* PaperInteractor.swift */,
 				DA04E4091FC0BC1700900588 /* JotFilesInteractor.swift */,
 				526C111B1E7DD8FE00196164 /* PathLocator.swift */,
-				DA535D4A20180B16007B5184 /* ArchiveInteractor.swift */,
+				DA535D4A20180B16007B5184 /* ArtifactInteractor.swift */,
 			);
 			name = "File System";
 			sourceTree = "<group>";
@@ -583,12 +581,11 @@
 				DA9E8C861F816C2A00D6D8AD /* FileExplorerCollectionView.swift */,
 				DA7685031FD262A500FACA0B /* GroupingsDataSource.swift */,
 				DA76850D1FD262B400FACA0B /* ProjectsDataSource.swift */,
-				DA9E8C8F1F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift */,
-				DA2B7CAF1F9BD60400496BEC /* UserView.swift */,
 				DA2B7CB11F9BDD4B00496BEC /* FileExplorerColors.swift */,
 				DA233A921FD4A5B90099FC74 /* CurrentGroupingLabel.swift */,
 				DAFB738D2015254F00E7C4A8 /* MoveProjectAlertManager.swift */,
 				DA957CD3201CFEB600677BAB /* RenameProjectAlertManager.swift */,
+				DA957CD52024001B00677BAB /* FileExplorerConstants.swift */,
 			);
 			name = "File Explorer";
 			sourceTree = "<group>";
@@ -1076,10 +1073,9 @@
 				DA7CB1FF1FDF8E1500568507 /* StrokeToMathToggleControl.swift in Sources */,
 				DA04D9381EA4560A003C0783 /* TutorialVideoViewController.swift in Sources */,
 				DAA494F01DC3A0D600C73780 /* GKImageCropViewController.m in Sources */,
-				DA9E8C901F92A44500D6D8AD /* SelectGroupingSegmentedControl.swift in Sources */,
 				312A8B7C1EAFCD8000940FA7 /* UIViewExtension.swift in Sources */,
 				DA76850E1FD262B400FACA0B /* ProjectsDataSource.swift in Sources */,
-				DA535D5520180B4D007B5184 /* DeskArchive.swift in Sources */,
+				DA535D5520180B4D007B5184 /* DeskArtifact.swift in Sources */,
 				DADC7C6B1DF0F4650086626E /* InputObject.swift in Sources */,
 				DA56E02C1E3D6E290061DEE3 /* GKFilteredImageView.swift in Sources */,
 				3148815E1E8DDCDA0015D095 /* com.desk.education.c in Sources */,
@@ -1116,7 +1112,7 @@
 				DA7A09281FE2211A007BDCE1 /* Clipper.swift in Sources */,
 				DA28411C1EAFD8DD0085112E /* InsideHamburgerView.swift in Sources */,
 				DAD144ED1DBBF2DD001F7901 /* WorkView.swift in Sources */,
-				DA535D4B20180B16007B5184 /* ArchiveInteractor.swift in Sources */,
+				DA535D4B20180B16007B5184 /* ArtifactInteractor.swift in Sources */,
 				DA9E8C851F78329A00D6D8AD /* GroupingTableViewCell.swift in Sources */,
 				DA35EE151E8C966100520FFD /* DeskControlModule.swift in Sources */,
 				DA67005C1E3EDD1C00A6179A /* GKContext.swift in Sources */,
@@ -1154,8 +1150,8 @@
 				CE18D3681E6E08E700BC54D8 /* MathBlock.swift in Sources */,
 				DA3688BF1E414613006A9E1A /* ToolDrawer.swift in Sources */,
 				DA535D57201AA4AC007B5184 /* AnalyticsManager.swift in Sources */,
+				DA957CD62024001B00677BAB /* FileExplorerConstants.swift in Sources */,
 				DA04E40E1FC0CC0800900588 /* ProjectFileInteractor.swift in Sources */,
-				DA2B7CB01F9BD60400496BEC /* UserView.swift in Sources */,
 				DA233A911FD3B9440099FC74 /* DeskColors.swift in Sources */,
 				DA233A8F1FD3B5550099FC74 /* ILTranslucentView.m in Sources */,
 				5297A22D1E6C993100BFA775 /* BlockExpression.swift in Sources */,

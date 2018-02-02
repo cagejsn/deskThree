@@ -97,7 +97,7 @@ class Clipper: UIView {
         var selectableActionMath = UIMenuItem(title: "math", action: #selector(mathButtonTapped))
         var selectableActionClear = UIMenuItem(title: "clear", action: #selector(clearButtonTapped))
         var selectableActionCancel = UIMenuItem(title: "cancel", action: #selector(cancelButtonTapped))
-        selectActionMenu.menuItems = [selectableActionMath,selectableActionClear,selectableActionCancel]
+        selectActionMenu.menuItems = [selectableActionMath,selectableActionCancel]
         selectActionMenu.setMenuVisible(true, animated: true)
     }
     

@@ -58,7 +58,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="AHa-1n-tUR"/>
                         <barButtonItem title="Untitled" style="plain" id="jCu-K8-wsz">
                             <textField key="customView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" adjustsFontSizeToFit="NO" minimumFontSize="24" id="qaV-WP-Nda">
-                                <rect key="frame" x="189" y="10.5" width="390" height="29"/>
+                                <rect key="frame" x="378.5" y="10.5" width="11" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="24"/>
@@ -100,24 +100,8 @@
                 <constraint firstItem="i9E-G4-UOl" firstAttribute="leading" secondItem="AVO-vL-44u" secondAttribute="leading" id="gud-Pl-2Jx"/>
                 <constraint firstAttribute="trailing" secondItem="i9E-G4-UOl" secondAttribute="trailing" id="kCF-q6-s5C"/>
             </constraints>
-            <connections>
-                <outletCollection property="gestureRecognizers" destination="FBl-nl-lLW" appends="YES" id="QcJ-3M-UuQ"/>
-                <outletCollection property="gestureRecognizers" destination="Ae7-Dm-hWF" appends="YES" id="dtH-LW-JfP"/>
-            </connections>
             <point key="canvasLocation" x="-323" y="-515"/>
         </view>
-        <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="FBl-nl-lLW">
-            <rectEdge key="edges" right="YES"/>
-            <connections>
-                <action selector="nextPageTapped" destination="-1" id="Bbl-Yh-TRf"/>
-            </connections>
-        </screenEdgePanGestureRecognizer>
-        <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="Ae7-Dm-hWF">
-            <rectEdge key="edges" left="YES"/>
-            <connections>
-                <action selector="lastPageTapped" destination="-1" id="RWS-fb-0EA"/>
-            </connections>
-        </screenEdgePanGestureRecognizer>
     </objects>
     <resources>
         <image name="left-arrow-chevron" width="32" height="32"/>

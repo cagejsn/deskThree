@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Crashlytics
 
 class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggleControlDelegate {
     
@@ -236,7 +237,7 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
             //it needs to be saved
             do {
                 //clean out the TempFolder
-                try fileSystemInteractor.moveProjectFromTempFolderAndPlaceInGroupingFolder(project: currentProject, grouping: currentGrouping)
+                try fileSystemInteractor.moveArtifactFromTempFolderAndPlaceInGroupingFolder(artifact: currentProject, grouping: currentGrouping)
             } catch let e {
                 fileSystemInteractor.showMessageFor(e)
             }
@@ -305,7 +306,9 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
             do {
                 let contentsAsStrings = try! fileManager.contentsOfDirectory(atPath: pathToPageFolder)
                 if contentsAsStrings.contains("thumb.png"){
-               arrayOfPageImages.append(UIImage(contentsOfFile: pathToPageFolder + "/thumb.png")!)
+                    arrayOfPageImages.append(UIImage(contentsOfFile: pathToPageFolder + "/thumb.png")!)
+                } else {
+                    arrayOfPageImages.append(UIImage())
                 }
             }
         }
@@ -313,8 +316,8 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
     }
     
     func exportPDF (to pdfData: NSMutableData) -> Bool {
-        
         UIGraphicsBeginPDFContextToData(pdfData, currentPage.bounds, nil)
+        JotDiskAssetManager.shared().blockUntilAllWritesHaveFinished()
         
         let thumbs = getOpenProjectPageThumbnails()
         for (index, page) in pages.enumerated() {
@@ -339,6 +342,12 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         return true
     }
     
+    func clear(){
+        currentPage.drawingSession.clearDrawing()
+        let change: PaperChange = PaperChange.ClearedPage
+        fileSystemInteractor.handlePaper(change: change, grouping: currentGrouping, project: currentProject, page: currentPage)
+    }
+    
     
     //TODO: make the Project only get zipped and written to disk upon closing if it has edits
     init(_ viewController: UIViewController) {
@@ -354,7 +363,5 @@ class WorkViewPresenter: NSObject, JotViewStateProxyDelegate, PencilEraserToggle
         } catch let e {
             print(e.localizedDescription)
         }
-        
-        
     }
 }

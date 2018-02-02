@@ -38,18 +38,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     private var mathViewContainer: MathViewContainer!
     private var toolDrawer: ToolDrawer!
     private var penControls: UIView! //to be used later
-    
     private var customContraints: [NSLayoutConstraint]!
     private var myScriptConstraints: [NSLayoutConstraint]!
+    private var workViewPresenter: WorkViewPresenter!
     
-    private var workViewPresenter: WorkViewPresenter! //will one day control the state of the WorkView
-    
-        
     //MARK: Lifecycle functions for DVC
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
         setupWorkView()
         setupGKPicker()
         setupToolDrawer()
@@ -145,7 +141,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.view.addSubview(strokeToMathToggleControl)
         strokeToMathToggleControl.delegate = self
         strokeToMathToggleControl.addTarget(workViewPresenter, action: #selector(WorkViewPresenter.toggleClipping(_:)), for: .touchUpInside)
-//         strokeToMathToggleControl.addTarget(self, action: #selector(DeskViewController.setUpClipping), for: .touchUpInside)
         strokeToMathToggleControl.setImage(#imageLiteral(resourceName: "magicWand"), for: .normal)
         strokeToMathToggleControl.imageView?.contentMode = .scaleAspectFit
         strokeToMathToggleControl.isSelected = false
@@ -156,17 +151,14 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         strokeToMathToggleControl.adjustsImageWhenHighlighted = false
         
     }
-
     
     //MARK: Data flow functions
     func sendingToInputObject(for element: Any, toDestination: ExpressionDestination){
-        
         guard let mathBlock = element as? MathBlock else { return }
         switch toDestination {
             case .MathView:
                 mathViewContainer.receiveElement(mathBlock)
-            case .Calculator:
-                
+            case .Calculator:                
                 toolDrawer.receiveElement(mathBlock)
             case .Wolfram:
                 didRequestWRDisplay(query: mathBlock.getMathML())
@@ -372,7 +364,6 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     func feedbackButtonTapped() {
-
         let svc = SFSafariViewController(url: NSURL(string: "https://docs.google.com/forms/d/e/1FAIpQLScW_-4-4PmJdlqe0aV45IIZTJqL8fvW90f60-H7BI82sdja6A/viewform?usp=sf_link") as! URL)
         self.present(svc, animated: true, completion: nil)
     }
@@ -400,10 +391,8 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
         self.present(svc, animated: true, completion: nil)
     }
     
-
     //MARK: GKImagePickerController Delegate
     @objc func imagePicker(_ imagePicker: GKImagePicker,  pickedImage: UIImage) {
-
         dismiss(animated: true, completion: nil)
         workViewPresenter.addImageToCurrentPageInWorkView(pickedImage)
     }
@@ -414,16 +403,13 @@ class DeskViewController: UIViewController, UIScrollViewDelegate, UIGestureRecog
     }
     
     //MARK: Various Support functions
-
     func documentInteractionControllerViewControllerForPreview(_ controller: UIDocumentInteractionController) -> UIViewController {
         return self
     }
     
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
     }
-    
     
     public func displayErrorInViewController(title: String, description : String){
         let alertController = UIAlertController(title: title, message:

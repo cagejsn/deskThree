@@ -31,7 +31,15 @@ class PaperInteractor: NSObject {
     }
     
     static func archivePageObjects(for page: Paper, in project: DeskProject){
+        
+        let artifactPath = PathLocator.getTempFolder() + "/" + project.getName() + "/" + Constants.DESK_ARTIFACT_PATH_COMPONENT
+        ArchiveInteractor.put(project, at: artifactPath)
+        
         let pageFolder = PathLocator.getTempFolder() + "/" + project.getName() + "/page"+String(page.getPageNumber())
         NSKeyedArchiver.archiveRootObject(page, toFile: pageFolder + "/page.desk")
+            
     }
+    
+    
+    
 }

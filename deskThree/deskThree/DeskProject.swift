@@ -10,11 +10,20 @@ import Foundation
 
 let SERIAL_NUMBER_KEY_STRING = "serialNumber"
 
-class DeskProject: NSObject, NSCoding {
+class DeskProject: NSObject, DeskArtifact {
+   
+    
+    
+    
+    
+    
+    
+    
+    var type: String = "PROJECT"
     
     var name: String!
-    private var modified: Date!
-    private var createdTimeStamp: Date = Date()
+    var modified: Date = Date()
+    var createdTimeStamp: Date = Date()
     var isEdited: Bool = false
     var ownedByGrouping: String
     lazy var uniqueSerialNumber: Int = self.makeHashNumberBasedOnGroupingAndName()
@@ -79,7 +88,7 @@ class DeskProject: NSObject, NSCoding {
         let loadedOwnedByGrouping = aDecoder.decodeObject() as? String
         self.name = loadedName
         self.createdTimeStamp = loadedDateCreated!
-        self.modified = loadedModified
+        self.modified = loadedModified!
         self.ownedByGrouping = loadedOwnedByGrouping!
     }
     
