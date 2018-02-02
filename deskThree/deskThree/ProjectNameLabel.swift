@@ -22,7 +22,7 @@ class ProjectNameLabel: UILabel {
     }
     
     override func drawText(in rect: CGRect) {
-        let offsetRect = rect.offsetBy(dx: 5, dy: 0)
+        let offsetRect = rect.offsetBy(dx: 5, dy: 3)
         super.drawText(in: offsetRect)
     }
 }

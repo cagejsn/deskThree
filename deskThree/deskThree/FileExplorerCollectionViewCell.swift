@@ -37,12 +37,8 @@ class FileExplorerCollectionViewCell: UICollectionViewCell, ProjectOptionsMenuDe
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-    
-        
-        
+       
     }
-    
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -52,24 +48,29 @@ class FileExplorerCollectionViewCell: UICollectionViewCell, ProjectOptionsMenuDe
     }
     
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.backgroundColor = FileExplorerColors.LightGrey
-        
         fauxToolbarView.translucentAlpha = 0.8;
         fauxToolbarView.translucentStyle = .default
         fauxToolbarView.translucentTintColor = DeskColors.DeskBlueBarColor
         fauxToolbarView.backgroundColor = UIColor.clear
-        
         projectOptionsMenu.delegate = self
-        
     }
     
     func readInData( artifact: DeskArtifact){
         self.artifact = artifact
         projectNameLabel.text = artifact.getName()
-        lastModifiedLabel.text = artifact.modified.description(with: Locale.current)
+        lastModifiedLabel.text = formatDate(artifact.modified)
+        
+    }
+    
+    func formatDate(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current
+        dateFormatter.dateFormat = "MMM dd YY,' 'HH:mm"
+        return dateFormatter.string(from: date)
+       
     }
     
     

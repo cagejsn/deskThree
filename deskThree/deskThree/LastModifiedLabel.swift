@@ -17,12 +17,12 @@ class LastModifiedLabel: UILabel {
         
         self.font = UIFont.systemFont(ofSize: 11, weight: UIFontWeightThin)
         self.textColor = UIColor.white
-        
+        clipsToBounds = false
         
     }
     
     override func drawText(in rect: CGRect) {
-        let offsetRect = rect.offsetBy(dx: 5, dy: -3)
+        let offsetRect = rect.offsetBy(dx: 5, dy: 0)
         super.drawText(in: offsetRect)
     }
     

@@ -22,14 +22,16 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nVh-Dm-h1E" customClass="ILTranslucentView">
                     <rect key="frame" x="0.0" y="321.5" width="402" height="80.5"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oMa-h6-JiT" customClass="ProjectNameLabel" customModule="deskThree" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="0.0" width="348.5" height="36"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oMa-h6-JiT" customClass="ProjectNameLabel" customModule="deskThree" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="348.5" height="40"/>
+                            <edgeInsets key="layoutMargins" top="8" left="8" bottom="0.0" right="8"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rlf-Sh-Jez" customClass="LastModifiedLabel" customModule="deskThree" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="44" width="348.5" height="36"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rlf-Sh-Jez" customClass="LastModifiedLabel" customModule="deskThree" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="40" width="348.5" height="40"/>
+                            <edgeInsets key="layoutMargins" top="0.0" left="8" bottom="8" right="8"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
@@ -50,6 +52,7 @@
                         <constraint firstAttribute="bottom" secondItem="Rlf-Sh-Jez" secondAttribute="bottom" id="4bs-NB-P0e"/>
                         <constraint firstItem="oMa-h6-JiT" firstAttribute="top" secondItem="nVh-Dm-h1E" secondAttribute="top" id="85x-Q5-KeG"/>
                         <constraint firstItem="oMa-h6-JiT" firstAttribute="leading" secondItem="nVh-Dm-h1E" secondAttribute="leading" id="Bbb-Fp-BB1"/>
+                        <constraint firstItem="Rlf-Sh-Jez" firstAttribute="height" secondItem="oMa-h6-JiT" secondAttribute="height" id="Drn-qL-ePa"/>
                         <constraint firstAttribute="width" secondItem="nVh-Dm-h1E" secondAttribute="height" multiplier="5:1" id="O85-HV-B4q"/>
                         <constraint firstAttribute="bottom" secondItem="XqA-tN-Fcf" secondAttribute="bottom" id="PfB-2z-5B7"/>
                         <constraint firstItem="XqA-tN-Fcf" firstAttribute="leading" secondItem="oMa-h6-JiT" secondAttribute="trailing" id="PwT-Lx-0he"/>
