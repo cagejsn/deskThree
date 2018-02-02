@@ -255,9 +255,15 @@ class MetaDataInteractor: NSObject {
         let groupingNamesAsString = try! fileManager.contentsOfDirectory(atPath: metaFolderPath)
         var groupings: [Grouping] = [Grouping]()
         for groupingName in groupingNamesAsString {
+            let potentialProblemPath = metaFolderPath + "/" + "Projects.meta"
+            if(fileManager.fileExists(atPath: potentialProblemPath)){
+                try? fileManager.removeItem(atPath: potentialProblemPath)
+                return groupings
+            }
             if let grouping = NSKeyedUnarchiver.unarchiveObject(withFile: metaFolderPath + "/" + groupingName) as? Grouping! {
                 groupings.append(grouping)
             }
+            
         }
         return groupings
     }

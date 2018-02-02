@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SafariServices
 import SlideMenuControllerSwift
+import Crashlytics
 
 
 

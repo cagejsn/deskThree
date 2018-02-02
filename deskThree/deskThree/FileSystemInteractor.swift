@@ -75,6 +75,7 @@ class FileSystemInteractor: NSObject {
     
     //should only be available when open
     func handlePaper(change: PaperChange, grouping: Grouping, project: DeskProject, page: Paper){
+        project.modify()
         switch (change){
             
         case .MovedBlock:
@@ -108,7 +109,7 @@ class FileSystemInteractor: NSObject {
     
     //can also be reached from the fileExplorer
     func handleMeta(_ change: MetaChange, grouping: Grouping, project: DeskProject) -> Bool{
-        
+        project.modify()
         switch (change){
             case .MovedProject(let destinationGroupingName):
                 
@@ -286,8 +287,9 @@ class FileSystemInteractor: NSObject {
         var pages = [Paper]()
         
         var i: Int = 1
-        for page in pagesAsStrings {
+        for content in pagesAsStrings {
             
+            if !content.starts(with: "page"){continue}
             let pathToDesiredPageFolder = getPageDirectoryInTempFor(pageNo: i, in: seekForProject!)
             
             //TODO: bug when there is no page.desk
@@ -464,6 +466,7 @@ class FileSystemInteractor: NSObject {
         var groupingsWithMissingProjects = [Grouping]()
         let groupings = getMetaData()
         for grouping in groupings {
+            
             for project in grouping.artifacts {
                 do {
                     try ProjectFileInteractor.getURLofFolderForArtifactInGroupingsFile(in: grouping, artifact: project)

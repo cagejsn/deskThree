@@ -44,7 +44,7 @@ class ProjectsDataSource: NSObject, UICollectionViewDataSource, UICollectionView
             }()
         
         if isNew {
-            projectInteractionListener.doMakeNewProjectInSelectedGrouping(selectedGrouping)
+        projectInteractionListener.doMakeNewProjectInSelectedGrouping(selectedGrouping)
             return
         }
         

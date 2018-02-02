@@ -8,9 +8,7 @@
 
 import Foundation
 import UIKit
-#if !DEBUG
-import Mixpanel
-#endif
+
 
 
 protocol OCRMathViewDelegate {
